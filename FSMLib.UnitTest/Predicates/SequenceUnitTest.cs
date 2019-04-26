@@ -25,7 +25,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			Assert.AreEqual("abcd", predicate.ToString());
 		}
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
 			Sequence<char> predicate;
@@ -45,7 +45,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual($"a{RulePredicate<char>.Bullet}bcd", predicate.ToString(predicate.Items[1]));
 			Assert.AreEqual($"ab{RulePredicate<char>.Bullet}cd", predicate.ToString(predicate.Items[2]));
 			Assert.AreEqual($"abc{RulePredicate<char>.Bullet}d", predicate.ToString(predicate.Items[3]));
-		}
+		}*/
 		[TestMethod]
 		public void ShouldConvertNestedPredicateToString()
 		{
@@ -116,7 +116,7 @@ namespace FSMLib.UnitTest.Predicates
 			item = new One<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
-			Assert.AreEqual("(abcd)", predicate.ToParenthesisString(null));
+			Assert.AreEqual("(abcd)", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]
@@ -129,7 +129,7 @@ namespace FSMLib.UnitTest.Predicates
 			item = new One<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
-			Assert.AreEqual("a", predicate.ToParenthesisString(null));
+			Assert.AreEqual("a", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]

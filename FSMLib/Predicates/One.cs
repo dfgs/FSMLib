@@ -21,7 +21,7 @@ namespace FSMLib.Predicates
 			yield return this;
 		}
 
-		public override string ToParenthesisString(RulePredicate<T> Current)
+		/*public override string ToParenthesisString(RulePredicate<T> Current)
 		{
 			if (Current == this) return $"{Bullet}{Value.ToString()}";
 			return Value.ToString();
@@ -30,6 +30,10 @@ namespace FSMLib.Predicates
 		public override string ToString(RulePredicate<T> Current)
 		{
 			if (Current == this) return $"{Bullet}{Value.ToString()}";
+			return Value.ToString();
+		}*/
+		public override string ToParenthesisString()
+		{
 			return Value.ToString();
 		}
 		public override string ToString()

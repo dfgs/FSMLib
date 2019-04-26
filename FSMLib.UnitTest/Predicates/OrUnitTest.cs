@@ -25,7 +25,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			Assert.AreEqual("a|b|c|d", predicate.ToString());
 		}
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
 			Or<char> predicate;
@@ -69,7 +69,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			Assert.AreEqual("a|(bc)|d", predicate.ToString());
 			Assert.AreEqual($"a|{RulePredicate<char>.Bullet}(bc)|d", predicate.ToString(sequence));
-		}
+		}*/
 		[TestMethod]
 		public void ShouldConvertComplexNestedPredicateToString()
 		{
@@ -114,7 +114,7 @@ namespace FSMLib.UnitTest.Predicates
 			item = new One<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
-			Assert.AreEqual("(a|b|c|d)", predicate.ToParenthesisString(null));
+			Assert.AreEqual("(a|b|c|d)", predicate.ToParenthesisString());
 		}
 		[TestMethod]
 		public void ShouldNotConvertToParenthesisStringWithoutBullet()
@@ -126,7 +126,7 @@ namespace FSMLib.UnitTest.Predicates
 			item = new One<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
-			Assert.AreEqual("a", predicate.ToParenthesisString(null));
+			Assert.AreEqual("a", predicate.ToParenthesisString());
 		}
 
 

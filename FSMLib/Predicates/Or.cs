@@ -28,7 +28,7 @@ namespace FSMLib.Predicates
 			return Items.SelectMany(item => item.Enumerate());
 		}
 
-		public override string ToParenthesisString(RulePredicate<T> Current)
+		/*public override string ToParenthesisString(RulePredicate<T> Current)
 		{
 			if (Items.Count == 1) return Items[0].ToParenthesisString(Current);
 			return $"({string.Join("|", Items.Select(item => item.ToParenthesisString(Current)))})";
@@ -36,10 +36,15 @@ namespace FSMLib.Predicates
 		public override string ToString(RulePredicate<T> Current)
 		{
 			return string.Join("|", Items.Select(item => item.ToParenthesisString(Current)));
+		}*/
+		public override string ToParenthesisString()
+		{
+			if (Items.Count == 1) return Items[0].ToParenthesisString();
+			return $"({string.Join("|", Items.Select(item => item.ToParenthesisString()))})";
 		}
 		public override string ToString()
 		{
-			return string.Join("|", Items.Select(item => item.ToParenthesisString(null)));
+			return string.Join("|", Items.Select(item => item.ToParenthesisString()));
 		}
 
 

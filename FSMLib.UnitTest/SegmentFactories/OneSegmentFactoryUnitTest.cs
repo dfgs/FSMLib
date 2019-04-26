@@ -1,5 +1,9 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Graphs;
+using FSMLib.Predicates;
+using FSMLib.SegmentFactories;
+using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace FSMLib.UnitTest.SegmentFactories
@@ -10,24 +14,47 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.Fail();
+			Assert.ThrowsException<ArgumentNullException>(() => new OneSegmentFactory<char>(null, new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new OneSegmentFactory<char>(new MockedNodeContainer(), null, new MockedSegmentFactoryProvider<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new OneSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), null));
 		}
 		[TestMethod]
 		public void ShouldFailWithInvalidPredicate()
 		{
-			Assert.Fail();
+			OneSegmentFactory<char> factory;
+
+			factory = new OneSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedPredicate<char>()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullPredicate()
 		{
-			Assert.Fail();
+			OneSegmentFactory<char> factory;
+
+			factory = new OneSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
 		{
-			Assert.Fail();
+			OneSegmentFactory<char> factory;
+			Segment segment;
+			Graph graph;
+			NodeConnector connector;
+			SegmentFactoryProvider<char> provider;
+
+			graph = new Graph();
+			connector = new NodeConnector(graph);
+			provider = new SegmentFactoryProvider<char>(graph, connector);
+			factory = new OneSegmentFactory<char>(graph,connector, provider);
+
+			segment=factory.BuildSegment(new One<char>());
+			Assert.IsNotNull(segment);
+			Assert.AreEqual(1, segment.Inputs.Count());
+			Assert.AreEqual(1, segment.Outputs.Count());
+			Assert.AreEqual(1, graph.Nodes.Count);
 		}
-	
+
 
 
 	}

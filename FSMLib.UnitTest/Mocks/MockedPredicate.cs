@@ -13,12 +13,12 @@ namespace FSMLib.UnitTest.Mocks
 			throw new System.NotImplementedException();
 		}
 
-		public override string ToParenthesisString(RulePredicate<T> Current)
+		public override string ToParenthesisString()
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public override string ToString(RulePredicate<T> Current)
+		public override string ToString()
 		{
 			throw new System.NotImplementedException();
 		}

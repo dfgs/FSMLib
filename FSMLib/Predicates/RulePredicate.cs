@@ -10,13 +10,13 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public abstract class RulePredicate<T>
 	{
-		public static readonly char Bullet = '•';
+		//public static readonly char Bullet = '•';
 
 
 		public abstract IEnumerable<RulePredicate<T>> Enumerate();
 
-		public abstract string ToParenthesisString(RulePredicate<T> Current);
-		public abstract string ToString(RulePredicate<T> Current);
+		public abstract string ToParenthesisString();
+		//public abstract string ToString(); //RulePredicate<T> Current
 
 
 	}
