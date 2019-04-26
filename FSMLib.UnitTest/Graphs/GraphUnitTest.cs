@@ -47,12 +47,39 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldReturnNodeIndex()
 		{
-			Assert.Fail();
+			Graph graph;
+			Node a, b;
+
+			graph = new Graph();
+			a = graph.CreateNode();
+			b = graph.CreateNode();
+
+			Assert.AreEqual(0, graph.GetNodeIndex(a));
+			Assert.AreEqual(1, graph.GetNodeIndex(b));
 		}
+		[TestMethod]
+		public void ShouldReturnMinusOneIfNodeDoesntExists()
+		{
+			Graph graph;
+
+			graph = new Graph();
+
+			Assert.AreEqual(-1, graph.GetNodeIndex(new Node()));
+		}
+
 		[TestMethod]
 		public void ShouldCreateNode()
 		{
-			Assert.Fail();
+			Graph graph;
+			Node a, b;
+
+			graph = new Graph();
+			a = graph.CreateNode();
+			Assert.IsNotNull(a);
+			Assert.AreEqual(1, graph.Nodes.Count);
+			b = graph.CreateNode();
+			Assert.IsNotNull(b);
+			Assert.AreEqual(2, graph.Nodes.Count);
 		}
 
 	}
