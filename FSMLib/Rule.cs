@@ -1,0 +1,24 @@
+﻿using FSMLib.Predicates;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace FSMLib
+{
+	[System.Serializable]
+    public class Rule<T>
+    {
+		public RulePredicate<T> Predicate
+		{
+			get;
+			set;
+		}
+
+		public override string ToString()
+		{
+			return Predicate.ToString();
+		}
+
+	}
+}
