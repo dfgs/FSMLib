@@ -16,37 +16,25 @@ namespace FSMLib.SegmentFactories
 			get;
 			private set;
 		}
-		protected INodeContainer NodeContainer
-		{
-			get;
-			private set;
-		}
+		
 
-		protected INodeConnector NodeConnector
-		{
-			get;
-			private set;
-		}
-
-		public BaseSegmentFactory(INodeContainer NodeContainer, INodeConnector NodeConnector,ISegmentFactoryProvider<T> SegmentFactoryProvider)
+		public BaseSegmentFactory(ISegmentFactoryProvider<T> SegmentFactoryProvider)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.SegmentFactoryProvider = SegmentFactoryProvider;
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			this.NodeContainer = NodeContainer;
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
-			this.NodeConnector = NodeConnector;
 		}
 
 
-		public abstract Segment BuildSegment(TPredicate Predicate);
+		public abstract Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, TPredicate Predicate);
 		
 
-		public  Segment BuildSegment(RulePredicate<T> Predicate)
+		public  Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector,RulePredicate<T> Predicate)
 		{
+			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
+			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 
-			if (Predicate is TPredicate predicate) return BuildSegment(predicate);
+			if (Predicate is TPredicate predicate) return BuildSegment(NodeContainer,NodeConnector, predicate);
 			else throw new InvalidCastException("Predicate type is not compatible with this segment factory");
 		}
 

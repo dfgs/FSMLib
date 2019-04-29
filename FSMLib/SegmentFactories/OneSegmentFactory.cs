@@ -10,12 +10,14 @@ namespace FSMLib.SegmentFactories
 {
 	public class OneSegmentFactory<T> : BaseSegmentFactory<One<T>, T>
 	{
-		public OneSegmentFactory(INodeContainer NodeContainer, INodeConnector NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(NodeContainer, NodeConnector, SegmentFactoryProvider)
+		public OneSegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(SegmentFactoryProvider)
 		{
 		}
 
-		public override Segment BuildSegment(One<T> Predicate)
+		public override Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, One<T> Predicate)
 		{
+			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
+			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 
 			Segment segment;

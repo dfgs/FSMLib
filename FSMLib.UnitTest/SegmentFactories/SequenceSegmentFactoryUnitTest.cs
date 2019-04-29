@@ -14,25 +14,25 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SequenceSegmentFactory<char>(null, new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new SequenceSegmentFactory<char>(new MockedNodeContainer(), null, new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new SequenceSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SequenceSegmentFactory<char>(null));
 		}
 		[TestMethod]
 		public void ShouldFailWithInvalidPredicate()
 		{
 			SequenceSegmentFactory<char> factory;
 
-			factory = new SequenceSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedPredicate<char>()));
+			factory = new SequenceSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(),new MockedPredicate<char>()));
 		}
 		[TestMethod]
-		public void ShouldFailWithNullPredicate()
+		public void ShouldFailWithNullParameters()
 		{
 			SequenceSegmentFactory<char> factory;
 
-			factory = new SequenceSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null));
+			factory = new SequenceSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new Sequence<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new Sequence<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
@@ -45,16 +45,16 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Sequence<char> sequence;
 
 			graph = new Graph();
-			connector = new NodeConnector(graph);
-			provider = new SegmentFactoryProvider<char>(graph, connector);
-			factory = new SequenceSegmentFactory<char>(graph, connector, provider);
+			connector = new NodeConnector();
+			provider = new SegmentFactoryProvider<char>();
+			factory = new SequenceSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
 			sequence.Items.Add(new One<char>());
 			sequence.Items.Add(new One<char>());
 			sequence.Items.Add(new One<char>());
 
-			segment = factory.BuildSegment(sequence);
+			segment = factory.BuildSegment(graph, connector, sequence);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());

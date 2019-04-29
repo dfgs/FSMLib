@@ -12,9 +12,21 @@ namespace FSMLib.UnitTest.SegmentFactories
 	public class NodeConnectorUnitTest
 	{
 		[TestMethod]
-		public void ShouldHaveValidConstructor()
+		public void ShouldThrowExceptionIfParametersAreNull()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new NodeConnector(null));
+			Graph graph;
+			NodeConnector connector;
+			Node a, b;
+
+			graph = new Graph();
+			a = graph.CreateNode();
+			b = graph.CreateNode();
+
+			connector = new NodeConnector();
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(null, new Node[] { a }, new Node[] { b }));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, null, new Node[] { b }));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, new Node[] { a }, null));
+
 		}
 
 		[TestMethod]
@@ -28,8 +40,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 
-			connector = new NodeConnector(graph);
-			connector.Connect(new Node[] { a }, new Node[] { b });
+			connector = new NodeConnector();
+			connector.Connect(graph,new Node[] { a }, new Node[] { b });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -47,8 +59,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 
-			connector = new NodeConnector(graph);
-			connector.Connect(new Node[] { a }, new Node[] { b,c });
+			connector = new NodeConnector();
+			connector.Connect(graph,new Node[] { a }, new Node[] { b,c });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -68,8 +80,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 
-			connector = new NodeConnector(graph);
-			connector.Connect(new Node[] { a,b }, new Node[] {  c });
+			connector = new NodeConnector();
+			connector.Connect(graph,new Node[] { a,b }, new Node[] {  c });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(1, b.Transitions.Count);
@@ -90,8 +102,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			c = graph.CreateNode();
 			d = graph.CreateNode();
 
-			connector = new NodeConnector(graph);
-			connector.Connect(new Node[] { a, b }, new Node[] { c,d });
+			connector = new NodeConnector();
+			connector.Connect(graph,new Node[] { a, b }, new Node[] { c,d });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(2, b.Transitions.Count);

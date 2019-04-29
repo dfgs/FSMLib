@@ -13,8 +13,8 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(null, (container, connector) => new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>((container) => new MockedNodeConnector(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(null, new MockedSegmentFactoryProvider<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), null));
 		}
 
 		[TestMethod]
@@ -25,7 +25,7 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule;
 			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>( (container)=>new NodeConnector(container), (container,connector) => new SegmentFactoryProvider<char>(container,connector) ) ;
+			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>() ) ;
 
 			predicate = new char[] { 'a', 'b', 'c'};
 			rule = new Rule<char>();
@@ -53,7 +53,7 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule;
 			Or<char> predicate;
 
-			factory = new GraphFactory<char>((container) => new NodeConnector(container), (container, connector) => new SegmentFactoryProvider<char>(container, connector));
+			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
@@ -78,7 +78,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>((container) => new NodeConnector(container), (container, connector) => new SegmentFactoryProvider<char>(container, connector)) ;
+			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
 		}

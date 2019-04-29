@@ -14,13 +14,11 @@ namespace FSMLib.SegmentFactories
 		private SequenceSegmentFactory<T> sequenceSegmentFactory;
 		private OrSegmentFactory<T> orSegmentFactory;
 
-		public SegmentFactoryProvider(INodeContainer NodeContainer,INodeConnector NodeConnector)
+		public SegmentFactoryProvider()
 		{
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
-			oneSegmentFactory = new OneSegmentFactory<T>(NodeContainer, NodeConnector, this);
-			sequenceSegmentFactory = new SequenceSegmentFactory<T>(NodeContainer, NodeConnector, this);
-			orSegmentFactory = new OrSegmentFactory<T>(NodeContainer, NodeConnector, this);
+			oneSegmentFactory = new OneSegmentFactory<T>(this);
+			sequenceSegmentFactory = new SequenceSegmentFactory<T>(this);
+			orSegmentFactory = new OrSegmentFactory<T>( this);
 		}
 
 		public ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate)

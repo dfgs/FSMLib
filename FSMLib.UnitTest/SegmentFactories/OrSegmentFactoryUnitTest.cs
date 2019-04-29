@@ -14,25 +14,25 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new OrSegmentFactory<char>(null, new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new OrSegmentFactory<char>(new MockedNodeContainer(), null, new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new OrSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new OrSegmentFactory<char>(null));
 		}
 		[TestMethod]
 		public void ShouldFailWithInvalidPredicate()
 		{
 			OrSegmentFactory<char> factory;
 
-			factory = new OrSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedPredicate<char>()));
+			factory = new OrSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new MockedPredicate<char>()));
 		}
 		[TestMethod]
-		public void ShouldFailWithNullPredicate()
+		public void ShouldFailWithNullParameters()
 		{
 			OrSegmentFactory<char> factory;
 
-			factory = new OrSegmentFactory<char>(new MockedNodeContainer(), new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null));
+			factory = new OrSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new Or<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new Or<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
@@ -45,16 +45,16 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Or<char> Or;
 
 			graph = new Graph();
-			connector = new NodeConnector(graph);
-			provider = new SegmentFactoryProvider<char>(graph, connector);
-			factory = new OrSegmentFactory<char>(graph, connector, provider);
+			connector = new NodeConnector();
+			provider = new SegmentFactoryProvider<char>();
+			factory = new OrSegmentFactory<char>( provider);
 
 			Or = new Or<char>();
 			Or.Items.Add(new One<char>());
 			Or.Items.Add(new One<char>());
 			Or.Items.Add(new One<char>());
 
-			segment = factory.BuildSegment(Or);
+			segment = factory.BuildSegment(graph, connector, Or);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(3, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());

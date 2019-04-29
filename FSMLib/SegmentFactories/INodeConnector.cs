@@ -9,6 +9,6 @@ namespace FSMLib.SegmentFactories
 {
 	public interface INodeConnector
 	{
-		void Connect(IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes);
+		void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes);
 	}
 }

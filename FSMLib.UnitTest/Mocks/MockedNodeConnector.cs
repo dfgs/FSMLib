@@ -10,7 +10,7 @@ namespace FSMLib.UnitTest.Mocks
 {
 	public class MockedNodeConnector : INodeConnector
 	{
-		public void Connect(IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
+		public void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
 		{
 			throw new NotImplementedException();
 		}

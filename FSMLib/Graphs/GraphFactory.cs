@@ -10,15 +10,15 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactory<T> : IGraphFactory<T>
 	{
-		private Func<INodeContainer,INodeConnector> connectorFunc;
-		private Func<INodeContainer, INodeConnector,ISegmentFactoryProvider<T>> providerFunc;
+		private INodeConnector nodeConnector;
+		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 
-		public GraphFactory(Func<INodeContainer, INodeConnector> ConnectorFunc, Func<INodeContainer, INodeConnector,ISegmentFactoryProvider<T>> ProviderFunc)
+		public GraphFactory( INodeConnector NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider)
 		{
-			if (ProviderFunc == null) throw new ArgumentNullException("ProviderFunc");
-			this.providerFunc = ProviderFunc;
-			if (ConnectorFunc == null) throw new ArgumentNullException("ConnectorFunc");
-			this.connectorFunc = ConnectorFunc;
+			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
+			this.segmentFactoryProvider = SegmentFactoryProvider;
+			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
+			this.nodeConnector = NodeConnector;
 		}
 
 
@@ -28,8 +28,6 @@ namespace FSMLib.Graphs
 			Node root;
 			Segment segment;
 			ISegmentFactory<T> segmentFactory;
-			INodeConnector connector;
-			ISegmentFactoryProvider<T> provider;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
@@ -38,14 +36,12 @@ namespace FSMLib.Graphs
 			graph = new Graph();
 			root = graph.CreateNode();
 
-			connector = connectorFunc(graph);
-			provider = providerFunc(graph,connector);
 
 			foreach(Rule<T> rule in Rules)
 			{
-				segmentFactory = provider.GetSegmentFactory(rule.Predicate);
-				segment = segmentFactory.BuildSegment(rule.Predicate);
-				connector.Connect(new Node[] { root }, segment.Inputs);
+				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
+				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate);
+				nodeConnector.Connect(graph,new Node[] { root }, segment.Inputs);
 			}
 
 			return graph;

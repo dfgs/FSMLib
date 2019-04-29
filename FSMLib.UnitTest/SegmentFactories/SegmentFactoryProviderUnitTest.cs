@@ -10,19 +10,14 @@ namespace FSMLib.UnitTest.SegmentFactories
 	[TestClass]
 	public class SegmentFactoryProviderUnitTest
 	{
-		[TestMethod]
-		public void SouldHaveValidConstructor()
-		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SegmentFactoryProvider<char>(null, new MockedNodeConnector()));
-			Assert.ThrowsException<ArgumentNullException>(() => new SegmentFactoryProvider<char>(new MockedNodeContainer(), null));
-		}
+		
 		[TestMethod]
 		public void SouldProvideOneSequenceFactory()
 		{
 			SegmentFactoryProvider<char> provider;
 			ISegmentFactory<char> factory;
 
-			provider = new SegmentFactoryProvider<char>(new MockedNodeContainer(), new MockedNodeConnector());
+			provider = new SegmentFactoryProvider<char>();
 			factory = provider.GetSegmentFactory(new One<char>());
 			Assert.IsNotNull(factory);
 			Assert.IsInstanceOfType(factory, typeof(OneSegmentFactory<char>));
@@ -33,7 +28,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			SegmentFactoryProvider<char> provider;
 			ISegmentFactory<char> factory;
 
-			provider = new SegmentFactoryProvider<char>(new MockedNodeContainer(), new MockedNodeConnector());
+			provider = new SegmentFactoryProvider<char>();
 			factory = provider.GetSegmentFactory(new Or<char>());
 			Assert.IsNotNull(factory);
 			Assert.IsInstanceOfType(factory, typeof(OrSegmentFactory<char>));
@@ -44,7 +39,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			SegmentFactoryProvider<char> provider;
 			ISegmentFactory<char> factory;
 
-			provider = new SegmentFactoryProvider<char>(new MockedNodeContainer(), new MockedNodeConnector());
+			provider = new SegmentFactoryProvider<char>();
 			factory = provider.GetSegmentFactory(new Sequence<char>());
 			Assert.IsNotNull(factory);
 			Assert.IsInstanceOfType(factory, typeof(SequenceSegmentFactory<char>));
@@ -54,7 +49,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 		{
 			SegmentFactoryProvider<char> provider;
 
-			provider = new SegmentFactoryProvider<char>(new MockedNodeContainer(), new MockedNodeConnector());
+			provider = new SegmentFactoryProvider<char>();
 			Assert.ThrowsException<NotImplementedException>(()=> provider.GetSegmentFactory(new MockedPredicate<char>()));
 		}
 		[TestMethod]
@@ -62,7 +57,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 		{
 			SegmentFactoryProvider<char> provider;
 
-			provider = new SegmentFactoryProvider<char>(new MockedNodeContainer(), new MockedNodeConnector());
+			provider = new SegmentFactoryProvider<char>();
 			Assert.ThrowsException<ArgumentNullException>(() => provider.GetSegmentFactory(null));
 		}
 	}

@@ -9,22 +9,23 @@ namespace FSMLib.SegmentFactories
 {
 	public class NodeConnector : INodeConnector
 	{
-		private INodeContainer nodeContainer;
-		public NodeConnector(INodeContainer NodeContainer)
+		public NodeConnector()
 		{
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			this.nodeContainer = NodeContainer;
 		}
 
-		public void Connect(IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
+		public void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
 		{
 			Transition transition;
+
+			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
+			if (InputNodes == null) throw new ArgumentNullException("InputNodes");
+			if (TargetNodes == null) throw new ArgumentNullException("TargetNodes");
 
 			foreach (Node inputNode in InputNodes)
 			{
 				foreach (Node targetNode in TargetNodes)
 				{
-					transition = new Transition() { TargetNodeIndex = nodeContainer.GetNodeIndex(targetNode)};
+					transition = new Transition() { TargetNodeIndex = NodeContainer.GetNodeIndex(targetNode)};
 					inputNode.Transitions.Add(transition);
 				}
 			}

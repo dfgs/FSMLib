@@ -10,16 +10,18 @@ namespace FSMLib.SegmentFactories
 {
 	public class OrSegmentFactory<T> : BaseSegmentFactory<Or<T>, T>
 	{
-		public OrSegmentFactory(INodeContainer NodeContainer, INodeConnector NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(NodeContainer, NodeConnector, SegmentFactoryProvider)
+		public OrSegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base( SegmentFactoryProvider)
 		{
 		}
 
-		public override Segment BuildSegment(Or<T> Predicate)
+		public override Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, Or<T> Predicate)
 		{
 			Segment segment;
 			Segment[] segments;
 			ISegmentFactory<T> childSegmentFactory;
 
+			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
+			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 
 			segments = new Segment[Predicate.Items.Count];
@@ -27,7 +29,7 @@ namespace FSMLib.SegmentFactories
 			for (int t = 0; t < Predicate.Items.Count; t++)
 			{
 				childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Items[t]);
-				segments[t] = childSegmentFactory.BuildSegment(Predicate.Items[t]);
+				segments[t] = childSegmentFactory.BuildSegment(NodeContainer,NodeConnector, Predicate.Items[t]);
 			}
 			
 
