@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="Graphs\GraphUnitTest.cs" />
     <Compile Include="Graphs\GraphFactoryUnitTest.cs" />
+    <Compile Include="Graphs\Inputs\AnyInputUnitTest.cs" />
+    <Compile Include="Graphs\Inputs\OneInputUnitTest.cs" />
     <Compile Include="Mocks\MockedNodeConnector.cs" />
     <Compile Include="Mocks\MockedNodeContainer.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="SegmentFactories\OrSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\OneSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\SegmentFactoryProviderUnitTest.cs" />
+    <Compile Include="SituationUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

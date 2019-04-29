@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.Graphs.Inputs
 {
-	public class Transition
+	public interface IInput<T>
 	{
-		public int TargetNodeIndex
-		{
-			get;
-			set;
-		}
-
+		bool Match(IInput<T> Other);
 	}
 }
