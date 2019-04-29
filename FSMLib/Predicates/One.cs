@@ -40,7 +40,16 @@ namespace FSMLib.Predicates
 		{
 			return Value.ToString();
 		}
+
+
 		
-		
+		public static implicit operator One<T>(T Value)
+		{
+			return new One<T>() { Value=Value};
+		}
+
+
+
+
 	}
 }

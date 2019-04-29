@@ -46,7 +46,25 @@ namespace FSMLib.Predicates
 		{
 			return string.Join("|", Items.Select(item => item.ToParenthesisString()));
 		}
+		public static implicit operator Or<T>(RulePredicate<T>[] Values)
+		{
+			Or<T> predicate;
 
+			predicate = new Or<T>();
+			predicate.Items.AddRange(Values);
 
+			return predicate;
+		}
+		public static implicit operator Or<T>(T[] Values)
+		{
+			Or<T> predicate;
+
+			predicate = new Or<T>();
+			foreach (T value in Values)
+			{
+				predicate.Items.Add((One<T>)value);
+			}
+			return predicate;
+		}
 	}
 }

@@ -154,5 +154,27 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual(4, items.Length);
 		}
 
+		[TestMethod]
+		public void ShouldConvertImplicitelyFromPredicateArray()
+		{
+			Sequence<char> predicate;
+
+			predicate = new RulePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
+			Assert.IsNotNull(predicate);
+			Assert.AreEqual(3, predicate.Items.Count);
+
+		}
+
+		[TestMethod]
+		public void ShouldConvertImplicitelyFromValueArray()
+		{
+			Sequence<char> predicate;
+
+			predicate = new char[] { 'a', 'b', 'c' };
+			Assert.IsNotNull(predicate);
+			Assert.AreEqual(3, predicate.Items.Count);
+
+		}
+
 	}
 }

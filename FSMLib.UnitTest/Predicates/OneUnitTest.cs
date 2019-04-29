@@ -57,6 +57,17 @@ namespace FSMLib.UnitTest.Predicates
 
 		}
 
+		[TestMethod]
+		public void ShouldConvertImplicitelyFromValueType()
+		{
+			One<char> predicate;
+
+			predicate = 'a';
+			Assert.IsNotNull(predicate);
+			Assert.AreEqual('a', predicate.Value);
+
+		}
+
 
 	}
 }

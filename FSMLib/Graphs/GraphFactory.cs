@@ -10,16 +10,15 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactory<T> : IGraphFactory<T>
 	{
-		private ISegmentFactoryProvider<T> segmentFactoryProvider;
+		private Func<INodeContainer,INodeConnector> connectorFunc;
+		private Func<INodeContainer, INodeConnector,ISegmentFactoryProvider<T>> providerFunc;
 
-		private INodeConnector nodeConnector;
-
-		public GraphFactory(INodeConnector NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider)
+		public GraphFactory(Func<INodeContainer, INodeConnector> ConnectorFunc, Func<INodeContainer, INodeConnector,ISegmentFactoryProvider<T>> ProviderFunc)
 		{
-			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
-			this.segmentFactoryProvider = SegmentFactoryProvider;
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
-			this.nodeConnector = NodeConnector;
+			if (ProviderFunc == null) throw new ArgumentNullException("ProviderFunc");
+			this.providerFunc = ProviderFunc;
+			if (ConnectorFunc == null) throw new ArgumentNullException("ConnectorFunc");
+			this.connectorFunc = ConnectorFunc;
 		}
 
 
@@ -28,18 +27,25 @@ namespace FSMLib.Graphs
 			Graph graph;
 			Node root;
 			Segment segment;
-			ISegmentFactory<T> childSegmentFactory;
+			ISegmentFactory<T> segmentFactory;
+			INodeConnector connector;
+			ISegmentFactoryProvider<T> provider;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
+
+
 
 			graph = new Graph();
 			root = graph.CreateNode();
 
+			connector = connectorFunc(graph);
+			provider = providerFunc(graph,connector);
+
 			foreach(Rule<T> rule in Rules)
 			{
-				childSegmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
-				segment = childSegmentFactory.BuildSegment(rule.Predicate);
-				nodeConnector.Connect(new Node[] { root }, segment.Inputs);
+				segmentFactory = provider.GetSegmentFactory(rule.Predicate);
+				segment = segmentFactory.BuildSegment(rule.Predicate);
+				connector.Connect(new Node[] { root }, segment.Inputs);
 			}
 
 			return graph;

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Sequence<T>:RulePredicate<T>
+	public class Sequence<T> : RulePredicate<T>
 	{
 
 		[XmlArray]
@@ -47,6 +47,27 @@ namespace FSMLib.Predicates
 			return string.Join("", Items.Select(item => item.ToParenthesisString()));
 		}
 
+	
+		public static implicit operator Sequence<T>(RulePredicate<T>[] Values)
+		{
+			Sequence<T> predicate;
+
+			predicate = new Sequence<T>();
+			predicate.Items.AddRange(Values);
+
+			return predicate;
+		}
+		public static implicit operator Sequence<T>(T[] Values)
+		{
+			Sequence<T> predicate;
+
+			predicate = new Sequence<T>();
+			foreach (T value in Values)
+			{
+				predicate.Items.Add((One<T>)value);
+			}
+			return predicate;
+		}
 
 	}
 }

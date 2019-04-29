@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphs\GraphUnitTest.cs" />
+    <Compile Include="Graphs\GraphFactoryUnitTest.cs" />
     <Compile Include="Mocks\MockedNodeConnector.cs" />
     <Compile Include="Mocks\MockedNodeContainer.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
