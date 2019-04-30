@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public interface INodeContainer
+	public interface INodeContainer<T>
 	{
-		Node GetTargetNode(Transition Transition);
-		Node CreateNode();
-		int GetNodeIndex(Node Node);
+		Node<T> GetTargetNode(Transition<T> Transition);
+		Node<T> CreateNode();
+		int GetNodeIndex(Node<T> Node);
 	}
 }

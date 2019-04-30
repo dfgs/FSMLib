@@ -14,21 +14,21 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, One<T> Predicate)
+		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, One<T> Predicate)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 
-			Segment segment;
-			Node node;
+			Segment<T> segment;
+			Node<T> node;
 
-			segment = new Segment();
+			segment = new Segment<T>();
 
 			
 			node = NodeContainer.CreateNode();
-			segment.Inputs = new Node[] { node };
-			segment.Outputs= new Node[] { node };
+			segment.Inputs = new Node<T>[] { node };
+			segment.Outputs= new Node<T>[] { node };
 
 			return segment;
 		}

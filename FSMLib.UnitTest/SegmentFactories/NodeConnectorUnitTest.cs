@@ -14,34 +14,34 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldThrowExceptionIfParametersAreNull()
 		{
-			Graph graph;
-			NodeConnector connector;
-			Node a, b;
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a, b;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 
-			connector = new NodeConnector();
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(null, new Node[] { a }, new Node[] { b }));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, null, new Node[] { b }));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, new Node[] { a }, null));
+			connector = new NodeConnector<char>();
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(null, new Node<char>[] { a }, new Node<char>[] { b }));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, null, new Node<char>[] { b }));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, new Node<char>[] { a }, null));
 
 		}
 
 		[TestMethod]
 		public void ShouldConnectOneToOne()
 		{
-			Graph graph;
-			NodeConnector connector;
-			Node a, b;
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a, b;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 
-			connector = new NodeConnector();
-			connector.Connect(graph,new Node[] { a }, new Node[] { b });
+			connector = new NodeConnector<char>();
+			connector.Connect(graph,new Node<char>[] { a }, new Node<char>[] { b });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -50,17 +50,17 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldConnectOneToMany()
 		{
-			Graph graph;
-			NodeConnector connector;
-			Node a, b,c;
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a, b,c;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 
-			connector = new NodeConnector();
-			connector.Connect(graph,new Node[] { a }, new Node[] { b,c });
+			connector = new NodeConnector<char>();
+			connector.Connect(graph,new Node<char>[] { a }, new Node<char>[] { b,c });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -71,17 +71,17 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldConnectManyToOne()
 		{
-			Graph graph;
-			NodeConnector connector;
-			Node a, b, c;
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a, b, c;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 
-			connector = new NodeConnector();
-			connector.Connect(graph,new Node[] { a,b }, new Node[] {  c });
+			connector = new NodeConnector<char>();
+			connector.Connect(graph,new Node<char>[] { a,b }, new Node<char>[] {  c });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(1, b.Transitions.Count);
@@ -92,18 +92,18 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldConnectManyToMany()
 		{
-			Graph graph;
-			NodeConnector connector;
-			Node a, b, c,d;
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a, b, c,d;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 			d = graph.CreateNode();
 
-			connector = new NodeConnector();
-			connector.Connect(graph,new Node[] { a, b }, new Node[] { c,d });
+			connector = new NodeConnector<char>();
+			connector.Connect(graph,new Node<char>[] { a, b }, new Node<char>[] { c,d });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(2, b.Transitions.Count);

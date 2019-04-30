@@ -8,6 +8,6 @@ namespace FSMLib.Graphs
 {
 	public interface IGraphFactory<T>
 	{
-		Graph BuildGraph(IEnumerable<Rule<T>> Rules);
+		Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules);
 	}
 }

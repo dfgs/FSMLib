@@ -14,17 +14,17 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, Or<T> Predicate)
+		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Or<T> Predicate)
 		{
-			Segment segment;
-			Segment[] segments;
+			Segment<T> segment;
+			Segment<T>[] segments;
 			ISegmentFactory<T> childSegmentFactory;
 
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 
-			segments = new Segment[Predicate.Items.Count];
+			segments = new Segment<T>[Predicate.Items.Count];
 			// create segments
 			for (int t = 0; t < Predicate.Items.Count; t++)
 			{
@@ -33,7 +33,7 @@ namespace FSMLib.SegmentFactories
 			}
 			
 
-			segment = new Segment();
+			segment = new Segment<T>();
 			segment.Inputs = segments.SelectMany(item=>item.Inputs);
 			segment.Outputs = segments.SelectMany(item => item.Outputs);
 

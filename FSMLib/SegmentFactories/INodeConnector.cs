@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace FSMLib.SegmentFactories
 {
-	public interface INodeConnector
+	public interface INodeConnector<T>
 	{
-		void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes);
+		void Connect(INodeContainer<T> NodeContainer, IEnumerable<Node<T>> InputNodes, IEnumerable<Node<T>> TargetNodes);
 	}
 }

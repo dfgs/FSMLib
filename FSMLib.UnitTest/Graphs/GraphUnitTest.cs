@@ -14,15 +14,15 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldReturnTargetNode()
 		{
-			Graph graph;
-			Transition transition;
-			Node target;
+			Graph<char> graph;
+			Transition<char> transition;
+			Node<char> target;
 
-			graph = new Graph();
-			graph.Nodes.Add(new Node());
-			graph.Nodes.Add(new Node());
+			graph = new Graph<char>();
+			graph.Nodes.Add(new Node<char>());
+			graph.Nodes.Add(new Node<char>());
 
-			transition = new Transition() { TargetNodeIndex = 1 };
+			transition = new Transition<char>() { TargetNodeIndex = 1 };
 			graph.Nodes[0].Transitions.Add(transition);
 
 			target = graph.GetTargetNode(transition);
@@ -32,14 +32,14 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldReturnNotTargetNode()
 		{
-			Graph graph;
-			Transition transition;
+			Graph<char> graph;
+			Transition<char> transition;
 
-			graph = new Graph();
-			graph.Nodes.Add(new Node());
-			graph.Nodes.Add(new Node());
+			graph = new Graph<char>();
+			graph.Nodes.Add(new Node<char>());
+			graph.Nodes.Add(new Node<char>());
 
-			transition = new Transition() { TargetNodeIndex = 2 };  // Index out of range
+			transition = new Transition<char>() { TargetNodeIndex = 2 };  // Index out of range
 			graph.Nodes[0].Transitions.Add(transition);
 
 			Assert.ThrowsException<IndexOutOfRangeException>(() => graph.GetTargetNode(transition));
@@ -47,10 +47,10 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldReturnNodeIndex()
 		{
-			Graph graph;
-			Node a, b;
+			Graph<char> graph;
+			Node<char> a, b;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 
@@ -60,20 +60,20 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldReturnMinusOneIfNodeDoesntExists()
 		{
-			Graph graph;
+			Graph<char> graph;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 
-			Assert.AreEqual(-1, graph.GetNodeIndex(new Node()));
+			Assert.AreEqual(-1, graph.GetNodeIndex(new Node<char>()));
 		}
 
 		[TestMethod]
 		public void ShouldCreateNode()
 		{
-			Graph graph;
-			Node a, b;
+			Graph<char> graph;
+			Node<char> a, b;
 
-			graph = new Graph();
+			graph = new Graph<char>();
 			a = graph.CreateNode();
 			Assert.IsNotNull(a);
 			Assert.AreEqual(1, graph.Nodes.Count);

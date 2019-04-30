@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class Node
+	public class Node<T>
 	{
-		public List<Transition> Transitions
+		public List<Transition<T>> Transitions
 		{
 			get;
 			set;
@@ -16,7 +16,7 @@ namespace FSMLib.Graphs
 
 		public Node()
 		{
-			Transitions = new List<Transition>();
+			Transitions = new List<Transition<T>>();
 		}
 
 	}

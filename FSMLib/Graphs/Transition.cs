@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class Transition
+	public class Transition<T>
 	{
 		public int TargetNodeIndex
 		{

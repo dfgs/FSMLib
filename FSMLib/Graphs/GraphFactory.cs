@@ -10,10 +10,10 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactory<T> : IGraphFactory<T>
 	{
-		private INodeConnector nodeConnector;
+		private INodeConnector<T> nodeConnector;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 
-		public GraphFactory( INodeConnector NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider)
+		public GraphFactory( INodeConnector<T> NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
@@ -22,18 +22,18 @@ namespace FSMLib.Graphs
 		}
 
 
-		public Graph BuildGraph(IEnumerable<Rule<T>> Rules)
+		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules)
 		{
-			Graph graph;
-			Node root;
-			Segment segment;
+			Graph<T> graph;
+			Node<T> root;
+			Segment<T> segment;
 			ISegmentFactory<T> segmentFactory;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
 
 
-			graph = new Graph();
+			graph = new Graph<T>();
 			root = graph.CreateNode();
 
 
@@ -41,7 +41,7 @@ namespace FSMLib.Graphs
 			{
 				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
 				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate);
-				nodeConnector.Connect(graph,new Node[] { root }, segment.Inputs);
+				nodeConnector.Connect(graph,new Node<T>[] { root }, segment.Inputs);
 			}
 
 			return graph;

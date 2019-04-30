@@ -9,7 +9,7 @@ namespace FSMLib
 {
 	public class Situation<T>:IEquatable<Situation<T>>
 	{
-		public Graph Graph
+		public Graph<T> Graph
 		{
 			get;
 			set;

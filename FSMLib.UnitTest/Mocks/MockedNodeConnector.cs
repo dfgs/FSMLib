@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
-	public class MockedNodeConnector : INodeConnector
+	public class MockedNodeConnector : INodeConnector<char>
 	{
-		public void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
+		public void Connect(INodeContainer<char> NodeContainer, IEnumerable<Node<char>> InputNodes, IEnumerable<Node<char>> TargetNodes)
 		{
 			throw new NotImplementedException();
 		}

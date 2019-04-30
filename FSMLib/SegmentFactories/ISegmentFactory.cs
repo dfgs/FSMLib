@@ -9,11 +9,11 @@ namespace FSMLib.SegmentFactories
 {
 	public  interface ISegmentFactory<T>
 	{
-		Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, RulePredicate<T> Predicate);
+		Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, RulePredicate<T> Predicate);
 	}
 	public interface ISegmentFactory<TPredicate,T>: ISegmentFactory<T>
 		where TPredicate:RulePredicate<T>
 	{
-		Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, TPredicate Predicate);
+		Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate);
 	}
 }

@@ -38,13 +38,13 @@ namespace FSMLib.UnitTest.SegmentFactories
 		public void ShouldBuildSegmentFromPredicate()
 		{
 			OneSegmentFactory<char> factory;
-			Segment segment;
-			Graph graph;
-			NodeConnector connector;
+			Segment<char> segment;
+			Graph<char> graph;
+			NodeConnector<char> connector;
 			SegmentFactoryProvider<char> provider;
 
-			graph = new Graph();
-			connector = new NodeConnector();
+			graph = new Graph<char>();
+			connector = new NodeConnector<char>();
 			provider = new SegmentFactoryProvider<char>();
 			factory = new OneSegmentFactory<char>( provider);
 

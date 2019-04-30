@@ -21,11 +21,11 @@ namespace FSMLib.UnitTest.Graphs
 		public void ShouldBuildGraphFromBasicSequence()
 		{
 			GraphFactory<char> factory;
-			Graph graph;
+			Graph<char> graph;
 			Rule<char> rule;
 			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>() ) ;
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>() ) ;
 
 			predicate = new char[] { 'a', 'b', 'c'};
 			rule = new Rule<char>();
@@ -48,11 +48,11 @@ namespace FSMLib.UnitTest.Graphs
 		public void ShouldBuildGraphFromTwoSequences()
 		{
 			GraphFactory<char> factory;
-			Graph graph;
+			Graph<char> graph;
 			Rule<char> rule1,rule2;
 			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule1 = new Rule<char>();
@@ -88,11 +88,11 @@ namespace FSMLib.UnitTest.Graphs
 		public void ShouldBuildGraphFromBasicOr()
 		{
 			GraphFactory<char> factory;
-			Graph graph;
+			Graph<char> graph;
 			Rule<char> rule;
 			Or<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
@@ -117,7 +117,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>(new NodeConnector(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
 		}

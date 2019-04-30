@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class Segment
+	public class Segment<T>
 	{
-		public IEnumerable<Node> Inputs
+		public IEnumerable<Node<T>> Inputs
 		{
 			get;
 			set;
 		}
 
-		public IEnumerable<Node> Outputs
+		public IEnumerable<Node<T>> Outputs
 		{
 			get;
 			set;

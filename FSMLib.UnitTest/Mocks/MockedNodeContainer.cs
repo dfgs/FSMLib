@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
-	public class MockedNodeContainer : INodeContainer
+	public class MockedNodeContainer : INodeContainer<char>
 	{
-		public Node CreateNode()
+		public Node<char> CreateNode()
 		{
 			throw new NotImplementedException();
 		}
 
-		public int GetNodeIndex(Node Node)
+		public int GetNodeIndex(Node<char> Node)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Node GetTargetNode(Transition Transition)
+		public Node<char> GetTargetNode(Transition<char> Transition)
 		{
 			throw new NotImplementedException();
 		}

@@ -7,25 +7,25 @@ using FSMLib.Graphs;
 
 namespace FSMLib.SegmentFactories
 {
-	public class NodeConnector : INodeConnector
+	public class NodeConnector<T> : INodeConnector<T>
 	{
 		public NodeConnector()
 		{
 		}
 
-		public void Connect(INodeContainer NodeContainer, IEnumerable<Node> InputNodes, IEnumerable<Node> TargetNodes)
+		public void Connect(INodeContainer<T> NodeContainer, IEnumerable<Node<T>> InputNodes, IEnumerable<Node<T>> TargetNodes)
 		{
-			Transition transition;
+			Transition<T> transition;
 
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (InputNodes == null) throw new ArgumentNullException("InputNodes");
 			if (TargetNodes == null) throw new ArgumentNullException("TargetNodes");
 
-			foreach (Node inputNode in InputNodes)
+			foreach (Node<T> inputNode in InputNodes)
 			{
-				foreach (Node targetNode in TargetNodes)
+				foreach (Node<T> targetNode in TargetNodes)
 				{
-					transition = new Transition() { TargetNodeIndex = NodeContainer.GetNodeIndex(targetNode)};
+					transition = new Transition<T>() { TargetNodeIndex = NodeContainer.GetNodeIndex(targetNode)};
 					inputNode.Transitions.Add(transition);
 				}
 			}

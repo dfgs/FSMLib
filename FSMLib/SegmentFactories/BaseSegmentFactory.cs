@@ -25,10 +25,10 @@ namespace FSMLib.SegmentFactories
 		}
 
 
-		public abstract Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector, TPredicate Predicate);
+		public abstract Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate);
 		
 
-		public  Segment BuildSegment(INodeContainer NodeContainer, INodeConnector NodeConnector,RulePredicate<T> Predicate)
+		public  Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,RulePredicate<T> Predicate)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
