@@ -27,5 +27,7 @@ namespace FSMLib
 			return ((other.Graph == Graph) && (other.NodeIndex == NodeIndex));
 		}
 
+
+
 	}
 }

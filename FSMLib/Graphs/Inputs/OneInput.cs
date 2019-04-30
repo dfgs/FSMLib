@@ -14,6 +14,8 @@ namespace FSMLib.Graphs.Inputs
 			set;
 		}
 
+		
+
 		public override bool Match(IInput<T> Other)
 		{
 			if (Other == null) return false;
@@ -34,7 +36,21 @@ namespace FSMLib.Graphs.Inputs
 			if (Value == null) return Other == null;
 			return Value.Equals(Other);
 		}
+		public override bool Equals(IInput<T> other)
+		{
+			if (other == null) return false;
+			if (other is OneInput<T> input)
+			{
+				if (Value == null) return input.Value == null; 
+				return Value.Equals(input.Value);
+			}
+			return false;
+		}
 
+		public override int GetHashCode()
+		{
+			return Value.GetHashCode();
+		}
 
 	}
 }

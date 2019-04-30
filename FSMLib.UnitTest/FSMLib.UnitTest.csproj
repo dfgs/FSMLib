@@ -57,6 +57,7 @@
     <Compile Include="Mocks\MockedNodeContainer.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
     <Compile Include="Mocks\MockedSegmentFactoryProvider.cs" />
+    <Compile Include="Mocks\MockedSituationProducer.cs" />
     <Compile Include="Predicates\OrUnitTest.cs" />
     <Compile Include="Predicates\SequenceUnitTest.cs" />
     <Compile Include="Predicates\OneUnitTest.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="SegmentFactories\OrSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\OneSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\SegmentFactoryProviderUnitTest.cs" />
+    <Compile Include="SituationProducerUnitTest.cs" />
     <Compile Include="SituationUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>

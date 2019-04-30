@@ -41,7 +41,49 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 			Assert.IsTrue(input.Match(other));
 			Assert.IsTrue(input.Match('b'));
 		}
+		[TestMethod]
+		public void ShouldBeEqual()
+		{
+			AnyInput<char> a, b;
+
+			a = new AnyInput<char>() ;
+			b = new AnyInput<char>() ;
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+		}
+		[TestMethod]
+		public void ShouldNotBeEqual()
+		{
+			{
+				AnyInput<char> a;
+				OneInput<char> c;
+
+				a = new AnyInput<char>() ;
+				c = new OneInput<char>();
+				Assert.IsFalse(a.Equals(null));
+				Assert.IsFalse(a.Equals(c));
+
+			}
+
+		}
+
+		[TestMethod]
+		public void ShouldReturnGetHashCode()
+		{
+			// GetHashCode is used for equality comparer
+			AnyInput<char> a, b;
+			OneInput<char> d;
+
+			a = new AnyInput<char>();
+			b = new AnyInput<char>();
+			d = new OneInput<char>() { Value = 'a' };
+			Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+			Assert.AreNotEqual(a.GetHashCode(), d.GetHashCode());
+			Assert.AreNotEqual(b.GetHashCode(), d.GetHashCode());
+		}
+
 
 
 	}
+
 }

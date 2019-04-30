@@ -121,6 +121,50 @@ namespace FSMLib.UnitTest.Graphs
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
 		}
+
+		[TestMethod]
+		public void ShouldNotBuildDeterministicGraphWhenNullParameterIsProvided()
+		{
+			GraphFactory<char> factory;
+
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(null, new MockedSituationProducer()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(new Graph<char>(), null)); ;
+		}
+		[TestMethod]
+		public void ShouldBuildDeterministicGraphFromEmptyBaseGraph()
+		{
+			GraphFactory<char> factory;
+			Graph<char> graph;
+
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+
+			graph = factory.BuildDeterministicGraph(new Graph<char>(),new SituationProducer<char>());
+			Assert.IsNotNull(graph);
+			Assert.AreEqual(0, graph.Nodes.Count);
+		}
+		[TestMethod]
+		public void ShouldBuildDeterministicGraphFromSimpleBaseGraph()
+		{
+			GraphFactory<char> factory;
+			Graph<char> baseGraph,graph;
+			Rule<char> rule;
+			Sequence<char> predicate;
+
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+
+			predicate = new char[] { 'a', 'b', 'c' };
+			rule = new Rule<char>();
+			rule.Predicate = predicate;
+
+			baseGraph = factory.BuildGraph(new Rule<char>[] { rule });
+
+
+			graph = factory.BuildDeterministicGraph(baseGraph, new SituationProducer<char>());
+			Assert.IsNotNull(graph);
+			Assert.AreEqual(0, graph.Nodes.Count);
+		}
 	}
 
 

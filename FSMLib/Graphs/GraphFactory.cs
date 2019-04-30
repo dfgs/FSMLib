@@ -48,15 +48,36 @@ namespace FSMLib.Graphs
 			return graph;
 		}
 
-		
 
-		
+		public Graph<T> BuildDeterministicGraph(Graph<T> BaseGraph,ISituationProducer<T> SituationProducer)
+		{
+			Situation<T> currentSituation;
+			Graph<T> graph;
 
-		
+			if (BaseGraph == null) throw new System.ArgumentNullException("BaseGraph");
+			if (SituationProducer == null) throw new System.ArgumentNullException("SituationProducer");
 
-		
-	
+			graph = new Graph<T>();
+			if (BaseGraph.Nodes.Count == 0) return graph;
+
+			currentSituation = new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 };
+
+			/*foreach (Transition<T> transition in currentSituation.Graph.Nodes[currentSituation.NodeIndex].Transitions)
+			{
+				transition.Input
+			}*/
+			
+
+			return null;
+		}
+
+
+
+
+
+
+
 
 
 	}
-}
+	}

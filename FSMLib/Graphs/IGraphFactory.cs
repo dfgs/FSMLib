@@ -9,5 +9,6 @@ namespace FSMLib.Graphs
 	public interface IGraphFactory<T>
 	{
 		Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules);
+		Graph<T> BuildDeterministicGraph(Graph<T> BaseGraph, ISituationProducer<T> SituationProducer);
 	}
 }
