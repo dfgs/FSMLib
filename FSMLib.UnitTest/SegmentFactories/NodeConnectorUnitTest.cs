@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.SegmentFactories;
 using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 
 namespace FSMLib.UnitTest.SegmentFactories
 {
@@ -14,18 +15,11 @@ namespace FSMLib.UnitTest.SegmentFactories
 		[TestMethod]
 		public void ShouldThrowExceptionIfParametersAreNull()
 		{
-			Graph<char> graph;
 			NodeConnector<char> connector;
-			Node<char> a, b;
-
-			graph = new Graph<char>();
-			a = graph.CreateNode();
-			b = graph.CreateNode();
 
 			connector = new NodeConnector<char>();
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(null, new Node<char>[] { a }, new Node<char>[] { b }));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, null, new Node<char>[] { b }));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(graph, new Node<char>[] { a }, null));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect( null, new Transition<char>[] {  }));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(  new Node<char>[] {  },null));
 
 		}
 
@@ -35,17 +29,22 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Graph<char> graph;
 			NodeConnector<char> connector;
 			Node<char> a, b;
+			IInput<char> input;
+			Transition<char> transition;
 
 			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
+			input = new OneInput<char>();
+			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.GetNodeIndex(b)};
 
 			connector = new NodeConnector<char>();
-			connector.Connect(graph,new Node<char>[] { a }, new Node<char>[] { b });
+			connector.Connect( new Node<char>[] { a }, new Transition<char>[] { transition });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
 			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
+			Assert.AreEqual(input, a.Transitions[0].Input);
 		}
 		[TestMethod]
 		public void ShouldConnectOneToMany()
@@ -53,20 +52,27 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Graph<char> graph;
 			NodeConnector<char> connector;
 			Node<char> a, b,c;
+			Transition<char> transitionToB, transitionToC;
+			IInput<char> input;
 
 			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
+			input = new OneInput<char>();
+			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(b) };
+			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect(graph,new Node<char>[] { a }, new Node<char>[] { b,c });
+			connector.Connect(new Node<char>[] { a }, new Transition<char>[] { transitionToB,transitionToC });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
 			Assert.AreEqual(0, c.Transitions.Count);
 			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
 			Assert.AreEqual(2, a.Transitions[1].TargetNodeIndex);
+			Assert.AreEqual(input, a.Transitions[0].Input);
+			Assert.AreEqual(input, a.Transitions[1].Input);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToOne()
@@ -74,20 +80,26 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Graph<char> graph;
 			NodeConnector<char> connector;
 			Node<char> a, b, c;
+			IInput<char> input;
+			Transition<char> transition;
 
 			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
+			input = new OneInput<char>();
+			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect(graph,new Node<char>[] { a,b }, new Node<char>[] {  c });
+			connector.Connect( new Node<char>[] { a,b }, new Transition<char>[] {  transition });
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(1, b.Transitions.Count);
 			Assert.AreEqual(0, c.Transitions.Count);
 			Assert.AreEqual(2, a.Transitions[0].TargetNodeIndex);
 			Assert.AreEqual(2, b.Transitions[0].TargetNodeIndex);
+			Assert.AreEqual(input, a.Transitions[0].Input);
+			Assert.AreEqual(input, b.Transitions[0].Input);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToMany()
@@ -95,15 +107,20 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Graph<char> graph;
 			NodeConnector<char> connector;
 			Node<char> a, b, c,d;
+			IInput<char> input;
+			Transition<char> transitionToD, transitionToC;
 
 			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 			d = graph.CreateNode();
+			input = new OneInput<char>();
+			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
+			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(d) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect(graph,new Node<char>[] { a, b }, new Node<char>[] { c,d });
+			connector.Connect( new Node<char>[] { a, b }, new Transition<char>[] { transitionToC,transitionToD });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(2, b.Transitions.Count);
@@ -113,6 +130,11 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(2, b.Transitions[0].TargetNodeIndex);
 			Assert.AreEqual(3, a.Transitions[1].TargetNodeIndex);
 			Assert.AreEqual(3, b.Transitions[1].TargetNodeIndex);
+
+			Assert.AreEqual(input, a.Transitions[0].Input);
+			Assert.AreEqual(input, b.Transitions[0].Input);
+			Assert.AreEqual(input, a.Transitions[1].Input);
+			Assert.AreEqual(input, b.Transitions[1].Input);
 		}
 	}
 }

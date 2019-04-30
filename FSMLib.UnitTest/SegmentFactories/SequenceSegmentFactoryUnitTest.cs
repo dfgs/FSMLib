@@ -50,15 +50,18 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new SequenceSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
-			sequence.Items.Add(new One<char>());
-			sequence.Items.Add(new One<char>());
-			sequence.Items.Add(new One<char>());
+			sequence.Items.Add(new One<char>() { Value='a' } );
+			sequence.Items.Add(new One<char>() { Value = 'b' });
+			sequence.Items.Add(new One<char>() { Value = 'c' });
 
 			segment = factory.BuildSegment(graph, connector, sequence);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(3, graph.Nodes.Count);
+
+			Assert.AreEqual(true, segment.Inputs.First().Input.Match('a'));
+
 		}
 
 

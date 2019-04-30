@@ -48,11 +48,12 @@ namespace FSMLib.UnitTest.SegmentFactories
 			provider = new SegmentFactoryProvider<char>();
 			factory = new OneSegmentFactory<char>( provider);
 
-			segment=factory.BuildSegment(graph, connector, new One<char>());
+			segment=factory.BuildSegment(graph, connector, new One<char>() { Value='a' });
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, graph.Nodes.Count);
+			Assert.AreEqual(true, segment.Inputs.First().Input.Match('a'));
 		}
 
 

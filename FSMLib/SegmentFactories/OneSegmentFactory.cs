@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -22,12 +23,17 @@ namespace FSMLib.SegmentFactories
 
 			Segment<T> segment;
 			Node<T> node;
+			Transition<T> transition;
 
 			segment = new Segment<T>();
 
 			
 			node = NodeContainer.CreateNode();
-			segment.Inputs = new Node<T>[] { node };
+			transition = new Transition<T>();
+			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
+			transition.Input = new OneInput<T>() {  Value=Predicate.Value };
+
+			segment.Inputs = new Transition<T>[] { transition  };
 			segment.Outputs= new Node<T>[] { node };
 
 			return segment;

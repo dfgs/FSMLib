@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 using FSMLib.SegmentFactories;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace FSMLib.UnitTest.Mocks
 {
 	public class MockedNodeConnector : INodeConnector<char>
 	{
-		public void Connect(INodeContainer<char> NodeContainer, IEnumerable<Node<char>> InputNodes, IEnumerable<Node<char>> TargetNodes)
+		
+
+		public void Connect(IEnumerable<Node<char>> Nodes, IEnumerable<Transition<char>> Transitions)
 		{
 			throw new NotImplementedException();
 		}

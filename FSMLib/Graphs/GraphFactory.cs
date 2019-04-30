@@ -1,4 +1,5 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Graphs.Inputs;
+using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace FSMLib.Graphs
 			{
 				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
 				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate);
-				nodeConnector.Connect(graph,new Node<T>[] { root }, segment.Inputs);
+				nodeConnector.Connect(new Node<T>[] { root }, segment.Inputs);
 			}
 
 			return graph;

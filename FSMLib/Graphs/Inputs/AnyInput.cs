@@ -12,5 +12,11 @@ namespace FSMLib.Graphs.Inputs
 		{
 			return Other != null;
 		}
+
+		public override bool Match(T Other)
+		{
+			return Other != null;
+		}
+
 	}
 }

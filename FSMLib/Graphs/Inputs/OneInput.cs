@@ -27,6 +27,13 @@ namespace FSMLib.Graphs.Inputs
 			return false;
 		}
 
+		public override bool Match(T Other)
+		{
+			if (Other == null) return false;
+
+			if (Value == null) return Other == null;
+			return Value.Equals(Other);
+		}
 
 
 	}

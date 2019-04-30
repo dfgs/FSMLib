@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 
 namespace FSMLib.SegmentFactories
 {
@@ -13,20 +14,18 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public void Connect(INodeContainer<T> NodeContainer, IEnumerable<Node<T>> InputNodes, IEnumerable<Node<T>> TargetNodes)
+		public void Connect( IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions)
 		{
-			Transition<T> transition;
 
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			if (InputNodes == null) throw new ArgumentNullException("InputNodes");
-			if (TargetNodes == null) throw new ArgumentNullException("TargetNodes");
+			//if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
+			if (Nodes == null) throw new ArgumentNullException("Nodes");
+			if (Transitions == null) throw new ArgumentNullException("Transitions");
 
-			foreach (Node<T> inputNode in InputNodes)
+			foreach (Node<T> node in Nodes)
 			{
-				foreach (Node<T> targetNode in TargetNodes)
+				foreach (Transition<T> transition in Transitions)
 				{
-					transition = new Transition<T>() { TargetNodeIndex = NodeContainer.GetNodeIndex(targetNode)};
-					inputNode.Transitions.Add(transition);
+					node.Transitions.Add(transition);
 				}
 			}
 		}

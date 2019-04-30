@@ -9,5 +9,6 @@ namespace FSMLib.Graphs.Inputs
 	public abstract class BaseInput<T> : IInput<T>
 	{
 		public abstract bool Match(IInput<T> Other);
+		public abstract bool Match(T Other);
 	}
 }

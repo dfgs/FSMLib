@@ -25,6 +25,7 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 			input = new OneInput<char>() { Value = 'a' };
 			other = new OneInput<char>() { Value = 'a' };
 			Assert.IsTrue(input.Match(other));
+			Assert.IsTrue(input.Match('a'));
 		}
 
 		[TestMethod]
@@ -36,6 +37,7 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 			input = new OneInput<char>() { Value = 'a' };
 			other = new OneInput<char>() { Value = 'b' };
 			Assert.IsFalse(input.Match(other));
+			Assert.IsFalse(input.Match('b'));
 		}
 
 		[TestMethod]

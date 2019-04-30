@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Graphs.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,10 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
-
+		public IInput<T> Input
+		{
+			get;
+			set;
+		}
 	}
 }

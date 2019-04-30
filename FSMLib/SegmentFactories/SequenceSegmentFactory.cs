@@ -34,7 +34,7 @@ namespace FSMLib.SegmentFactories
 			// connect segments
 			for(int t=0;t< Predicate.Items.Count-1; t++)
 			{
-				NodeConnector.Connect(NodeContainer, segments[t].Outputs, segments[t + 1].Inputs);
+				NodeConnector.Connect(segments[t].Outputs , segments[t + 1].Inputs);
 			}
 
 			segment = new Segment<T>();

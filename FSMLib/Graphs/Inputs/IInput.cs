@@ -9,5 +9,6 @@ namespace FSMLib.Graphs.Inputs
 	public interface IInput<T>
 	{
 		bool Match(IInput<T> Other);
+		bool Match(T Other);
 	}
 }

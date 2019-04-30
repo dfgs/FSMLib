@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace FSMLib.SegmentFactories
 {
 	public interface INodeConnector<T>
 	{
-		void Connect(INodeContainer<T> NodeContainer, IEnumerable<Node<T>> InputNodes, IEnumerable<Node<T>> TargetNodes);
+		void Connect( IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions);
 	}
 }

@@ -50,15 +50,18 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new OrSegmentFactory<char>( provider);
 
 			Or = new Or<char>();
-			Or.Items.Add(new One<char>());
-			Or.Items.Add(new One<char>());
-			Or.Items.Add(new One<char>());
+			Or.Items.Add(new One<char>() { Value = 'a' });
+			Or.Items.Add(new One<char>() { Value = 'b' });
+			Or.Items.Add(new One<char>() { Value = 'c' });
 
 			segment = factory.BuildSegment(graph, connector, Or);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(3, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
 			Assert.AreEqual(3, graph.Nodes.Count);
+			Assert.AreEqual(true, segment.Inputs.ElementAt(0).Input.Match('a'));
+			Assert.AreEqual(true, segment.Inputs.ElementAt(1).Input.Match('b'));
+			Assert.AreEqual(true, segment.Inputs.ElementAt(2).Input.Match('c'));
 		}
 
 

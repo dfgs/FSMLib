@@ -8,7 +8,7 @@ namespace FSMLib.Graphs
 {
 	public class Segment<T>
 	{
-		public IEnumerable<Node<T>> Inputs
+		public IEnumerable<Transition<T>> Inputs
 		{
 			get;
 			set;
