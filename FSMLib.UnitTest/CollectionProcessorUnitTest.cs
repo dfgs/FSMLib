@@ -35,7 +35,89 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, items[2]);
 
 		}
+		[TestMethod]
+		public void ShouldNotReturnDistinct()
+		{
+			int[] items;
 
+			items = CollectionProcessor.DisctinctEx<int>(null).ToArray();
+			Assert.AreEqual(0, items.Length);
+		}
+
+		[TestMethod]
+		public void ShouldReturnTrueIfContainsItems()
+		{
+			List<int> a;
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+
+			Assert.IsTrue(CollectionProcessor.ContainsEx(a, 1));
+			Assert.IsTrue(CollectionProcessor.ContainsEx(a, 2));
+			Assert.IsTrue(CollectionProcessor.ContainsEx(a, 3));
+		}
+
+		[TestMethod]
+		public void ShouldReturnFalseIfDoesntContainItems()
+		{
+			List<int> a;
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+
+			Assert.IsFalse(CollectionProcessor.ContainsEx(a, 4));
+			Assert.IsFalse(CollectionProcessor.ContainsEx(a, -1));
+			Assert.IsFalse(CollectionProcessor.ContainsEx(null, 1));
+		}
+
+
+		[TestMethod]
+		public void ShouldReturnTrueIfCollectionsAreIdentical()
+		{
+			List<int> a,b;
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+			b = new List<int>();
+			b.Add(3);
+			b.Add(1);
+			b.Add(2);
+
+
+			Assert.IsTrue(CollectionProcessor.IsIndenticalToEx(a,b));
+
+		}
+
+		[TestMethod]
+		public void ShouldReturnFalseIfCollectionsAreNotIdentical()
+		{
+			List<int> a, b,c;
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+			b = new List<int>();
+			b.Add(4);
+			b.Add(1);
+			b.Add(2);
+			c = new List<int>();
+			c.Add(1);
+			c.Add(2);
+
+
+			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(a, b));
+			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(a, c));
+			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(a, null));
+			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(null, a));
+
+		}
 
 
 	}

@@ -22,8 +22,40 @@ namespace FSMLib
 				yield return item;
 				existing.Add(item);
 			}
-
 		}
+
+		public static bool IsIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
+			where T : IEquatable<T>
+		{
+			if (Items == null) return Other==null;
+			if (Other == null) return false;
+
+			if (Items.Count() != Other.Count()) return false;
+
+			foreach (T item in Items)
+			{
+				if (!Other.ContainsEx(item)) return false;
+			}
+
+			return true;
+		}
+
+
+		public static bool ContainsEx<T>(this IEnumerable<T> Items, T Item)
+			where T : IEquatable<T>
+		{
+			if (Items == null) return false;
+			if (Item == null) return false;
+
+
+			foreach (T item in Items)
+			{
+				if (item.Equals(Item)) return true;
+			}
+
+			return false;
+		}
+
 
 	}
 }
