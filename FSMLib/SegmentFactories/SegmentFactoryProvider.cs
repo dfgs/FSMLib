@@ -15,6 +15,7 @@ namespace FSMLib.SegmentFactories
 		private SequenceSegmentFactory<T> sequenceSegmentFactory;
 		private OrSegmentFactory<T> orSegmentFactory;
 		private OneOrMoreSegmentFactory<T> oneOrMoreSegmentFactory;
+		private ZeroOrMoreSegmentFactory<T> zeroOrMoreSegmentFactory;
 
 		public SegmentFactoryProvider()
 		{
@@ -23,6 +24,7 @@ namespace FSMLib.SegmentFactories
 			sequenceSegmentFactory = new SequenceSegmentFactory<T>(this);
 			orSegmentFactory = new OrSegmentFactory<T>( this);
 			oneOrMoreSegmentFactory = new OneOrMoreSegmentFactory<T>(this);
+			zeroOrMoreSegmentFactory = new ZeroOrMoreSegmentFactory<T>(this);
 		}
 
 		public ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate)
@@ -30,11 +32,12 @@ namespace FSMLib.SegmentFactories
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			switch (Predicate)
 			{
-				case One<T> one: return oneSegmentFactory;
-				case Any<T> any: return anySegmentFactory;
-				case Sequence<T> sequence:return sequenceSegmentFactory;
-				case Or<T> or: return orSegmentFactory;
-				case OneOrMore<T> or: return oneOrMoreSegmentFactory;
+				case One<T> predicate: return oneSegmentFactory;
+				case Any<T> predicate: return anySegmentFactory;
+				case Sequence<T> predicate: return sequenceSegmentFactory;
+				case Or<T> predicate: return orSegmentFactory;
+				case OneOrMore<T> predicate: return oneOrMoreSegmentFactory;
+				case ZeroOrMore<T> predicate: return zeroOrMoreSegmentFactory;
 				default:
 					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
 			}

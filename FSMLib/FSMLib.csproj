@@ -55,6 +55,7 @@
     <Compile Include="Graphs\Segment.cs" />
     <Compile Include="Graphs\Transition.cs" />
     <Compile Include="Predicates\Any.cs" />
+    <Compile Include="Predicates\ZeroOrMore.cs" />
     <Compile Include="Predicates\Or.cs" />
     <Compile Include="Predicates\OneOrMore.cs" />
     <Compile Include="Predicates\Sequence.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="SegmentFactories\BaseSegmentFactory.cs" />
     <Compile Include="SegmentFactories\NodeConnector.cs" />
     <Compile Include="SegmentFactories\AnySegmentFactory.cs" />
+    <Compile Include="SegmentFactories\ZeroOrMoreSegmentFactory.cs" />
     <Compile Include="SegmentFactories\OrSegmentFactory.cs" />
     <Compile Include="SegmentFactories\SegmentFactoryProvider.cs" />
     <Compile Include="SegmentFactories\OneOrMoreSegmentFactory.cs" />
