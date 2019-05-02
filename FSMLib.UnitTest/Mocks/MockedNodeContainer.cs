@@ -1,12 +1,14 @@
 ﻿using FSMLib.Graphs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
+	[ExcludeFromCodeCoverage]
 	public class MockedNodeContainer : INodeContainer<char>
 	{
 		public Node<char> CreateNode()

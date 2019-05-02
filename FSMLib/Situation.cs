@@ -27,7 +27,10 @@ namespace FSMLib
 			return ((other.Graph == Graph) && (other.NodeIndex == NodeIndex));
 		}
 
-
+		public override string ToString()
+		{
+			return NodeIndex.ToString();
+		}
 
 	}
 }

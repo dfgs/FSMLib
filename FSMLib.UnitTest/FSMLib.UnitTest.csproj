@@ -53,6 +53,7 @@
     <Compile Include="Graphs\GraphFactoryUnitTest.cs" />
     <Compile Include="Graphs\Inputs\AnyInputUnitTest.cs" />
     <Compile Include="Graphs\Inputs\OneInputUnitTest.cs" />
+    <Compile Include="Graphs\GraphTupleUnitTest.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedNodeConnector.cs" />
     <Compile Include="Mocks\MockedNodeContainer.cs" />

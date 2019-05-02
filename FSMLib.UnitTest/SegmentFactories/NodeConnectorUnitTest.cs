@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.SegmentFactories;
 using FSMLib.Graphs;
 using FSMLib.Graphs.Inputs;
+using System.Linq;
 
 namespace FSMLib.UnitTest.SegmentFactories
 {
@@ -18,8 +19,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			NodeConnector<char> connector;
 
 			connector = new NodeConnector<char>();
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect( null, new Transition<char>[] {  }));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(  new Node<char>[] {  },null));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect( null, Enumerable.Empty<Transition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(  Enumerable.Empty<Node<char>>(),null));
 
 		}
 
@@ -39,7 +40,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.GetNodeIndex(b)};
 
 			connector = new NodeConnector<char>();
-			connector.Connect( new Node<char>[] { a }, new Transition<char>[] { transition });
+			connector.Connect( a.AsEnumerable(), transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -64,7 +65,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect(new Node<char>[] { a }, new Transition<char>[] { transitionToB,transitionToC });
+			connector.Connect(a.AsEnumerable(), new Transition<char>[] { transitionToB,transitionToC });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -91,7 +92,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect( new Node<char>[] { a,b }, new Transition<char>[] {  transition });
+			connector.Connect( new Node<char>[] { a,b }, transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(1, b.Transitions.Count);

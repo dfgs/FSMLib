@@ -28,6 +28,7 @@ namespace FSMLib.Graphs
 		{
 			Node<T> node;
 			node = new Node<T>();
+			node.Name = Nodes.Count.ToString();
 			Nodes.Add(node);
 			return node;
 		}

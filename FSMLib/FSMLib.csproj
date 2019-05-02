@@ -44,6 +44,7 @@
     <Compile Include="CollectionProcessor.cs" />
     <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Graphs\GraphFactory.cs" />
+    <Compile Include="Graphs\GraphTuple.cs" />
     <Compile Include="Graphs\IGraphFactory.cs" />
     <Compile Include="Graphs\INodeContainer.cs" />
     <Compile Include="Graphs\Inputs\AnyInput.cs" />

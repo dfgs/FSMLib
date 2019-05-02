@@ -2,6 +2,7 @@
 using FSMLib.Graphs.Inputs;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace FSMLib.UnitTest.Mocks
 		   -a-> O6 -c-> O7
 	*/
 
+	[ExcludeFromCodeCoverage]
 	public class MockedGraph:Graph<char>
 	{
 		public MockedGraph()

@@ -1,11 +1,13 @@
 ﻿using FSMLib.Predicates;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
+	[ExcludeFromCodeCoverage]
 	public class MockedPredicate<T> : RulePredicate<T>
 	{
 		public override IEnumerable<RulePredicate<T>> Enumerate()

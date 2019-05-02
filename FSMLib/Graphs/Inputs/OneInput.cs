@@ -47,7 +47,11 @@ namespace FSMLib.Graphs.Inputs
 			return false;
 		}
 
-		
+		public override string ToString()
+		{
+			return Value?.ToString();
+		}
+
 
 	}
 }

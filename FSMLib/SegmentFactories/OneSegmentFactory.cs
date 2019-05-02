@@ -33,8 +33,8 @@ namespace FSMLib.SegmentFactories
 			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
 			transition.Input = new OneInput<T>() {  Value=Predicate.Value };
 
-			segment.Inputs = new Transition<T>[] { transition  };
-			segment.Outputs= new Node<T>[] { node };
+			segment.Inputs =  transition.AsEnumerable();
+			segment.Outputs= node.AsEnumerable();
 
 			return segment;
 		}

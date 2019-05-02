@@ -13,8 +13,9 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(null, new MockedSegmentFactoryProvider<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(null, new MockedSegmentFactoryProvider<char>(),new MockedSituationProducer() ));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), null, new MockedSituationProducer()));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>(),null));
 		}
 
 		[TestMethod]
@@ -25,13 +26,13 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule;
 			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>() ) ;
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(),new SituationProducer<char>() ) ;
 
 			predicate = new char[] { 'a', 'b', 'c'};
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			graph = factory.BuildGraph(new Rule<char>[] { rule });
+			graph = factory.BuildGraph(rule.AsEnumerable());
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
@@ -52,7 +53,7 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule1,rule2;
 			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule1 = new Rule<char>();
@@ -92,13 +93,13 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule;
 			Or<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			graph = factory.BuildGraph(new Rule<char>[] { rule });
+			graph = factory.BuildGraph(rule.AsEnumerable());
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
@@ -117,7 +118,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
 		}
@@ -127,10 +128,9 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(null, new MockedSituationProducer()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(new Graph<char>(), null)); ;
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(null));
 		}
 		[TestMethod]
 		public void ShouldBuildDeterministicGraphFromEmptyBaseGraph()
@@ -138,9 +138,9 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			graph = factory.BuildDeterministicGraph(new Graph<char>(),new SituationProducer<char>());
+			graph = factory.BuildDeterministicGraph(new Graph<char>());
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(0, graph.Nodes.Count);
 		}
@@ -149,21 +149,31 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 			Graph<char> baseGraph,graph;
-			Rule<char> rule;
-			Sequence<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>());
-
-			predicate = new char[] { 'a', 'b', 'c' };
-			rule = new Rule<char>();
-			rule.Predicate = predicate;
-
-			baseGraph = factory.BuildGraph(new Rule<char>[] { rule });
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 
-			graph = factory.BuildDeterministicGraph(baseGraph, new SituationProducer<char>());
+			/*
+					   |---- a ---|   
+					   |          |   
+				O0 -a-> O1 -b-> O2|-c-> O3 
+				   -a-> O4 -b-> O5|
+				   -a-> O6 -c-> O7
+			*/
+			baseGraph = new MockedGraph();
+
+			graph = factory.BuildDeterministicGraph(baseGraph);
+			/*
+					   |---- a ---|   
+					   |          |   
+				O0 -a-> O1 -b-> O2|-c-> O3 
+				          |c-> O7
+			*/
+
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(0, graph.Nodes.Count);
+
+
 		}
 	}
 

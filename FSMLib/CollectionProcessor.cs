@@ -56,6 +56,10 @@ namespace FSMLib
 			return false;
 		}
 
+		public static IEnumerable<T> AsEnumerable<T>(this T Item)
+		{
+			yield return Item;
+		}
 
 	}
 }

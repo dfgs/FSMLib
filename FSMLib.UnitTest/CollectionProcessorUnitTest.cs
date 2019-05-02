@@ -119,6 +119,19 @@ namespace FSMLib.UnitTest
 
 		}
 
+		[TestMethod]
+		public void ShouldEnumerateSingleItem()
+		{
+			int[] a;
+
+			a = 1.AsEnumerable().ToArray();
+
+			Assert.AreEqual(1, a.Length);
+			Assert.AreEqual(1, a[0]);
+
+
+		}
+
 
 	}
 }
