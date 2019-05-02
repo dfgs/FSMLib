@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionProcessor.cs" />
     <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Graphs\GraphFactory.cs" />
     <Compile Include="Graphs\IGraphFactory.cs" />

@@ -63,34 +63,18 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 		[TestMethod]
 		public void ShouldNotBeEqual()
 		{
-				OneInput<char> a, b;
-				AnyInput<char> c;
-
-				a = new OneInput<char>() { Value = 'a' };
-				b = new OneInput<char>() { Value = 'b' };
-				c = new AnyInput<char>();
-				Assert.IsFalse(a.Equals(b));
-				Assert.IsFalse(a.Equals(null));
-				Assert.IsFalse(a.Equals(c));
-		}
-
-		[TestMethod]
-		public void ShouldReturnGetHashCode()
-		{
-			// GetHashCode is used for equality comparer
-			OneInput<char> a, b,c;
-			AnyInput<char> d;
+			OneInput<char> a, b;
+			AnyInput<char> c;
 
 			a = new OneInput<char>() { Value = 'a' };
-			b = new OneInput<char>() { Value = 'a' };
-			c = new OneInput<char>() { Value = 'b' };
-			d = new AnyInput<char>();
-			Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
-			Assert.AreNotEqual(a.GetHashCode(), c.GetHashCode());
-			Assert.AreNotEqual(a.GetHashCode(), d.GetHashCode());
-
+			b = new OneInput<char>() { Value = 'b' };
+			c = new AnyInput<char>();
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(a.Equals(null));
+			Assert.IsFalse(a.Equals(c));
 		}
 
+		
 
 
 	}

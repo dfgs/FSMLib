@@ -9,7 +9,12 @@ namespace FSMLib.UnitTest.Mocks
 {
 	public class MockedSituationProducer : ISituationProducer<char>
 	{
-		public IEnumerable<IInput<char>> GetDistinctInputs(IEnumerable<Situation<char>> Situations)
+		public IEnumerable<IInput<char>> GetNextInputs(IEnumerable<Situation<char>> Situations)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<Situation<char>> GetNextSituations(IEnumerable<Situation<char>> Situations, IInput<char> Input)
 		{
 			throw new NotImplementedException();
 		}

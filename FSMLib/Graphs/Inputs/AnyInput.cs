@@ -8,7 +8,6 @@ namespace FSMLib.Graphs.Inputs
 {
 	public class AnyInput<T> : BaseInput<T>
 	{
-		private static int hashCode = new Random().Next();
 
 		public override bool Match(IInput<T> Other)
 		{
@@ -26,10 +25,7 @@ namespace FSMLib.Graphs.Inputs
 			return (other is AnyInput<T>);
 		}
 
-		public override int GetHashCode()
-		{
-			return hashCode;
-		}
+		
 
 	}
 }

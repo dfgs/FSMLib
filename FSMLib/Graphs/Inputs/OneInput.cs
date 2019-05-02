@@ -47,10 +47,7 @@ namespace FSMLib.Graphs.Inputs
 			return false;
 		}
 
-		public override int GetHashCode()
-		{
-			return Value.GetHashCode();
-		}
+		
 
 	}
 }
