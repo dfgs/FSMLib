@@ -5,36 +5,46 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class SequenceUnitTest
+	public class OneOrMoreUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> sequence;
 			One<char> item;
 
-			predicate = new Sequence<char>();
+			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
-			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
-			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
-			Assert.AreEqual("abcd", predicate.ToString());
+			predicate = new OneOrMore<char>() { Item = sequence };
+			Assert.AreEqual("a+", predicate.ToString());
+
+
+			item = new One<char>() { Value = 'b' };
+			sequence.Items.Add(item);
+			item = new One<char>() { Value = 'c' };
+			sequence.Items.Add(item);
+			item = new One<char>() { Value = 'd' };
+			sequence.Items.Add(item);
+
+			predicate = new OneOrMore<char>() { Item = sequence };
+			Assert.AreEqual("(abcd)+", predicate.ToString());
+			predicate = new OneOrMore<char>() { Item = item };
+			Assert.AreEqual("d+", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertNestedPredicateToString()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> sequence;
 			Or<char> or;
 			One<char> item;
 
-			predicate = new Sequence<char>();
+			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
 			or = new Or<char>();
 			item = new One<char>() { Value = 'b' };
@@ -42,24 +52,26 @@ namespace FSMLib.UnitTest.Predicates
 			item = new One<char>() { Value = 'c' };
 			or.Items.Add(item);
 
-			predicate.Items.Add(or);
+			sequence.Items.Add(or);
 			item = new One<char>() { Value = 'd' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
-			Assert.AreEqual("a(b|c)d", predicate.ToString());
+			predicate = new OneOrMore<char>() { Item = sequence };
+			Assert.AreEqual("(a(b|c)d)+", predicate.ToString());
 		}
 
 		[TestMethod]
 		public void ShouldConvertComplexNestedPredicateToString()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> parentSequence;
 			Sequence<char> sequence;
 			Or<char> or;
 			One<char> item;
 
-			predicate = new Sequence<char>();
+			parentSequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
+			parentSequence.Items.Add(item);
 
 			or = new Or<char>();
 			item = new One<char>() { Value = 'b' };
@@ -71,89 +83,76 @@ namespace FSMLib.UnitTest.Predicates
 			sequence.Items.Add(item);
 			or.Items.Add(sequence);
 
-			predicate.Items.Add(or);
+			parentSequence.Items.Add(or);
 			item = new One<char>() { Value = 'e' };
-			predicate.Items.Add(item);
+			parentSequence.Items.Add(item);
 
-			Assert.AreEqual("a(b|(cd))e", predicate.ToString());
+			predicate = new OneOrMore<char>() { Item = parentSequence };
+			Assert.AreEqual("(a(b|(cd))e)+", predicate.ToString());
 		}
 
 
 		[TestMethod]
 		public void ShouldConvertToParenthesisStringWithoutBullet()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> sequence;
 			One<char> item;
 
-			predicate = new Sequence<char>();
+			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'b' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'c' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'd' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
-			Assert.AreEqual("(abcd)", predicate.ToParenthesisString());
+			predicate = new OneOrMore<char>() { Item = sequence };
+			Assert.AreEqual("(abcd)+", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]
 		public void ShouldNotConvertToParenthesisStringWithoutBullet()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> sequence;
 			One<char> item;
 
-			predicate = new Sequence<char>();
+			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
-			Assert.AreEqual("a", predicate.ToParenthesisString());
+			predicate = new OneOrMore<char>() { Item = sequence };
+			Assert.AreEqual("a+", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]
 		public void ShouldEnumerate()
 		{
-			Sequence<char> predicate;
+			OneOrMore<char> predicate;
+			Sequence<char> sequence;
 			One<char> item;
 			RulePredicate<char>[] items;
 
-			predicate = new Sequence<char>();
+			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'b' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'c' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 			item = new One<char>() { Value = 'd' };
-			predicate.Items.Add(item);
+			sequence.Items.Add(item);
 
+			predicate = new OneOrMore<char>() { Item = sequence };
 			items = predicate.Enumerate().ToArray();
 
 			Assert.AreEqual(4, items.Length);
 		}
 
-		[TestMethod]
-		public void ShouldConvertImplicitelyFromPredicateArray()
-		{
-			Sequence<char> predicate;
-
-			predicate = new RulePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
-			Assert.IsNotNull(predicate);
-			Assert.AreEqual(3, predicate.Items.Count);
-
-		}
-
-		[TestMethod]
-		public void ShouldConvertImplicitelyFromValueArray()
-		{
-			Sequence<char> predicate;
-
-			predicate = new char[] { 'a', 'b', 'c' };
-			Assert.IsNotNull(predicate);
-			Assert.AreEqual(3, predicate.Items.Count);
-
-		}
+		
 
 	}
 }

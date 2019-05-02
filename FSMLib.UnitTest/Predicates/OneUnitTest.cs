@@ -19,18 +19,7 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new One<char>() { Value = 'c' };
 			Assert.AreEqual("c", predicate.ToString());
 		}
-		/*[TestMethod]
-		public void ShouldConvertToStringWithBullet()
-		{
-			One<char> predicate;
-
-			predicate = new One<char>() { Value = 'a' };
-			Assert.AreEqual($"{RulePredicate<char>.Bullet}a", predicate.ToString(predicate));
-			predicate = new One<char>() { Value = 'b' };
-			Assert.AreEqual($"{RulePredicate<char>.Bullet}b", predicate.ToString(predicate));
-			predicate = new One<char>() { Value = 'c' };
-			Assert.AreEqual($"{RulePredicate<char>.Bullet}c", predicate.ToString(predicate));
-		}*/
+		
 		[TestMethod]
 		public void ShouldConvertToParenthesisStringWithoutBulletItem()
 		{

@@ -3,43 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class One<T>:RulePredicate<T>
+	public class OneOrMore<T> : RulePredicate<T>
 	{
 
-		public T Value
+		public RulePredicate<T> Item
 		{
 			get;
 			set;
 		}
 
+		public OneOrMore()
+		{
+		}
+
 		public override IEnumerable<RulePredicate<T>> Enumerate()
 		{
-			yield return this;
+			if (Item == null) yield break;
+			foreach (RulePredicate<T> item in Item.Enumerate()) yield return item;
 		}
 
 		
 		public override string ToParenthesisString()
 		{
-			return Value.ToString();
+			return $"{Item.ToParenthesisString()}+";
 		}
+
 		public override string ToString()
 		{
-			return Value.ToString();
+			return $"{Item.ToParenthesisString()}+";
 		}
 
 
 		
-		public static implicit operator One<T>(T Value)
-		{
-			return new One<T>() { Value=Value};
-		}
-
-
-
 
 	}
 }

@@ -45,6 +45,30 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsInstanceOfType(factory, typeof(SequenceSegmentFactory<char>));
 		}
 		[TestMethod]
+		public void SouldProvideAnySegmentFactory()
+		{
+			SegmentFactoryProvider<char> provider;
+			ISegmentFactory<char> factory;
+
+			provider = new SegmentFactoryProvider<char>();
+			factory = provider.GetSegmentFactory(new Any<char>());
+			Assert.IsNotNull(factory);
+			Assert.IsInstanceOfType(factory, typeof(AnySegmentFactory<char>));
+		}
+		[TestMethod]
+		public void SouldProvideOneOrMoreSegmentFactory()
+		{
+			SegmentFactoryProvider<char> provider;
+			ISegmentFactory<char> factory;
+
+			provider = new SegmentFactoryProvider<char>();
+			factory = provider.GetSegmentFactory(new OneOrMore<char>());
+			Assert.IsNotNull(factory);
+			Assert.IsInstanceOfType(factory, typeof(OneOrMoreSegmentFactory<char>));
+		}
+
+
+		[TestMethod]
 		public void SouldFailOnInvalidPredicate()
 		{
 			SegmentFactoryProvider<char> provider;

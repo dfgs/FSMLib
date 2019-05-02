@@ -7,15 +7,10 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class One<T>:RulePredicate<T>
+	public class Any<T>:RulePredicate<T>
 	{
 
-		public T Value
-		{
-			get;
-			set;
-		}
-
+		
 		public override IEnumerable<RulePredicate<T>> Enumerate()
 		{
 			yield return this;
@@ -24,19 +19,16 @@ namespace FSMLib.Predicates
 		
 		public override string ToParenthesisString()
 		{
-			return Value.ToString();
+			return ".";
 		}
 		public override string ToString()
 		{
-			return Value.ToString();
+			return ".";
 		}
+
 
 
 		
-		public static implicit operator One<T>(T Value)
-		{
-			return new One<T>() { Value=Value};
-		}
 
 
 
