@@ -37,7 +37,10 @@ namespace Demo
 
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
-			CreateView(new MockedGraph());
+			CreateView(new TestGraph1());
+			CreateView(new TestGraph2());
+			CreateView(new TestGraph3());
+			CreateView(new TestGraph4());
 			//this.gViewer.Graph = CreateGraph<char>(new MockedGraph()); ;
 		}
 

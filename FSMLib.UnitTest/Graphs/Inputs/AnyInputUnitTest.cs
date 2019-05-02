@@ -63,7 +63,13 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 			Assert.IsFalse(a.Equals(c));
 		}
 
-		
+		[TestMethod]
+		public void ShouldConvertToString()
+		{
+			AnyInput<char> a;
+			a = new AnyInput<char>();
+			Assert.AreEqual(".", a.ToString());
+		}
 
 
 

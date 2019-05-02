@@ -54,6 +54,10 @@
     <Compile Include="Graphs\Inputs\AnyInputUnitTest.cs" />
     <Compile Include="Graphs\Inputs\OneInputUnitTest.cs" />
     <Compile Include="Graphs\GraphTupleUnitTest.cs" />
+    <Compile Include="Mocks\TestGraph4.cs" />
+    <Compile Include="Mocks\TestGraph3.cs" />
+    <Compile Include="Mocks\TestGraph2.cs" />
+    <Compile Include="Mocks\TestGraph1.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedNodeConnector.cs" />
     <Compile Include="Mocks\MockedNodeContainer.cs" />

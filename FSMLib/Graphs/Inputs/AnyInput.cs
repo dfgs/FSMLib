@@ -25,7 +25,10 @@ namespace FSMLib.Graphs.Inputs
 			return (other is AnyInput<T>);
 		}
 
-		
+		public override string ToString()
+		{
+			return ".";
+		}
 
 	}
 }
