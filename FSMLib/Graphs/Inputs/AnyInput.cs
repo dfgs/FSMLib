@@ -8,6 +8,7 @@ namespace FSMLib.Graphs.Inputs
 {
 	public class AnyInput<T> : BaseInput<T>
 	{
+		public override int Priority => 1;
 
 		public override bool Match(IInput<T> Other)
 		{

@@ -54,7 +54,10 @@
     <Compile Include="Graphs\Inputs\AnyInputUnitTest.cs" />
     <Compile Include="Graphs\Inputs\OneInputUnitTest.cs" />
     <Compile Include="Graphs\GraphTupleUnitTest.cs" />
+    <Compile Include="Graphs\Inputs\GenericInputUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
+    <Compile Include="Mocks\TestGraph6.cs" />
+    <Compile Include="Mocks\TestGraph5.cs" />
     <Compile Include="Mocks\TestGraph4.cs" />
     <Compile Include="Mocks\TestGraph3.cs" />
     <Compile Include="Mocks\TestGraph2.cs" />
@@ -86,6 +89,7 @@
     <Compile Include="SituationProducerUnitTest.cs" />
     <Compile Include="CollectionProcessorUnitTest.cs" />
     <Compile Include="SituationUnitTest.cs" />
+    <Compile Include="AutomatonUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

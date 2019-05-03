@@ -8,6 +8,8 @@ namespace FSMLib.Graphs.Inputs
 {
 	public class OneInput<T>:BaseInput<T>
 	{
+		public override int Priority => 0;
+
 		public T Value
 		{
 			get;

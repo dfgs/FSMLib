@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace FSMLib
 {
-	public interface IAutomaton
+	public interface IAutomaton<T>
 	{
+		void Reset();
 
+		bool Feed(T Item);
+
+		bool CanReduce();
+
+		string Reduce();
 	}
 }
