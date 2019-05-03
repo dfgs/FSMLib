@@ -19,6 +19,11 @@ namespace FSMLib.Graphs
 			set;
 		}
 
+		public bool IsTermination
+		{
+			get;
+			set;
+		}
 		public Node()
 		{
 			Transitions = new List<Transition<T>>();

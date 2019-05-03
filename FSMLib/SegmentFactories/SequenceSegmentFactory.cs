@@ -14,31 +14,30 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Sequence<T> Predicate)
+		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Sequence<T> Predicate, IEnumerable<Transition<T>> OutTransitions)
 		{
 			Segment<T> segment;
 			Segment<T>[] segments;
 			ISegmentFactory<T> childSegmentFactory;
+			IEnumerable<Transition<T>> nextTransitions;
 
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
+			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
 
+			nextTransitions = OutTransitions;
 			segments = new Segment<T>[Predicate.Items.Count];
 			// create segments
-			for (int t=0;t<Predicate.Items.Count;t++)
+			for (int t= Predicate.Items.Count-1; t>=0;t--)
 			{
 				childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Items[t]);
-				segments[t]=childSegmentFactory.BuildSegment(NodeContainer,NodeConnector, Predicate.Items[t]);
+				segments[t]=childSegmentFactory.BuildSegment(NodeContainer,NodeConnector, Predicate.Items[t],nextTransitions);
+				nextTransitions = segments[t].Inputs;
 			}
-			// connect segments
-			for(int t=0;t< Predicate.Items.Count-1; t++)
-			{
-				NodeConnector.Connect(segments[t].Outputs , segments[t + 1].Inputs);
-			}
-
+			
 			segment = new Segment<T>();
-			segment.Inputs = segments.First().Inputs;
+			segment.Inputs = nextTransitions;
 			segment.Outputs = segments.Last().Outputs;
 
 			return segment;

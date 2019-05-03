@@ -45,8 +45,28 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
 			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
+			Assert.IsFalse(a.IsTermination);
+			Assert.IsFalse(b.IsTermination);
 			Assert.AreEqual(input, a.Transitions[0].Input);
 		}
+
+		[TestMethod]
+		public void ShouldMarkNodeAsTermination()
+		{
+			Graph<char> graph;
+			NodeConnector<char> connector;
+			Node<char> a;
+
+			graph = new Graph<char>();
+			a = graph.CreateNode();
+
+			connector = new NodeConnector<char>();
+			connector.Connect(a.AsEnumerable(), Transition<char>.Termination.AsEnumerable());
+
+			Assert.AreEqual(0, a.Transitions.Count);
+			Assert.IsTrue(a.IsTermination);
+		}
+
 		[TestMethod]
 		public void ShouldConnectOneToMany()
 		{

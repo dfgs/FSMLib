@@ -25,7 +25,8 @@ namespace FSMLib.SegmentFactories
 			{
 				foreach (Transition<T> transition in Transitions)
 				{
-					node.Transitions.Add(transition);
+					if (transition == Transition<T>.Termination) node.IsTermination = true;
+					else node.Transitions.Add(transition);
 				}
 			}
 		}

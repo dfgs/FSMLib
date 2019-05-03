@@ -9,6 +9,8 @@ namespace FSMLib.Graphs
 {
 	public class Transition<T>
 	{
+		public static Transition<T> Termination = new Transition<T>() { Input=null,TargetNodeIndex=-1 };
+
 		public int TargetNodeIndex
 		{
 			get;

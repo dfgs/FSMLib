@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OneSegmentFactory<char> factory;
 
 			factory = new OneSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedNodeContainer() ,new MockedNodeConnector(), new MockedPredicate<char>()));;
+			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedNodeContainer() ,new MockedNodeConnector(), new MockedPredicate<char>(), Transition<char>.Termination.AsEnumerable()));;
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -30,9 +30,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OneSegmentFactory<char> factory;
 
 			factory = new OneSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new One<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new One<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new One<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new One<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null, Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new One<char>(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
@@ -48,7 +49,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			provider = new SegmentFactoryProvider<char>();
 			factory = new OneSegmentFactory<char>( provider);
 
-			segment=factory.BuildSegment(graph, connector, new One<char>() { Value='a' });
+			segment=factory.BuildSegment(graph, connector, new One<char>() { Value='a' }, Transition<char>.Termination.AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());

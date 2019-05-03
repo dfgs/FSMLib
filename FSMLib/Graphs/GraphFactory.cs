@@ -44,7 +44,7 @@ namespace FSMLib.Graphs
 			foreach(Rule<T> rule in Rules)
 			{
 				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
-				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate);
+				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate,Transition<T>.Termination.AsEnumerable());
 				nodeConnector.Connect( root.AsEnumerable(), segment.Inputs);
 			}
 

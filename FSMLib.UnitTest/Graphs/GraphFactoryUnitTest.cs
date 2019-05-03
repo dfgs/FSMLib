@@ -25,6 +25,7 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			Rule<char> rule;
 			Sequence<char> predicate;
+			GraphParser<char> parser;
 
 			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(),new SituationProducer<char>() ) ;
 
@@ -36,13 +37,15 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
-			Assert.AreEqual(1, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(1, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[1].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(1, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(3, graph.Nodes[2].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(0, graph.Nodes[3].Transitions.Count);
+			parser = new GraphParser<char>(graph);
+
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('c'));
+			Assert.AreEqual(0, parser.TransitionCount);
 
 		}
 		[TestMethod]
@@ -52,6 +55,7 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			Rule<char> rule1,rule2;
 			Sequence<char> predicate;
+			GraphParser<char> parser;
 
 			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
@@ -66,25 +70,27 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(7, graph.Nodes.Count);
 
-			Assert.AreEqual(2, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(4, graph.Nodes[0].Transitions[1].TargetNodeIndex);
+			parser = new GraphParser<char>(graph);
 
-			// segment from rule 1
-			Assert.AreEqual(1, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[1].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(1, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(3, graph.Nodes[2].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(0, graph.Nodes[3].Transitions.Count);//*/
+			Assert.AreEqual(2, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('c'));
+			Assert.AreEqual(0, parser.TransitionCount);
 
-			// segment from rule 2
-			Assert.AreEqual(1, graph.Nodes[4].Transitions.Count);
-			Assert.AreEqual(5, graph.Nodes[4].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(1, graph.Nodes[5].Transitions.Count);
-			Assert.AreEqual(6, graph.Nodes[5].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(0, graph.Nodes[6].Transitions.Count);//*/
+			parser.Reset();
+			Assert.AreEqual(2, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a',1));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('c'));
+			Assert.AreEqual(0, parser.TransitionCount);
 
 		}
+
 		[TestMethod]
 		public void ShouldBuildGraphFromBasicOr()
 		{

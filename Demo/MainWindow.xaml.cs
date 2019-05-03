@@ -54,11 +54,15 @@ namespace Demo
 		}
 		private static Graph CreateGraph<T>(Graph<T> Model)
 		{
+			Node n;
+
 			Graph graph = new Graph("graph");
 
 			foreach (Node<T> node in Model.Nodes)
 			{
-				graph.AddNode(node.Name);
+				n=graph.AddNode(node.Name);
+				if (node.IsTermination) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}
 			foreach (Node<T> node in Model.Nodes)
 			{
