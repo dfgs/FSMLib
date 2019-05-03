@@ -23,6 +23,9 @@ namespace FSMLib.UnitTest.Mocks
 		public MockedGraph()
 		{
 			for(int t=0;t<8;t++) this.CreateNode();
+			Nodes[3].RecognizedRules.Add("A");
+			Nodes[5].RecognizedRules.Add("B");
+			Nodes[7].RecognizedRules.Add("C");
 
 			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new OneInput<char>() { Value = 'a' } });
 			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new OneInput<char>() { Value = 'b' } });

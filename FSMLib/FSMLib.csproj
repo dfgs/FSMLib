@@ -54,6 +54,7 @@
     <Compile Include="Graphs\Node.cs" />
     <Compile Include="Graphs\Segment.cs" />
     <Compile Include="Graphs\Transition.cs" />
+    <Compile Include="IAutomaton.cs" />
     <Compile Include="Predicates\Any.cs" />
     <Compile Include="Predicates\Optional.cs" />
     <Compile Include="Predicates\ZeroOrMore.cs" />

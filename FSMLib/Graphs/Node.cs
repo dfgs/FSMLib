@@ -19,7 +19,7 @@ namespace FSMLib.Graphs
 			set;
 		}
 
-		public bool IsTermination
+		public List<string> RecognizedRules
 		{
 			get;
 			set;
@@ -27,6 +27,7 @@ namespace FSMLib.Graphs
 		public Node()
 		{
 			Transitions = new List<Transition<T>>();
+			RecognizedRules = new List<string>();
 		}
 		public override string ToString()
 		{

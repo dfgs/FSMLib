@@ -14,10 +14,10 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public void Connect( IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions)
+		public void Connect(string Rule, IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions)
 		{
 
-			//if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
+			if (Rule == null) throw new ArgumentNullException("Rule");
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Transitions == null) throw new ArgumentNullException("Transitions");
 
@@ -25,7 +25,7 @@ namespace FSMLib.SegmentFactories
 			{
 				foreach (Transition<T> transition in Transitions)
 				{
-					if (transition == Transition<T>.Termination) node.IsTermination = true;
+					if (transition == Transition<T>.Termination) node.RecognizedRules.Add(Rule);
 					else node.Transitions.Add(transition);
 				}
 			}

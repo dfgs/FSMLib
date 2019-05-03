@@ -10,6 +10,6 @@ namespace FSMLib.SegmentFactories
 {
 	public interface INodeConnector<T>
 	{
-		void Connect( IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions);
+		void Connect(string Rule, IEnumerable<Node<T>> Nodes, IEnumerable<Transition<T>> Transitions);
 	}
 }

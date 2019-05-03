@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OrSegmentFactory<char> factory;
 
 			factory = new OrSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new MockedPredicate<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment("rule", new MockedNodeContainer(), new MockedNodeConnector(), new MockedPredicate<char>(), Transition<char>.Termination.AsEnumerable()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -30,10 +30,11 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OrSegmentFactory<char> factory;
 
 			factory = new OrSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new Or<char>(), Transition<char>.Termination.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new Or<char>(), Transition<char>.Termination.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null, Transition<char>.Termination.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new Or<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeContainer(), new MockedNodeConnector(), new Or<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment("rule", null, new MockedNodeConnector(), new Or<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment("rule", new MockedNodeContainer(), null, new Or<char>(), Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment("rule", new MockedNodeContainer(), new MockedNodeConnector(), null, Transition<char>.Termination.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment("rule", new MockedNodeContainer(), new MockedNodeConnector(), new Or<char>(),null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
@@ -55,7 +56,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Or.Items.Add(new One<char>() { Value = 'b' });
 			Or.Items.Add(new One<char>() { Value = 'c' });
 
-			segment = factory.BuildSegment(graph, connector, Or, Transition<char>.Termination.AsEnumerable());
+			segment = factory.BuildSegment("rule", graph, connector, Or, Transition<char>.Termination.AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(3, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());

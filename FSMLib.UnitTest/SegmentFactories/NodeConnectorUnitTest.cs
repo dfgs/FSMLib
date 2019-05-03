@@ -19,8 +19,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			NodeConnector<char> connector;
 
 			connector = new NodeConnector<char>();
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect( null, Enumerable.Empty<Transition<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(  Enumerable.Empty<Node<char>>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect(null, Enumerable.Empty<Node<char>>(), Enumerable.Empty<Transition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect("rule", null, Enumerable.Empty<Transition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => connector.Connect("rule", Enumerable.Empty<Node<char>>(), null));
 
 		}
 
@@ -40,18 +41,16 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.GetNodeIndex(b)};
 
 			connector = new NodeConnector<char>();
-			connector.Connect( a.AsEnumerable(), transition.AsEnumerable());
+			connector.Connect("rule", a.AsEnumerable(), transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
 			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
-			Assert.IsFalse(a.IsTermination);
-			Assert.IsFalse(b.IsTermination);
 			Assert.AreEqual(input, a.Transitions[0].Input);
 		}
 
 		[TestMethod]
-		public void ShouldMarkNodeAsTermination()
+		public void ShouldAddRecognizedRules()
 		{
 			Graph<char> graph;
 			NodeConnector<char> connector;
@@ -61,10 +60,11 @@ namespace FSMLib.UnitTest.SegmentFactories
 			a = graph.CreateNode();
 
 			connector = new NodeConnector<char>();
-			connector.Connect(a.AsEnumerable(), Transition<char>.Termination.AsEnumerable());
+			connector.Connect("rule",a.AsEnumerable(), Transition<char>.Termination.AsEnumerable());
 
 			Assert.AreEqual(0, a.Transitions.Count);
-			Assert.IsTrue(a.IsTermination);
+			Assert.AreEqual(1, a.RecognizedRules.Count);
+			Assert.AreEqual("rule", a.RecognizedRules[0]);
 		}
 
 		[TestMethod]
@@ -85,7 +85,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect(a.AsEnumerable(), new Transition<char>[] { transitionToB,transitionToC });
+			connector.Connect("rule", a.AsEnumerable(), new Transition<char>[] { transitionToB,transitionToC });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(0, b.Transitions.Count);
@@ -112,7 +112,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect( new Node<char>[] { a,b }, transition.AsEnumerable());
+			connector.Connect("rule", new Node<char>[] { a,b }, transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
 			Assert.AreEqual(1, b.Transitions.Count);
@@ -141,7 +141,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(d) };
 
 			connector = new NodeConnector<char>();
-			connector.Connect( new Node<char>[] { a, b }, new Transition<char>[] { transitionToC,transitionToD });
+			connector.Connect("rule", new Node<char>[] { a, b }, new Transition<char>[] { transitionToC,transitionToD });
 
 			Assert.AreEqual(2, a.Transitions.Count);
 			Assert.AreEqual(2, b.Transitions.Count);

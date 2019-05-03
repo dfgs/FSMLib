@@ -9,6 +9,11 @@ namespace FSMLib
 	[System.Serializable]
     public class Rule<T>
     {
+		public string Name
+		{
+			get;
+			set;
+		}
 		public RulePredicate<T> Predicate
 		{
 			get;

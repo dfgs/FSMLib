@@ -120,6 +120,38 @@ namespace FSMLib.UnitTest.Graphs
 		}
 
 		[TestMethod]
+		public void ShouldBuildGraphFromExtendedSequence()
+		{
+			GraphFactory<char> factory;
+			Graph<char> graph;
+			Rule<char> rule;
+			Sequence<char> predicate;
+			GraphParser<char> parser;
+
+			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+
+			predicate = new char[] { 'a', 'b', 'c' };
+			rule = new Rule<char>() { Name="rule" };
+			rule.Predicate = new ZeroOrMore<char>() { Item = predicate };
+
+			graph = factory.BuildGraph(rule.AsEnumerable());
+			Assert.IsNotNull(graph);
+			Assert.AreEqual(4, graph.Nodes.Count);
+
+			parser = new GraphParser<char>(graph);
+
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('c'));
+			Assert.AreEqual(1, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(1, graph.Nodes[0].RecognizedRules);
+			Assert.AreEqual("rule", graph.Nodes[0].RecognizedRules[0]);
+		}
+		[TestMethod]
 		public void ShouldNotBuildGraphWhenNullRulesAreProvided()
 		{
 			GraphFactory<char> factory;

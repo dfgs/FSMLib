@@ -21,6 +21,10 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			for(int t=0;t<7;t++) this.CreateNode();
 
+			Nodes[3].RecognizedRules.Add("A");
+			Nodes[6].RecognizedRules.Add("B");
+
+
 			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new OneInput<char>() { Value = 'a' } });
 			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new OneInput<char>() { Value = 'b' } });
 			Nodes[2].Transitions.Add(new Transition<char>() { TargetNodeIndex = 3, Input = new OneInput<char>() { Value = 'c' } });

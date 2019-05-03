@@ -25,17 +25,17 @@ namespace FSMLib.SegmentFactories
 		}
 
 
-		public abstract Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate, IEnumerable<Transition<T>> OutTransitions);
+		public abstract Segment<T> BuildSegment(string Rule, INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate, IEnumerable<Transition<T>> OutTransitions);
 		
 
-		public Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,RulePredicate<T> Predicate, IEnumerable<Transition<T>> OutTransitions)
+		public Segment<T> BuildSegment(string Rule, INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,RulePredicate<T> Predicate, IEnumerable<Transition<T>> OutTransitions)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
 
-			if (Predicate is TPredicate predicate) return BuildSegment(NodeContainer,NodeConnector, predicate,OutTransitions);
+			if (Predicate is TPredicate predicate) return BuildSegment(Rule,NodeContainer,NodeConnector, predicate,OutTransitions);
 			else throw new InvalidCastException("Predicate type is not compatible with this segment factory");
 		}
 

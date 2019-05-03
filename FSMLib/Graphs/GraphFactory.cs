@@ -44,8 +44,8 @@ namespace FSMLib.Graphs
 			foreach(Rule<T> rule in Rules)
 			{
 				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
-				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate,Transition<T>.Termination.AsEnumerable());
-				nodeConnector.Connect( root.AsEnumerable(), segment.Inputs);
+				segment = segmentFactory.BuildSegment(rule.Name,graph,nodeConnector, rule.Predicate,Transition<T>.Termination.AsEnumerable());
+				nodeConnector.Connect(rule.Name, root.AsEnumerable(), segment.Inputs);
 			}
 
 			return graph;
@@ -71,6 +71,9 @@ namespace FSMLib.Graphs
 
 			currentNode=graph.CreateNode();
 			currentSituations = new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 }.AsEnumerable();
+			currentNode.RecognizedRules.AddRange(currentSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
+			
+
 			currentTuple = new GraphTuple<T>(currentNode, currentSituations);
 			situationMapping.Add(currentTuple);
 
@@ -88,13 +91,16 @@ namespace FSMLib.Graphs
 					if (nextTuple == null)
 					{
 						nextNode = graph.CreateNode();
+						currentNode.RecognizedRules.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
+						
+
 						nextTuple = new GraphTuple<T>(nextNode, nextSituations);
 						situationMapping.Add(nextTuple);
 						openList.Push(nextTuple);
 					}
 					// if not we push this situation list in processing stack
 					transition = new Transition<T>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(nextTuple.Node) };
-					nodeConnector.Connect( currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
+					nodeConnector.Connect(null, currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
 				}
 			}
 
