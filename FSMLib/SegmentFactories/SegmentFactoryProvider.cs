@@ -16,6 +16,7 @@ namespace FSMLib.SegmentFactories
 		private OrSegmentFactory<T> orSegmentFactory;
 		private OneOrMoreSegmentFactory<T> oneOrMoreSegmentFactory;
 		private ZeroOrMoreSegmentFactory<T> zeroOrMoreSegmentFactory;
+		private OptionalSegmentFactory<T> optionalSegmentFactory;
 
 		public SegmentFactoryProvider()
 		{
@@ -25,6 +26,7 @@ namespace FSMLib.SegmentFactories
 			orSegmentFactory = new OrSegmentFactory<T>( this);
 			oneOrMoreSegmentFactory = new OneOrMoreSegmentFactory<T>(this);
 			zeroOrMoreSegmentFactory = new ZeroOrMoreSegmentFactory<T>(this);
+			optionalSegmentFactory = new OptionalSegmentFactory<T>(this);
 		}
 
 		public ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate)
@@ -38,6 +40,7 @@ namespace FSMLib.SegmentFactories
 				case Or<T> predicate: return orSegmentFactory;
 				case OneOrMore<T> predicate: return oneOrMoreSegmentFactory;
 				case ZeroOrMore<T> predicate: return zeroOrMoreSegmentFactory;
+				case Optional<T> predicate: return optionalSegmentFactory;
 				default:
 					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
 			}

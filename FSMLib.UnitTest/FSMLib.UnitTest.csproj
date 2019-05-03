@@ -66,6 +66,7 @@
     <Compile Include="Mocks\MockedSegmentFactoryProvider.cs" />
     <Compile Include="Mocks\MockedSituationProducer.cs" />
     <Compile Include="Predicates\AnyUnitTest.cs" />
+    <Compile Include="Predicates\OptionalUnitTest.cs" />
     <Compile Include="Predicates\ZeroOrMoreUnitTest.cs" />
     <Compile Include="Predicates\OrUnitTest.cs" />
     <Compile Include="Predicates\OneOrMoreUnitTest.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SegmentFactories\NodeConnectorUnitTest.cs" />
     <Compile Include="SegmentFactories\AnySegmentFactoryUnitTest.cs" />
+    <Compile Include="SegmentFactories\OptionalSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\ZeroOrMoreSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\OneOrMoreSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\SequenceSegmentFactoryUnitTest.cs" />
