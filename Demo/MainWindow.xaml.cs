@@ -66,10 +66,14 @@ namespace Demo
 			Node n;
 
 			Graph graph = new Graph("graph");
-
+			graph.GraphAttr.Orientation = Microsoft.Glee.Drawing.Orientation.Landscape;
+			
 			foreach (Node<T> node in Model.Nodes)
 			{
 				n=graph.AddNode(node.Name);
+
+				if (node.RecognizedRules.Count > 0) n.UserData = string.Join(",", node.RecognizedRules);
+
 				if (node.RecognizedRules.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}

@@ -7,18 +7,10 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class Transition<T>:BaseTransition<T>
+	public abstract class BaseTransition<T>
 	{
+		
 
-		public int TargetNodeIndex
-		{
-			get;
-			set;
-		}
-		public IInput<T> Input
-		{
-			get;
-			set;
-		}
 	}
+
 }

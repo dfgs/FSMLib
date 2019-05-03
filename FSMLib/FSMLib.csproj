@@ -52,7 +52,9 @@
     <Compile Include="Graphs\Inputs\IInput.cs" />
     <Compile Include="Graphs\Inputs\OneInput.cs" />
     <Compile Include="Graphs\Node.cs" />
+    <Compile Include="Graphs\EORTransition.cs" />
     <Compile Include="Graphs\Segment.cs" />
+    <Compile Include="Graphs\BaseTransition.cs" />
     <Compile Include="Graphs\Transition.cs" />
     <Compile Include="IAutomaton.cs" />
     <Compile Include="Predicates\Any.cs" />

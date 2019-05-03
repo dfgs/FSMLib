@@ -18,6 +18,11 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
+
+		public GraphTuple()
+		{
+
+		}
 		public GraphTuple(Node<T> Node, IEnumerable<Situation<T>> Situations)
 		{
 			if (Node == null) throw new ArgumentNullException();

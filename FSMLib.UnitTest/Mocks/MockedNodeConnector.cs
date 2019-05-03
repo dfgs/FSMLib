@@ -15,7 +15,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		
 
-		public void Connect(string Rule, IEnumerable<Node<char>> Nodes, IEnumerable<Transition<char>> Transitions)
+		public void Connect( IEnumerable<Node<char>> Nodes, IEnumerable<BaseTransition<char>> Transitions)
 		{
 			throw new NotImplementedException();
 		}

@@ -15,7 +15,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment(string Rule, INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, One<T> Predicate, IEnumerable<Transition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, One<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
@@ -31,7 +31,7 @@ namespace FSMLib.SegmentFactories
 			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
 			transition.Input = new OneInput<T>() {  Value=Predicate.Value };
 
-			NodeConnector.Connect(Rule,node.AsEnumerable(), OutTransitions);
+			NodeConnector.Connect(node.AsEnumerable(), OutTransitions);
 
 			segment = new Segment<T>();
 			segment.Outputs = node.AsEnumerable(); ;

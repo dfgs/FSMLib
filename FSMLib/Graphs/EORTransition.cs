@@ -1,5 +1,4 @@
-﻿using FSMLib.Graphs.Inputs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class Transition<T>:BaseTransition<T>
+	public class EORTransition<T>:BaseTransition<T>
 	{
+		public string Rule
+		{
+			get;
+			set;
+		}
 
-		public int TargetNodeIndex
+		public EORTransition()
 		{
-			get;
-			set;
+
 		}
-		public IInput<T> Input
-		{
-			get;
-			set;
-		}
+		
 	}
 }

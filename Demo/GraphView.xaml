@@ -14,11 +14,11 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<WindowsFormsHost Grid.Column="0">
-			<gv:GViewer x:Name="gViewer1" NavigationVisible="True" PanButtonPressed="True" />
+			<gv:GViewer x:Name="gViewer1" NavigationVisible="True" PanButtonPressed="True" SelectionChanged="GViewer1_SelectionChanged" />
 		</WindowsFormsHost>
 		<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 		<WindowsFormsHost Grid.Column="2">
-			<gv:GViewer x:Name="gViewer2" NavigationVisible="True" PanButtonPressed="True" />
+			<gv:GViewer x:Name="gViewer2" NavigationVisible="True" PanButtonPressed="True" SelectionChanged="GViewer1_SelectionChanged" />
 		</WindowsFormsHost>
 	</Grid>
 </UserControl>

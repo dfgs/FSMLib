@@ -14,7 +14,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment(string Rule, INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Or<T> Predicate, IEnumerable<Transition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Or<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			Segment<T> segment;
 			Segment<T>[] segments;
@@ -31,7 +31,7 @@ namespace FSMLib.SegmentFactories
 			for (int t = 0; t < Predicate.Items.Count; t++)
 			{
 				childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Items[t]);
-				segments[t] = childSegmentFactory.BuildSegment(Rule, NodeContainer,NodeConnector, Predicate.Items[t],OutTransitions);
+				segments[t] = childSegmentFactory.BuildSegment(NodeContainer,NodeConnector, Predicate.Items[t],OutTransitions);
 			}
 			
 

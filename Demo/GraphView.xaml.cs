@@ -1,4 +1,5 @@
 ﻿using Microsoft.Glee.Drawing;
+using Microsoft.Glee.GraphViewerGdi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,14 @@ namespace Demo
 	/// </summary>
 	public partial class GraphView : UserControl
 	{
+
+		public static readonly DependencyProperty UserDataProperty = DependencyProperty.Register("UserData", typeof(string), typeof(GraphView));
+		public string UserData
+		{
+			get { return (string)GetValue(UserDataProperty); }
+			set { SetValue(UserDataProperty, value); }
+		}
+
 		public GraphView( )
 		{
 			InitializeComponent();
@@ -32,5 +41,9 @@ namespace Demo
 			gViewer2.Graph = B;
 		}
 
+		private void GViewer1_SelectionChanged(object sender, EventArgs e)
+		{
+			UserData = (((GViewer)sender).SelectedObject as Node)?.UserData?.ToString(); ;
+		}
 	}
 }

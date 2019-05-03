@@ -8,11 +8,16 @@
 		mc:Ignorable="d"
 		
         Title="Demo" Height="450" Width="800">
-	<TabControl x:Name="tabControl">
-		<TabControl.ItemTemplate>
-			<DataTemplate>
-				<TextBlock Text="Graph"/>
-			</DataTemplate>
-		</TabControl.ItemTemplate>
-	</TabControl>
+	<DockPanel>
+		<StatusBar DockPanel.Dock="Bottom">
+			<TextBlock Text="{Binding ElementName=tabControl,Path=SelectedContent.UserData}"/>
+		</StatusBar>
+		<TabControl x:Name="tabControl">
+			<TabControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="Graph"/>
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+		</TabControl>
+	</DockPanel>
 </Window>
