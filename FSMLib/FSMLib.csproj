@@ -74,11 +74,9 @@
     <Compile Include="ISituationProducer.cs" />
     <Compile Include="Rule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SegmentFactories\INodeConnector.cs" />
     <Compile Include="SegmentFactories\ISegmentFactory.cs" />
     <Compile Include="SegmentFactories\ISegmentFactoryProvider.cs" />
     <Compile Include="SegmentFactories\BaseSegmentFactory.cs" />
-    <Compile Include="SegmentFactories\NodeConnector.cs" />
     <Compile Include="SegmentFactories\AnyTerminalSegmentFactory.cs" />
     <Compile Include="SegmentFactories\OptionalSegmentFactory.cs" />
     <Compile Include="SegmentFactories\NonTerminalSegmentFactory.cs" />

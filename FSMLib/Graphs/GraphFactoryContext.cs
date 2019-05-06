@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.SegmentFactories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,45 @@ namespace FSMLib.Graphs
 	public class GraphFactoryContext<T> : IGraphFactoryContext<T>
 	{
 		private Graph<T> graph;
+		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 
-		public GraphFactoryContext(Graph<T> Graph)
+		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
 		{
+			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			if (Graph == null) throw new ArgumentNullException("Graph");
+			this.segmentFactoryProvider = SegmentFactoryProvider;
 			this.graph = Graph;
 		}
+
+
+		public Segment<T> BuildSegment( Rule<T> Rule)
+		{
+			ISegmentFactory<T> segmentFactory;
+			Segment<T> segment;
+
+			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
+			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { Rule = Rule.Name }.AsEnumerable());
+
+
+
+			return segment;
+		}
+		public void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseTransition<T>> Transitions)
+		{
+
+			if (Nodes == null) throw new ArgumentNullException("Nodes");
+			if (Transitions == null) throw new ArgumentNullException("Transitions");
+
+			foreach (Node<T> node in Nodes)
+			{
+				foreach (BaseTransition<T> transition in Transitions)
+				{
+					if (transition is EORTransition<T> eorTransition) node.RecognizedRules.Add(eorTransition.Rule);
+					else node.Transitions.Add((Transition<T>)transition);
+				}
+			}
+		}
+
 
 		public Node<T> GetTargetNode(Transition<T> Transition)
 		{
@@ -35,5 +69,7 @@ namespace FSMLib.Graphs
 		{
 			return graph.Nodes.IndexOf(Node);
 		}
+
+
 	}
 }

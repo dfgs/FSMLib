@@ -14,19 +14,18 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, Optional<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context, Optional<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			ISegmentFactory<T> childSegmentFactory;
 			Segment<T> segment,newSegment;
 
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
+			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
 
 			// create child segment
 			childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Item);
-			segment = childSegmentFactory.BuildSegment(NodeContainer, NodeConnector, Predicate.Item, OutTransitions);
+			segment = childSegmentFactory.BuildSegment(Context,  Predicate.Item, OutTransitions);
 
 
 			newSegment = new Segment<T>();

@@ -34,7 +34,7 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			graphFactory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			graphFactory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;

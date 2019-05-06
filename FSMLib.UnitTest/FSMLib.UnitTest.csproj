@@ -64,7 +64,6 @@
     <Compile Include="Mocks\TestGraph2.cs" />
     <Compile Include="Mocks\TestGraph1.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
-    <Compile Include="Mocks\MockedNodeConnector.cs" />
     <Compile Include="Mocks\MockedGraphFactoryContext.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
     <Compile Include="Mocks\MockedSegmentFactoryProvider.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="Predicates\TerminalUnitTest.cs" />
     <Compile Include="RuleUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SegmentFactories\NodeConnectorUnitTest.cs" />
     <Compile Include="SegmentFactories\AnyTerminalSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\OptionalSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\NonTerminalSegmentFactoryUnitTest.cs" />

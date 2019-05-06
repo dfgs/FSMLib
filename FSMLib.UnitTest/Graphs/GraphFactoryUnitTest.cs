@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FSMLib.Graphs;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
@@ -13,10 +14,10 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(null, new MockedSegmentFactoryProvider<char>(),new MockedSituationProducer() ));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), null, new MockedSituationProducer()));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>(new MockedNodeConnector(), new MockedSegmentFactoryProvider<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>( null, new MockedSituationProducer()));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactory<char>( new MockedSegmentFactoryProvider<char>(),null));
 		}
+		
 
 		[TestMethod]
 		public void ShouldBuildGraphFromBasicSequence()
@@ -27,7 +28,7 @@ namespace FSMLib.UnitTest.Graphs
 			Sequence<char> predicate;
 			GraphParser<char> parser;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(),new SituationProducer<char>() ) ;
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(),new SituationProducer<char>() ) ;
 
 			predicate = new char[] { 'a', 'b', 'c'};
 			rule = new Rule<char>();
@@ -57,7 +58,7 @@ namespace FSMLib.UnitTest.Graphs
 			Sequence<char> predicate;
 			GraphParser<char> parser;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule1 = new Rule<char>();
@@ -99,7 +100,7 @@ namespace FSMLib.UnitTest.Graphs
 			Rule<char> rule;
 			Or<char> predicate;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
@@ -128,7 +129,7 @@ namespace FSMLib.UnitTest.Graphs
 			Sequence<char> predicate;
 			GraphParser<char> parser;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>() { Name="rule" };
@@ -156,7 +157,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
 		}
@@ -166,7 +167,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactory<char> factory;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildDeterministicGraph(null));
 		}
@@ -176,7 +177,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			graph = factory.BuildDeterministicGraph(new Graph<char>());
 			Assert.IsNotNull(graph);
@@ -190,7 +191,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> baseGraph,graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			baseGraph = new TestGraph1();
 			graph = factory.BuildDeterministicGraph(baseGraph);
@@ -215,7 +216,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> baseGraph, graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			baseGraph = new TestGraph2();
 			graph = factory.BuildDeterministicGraph(baseGraph);
@@ -243,7 +244,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> baseGraph, graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			baseGraph = new TestGraph3();
 			graph = factory.BuildDeterministicGraph(baseGraph);
@@ -276,7 +277,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> baseGraph, graph;
 
-			factory = new GraphFactory<char>(new NodeConnector<char>(), new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 			baseGraph = new TestGraph4();
 			graph = factory.BuildDeterministicGraph(baseGraph);

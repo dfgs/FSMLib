@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OrSegmentFactory<char> factory;
 
 			factory = new OrSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), new MockedNodeConnector(), new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),  new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -30,10 +30,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OrSegmentFactory<char> factory;
 
 			factory = new OrSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new Or<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), null, new Or<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), new MockedNodeConnector(), null, new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), new MockedNodeConnector(), new Or<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null,  new Or<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),  null, new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),  new Or<char>(),null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
@@ -41,15 +40,13 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OrSegmentFactory<char> factory;
 			Segment<char> segment;
 			Graph<char> graph;
-			NodeConnector<char> connector;
 			SegmentFactoryProvider<char> provider;
 			Or<char> Or;
 			GraphFactoryContext<char> context;
 
 			graph = new Graph<char>();
-			context = new GraphFactoryContext<char>(graph);
-			connector = new NodeConnector<char>();
 			provider = new SegmentFactoryProvider<char>();
+			context = new GraphFactoryContext<char>(provider,graph);
 			factory = new OrSegmentFactory<char>( provider);
 
 			Or = new Or<char>();
@@ -57,7 +54,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Or.Items.Add(new Terminal<char>() { Value = 'b' });
 			Or.Items.Add(new Terminal<char>() { Value = 'c' });
 
-			segment = factory.BuildSegment(context, connector, Or, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context,  Or, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(3, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());

@@ -11,6 +11,16 @@ namespace FSMLib.UnitTest.Mocks
 	[ExcludeFromCodeCoverage]
 	public class MockedGraphFactoryContext : IGraphFactoryContext<char>
 	{
+		public Segment<char> BuildSegment(Rule<char> Rule)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Connect(IEnumerable<Node<char>> Nodes, IEnumerable<BaseTransition<char>> Transitions)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Node<char> CreateNode()
 		{
 			throw new NotImplementedException();

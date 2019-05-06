@@ -10,5 +10,6 @@ namespace FSMLib.Graphs
 	{
 		Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules);
 		Graph<T> BuildDeterministicGraph(Graph<T> BaseGraph);
+
 	}
 }

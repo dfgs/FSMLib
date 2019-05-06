@@ -11,19 +11,17 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactory<T> : IGraphFactory<T>
 	{
-		private INodeConnector<T> nodeConnector;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private ISituationProducer<T> situationProducer;
 
-		public GraphFactory( INodeConnector<T> NodeConnector, ISegmentFactoryProvider<T> SegmentFactoryProvider, ISituationProducer<T> SituationProducer)
+		public GraphFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider, ISituationProducer<T> SituationProducer)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
-			this.nodeConnector = NodeConnector;
 			if (SituationProducer == null) throw new ArgumentNullException("SituationProducer");
 			this.situationProducer = SituationProducer;
 		}
+
 
 
 		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules)
@@ -31,20 +29,18 @@ namespace FSMLib.Graphs
 			Graph<T> graph;
 			Node<T> root;
 			Segment<T> segment;
-			ISegmentFactory<T> segmentFactory;
 			GraphFactoryContext<T> context;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
 			graph = new Graph<T>();
-			context = new GraphFactoryContext<T>(graph);
+			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
 			root = context.CreateNode();
 
 			foreach(Rule<T> rule in Rules)
 			{
-				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
-				segment = segmentFactory.BuildSegment(context, nodeConnector, rule.Predicate, new EORTransition<T>() {Rule=rule.Name }.AsEnumerable() );
-				nodeConnector.Connect( root.AsEnumerable(), segment.Inputs);
+				segment = context.BuildSegment( rule);
+				context.Connect( root.AsEnumerable(), segment.Inputs);
 			}
 
 			return graph;
@@ -65,7 +61,7 @@ namespace FSMLib.Graphs
 
 			graph = new Graph<T>();
 			if (BaseGraph.Nodes.Count == 0) return graph;
-			context = new GraphFactoryContext<T>(graph);
+			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph);
 
 			situationMapping = new List<GraphTuple<T>>();
 			openList = new Stack<GraphTuple<T>>();
@@ -98,7 +94,7 @@ namespace FSMLib.Graphs
 					}
 					// if not we push this situation list in processing stack
 					transition = new Transition<T>() { Input = input, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
-					nodeConnector.Connect( currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
+					context.Connect( currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
 				}
 			}
 

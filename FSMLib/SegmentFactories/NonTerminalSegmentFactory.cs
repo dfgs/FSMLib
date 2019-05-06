@@ -15,10 +15,9 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context,  NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
-			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
-			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
+			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
 
@@ -30,12 +29,12 @@ namespace FSMLib.SegmentFactories
 			//SegmentFactoryProvider.GetSegmentFactory()
 			throw new NotImplementedException();
 
-			node = NodeContainer.CreateNode();
+			node = Context.CreateNode();
 			transition = new Transition<T>();
-			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
+			transition.TargetNodeIndex = Context.GetNodeIndex(node);
 			transition.Input = new NonTerminalInput<T>() {  Name=Predicate.Name };
 
-			NodeConnector.Connect(node.AsEnumerable(), OutTransitions);
+			//context.Connect(node.AsEnumerable(), OutTransitions);
 
 			segment = new Segment<T>();
 			segment.Outputs = node.AsEnumerable(); ;
