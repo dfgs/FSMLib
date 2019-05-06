@@ -9,6 +9,6 @@ namespace FSMLib.SegmentFactories
 {
 	public interface ISegmentFactoryProvider<T>
 	{
-		ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate);
+		ISegmentFactory<T> GetSegmentFactory(BasePredicate<T> Predicate);
 	}
 }

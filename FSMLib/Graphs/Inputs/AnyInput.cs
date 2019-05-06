@@ -12,7 +12,7 @@ namespace FSMLib.Graphs.Inputs
 
 		public override bool Match(IInput<T> Other)
 		{
-			return Other != null;
+			return (Other != null) && (!(Other is RuleInput<T>)) ;
 		}
 
 		public override bool Match(T Other)

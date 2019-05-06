@@ -23,6 +23,7 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.Feed('a'));
 			Assert.IsTrue(automaton.Feed('b'));
 			Assert.IsTrue(automaton.Feed('c'));
+			Assert.AreEqual(3, automaton.StackCount);
 		}
 		[TestMethod]
 		public void ShouldReset()
@@ -33,6 +34,7 @@ namespace FSMLib.UnitTest
 
 			Assert.IsTrue(automaton.Feed('a'));
 			automaton.Reset();
+			Assert.AreEqual(0, automaton.StackCount);
 			Assert.IsTrue(automaton.Feed('a'));
 			Assert.IsTrue(automaton.Feed('b'));
 			Assert.IsTrue(automaton.Feed('c'));
@@ -46,11 +48,17 @@ namespace FSMLib.UnitTest
 			automaton = new Automaton<char>(new TestGraph5());
 
 			Assert.IsTrue(automaton.Feed('a'));
+			Assert.AreEqual(1, automaton.StackCount);
 			Assert.IsFalse(automaton.Feed('z'));
+			Assert.AreEqual(1, automaton.StackCount);
 			Assert.IsTrue(automaton.Feed('b'));
+			Assert.AreEqual(2, automaton.StackCount);
 			Assert.IsFalse(automaton.Feed('z'));
+			Assert.AreEqual(2, automaton.StackCount);
 			Assert.IsTrue(automaton.Feed('c'));
+			Assert.AreEqual(3, automaton.StackCount);
 			Assert.IsFalse(automaton.Feed('z'));
+			Assert.AreEqual(3, automaton.StackCount);
 		}
 		[TestMethod]
 		public void ShouldReturnCanReduce()
@@ -75,7 +83,9 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.Feed('a'));
 			Assert.IsTrue(automaton.Feed('b'));
 			Assert.IsTrue(automaton.Feed('c'));
+			Assert.AreEqual(3, automaton.StackCount);
 			Assert.AreEqual("A",automaton.Reduce());
+			Assert.AreEqual(0, automaton.StackCount);
 		}
 		[TestMethod]
 		public void MayNotReduce()

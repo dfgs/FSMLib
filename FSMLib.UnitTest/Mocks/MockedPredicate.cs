@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockedPredicate<T> : RulePredicate<T>
+	public class MockedPredicate<T> : BasePredicate<T>
 	{
-		public override IEnumerable<RulePredicate<T>> Enumerate()
+		public override IEnumerable<BasePredicate<T>> Enumerate()
 		{
 			throw new System.NotImplementedException();
 		}

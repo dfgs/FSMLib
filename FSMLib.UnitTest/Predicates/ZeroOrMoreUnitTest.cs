@@ -134,7 +134,7 @@ namespace FSMLib.UnitTest.Predicates
 			ZeroOrMore<char> predicate;
 			Sequence<char> sequence;
 			One<char> item;
-			RulePredicate<char>[] items;
+			BasePredicate<char>[] items;
 
 			sequence = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };

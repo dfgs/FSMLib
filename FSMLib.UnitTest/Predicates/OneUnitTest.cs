@@ -37,7 +37,7 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldEnumerate()
 		{
 			One<char> predicate;
-			RulePredicate<char>[] items;
+			BasePredicate<char>[] items;
 
 			predicate = new One<char>() { Value = 'a' };
 			items = predicate.Enumerate().ToArray();

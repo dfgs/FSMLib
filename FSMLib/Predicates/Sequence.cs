@@ -8,11 +8,11 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Sequence<T> : RulePredicate<T>
+	public class Sequence<T> : BasePredicate<T>
 	{
 
 		[XmlArray]
-		public List<RulePredicate<T>> Items
+		public List<BasePredicate<T>> Items
 		{
 			get;
 			set;
@@ -20,10 +20,10 @@ namespace FSMLib.Predicates
 
 		public Sequence()
 		{
-			Items = new List<RulePredicate<T>>();
+			Items = new List<BasePredicate<T>>();
 		}
 
-		public override IEnumerable<RulePredicate<T>> Enumerate()
+		public override IEnumerable<BasePredicate<T>> Enumerate()
 		{
 			return Items.SelectMany(item => item.Enumerate());
 		}
@@ -40,7 +40,7 @@ namespace FSMLib.Predicates
 		}
 
 	
-		public static implicit operator Sequence<T>(RulePredicate<T>[] Values)
+		public static implicit operator Sequence<T>(BasePredicate<T>[] Values)
 		{
 			Sequence<T> predicate;
 

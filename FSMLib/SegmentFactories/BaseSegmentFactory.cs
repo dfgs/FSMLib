@@ -9,7 +9,7 @@ using FSMLib.Predicates;
 namespace FSMLib.SegmentFactories
 {
 	public abstract class BaseSegmentFactory<TPredicate, T> : ISegmentFactory<TPredicate, T>
-		where TPredicate:RulePredicate<T>
+		where TPredicate:BasePredicate<T>
 	{
 		protected ISegmentFactoryProvider<T> SegmentFactoryProvider
 		{
@@ -28,7 +28,7 @@ namespace FSMLib.SegmentFactories
 		public abstract Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate, IEnumerable<BaseTransition<T>> OutTransitions);
 		
 
-		public Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,RulePredicate<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,BasePredicate<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");

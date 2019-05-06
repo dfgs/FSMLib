@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,20 +12,35 @@ namespace FSMLib
 	{
 		private Graph<T> graph;
 		private int nodeIndex;
+		private int longuestStackSize;
+		private int acceptedInputCount;
+
+		private Stack<IInput<T>> inputStack;
+
+		public int StackCount
+		{
+			get => inputStack.Count;
+		}
 
 		public Automaton(Graph<T> Graph)
 		{
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
+			inputStack = new Stack<IInput<T>>();
 			nodeIndex = 0;
+			longuestStackSize = 0;
+			acceptedInputCount = 0;
 		}
 
 		public void Reset()
 		{
 			nodeIndex = 0;
+			longuestStackSize = 0;
+			acceptedInputCount = 0;
+			inputStack.Clear();
 		}
 
-		public bool Feed(T Item)
+		public bool Feed(IInput<T> Item)
 		{
 			Node<T> node;
 
@@ -33,13 +49,21 @@ namespace FSMLib
 			{
 				if (transition.Input.Match(Item))
 				{
+					acceptedInputCount++;
 					nodeIndex = transition.TargetNodeIndex;
+					inputStack.Push(Item);
+					if (CanReduce()) longuestStackSize = StackCount;
 					return true;
 				}
 			}
 
 			return false;
 		}
+		public bool Feed(T Item)
+		{
+			return Feed(new OneInput<T>() { Value=Item });
+		}
+
 		public bool CanReduce()
 		{
 			Node<T> node;
@@ -53,8 +77,14 @@ namespace FSMLib
 			Node<T> node;
 
 			node = graph.Nodes[nodeIndex];
-			if (node.RecognizedRules.Count > 0) return node.RecognizedRules[0];
-			else return null;
+			if (node.RecognizedRules.Count == 0) return null;
+			for (int t = 0; t < acceptedInputCount; t++)
+			{
+				inputStack.Pop();
+			}
+			acceptedInputCount = 0;
+			return node.RecognizedRules[0];
+			
 		}
 
 

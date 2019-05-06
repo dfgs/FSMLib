@@ -14,7 +14,7 @@ namespace FSMLib
 			get;
 			set;
 		}
-		public RulePredicate<T> Predicate
+		public BasePredicate<T> Predicate
 		{
 			get;
 			set;

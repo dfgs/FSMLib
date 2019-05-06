@@ -8,10 +8,10 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class ZeroOrMore<T> : RulePredicate<T>
+	public class ZeroOrMore<T> : BasePredicate<T>
 	{
 
-		public RulePredicate<T> Item
+		public BasePredicate<T> Item
 		{
 			get;
 			set;
@@ -21,10 +21,10 @@ namespace FSMLib.Predicates
 		{
 		}
 
-		public override IEnumerable<RulePredicate<T>> Enumerate()
+		public override IEnumerable<BasePredicate<T>> Enumerate()
 		{
 			if (Item == null) yield break;
-			foreach (RulePredicate<T> item in Item.Enumerate()) yield return item;
+			foreach (BasePredicate<T> item in Item.Enumerate()) yield return item;
 		}
 
 		

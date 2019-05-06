@@ -41,6 +41,19 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 			Assert.IsTrue(input.Match(other));
 			Assert.IsTrue(input.Match('b'));
 		}
+
+
+		[TestMethod]
+		public void ShouldNotMatchRuleInput()
+		{
+			AnyInput<char> input;
+			IInput<char> other;
+
+			input = new AnyInput<char>();
+			other = new RuleInput<char>() { Name = 'A' };
+			Assert.IsFalse(input.Match(other));
+		}
+
 		[TestMethod]
 		public void ShouldBeEqual()
 		{

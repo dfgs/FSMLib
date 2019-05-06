@@ -46,7 +46,7 @@ namespace Demo
 			CreateView(new ZeroOrMore<char>() { Item= new One<char>() {Value='a' }  });
 			//this.gViewer.Graph = CreateGraph<char>(new MockedGraph()); ;
 		}
-		private void CreateView(RulePredicate<char> Predicate)
+		private void CreateView(BasePredicate<char> Predicate)
 		{
 			Rule<char> rule;
 

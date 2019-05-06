@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Graphs.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,14 @@ namespace FSMLib
 {
 	public interface IAutomaton<T>
 	{
+		int StackCount
+		{
+			get;
+		}
+
 		void Reset();
 
+		bool Feed(IInput<T> Item);
 		bool Feed(T Item);
 
 		bool CanReduce();

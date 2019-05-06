@@ -8,15 +8,11 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public abstract class RulePredicate<T>
-	{
-		//public static readonly char Bullet = '•';
-
-
-		public abstract IEnumerable<RulePredicate<T>> Enumerate();
+	public abstract class BasePredicate<T>
+	{ 
+		public abstract IEnumerable<BasePredicate<T>> Enumerate();
 
 		public abstract string ToParenthesisString();
-		//public abstract string ToString(); //RulePredicate<T> Current
 
 
 	}

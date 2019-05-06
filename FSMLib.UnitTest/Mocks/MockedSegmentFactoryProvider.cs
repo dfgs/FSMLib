@@ -12,7 +12,7 @@ namespace FSMLib.UnitTest.Mocks
 	[ExcludeFromCodeCoverage]
 	public class MockedSegmentFactoryProvider<T> : ISegmentFactoryProvider<T>
 	{
-		public ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate)
+		public ISegmentFactory<T> GetSegmentFactory(BasePredicate<T> Predicate)
 		{
 			throw new NotImplementedException();
 		}

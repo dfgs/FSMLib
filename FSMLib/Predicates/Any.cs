@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Any<T>:RulePredicate<T>
+	public class Any<T>:BasePredicate<T>
 	{
 
 		
-		public override IEnumerable<RulePredicate<T>> Enumerate()
+		public override IEnumerable<BasePredicate<T>> Enumerate()
 		{
 			yield return this;
 		}

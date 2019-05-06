@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class One<T>:RulePredicate<T>
+	public class One<T>:BasePredicate<T>
 	{
 
 		public T Value
@@ -16,7 +16,7 @@ namespace FSMLib.Predicates
 			set;
 		}
 
-		public override IEnumerable<RulePredicate<T>> Enumerate()
+		public override IEnumerable<BasePredicate<T>> Enumerate()
 		{
 			yield return this;
 		}

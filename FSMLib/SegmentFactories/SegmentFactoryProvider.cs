@@ -29,7 +29,7 @@ namespace FSMLib.SegmentFactories
 			optionalSegmentFactory = new OptionalSegmentFactory<T>(this);
 		}
 
-		public ISegmentFactory<T> GetSegmentFactory(RulePredicate<T> Predicate)
+		public ISegmentFactory<T> GetSegmentFactory(BasePredicate<T> Predicate)
 		{
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			switch (Predicate)

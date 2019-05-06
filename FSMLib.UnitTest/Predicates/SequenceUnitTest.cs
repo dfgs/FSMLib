@@ -116,7 +116,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Sequence<char> predicate;
 			One<char> item;
-			RulePredicate<char>[] items;
+			BasePredicate<char>[] items;
 
 			predicate = new Sequence<char>();
 			item = new One<char>() { Value = 'a' };
@@ -138,7 +138,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Sequence<char> predicate;
 
-			predicate = new RulePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
+			predicate = new BasePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
 			Assert.IsNotNull(predicate);
 			Assert.AreEqual(3, predicate.Items.Count);
 
