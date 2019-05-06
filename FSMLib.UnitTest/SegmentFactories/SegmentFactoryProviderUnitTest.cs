@@ -12,15 +12,26 @@ namespace FSMLib.UnitTest.SegmentFactories
 	{
 		
 		[TestMethod]
-		public void SouldProvideOneSequenceFactory()
+		public void SouldProvideTerminalSequenceFactory()
 		{
 			SegmentFactoryProvider<char> provider;
 			ISegmentFactory<char> factory;
 
 			provider = new SegmentFactoryProvider<char>();
-			factory = provider.GetSegmentFactory(new One<char>());
+			factory = provider.GetSegmentFactory(new Terminal<char>());
 			Assert.IsNotNull(factory);
-			Assert.IsInstanceOfType(factory, typeof(OneSegmentFactory<char>));
+			Assert.IsInstanceOfType(factory, typeof(TerminalSegmentFactory<char>));
+		}
+		[TestMethod]
+		public void SouldProvideNonTerminalSequenceFactory()
+		{
+			SegmentFactoryProvider<char> provider;
+			ISegmentFactory<char> factory;
+
+			provider = new SegmentFactoryProvider<char>();
+			factory = provider.GetSegmentFactory(new NonTerminal<char>());
+			Assert.IsNotNull(factory);
+			Assert.IsInstanceOfType(factory, typeof(NonTerminalSegmentFactory<char>));
 		}
 		[TestMethod]
 		public void SouldProvideOrSequenceFactory()
@@ -45,15 +56,15 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsInstanceOfType(factory, typeof(SequenceSegmentFactory<char>));
 		}
 		[TestMethod]
-		public void SouldProvideAnySegmentFactory()
+		public void SouldProvideAnyTerminalSegmentFactory()
 		{
 			SegmentFactoryProvider<char> provider;
 			ISegmentFactory<char> factory;
 
 			provider = new SegmentFactoryProvider<char>();
-			factory = provider.GetSegmentFactory(new Any<char>());
+			factory = provider.GetSegmentFactory(new AnyTerminal<char>());
 			Assert.IsNotNull(factory);
-			Assert.IsInstanceOfType(factory, typeof(AnySegmentFactory<char>));
+			Assert.IsInstanceOfType(factory, typeof(AnyTerminalSegmentFactory<char>));
 		}
 		[TestMethod]
 		public void SouldProvideOneOrMoreSegmentFactory()

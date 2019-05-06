@@ -36,7 +36,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			graph = new Graph<char>();
 			a = graph.CreateNode();
 			b = graph.CreateNode();
-			input = new OneInput<char>();
+			input = new TerminalInput<char>();
 			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.GetNodeIndex(b)};
 
 			connector = new NodeConnector<char>();
@@ -79,7 +79,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
-			input = new OneInput<char>();
+			input = new TerminalInput<char>();
 			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(b) };
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
@@ -107,7 +107,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			a = graph.CreateNode();
 			b = graph.CreateNode();
 			c = graph.CreateNode();
-			input = new OneInput<char>();
+			input = new TerminalInput<char>();
 			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 
 			connector = new NodeConnector<char>();
@@ -135,7 +135,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			b = graph.CreateNode();
 			c = graph.CreateNode();
 			d = graph.CreateNode();
-			input = new OneInput<char>();
+			input = new TerminalInput<char>();
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
 			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(d) };
 

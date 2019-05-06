@@ -10,8 +10,9 @@ namespace FSMLib.SegmentFactories
 {
 	public class SegmentFactoryProvider<T> : ISegmentFactoryProvider<T>
 	{
-		private OneSegmentFactory<T> oneSegmentFactory;
-		private AnySegmentFactory<T> anySegmentFactory;
+		private TerminalSegmentFactory<T> terminalSegmentFactory;
+		private NonTerminalSegmentFactory<T> nonTerminalSegmentFactory;
+		private AnyTerminalSegmentFactory<T> anyTerminalSegmentFactory;
 		private SequenceSegmentFactory<T> sequenceSegmentFactory;
 		private OrSegmentFactory<T> orSegmentFactory;
 		private OneOrMoreSegmentFactory<T> oneOrMoreSegmentFactory;
@@ -20,8 +21,9 @@ namespace FSMLib.SegmentFactories
 
 		public SegmentFactoryProvider()
 		{
-			oneSegmentFactory = new OneSegmentFactory<T>(this);
-			anySegmentFactory = new AnySegmentFactory<T>(this);
+			terminalSegmentFactory = new TerminalSegmentFactory<T>(this);
+			nonTerminalSegmentFactory = new NonTerminalSegmentFactory<T>(this);
+			anyTerminalSegmentFactory = new AnyTerminalSegmentFactory<T>(this);
 			sequenceSegmentFactory = new SequenceSegmentFactory<T>(this);
 			orSegmentFactory = new OrSegmentFactory<T>( this);
 			oneOrMoreSegmentFactory = new OneOrMoreSegmentFactory<T>(this);
@@ -34,8 +36,9 @@ namespace FSMLib.SegmentFactories
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			switch (Predicate)
 			{
-				case One<T> predicate: return oneSegmentFactory;
-				case Any<T> predicate: return anySegmentFactory;
+				case Terminal<T> predicate: return terminalSegmentFactory;
+				case NonTerminal<T> predicate: return nonTerminalSegmentFactory;
+				case AnyTerminal<T> predicate: return anyTerminalSegmentFactory;
 				case Sequence<T> predicate: return sequenceSegmentFactory;
 				case Or<T> predicate: return orSegmentFactory;
 				case OneOrMore<T> predicate: return oneOrMoreSegmentFactory;

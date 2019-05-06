@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Any<T>:BasePredicate<T>
+	public class AnyTerminal<T>:BasePredicate<T>
 	{
 
 		

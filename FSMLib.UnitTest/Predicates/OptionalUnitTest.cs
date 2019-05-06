@@ -12,21 +12,21 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			One<char> item;
+			Terminal<char> item;
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };
 			Assert.AreEqual("a?", predicate.ToString());
 
 
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };
@@ -40,20 +40,20 @@ namespace FSMLib.UnitTest.Predicates
 			Optional<char> predicate;
 			Sequence<char> sequence;
 			Or<char> or;
-			One<char> item;
+			Terminal<char> item;
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			sequence.Items.Add(item);
 
 			or = new Or<char>();
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			or.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			or.Items.Add(item);
 
 			sequence.Items.Add(or);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };
@@ -67,24 +67,24 @@ namespace FSMLib.UnitTest.Predicates
 			Sequence<char> parentSequence;
 			Sequence<char> sequence;
 			Or<char> or;
-			One<char> item;
+			Terminal<char> item;
 
 			parentSequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			parentSequence.Items.Add(item);
 
 			or = new Or<char>();
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			or.Items.Add(item);
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 			or.Items.Add(sequence);
 
 			parentSequence.Items.Add(or);
-			item = new One<char>() { Value = 'e' };
+			item = new Terminal<char>() { Value = 'e' };
 			parentSequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = parentSequence };
@@ -97,16 +97,16 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			One<char> item;
+			Terminal<char> item;
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };
@@ -118,10 +118,10 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			One<char> item;
+			Terminal<char> item;
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };
@@ -133,17 +133,17 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			One<char> item;
+			Terminal<char> item;
 			BasePredicate<char>[] items;
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 
 			predicate = new Optional<char>() { Item = sequence };

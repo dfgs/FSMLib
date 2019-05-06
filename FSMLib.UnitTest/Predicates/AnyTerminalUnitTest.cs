@@ -5,14 +5,14 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class AnyUnitTest
+	public class AnyTerminalUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			Any<char> predicate;
+			AnyTerminal<char> predicate;
 
-			predicate = new Any<char>();
+			predicate = new AnyTerminal<char>();
 			Assert.AreEqual(".", predicate.ToString());
 		
 		}
@@ -20,19 +20,19 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldConvertToParenthesisStringWithoutBulletItem()
 		{
-			Any<char> predicate;
+			AnyTerminal<char> predicate;
 
-			predicate = new Any<char>();
+			predicate = new AnyTerminal<char>();
 			Assert.AreEqual(".", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]
 		public void ShouldEnumerate()
 		{
-			Any<char> predicate;
+			AnyTerminal<char> predicate;
 			BasePredicate<char>[] items;
 
-			predicate = new Any<char>();
+			predicate = new AnyTerminal<char>();
 			items = predicate.Enumerate().ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(predicate, items[0]);

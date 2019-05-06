@@ -11,16 +11,16 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldConvertToStringWithoutBullet()
 		{
 			Or<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Or<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a|b|c|d", predicate.ToString());
@@ -76,24 +76,24 @@ namespace FSMLib.UnitTest.Predicates
 			Or<char> predicate;
 			Sequence<char> sequence;
 			Or<char> or;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Or<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			sequence.Items.Add(item);
 			or = new Or<char>();
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			or.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			or.Items.Add(item);
 			sequence.Items.Add(or);
 
 			predicate.Items.Add(sequence);
-			item = new One<char>() { Value = 'e' };
+			item = new Terminal<char>() { Value = 'e' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a|(b(c|d))|e", predicate.ToString());
@@ -102,16 +102,16 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldConvertToParenthesisStringWithoutBullet()
 		{
 			Or<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Or<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("(a|b|c|d)", predicate.ToParenthesisString());
@@ -120,10 +120,10 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldNotConvertToParenthesisStringWithoutBullet()
 		{
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a", predicate.ToParenthesisString());
@@ -134,17 +134,17 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldEnumerate()
 		{
 			Or<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 			BasePredicate<char>[] items;
 
 			predicate = new Or<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			items = predicate.Enumerate().ToArray();
@@ -157,7 +157,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Sequence<char> predicate;
 
-			predicate = new BasePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
+			predicate = new BasePredicate<char>[] { (Terminal<char>)'a', (Terminal<char>)'b', (Terminal<char>)'c' };
 			Assert.IsNotNull(predicate);
 			Assert.AreEqual(3, predicate.Items.Count);
 

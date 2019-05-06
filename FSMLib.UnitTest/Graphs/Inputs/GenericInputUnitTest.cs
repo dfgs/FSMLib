@@ -10,7 +10,8 @@ namespace FSMLib.UnitTest.Graphs.Inputs
 		[TestMethod]
 		public void ShouldHaveCorrectPriorities()
 		{
-			Assert.IsTrue(new OneInput<char>().Priority < new AnyInput<char>().Priority);
+			Assert.IsTrue(new TerminalInput<char>().Priority < new AnyTerminalInput<char>().Priority);
+			Assert.IsTrue(new AnyTerminalInput<char>().Priority < new NonTerminalInput<char>().Priority);
 		}
 	}
 }

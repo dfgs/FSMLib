@@ -93,7 +93,7 @@ namespace FSMLib.UnitTest
 			b = new Situation<char>() { Graph = graph, NodeIndex = 5 };
 
 			producer = new SituationProducer<char>();
-			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b },new OneInput<char>() {Value='a' } ).ToArray();
+			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b },new TerminalInput<char>() {Value='a' } ).ToArray();
 
 			Assert.AreEqual(1, distinctSituations.Length);
 			Assert.AreEqual(1,distinctSituations[0].NodeIndex);
@@ -120,7 +120,7 @@ namespace FSMLib.UnitTest
 			b = new Situation<char>() { Graph = graph, NodeIndex = 5 };
 
 			producer = new SituationProducer<char>();
-			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b }, new OneInput<char>() { Value = 'a' }).ToArray();
+			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b }, new TerminalInput<char>() { Value = 'a' }).ToArray();
 
 			Assert.AreEqual(3, distinctSituations.Length);
 			Assert.AreEqual(1, distinctSituations[0].NodeIndex);

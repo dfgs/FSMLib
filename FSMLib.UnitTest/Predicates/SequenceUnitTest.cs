@@ -11,16 +11,16 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldConvertToStringWithoutBullet()
 		{
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("abcd", predicate.ToString());
@@ -30,20 +30,20 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Sequence<char> predicate;
 			Or<char> or;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
 			or = new Or<char>();
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			or.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			or.Items.Add(item);
 
 			predicate.Items.Add(or);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a(b|c)d", predicate.ToString());
@@ -55,24 +55,24 @@ namespace FSMLib.UnitTest.Predicates
 			Sequence<char> predicate;
 			Sequence<char> sequence;
 			Or<char> or;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
 			or = new Or<char>();
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			or.Items.Add(item);
 			sequence = new Sequence<char>();
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			sequence.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			sequence.Items.Add(item);
 			or.Items.Add(sequence);
 
 			predicate.Items.Add(or);
-			item = new One<char>() { Value = 'e' };
+			item = new Terminal<char>() { Value = 'e' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a(b|(cd))e", predicate.ToString());
@@ -83,16 +83,16 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldConvertToParenthesisStringWithoutBullet()
 		{
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("(abcd)", predicate.ToParenthesisString());
@@ -102,10 +102,10 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldNotConvertToParenthesisStringWithoutBullet()
 		{
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
 
 			Assert.AreEqual("a", predicate.ToParenthesisString());
@@ -115,17 +115,17 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldEnumerate()
 		{
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 			BasePredicate<char>[] items;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			items = predicate.Enumerate().ToArray();
@@ -138,7 +138,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Sequence<char> predicate;
 
-			predicate = new BasePredicate<char>[] { (One<char>)'a', (One<char>)'b', (One<char>)'c' };
+			predicate = new BasePredicate<char>[] { (Terminal<char>)'a', (Terminal<char>)'b', (Terminal<char>)'c' };
 			Assert.IsNotNull(predicate);
 			Assert.AreEqual(3, predicate.Items.Count);
 

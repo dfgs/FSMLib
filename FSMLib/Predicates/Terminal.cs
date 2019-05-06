@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class One<T>:BasePredicate<T>
+	public class Terminal<T>:BasePredicate<T>
 	{
 
 		public T Value
@@ -33,9 +33,9 @@ namespace FSMLib.Predicates
 
 
 		
-		public static implicit operator One<T>(T Value)
+		public static implicit operator Terminal<T>(T Value)
 		{
-			return new One<T>() { Value=Value};
+			return new Terminal<T>() { Value=Value};
 		}
 
 

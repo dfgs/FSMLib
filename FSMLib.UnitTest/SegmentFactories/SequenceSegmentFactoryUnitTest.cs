@@ -51,9 +51,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new SequenceSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
-			sequence.Items.Add(new One<char>() { Value='a' } );
-			sequence.Items.Add(new One<char>() { Value = 'b' });
-			sequence.Items.Add(new One<char>() { Value = 'c' });
+			sequence.Items.Add(new Terminal<char>() { Value='a' } );
+			sequence.Items.Add(new Terminal<char>() { Value = 'b' });
+			sequence.Items.Add(new Terminal<char>() { Value = 'c' });
 
 			segment = factory.BuildSegment(graph, connector, sequence, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);

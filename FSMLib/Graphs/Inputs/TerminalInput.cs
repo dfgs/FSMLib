@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs.Inputs
 {
-	public class OneInput<T>:BaseInput<T>
+	public class TerminalInput<T>:BaseInput<T>
 	{
 		public override int Priority => 0;
 
@@ -22,7 +22,7 @@ namespace FSMLib.Graphs.Inputs
 		{
 			if (Other == null) return false;
 
-			if (Other is OneInput<T> other)
+			if (Other is TerminalInput<T> other)
 			{
 				if (Value == null) return other.Value == null;
 				return Value.Equals(other.Value);
@@ -41,7 +41,7 @@ namespace FSMLib.Graphs.Inputs
 		public override bool Equals(IInput<T> other)
 		{
 			if (other == null) return false;
-			if (other is OneInput<T> input)
+			if (other is TerminalInput<T> input)
 			{
 				if (Value == null) return input.Value == null; 
 				return Value.Equals(input.Value);

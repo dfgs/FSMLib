@@ -62,7 +62,7 @@ namespace FSMLib.Predicates
 			predicate = new Or<T>();
 			foreach (T value in Values)
 			{
-				predicate.Items.Add((One<T>)value);
+				predicate.Items.Add((Terminal<T>)value);
 			}
 			return predicate;
 		}

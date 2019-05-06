@@ -61,7 +61,7 @@ namespace FSMLib
 		}
 		public bool Feed(T Item)
 		{
-			return Feed(new OneInput<T>() { Value=Item });
+			return Feed(new TerminalInput<T>() { Value=Item });
 		}
 
 		public bool CanReduce()

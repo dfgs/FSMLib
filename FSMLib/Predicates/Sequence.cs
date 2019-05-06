@@ -56,7 +56,7 @@ namespace FSMLib.Predicates
 			predicate = new Sequence<T>();
 			foreach (T value in Values)
 			{
-				predicate.Items.Add((One<T>)value);
+				predicate.Items.Add((Terminal<T>)value);
 			}
 			return predicate;
 		}

@@ -52,9 +52,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new OptionalSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
-			sequence.Items.Add(new One<char>() { Value='a' } );
-			sequence.Items.Add(new One<char>() { Value = 'b' });
-			sequence.Items.Add(new One<char>() { Value = 'c' });
+			sequence.Items.Add(new Terminal<char>() { Value='a' } );
+			sequence.Items.Add(new Terminal<char>() { Value = 'b' });
+			sequence.Items.Add(new Terminal<char>() { Value = 'c' });
 
 			predicate = new Optional<char>() {  Item=sequence};
 
@@ -85,9 +85,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new OptionalSegmentFactory<char>(provider);
 
 			or = new Or<char>();
-			or.Items.Add(new One<char>() { Value = 'a' });
-			or.Items.Add(new One<char>() { Value = 'b' });
-			or.Items.Add(new One<char>() { Value = 'c' });
+			or.Items.Add(new Terminal<char>() { Value = 'a' });
+			or.Items.Add(new Terminal<char>() { Value = 'b' });
+			or.Items.Add(new Terminal<char>() { Value = 'c' });
 
 			predicate = new Optional<char>() { Item = or };
 

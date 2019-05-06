@@ -24,14 +24,14 @@ namespace FSMLib.UnitTest.Mocks
 			Nodes[3].RecognizedRules.Add("A");
 			Nodes[5].RecognizedRules.Add("B");
 
-			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new OneInput<char>() { Value = 'a' } });
+			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } });
 
 			// any input must be placed first in order to be the first to match input
-			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 4, Input = new AnyInput<char>() });
-			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new OneInput<char>() { Value = 'a' } });
+			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 4, Input = new AnyTerminalInput<char>() });
+			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new TerminalInput<char>() { Value = 'a' } });
 
-			Nodes[2].Transitions.Add(new Transition<char>() { TargetNodeIndex = 3, Input = new OneInput<char>() { Value = 'a' } });
-			Nodes[4].Transitions.Add(new Transition<char>() { TargetNodeIndex = 5, Input = new OneInput<char>() { Value = 'a' } });
+			Nodes[2].Transitions.Add(new Transition<char>() { TargetNodeIndex = 3, Input = new TerminalInput<char>() { Value = 'a' } });
+			Nodes[4].Transitions.Add(new Transition<char>() { TargetNodeIndex = 5, Input = new TerminalInput<char>() { Value = 'a' } });
 
 		}
 

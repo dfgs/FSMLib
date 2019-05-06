@@ -9,36 +9,36 @@ using System.Linq;
 namespace FSMLib.UnitTest.SegmentFactories
 {
 	[TestClass]
-	public class OneSegmentFactoryUnitTest
+	public class NonTerminalSegmentFactoryUnitTest
 	{
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new OneSegmentFactory<char>(null));
+			Assert.ThrowsException<ArgumentNullException>(() => new NonTerminalSegmentFactory<char>(null));
 		}
 		[TestMethod]
 		public void ShouldFailWithInvalidPredicate()
 		{
-			OneSegmentFactory<char> factory;
+			NonTerminalSegmentFactory<char> factory;
 
-			factory = new OneSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
+			factory = new NonTerminalSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
 			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedNodeContainer() ,new MockedNodeConnector(), new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));;
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
 		{
-			OneSegmentFactory<char> factory;
+			NonTerminalSegmentFactory<char> factory;
 
-			factory = new OneSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new One<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new One<char>(), new EORTransition<char>().AsEnumerable()));
+			factory = new NonTerminalSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new MockedNodeConnector(), new NonTerminal<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), null, new NonTerminal<char>(), new EORTransition<char>().AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), null, new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new One<char>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(), new NonTerminal<char>(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
 		{
-			OneSegmentFactory<char> factory;
+			NonTerminalSegmentFactory<char> factory;
 			Segment<char> segment;
 			Graph<char> graph;
 			NodeConnector<char> connector;
@@ -47,10 +47,12 @@ namespace FSMLib.UnitTest.SegmentFactories
 			graph = new Graph<char>();
 			connector = new NodeConnector<char>();
 			provider = new SegmentFactoryProvider<char>();
-			factory = new OneSegmentFactory<char>( provider);
+			factory = new NonTerminalSegmentFactory<char>( provider);
 
-			segment=factory.BuildSegment(graph, connector, new One<char>() { Value='a' }, new EORTransition<char>().AsEnumerable());
+			segment=factory.BuildSegment(graph, connector, new NonTerminal<char>() { Name="A" }, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);
+
+			Assert.Fail();
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, graph.Nodes.Count);

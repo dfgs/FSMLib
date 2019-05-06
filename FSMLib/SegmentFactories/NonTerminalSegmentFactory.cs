@@ -9,13 +9,13 @@ using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
 {
-	public class OneSegmentFactory<T> : BaseSegmentFactory<One<T>, T>
+	public class NonTerminalSegmentFactory<T> : BaseSegmentFactory<NonTerminal<T>, T>
 	{
-		public OneSegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(SegmentFactoryProvider)
+		public NonTerminalSegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(SegmentFactoryProvider)
 		{
 		}
 
-		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, One<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
@@ -26,10 +26,12 @@ namespace FSMLib.SegmentFactories
 			Transition<T> transition;
 			Segment<T> segment;
 
+			throw new NotImplementedException();
+
 			node = NodeContainer.CreateNode();
 			transition = new Transition<T>();
 			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
-			transition.Input = new OneInput<T>() {  Value=Predicate.Value };
+			transition.Input = new NonTerminalInput<T>() {  Name=Predicate.Name };
 
 			NodeConnector.Connect(node.AsEnumerable(), OutTransitions);
 

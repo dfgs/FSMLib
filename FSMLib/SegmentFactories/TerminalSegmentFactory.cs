@@ -9,13 +9,13 @@ using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
 {
-	public class AnySegmentFactory<T> : BaseSegmentFactory<Any<T>, T>
+	public class TerminalSegmentFactory<T> : BaseSegmentFactory<Terminal<T>, T>
 	{
-		public AnySegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(SegmentFactoryProvider)
+		public TerminalSegmentFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider) : base(SegmentFactoryProvider)
 		{
 		}
 
-		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Any<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, Terminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
@@ -29,7 +29,7 @@ namespace FSMLib.SegmentFactories
 			node = NodeContainer.CreateNode();
 			transition = new Transition<T>();
 			transition.TargetNodeIndex = NodeContainer.GetNodeIndex(node);
-			transition.Input = new AnyInput<T>();
+			transition.Input = new TerminalInput<T>() {  Value=Predicate.Value };
 
 			NodeConnector.Connect(node.AsEnumerable(), OutTransitions);
 

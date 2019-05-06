@@ -51,9 +51,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 			factory = new OrSegmentFactory<char>( provider);
 
 			Or = new Or<char>();
-			Or.Items.Add(new One<char>() { Value = 'a' });
-			Or.Items.Add(new One<char>() { Value = 'b' });
-			Or.Items.Add(new One<char>() { Value = 'c' });
+			Or.Items.Add(new Terminal<char>() { Value = 'a' });
+			Or.Items.Add(new Terminal<char>() { Value = 'b' });
+			Or.Items.Add(new Terminal<char>() { Value = 'c' });
 
 			segment = factory.BuildSegment(graph, connector, Or, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);

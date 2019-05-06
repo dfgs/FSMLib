@@ -43,7 +43,7 @@ namespace Demo
 			CreateView(new TestGraph3());
 			CreateView(new TestGraph4());
 
-			CreateView(new ZeroOrMore<char>() { Item= new One<char>() {Value='a' }  });
+			CreateView(new ZeroOrMore<char>() { Item= new Terminal<char>() {Value='a' }  });
 			//this.gViewer.Graph = CreateGraph<char>(new MockedGraph()); ;
 		}
 		private void CreateView(BasePredicate<char> Predicate)

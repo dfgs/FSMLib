@@ -12,16 +12,16 @@ namespace FSMLib.UnitTest
 		{
 			Rule<char> rule;
 			Sequence<char> predicate;
-			One<char> item;
+			Terminal<char> item;
 
 			predicate = new Sequence<char>();
-			item = new One<char>() { Value = 'a' };
+			item = new Terminal<char>() { Value = 'a' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'b' };
+			item = new Terminal<char>() { Value = 'b' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'c' };
+			item = new Terminal<char>() { Value = 'c' };
 			predicate.Items.Add(item);
-			item = new One<char>() { Value = 'd' };
+			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
 			rule = new Rule<char>();
