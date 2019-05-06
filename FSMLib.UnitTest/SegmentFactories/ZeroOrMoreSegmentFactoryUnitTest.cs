@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			ZeroOrMoreSegmentFactory<char> factory;
 
 			factory = new ZeroOrMoreSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedNodeContainer(), new MockedNodeConnector(),new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), new MockedNodeConnector(),new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -31,9 +31,9 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			factory = new ZeroOrMoreSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null, new MockedNodeConnector(), new ZeroOrMore<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedNodeContainer(), null, new ZeroOrMore<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedNodeContainer(), new MockedNodeConnector(), null, new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedNodeContainer(), new MockedNodeConnector(), new ZeroOrMore<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(), null, new ZeroOrMore<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(), new MockedNodeConnector(), null, new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(), new MockedNodeConnector(), new ZeroOrMore<char>(),null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedSequencePredicate()
@@ -45,8 +45,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			SegmentFactoryProvider<char> provider;
 			Sequence<char> sequence;
 			ZeroOrMore<char> predicate;
+			GraphFactoryContext<char> context;
 
 			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(graph);
 			connector = new NodeConnector<char>();
 			provider = new SegmentFactoryProvider<char>();
 			factory = new ZeroOrMoreSegmentFactory<char>( provider);
@@ -58,7 +60,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new ZeroOrMore<char>() {  Item=sequence};
 
-			segment = factory.BuildSegment(graph, connector, predicate, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context, connector, predicate, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(2, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
@@ -79,8 +81,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			SegmentFactoryProvider<char> provider;
 			Or<char> or;
 			ZeroOrMore<char> predicate;
+			GraphFactoryContext<char> context;
 
 			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(graph);
 			connector = new NodeConnector<char>();
 			provider = new SegmentFactoryProvider<char>();
 			factory = new ZeroOrMoreSegmentFactory<char>(provider);
@@ -92,7 +96,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new ZeroOrMore<char>() { Item = or };
 
-			segment = factory.BuildSegment(graph, connector, predicate, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context, connector, predicate, new EORTransition<char>().AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(4, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());

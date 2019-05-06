@@ -47,7 +47,8 @@
     <Compile Include="Graphs\GraphFactory.cs" />
     <Compile Include="Graphs\GraphTuple.cs" />
     <Compile Include="Graphs\IGraphFactory.cs" />
-    <Compile Include="Graphs\INodeContainer.cs" />
+    <Compile Include="Graphs\GraphFactoryContext.cs" />
+    <Compile Include="Graphs\IGraphFactoryContext.cs" />
     <Compile Include="Graphs\Inputs\AnyTerminalInput.cs" />
     <Compile Include="Graphs\Inputs\BaseInput.cs" />
     <Compile Include="Graphs\Inputs\IInput.cs" />

@@ -14,7 +14,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, ZeroOrMore<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, ZeroOrMore<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			ISegmentFactory<T> childSegmentFactory;
 			Segment<T> segment,newSegment;

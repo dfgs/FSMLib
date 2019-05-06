@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockedNodeContainer : INodeContainer<char>
+	public class MockedGraphFactoryContext : IGraphFactoryContext<char>
 	{
 		public Node<char> CreateNode()
 		{

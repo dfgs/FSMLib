@@ -32,19 +32,18 @@ namespace FSMLib.Graphs
 			Node<T> root;
 			Segment<T> segment;
 			ISegmentFactory<T> segmentFactory;
+			GraphFactoryContext<T> context;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
-
-
 			graph = new Graph<T>();
-			root = graph.CreateNode();
-
+			context = new GraphFactoryContext<T>(graph);
+			root = context.CreateNode();
 
 			foreach(Rule<T> rule in Rules)
 			{
 				segmentFactory = segmentFactoryProvider.GetSegmentFactory(rule.Predicate);
-				segment = segmentFactory.BuildSegment(graph,nodeConnector, rule.Predicate, new EORTransition<T>() {Rule=rule.Name }.AsEnumerable() );
+				segment = segmentFactory.BuildSegment(context, nodeConnector, rule.Predicate, new EORTransition<T>() {Rule=rule.Name }.AsEnumerable() );
 				nodeConnector.Connect( root.AsEnumerable(), segment.Inputs);
 			}
 
@@ -57,22 +56,22 @@ namespace FSMLib.Graphs
 			IEnumerable<Situation<T>> nextSituations;
 			Graph<T> graph;
 			List<GraphTuple<T>> situationMapping;
-			//Node<T> currentNode,nextNode;
 			GraphTuple<T> currentTuple,nextTuple;
 			Stack<GraphTuple<T>> openList;
 			Transition<T> transition;
-			//Node<T> node;
+			GraphFactoryContext<T> context;
 
 			if (BaseGraph == null) throw new System.ArgumentNullException("BaseGraph");
 
 			graph = new Graph<T>();
 			if (BaseGraph.Nodes.Count == 0) return graph;
+			context = new GraphFactoryContext<T>(graph);
 
 			situationMapping = new List<GraphTuple<T>>();
 			openList = new Stack<GraphTuple<T>>();
 
 			currentTuple = new GraphTuple<T>();
-			currentTuple.Node = graph.CreateNode();
+			currentTuple.Node = context.CreateNode();
 			currentTuple.Situations = new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 }.AsEnumerable();
 			currentTuple.Node.RecognizedRules.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
 			
@@ -90,7 +89,7 @@ namespace FSMLib.Graphs
 					if (nextTuple == null)
 					{
 						nextTuple = new GraphTuple<T>();
-						nextTuple.Node = graph.CreateNode();
+						nextTuple.Node = context.CreateNode();
 						nextTuple.Situations = nextSituations;
 						nextTuple.Node.RecognizedRules.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
 
@@ -98,13 +97,10 @@ namespace FSMLib.Graphs
 						openList.Push(nextTuple);
 					}
 					// if not we push this situation list in processing stack
-					transition = new Transition<T>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(nextTuple.Node) };
+					transition = new Transition<T>() { Input = input, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
 					nodeConnector.Connect( currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
 				}
 			}
-
-			
-			
 
 			return graph;
 		}

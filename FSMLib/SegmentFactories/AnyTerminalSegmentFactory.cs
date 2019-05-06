@@ -15,7 +15,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment(INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, AnyTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment(IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, AnyTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");

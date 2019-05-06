@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		public MockedGraph()
 		{
-			for(int t=0;t<8;t++) this.CreateNode();
+			for(int t=0;t<8;t++) this.Nodes.Add(new Node<char>());
 			Nodes[3].RecognizedRules.Add("A");
 			Nodes[5].RecognizedRules.Add("B");
 			Nodes[7].RecognizedRules.Add("C");

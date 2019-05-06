@@ -49,7 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphs\GraphUnitTest.cs" />
+    <Compile Include="Graphs\GraphFactoryContextUnitTest.cs" />
     <Compile Include="Graphs\GraphFactoryUnitTest.cs" />
     <Compile Include="Graphs\Inputs\AnyTerminalInputUnitTest.cs" />
     <Compile Include="Graphs\Inputs\NonTerminalInputUnitTest.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Mocks\TestGraph1.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedNodeConnector.cs" />
-    <Compile Include="Mocks\MockedNodeContainer.cs" />
+    <Compile Include="Mocks\MockedGraphFactoryContext.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
     <Compile Include="Mocks\MockedSegmentFactoryProvider.cs" />
     <Compile Include="Mocks\MockedSituationProducer.cs" />

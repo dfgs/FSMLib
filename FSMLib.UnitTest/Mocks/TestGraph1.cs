@@ -19,7 +19,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		public TestGraph1()
 		{
-			for(int t=0;t<7;t++) this.CreateNode();
+			for(int t=0;t<7;t++) this.Nodes.Add(new Node<char>());
 			Nodes[3].RecognizedRules.Add("A");
 			Nodes[6].RecognizedRules.Add("B");
 

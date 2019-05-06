@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public interface INodeContainer<T>
+	public interface IGraphFactoryContext<T>
 	{
 		Node<T> GetTargetNode(Transition<T> Transition);
 		Node<T> CreateNode();

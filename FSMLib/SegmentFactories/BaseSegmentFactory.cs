@@ -25,10 +25,10 @@ namespace FSMLib.SegmentFactories
 		}
 
 
-		public abstract Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate, IEnumerable<BaseTransition<T>> OutTransitions);
+		public abstract Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, TPredicate Predicate, IEnumerable<BaseTransition<T>> OutTransitions);
 		
 
-		public Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector,BasePredicate<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector,BasePredicate<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");

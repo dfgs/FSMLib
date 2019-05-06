@@ -15,7 +15,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( INodeContainer<T> NodeContainer, INodeConnector<T> NodeConnector, NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IGraphFactoryContext<T> NodeContainer, INodeConnector<T> NodeConnector, NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			if (NodeContainer == null) throw new ArgumentNullException("NodeContainer");
 			if (NodeConnector == null) throw new ArgumentNullException("NodeConnector");
@@ -26,6 +26,8 @@ namespace FSMLib.SegmentFactories
 			Transition<T> transition;
 			Segment<T> segment;
 
+
+			//SegmentFactoryProvider.GetSegmentFactory()
 			throw new NotImplementedException();
 
 			node = NodeContainer.CreateNode();

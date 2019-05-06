@@ -34,10 +34,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Transition<char> transition;
 
 			graph = new Graph<char>();
-			a = graph.CreateNode();
-			b = graph.CreateNode();
+			a = new Node<char>(); graph.Nodes.Add(a);
+			b = new Node<char>(); graph.Nodes.Add(b);
 			input = new TerminalInput<char>();
-			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.GetNodeIndex(b)};
+			transition = new Transition<char>() { Input=input, TargetNodeIndex=graph.Nodes.IndexOf(b)};
 
 			connector = new NodeConnector<char>();
 			connector.Connect( a.AsEnumerable(), transition.AsEnumerable());
@@ -56,7 +56,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Node<char> a;
 
 			graph = new Graph<char>();
-			a = graph.CreateNode();
+			a = new Node<char>(); graph.Nodes.Add(a);
 
 			connector = new NodeConnector<char>();
 			connector.Connect(a.AsEnumerable(), new EORTransition<char>() {Rule="rule" }.AsEnumerable());
@@ -76,12 +76,12 @@ namespace FSMLib.UnitTest.SegmentFactories
 			IInput<char> input;
 
 			graph = new Graph<char>();
-			a = graph.CreateNode();
-			b = graph.CreateNode();
-			c = graph.CreateNode();
+			a = new Node<char>(); graph.Nodes.Add(a);
+			b = new Node<char>(); graph.Nodes.Add(b);
+			c = new Node<char>(); graph.Nodes.Add(c);
 			input = new TerminalInput<char>();
-			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(b) };
-			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
+			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(b) };
+			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			connector = new NodeConnector<char>();
 			connector.Connect( a.AsEnumerable(), new Transition<char>[] { transitionToB,transitionToC });
@@ -104,11 +104,11 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Transition<char> transition;
 
 			graph = new Graph<char>();
-			a = graph.CreateNode();
-			b = graph.CreateNode();
-			c = graph.CreateNode();
+			a = new Node<char>(); graph.Nodes.Add(a);
+			b = new Node<char>(); graph.Nodes.Add(b);
+			c = new Node<char>(); graph.Nodes.Add(c);
 			input = new TerminalInput<char>();
-			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
+			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			connector = new NodeConnector<char>();
 			connector.Connect( new Node<char>[] { a,b }, transition.AsEnumerable());
@@ -131,13 +131,13 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Transition<char> transitionToD, transitionToC;
 
 			graph = new Graph<char>();
-			a = graph.CreateNode();
-			b = graph.CreateNode();
-			c = graph.CreateNode();
-			d = graph.CreateNode();
+			a = new Node<char>(); graph.Nodes.Add(a);
+			b = new Node<char>(); graph.Nodes.Add(b);
+			c = new Node<char>(); graph.Nodes.Add(c);
+			d = new Node<char>(); graph.Nodes.Add(d);
 			input = new TerminalInput<char>();
-			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(c) };
-			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.GetNodeIndex(d) };
+			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
+			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(d) };
 
 			connector = new NodeConnector<char>();
 			connector.Connect( new Node<char>[] { a, b }, new Transition<char>[] { transitionToC,transitionToD });
