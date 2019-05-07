@@ -47,7 +47,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new GraphFactoryContext<char>(provider,graph, Enumerable.Empty<Rule<char>>());
 			factory = new ZeroOrMoreSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
@@ -81,7 +81,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new GraphFactoryContext<char>(provider,graph, Enumerable.Empty<Rule<char>>());
 			factory = new ZeroOrMoreSegmentFactory<char>(provider);
 
 			or = new Or<char>();

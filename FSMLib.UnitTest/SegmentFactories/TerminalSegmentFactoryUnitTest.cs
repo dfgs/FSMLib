@@ -45,7 +45,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new GraphFactoryContext<char>(provider,graph, Enumerable.Empty<Rule<char>>());
 			factory = new TerminalSegmentFactory<char>( provider);
 
 			segment=factory.BuildSegment(context,  new Terminal<char>() { Value='a' }, new EORTransition<char>().AsEnumerable());

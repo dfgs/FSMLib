@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -42,23 +43,48 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Graph<char> graph;
 			SegmentFactoryProvider<char> provider;
 			GraphFactoryContext<char> context;
+			Rule<char> rule;
 
+			rule = new Rule<char>() { Name = "S", Predicate = new Terminal<char>() { Value = 'a' } };
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new GraphFactoryContext<char>(provider, graph, rule.AsEnumerable()) ;
 			factory = new NonTerminalSegmentFactory<char>(provider);
 
-			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "a" }, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "S" }, new EORTransition<char>().AsEnumerable());
 
-			Assert.Fail();
+			Assert.IsNotNull(segment);
+			Assert.AreEqual(2, segment.Inputs.Count());
+			Assert.AreEqual(1, segment.Outputs.Count());
+			Assert.AreEqual(2, graph.Nodes.Count);
+			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(1)).Input.Match('a'));
+			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(0)).Input.Match(new NonTerminalInput<char>() { Name = "S" }));
+		}
+
+		[TestMethod]
+		public void ShouldNotFailIfNonTerminalRuleDoesntExistsInContext()
+		{
+			NonTerminalSegmentFactory<char> factory;
+			Segment<char> segment;
+			Graph<char> graph;
+			SegmentFactoryProvider<char> provider;
+			GraphFactoryContext<char> context;
+			Rule<char> rule;
+
+			rule = new Rule<char>() { Name = "S", Predicate = new Terminal<char>() { Value = 'a' } };
+			graph = new Graph<char>();
+			provider = new SegmentFactoryProvider<char>();
+			context = new GraphFactoryContext<char>(provider, graph, rule.AsEnumerable());
+			factory = new NonTerminalSegmentFactory<char>(provider);
+
+			segment = factory.BuildSegment(context, new NonTerminal<char>() { Name = "A" }, new EORTransition<char>().AsEnumerable());
+
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, graph.Nodes.Count);
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.First()).Input.Match('a'));
+			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(0)).Input.Match(new NonTerminalInput<char>() { Name = "A" }));
 		}
-
-
 
 	}
 }

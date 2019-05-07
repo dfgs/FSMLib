@@ -9,15 +9,27 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactoryContext<T> : IGraphFactoryContext<T>
 	{
+		
 		private Graph<T> graph;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
+		private Dictionary<Rule<T>, Segment<T>> cache;
 
-		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
+		public IEnumerable<Rule<T>> Rules
+		{
+			get;
+			private set;
+		}
+
+		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph, IEnumerable<Rule<T>> Rules)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
-			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
+			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
+			if (Rules == null) throw new ArgumentNullException("Rules");
+			this.Rules = Rules;
+
+			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 		}
 
 
@@ -26,9 +38,11 @@ namespace FSMLib.Graphs
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
 
+			if (cache.TryGetValue(Rule, out segment)) return segment;
+
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
 			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { Rule = Rule.Name }.AsEnumerable());
-
+			cache.Add(Rule, segment);
 
 
 			return segment;

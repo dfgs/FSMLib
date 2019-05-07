@@ -23,22 +23,28 @@ namespace FSMLib.SegmentFactories
 
 			Node<T> node;
 			Transition<T> transition;
-			Segment<T> segment;
-
-
-			//SegmentFactoryProvider.GetSegmentFactory()
-			throw new NotImplementedException();
+			Segment<T> nonTerminalSegment,segment;
+			List<BaseTransition<T>> transitions;
 
 			node = Context.CreateNode();
+
+			transitions = new List<BaseTransition<T>>();
+
 			transition = new Transition<T>();
 			transition.TargetNodeIndex = Context.GetNodeIndex(node);
 			transition.Input = new NonTerminalInput<T>() {  Name=Predicate.Name };
+			transitions.Add(transition);
 
-			//context.Connect(node.AsEnumerable(), OutTransitions);
+			foreach(Rule<T> rule in Context.Rules.Where(item=>item.Name==Predicate.Name))
+			{
+				nonTerminalSegment = Context.BuildSegment(rule);
+				transitions.AddRange(nonTerminalSegment.Inputs);
+			}
 
+	
 			segment = new Segment<T>();
 			segment.Outputs = node.AsEnumerable(); ;
-			segment.Inputs = transition.AsEnumerable();
+			segment.Inputs = transitions;
 
 			return segment;
 		}

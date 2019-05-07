@@ -34,7 +34,7 @@ namespace FSMLib.Graphs
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
 			graph = new Graph<T>();
-			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
+			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph,Rules);
 			root = context.CreateNode();
 
 			foreach(Rule<T> rule in Rules)
@@ -61,7 +61,7 @@ namespace FSMLib.Graphs
 
 			graph = new Graph<T>();
 			if (BaseGraph.Nodes.Count == 0) return graph;
-			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph);
+			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph,Enumerable.Empty<Rule<T>>());
 
 			situationMapping = new List<GraphTuple<T>>();
 			openList = new Stack<GraphTuple<T>>();
