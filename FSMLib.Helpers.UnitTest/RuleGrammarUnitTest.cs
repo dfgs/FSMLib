@@ -16,7 +16,7 @@ namespace FSMLib.Helpers.UnitTest
 		public void ShouldParseNonTerminal()
 		{
 			NonTerminal<char> result;
-			result = RuleGrammar.NonTerminal.Parse("<test>");
+			result = RuleGrammar.NonTerminal.Parse("{test}");
 			Assert.AreEqual("test", result.Name);
 		}
 
@@ -37,10 +37,10 @@ namespace FSMLib.Helpers.UnitTest
 			Terminal<char> result;
 			result = RuleGrammar.Terminal.Parse(@"\a");
 			Assert.AreEqual('a', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\<");
-			Assert.AreEqual('<', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\>");
-			Assert.AreEqual('>', result.Value);
+			result = RuleGrammar.Terminal.Parse(@"\{");
+			Assert.AreEqual('{', result.Value);
+			result = RuleGrammar.Terminal.Parse(@"\}");
+			Assert.AreEqual('}', result.Value);
 			result = RuleGrammar.Terminal.Parse(@"\.");
 			Assert.AreEqual('.', result.Value);
 			result = RuleGrammar.Terminal.Parse(@"\*");
@@ -51,8 +51,8 @@ namespace FSMLib.Helpers.UnitTest
 		[TestMethod]
 		public void ShouldNotParseSpecialCharactersAsTerminal()
 		{
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(">"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("{"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("}"));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(@"\"));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("."));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("*"));
@@ -90,8 +90,15 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.TerminalSequence.Parse(@" b. "); // a space at begin and end
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 		}
-		
+
 
 		[TestMethod]
 		public void ShouldParseOneOrMore()
@@ -123,16 +130,25 @@ namespace FSMLib.Helpers.UnitTest
 
 
 		[TestMethod]
-		public void ShouldParseRulePredicate()
+		public void ShouldParseRule()
 		{
-			BasePredicate<char> result;
+			Rule<char> result;
 
-			result = RuleGrammar.RulePredicate.Parse("a");
-			Assert.IsInstanceOfType(result, typeof(Terminal<char>));
-			result = RuleGrammar.RulePredicate.Parse("a?");
-			Assert.IsInstanceOfType(result, typeof(Optional<char>));
-			result = RuleGrammar.RulePredicate.Parse("abcd");
-			Assert.IsInstanceOfType(result, typeof(Sequence<char>));
+			result = RuleGrammar.Rule.Parse("A=a");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Terminal<char>));
+			Assert.AreEqual("A", result.Name);
+			result = RuleGrammar.Rule.Parse("A=a?");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Optional<char>));
+			Assert.AreEqual("A", result.Name);
+			result = RuleGrammar.Rule.Parse("A=abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			result = RuleGrammar.Rule.Parse("A = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			result = RuleGrammar.Rule.Parse("ABC = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("ABC", result.Name);
 
 
 		}

@@ -18,9 +18,8 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldHaveCorrectConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactoryContext<char>(null, new Graph<char>(),Enumerable.Empty<Rule<char>>() ));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactoryContext<char>(new MockedSegmentFactoryProvider<char>(), null, Enumerable.Empty<Rule<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactoryContext<char>(new MockedSegmentFactoryProvider<char>(), new Graph<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactoryContext<char>(null, new Graph<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new GraphFactoryContext<char>(new MockedSegmentFactoryProvider<char>(), null));
 		}
 
 		[TestMethod]
@@ -36,13 +35,35 @@ namespace FSMLib.UnitTest.Graphs
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>(),rule.AsEnumerable());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
 			segment = context.BuildSegment( rule);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 		}
+		[TestMethod]
+		public void ShouldThrowExceptionWhenRulesAreRecursive()
+		{
+			Rule<char> rule1,rule2;
+			NonTerminal<char> predicate1,predicate2;
+			GraphFactoryContext<char> context;
+
+
+			predicate1 = new NonTerminal<char>() { Name = "B" };
+			predicate2 = new NonTerminal<char>() { Name = "A" };
+			rule1 = new Rule<char>() { Name="A"};
+			rule1.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value='a'}, predicate1, new Terminal<char>() { Value = 'a' } };
+			rule2 = new Rule<char>() { Name = "B" };
+			rule2.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value = 'b' }, predicate2, new Terminal<char>() { Value = 'b' } };
+
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>() );
+
+			Assert.ThrowsException<InvalidOperationException>(() => context.BuildSegment(rule1));
+			Assert.ThrowsException<InvalidOperationException>(() => context.BuildSegment(rule2));
+
+		}
+
 		[TestMethod]
 		public void ShouldUseCacheForSegments()
 		{
@@ -55,7 +76,7 @@ namespace FSMLib.UnitTest.Graphs
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>(), rule.AsEnumerable());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
 			segment1 = context.BuildSegment(rule);
 			segment2 = context.BuildSegment(rule);
@@ -71,7 +92,7 @@ namespace FSMLib.UnitTest.Graphs
 
 
 			graph = new Graph<char>();
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph,Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			graph.Nodes.Add(new Node<char>());
 			graph.Nodes.Add(new Node<char>());
 
@@ -90,7 +111,7 @@ namespace FSMLib.UnitTest.Graphs
 			Transition<char> transition;
 
 			graph = new Graph<char>();
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			graph.Nodes.Add(new Node<char>());
 			graph.Nodes.Add(new Node<char>());
 
@@ -105,7 +126,7 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactoryContext<char> context;
 			Node<char> a, b;
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>(), Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 			a = context.CreateNode();
 			b = context.CreateNode();
 
@@ -117,7 +138,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactoryContext<char> context;
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>(), Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
 			Assert.AreEqual(-1, context.GetNodeIndex(new Node<char>()));
 		}
@@ -130,7 +151,7 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 
 			graph = new Graph<char>();
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 
 			a = context.CreateNode();
 			Assert.IsNotNull(a);
@@ -145,7 +166,7 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactoryContext<char> context;
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>(), Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(null, Enumerable.Empty<Transition<char>>()));
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(Enumerable.Empty<Node<char>>(), null));
@@ -167,7 +188,7 @@ namespace FSMLib.UnitTest.Graphs
 			input = new TerminalInput<char>();
 			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(b) };
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(a.AsEnumerable(), transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
@@ -186,7 +207,7 @@ namespace FSMLib.UnitTest.Graphs
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(a.AsEnumerable(), new EORTransition<char>() { Rule = "rule" }.AsEnumerable());
 
 			Assert.AreEqual(0, a.Transitions.Count);
@@ -211,7 +232,7 @@ namespace FSMLib.UnitTest.Graphs
 			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(b) };
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(a.AsEnumerable(), new Transition<char>[] { transitionToB, transitionToC });
 
 			Assert.AreEqual(2, a.Transitions.Count);
@@ -238,7 +259,7 @@ namespace FSMLib.UnitTest.Graphs
 			input = new TerminalInput<char>();
 			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(new Node<char>[] { a, b }, transition.AsEnumerable());
 
 			Assert.AreEqual(1, a.Transitions.Count);
@@ -267,7 +288,7 @@ namespace FSMLib.UnitTest.Graphs
 			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
 			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(d) };
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph, Enumerable.Empty<Rule<char>>());
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(new Node<char>[] { a, b }, new Transition<char>[] { transitionToC, transitionToD });
 
 			Assert.AreEqual(2, a.Transitions.Count);

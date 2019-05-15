@@ -13,11 +13,11 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal<char> predicate;
 
 			predicate = new NonTerminal<char>() { Name = "A" };
-			Assert.AreEqual("A", predicate.ToString());
+			Assert.AreEqual("{A}", predicate.ToString());
 			predicate = new NonTerminal<char>() { Name = "B" };
-			Assert.AreEqual("B", predicate.ToString());
+			Assert.AreEqual("{B}", predicate.ToString());
 			predicate = new NonTerminal<char>() { Name = "C" };
-			Assert.AreEqual("C", predicate.ToString());
+			Assert.AreEqual("{C}", predicate.ToString());
 		}
 		
 		[TestMethod]
@@ -26,11 +26,11 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal<char> predicate;
 
 			predicate = new NonTerminal<char>() { Name = "A" };
-			Assert.AreEqual("A", predicate.ToParenthesisString());
+			Assert.AreEqual("{A}", predicate.ToParenthesisString());
 			predicate = new NonTerminal<char>() { Name = "B" };
-			Assert.AreEqual("B", predicate.ToParenthesisString());
+			Assert.AreEqual("{B}", predicate.ToParenthesisString());
 			predicate = new NonTerminal<char>() { Name = "C" };
-			Assert.AreEqual("C", predicate.ToParenthesisString());
+			Assert.AreEqual("{C}", predicate.ToParenthesisString());
 		}
 
 		[TestMethod]

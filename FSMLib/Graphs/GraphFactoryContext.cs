@@ -9,27 +9,30 @@ namespace FSMLib.Graphs
 {
 	public class GraphFactoryContext<T> : IGraphFactoryContext<T>
 	{
-		
+		private List<Rule<T>> compilingList;
+
 		private Graph<T> graph;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private Dictionary<Rule<T>, Segment<T>> cache;
 
-		public IEnumerable<Rule<T>> Rules
+		/*public IEnumerable<Rule<T>> Rules
 		{
 			get;
 			private set;
-		}
+		}*/
 
-		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph, IEnumerable<Rule<T>> Rules)
+		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
-			if (Rules == null) throw new ArgumentNullException("Rules");
-			this.Rules = Rules;
+			/*if (Rules == null) throw new ArgumentNullException("Rules");
+			this.Rules = Rules;*/
 
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
+
+			compilingList = new List<Rule<T>>();
 		}
 
 
@@ -40,10 +43,12 @@ namespace FSMLib.Graphs
 
 			if (cache.TryGetValue(Rule, out segment)) return segment;
 
+			if (compilingList.Contains(Rule)) throw new InvalidOperationException("Recursive rule call");
+			compilingList.Add(Rule);
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
 			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { Rule = Rule.Name }.AsEnumerable());
 			cache.Add(Rule, segment);
-
+			compilingList.Remove(Rule);
 
 			return segment;
 		}

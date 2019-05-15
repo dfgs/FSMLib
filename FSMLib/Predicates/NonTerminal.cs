@@ -24,16 +24,16 @@ namespace FSMLib.Predicates
 		
 		public override string ToParenthesisString()
 		{
-			return Name.ToString();
+			return $"{{{Name}}}";
 		}
 		public override string ToString()
 		{
-			return Name.ToString();
+			return $"{{{Name}}}";
 		}
 
 
-		
-	
+
+
 
 
 

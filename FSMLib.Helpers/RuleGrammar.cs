@@ -10,8 +10,8 @@ namespace FSMLib.Helpers
 {
     public class RuleGrammar
     {
-		private static readonly Parser<char> OpenBracket = Parse.Char('<');
-		private static readonly Parser<char> CloseBracket = Parse.Char('>');
+		private static readonly Parser<char> OpenBracket = Parse.Char('{');
+		private static readonly Parser<char> CloseBracket = Parse.Char('}');
 		private static readonly Parser<char> BackSlash = Parse.Char('\\');
 		private static readonly Parser<char> Dot = Parse.Char('.');
 		private static readonly Parser<char> Plus = Parse.Char('+');
@@ -78,9 +78,12 @@ namespace FSMLib.Helpers
 			from predicates in (AdvancedPredicate.Or(TerminalPredicate)).Many()
 			select (Sequence<char>)predicates.ToArray();
 
-		public static readonly Parser<BasePredicate<char>> RulePredicate =
+		public static readonly Parser<Rule<char>> Rule =
+			from name in Parse.Letter.Many().Text().Token()
+			from _ in Parse.Char('=')
 			from predicate in RuleSinglePredicate.Or(RuleSequencePredicate)
-			select predicate;
+			select new Rule<char>() { Name=name, Predicate = predicate };
 
+		
 	}
 }

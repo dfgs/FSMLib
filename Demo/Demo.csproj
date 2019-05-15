@@ -112,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
+      <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
+      <Name>FSMLib.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib.UnitTest\FSMLib.UnitTest.csproj">
       <Project>{e5083f66-697c-4203-9938-cb45bd18d3ae}</Project>
       <Name>FSMLib.UnitTest</Name>

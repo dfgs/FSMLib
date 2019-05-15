@@ -22,7 +22,20 @@ namespace FSMLib.Graphs
 			this.situationProducer = SituationProducer;
 		}
 
-
+		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<Transition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules)
+		{
+			Segment<T> nonTerminalSegment;
+			
+			foreach (NonTerminalInput<T> input in Transitions.Select(item => item.Input).OfType<NonTerminalInput<T>>().ToArray())
+			{
+				foreach (Rule<T> rule in Rules.Where(item => item.Name == input.Name))
+				{
+					nonTerminalSegment = context.BuildSegment(rule);
+					context.Connect(node.AsEnumerable(), nonTerminalSegment.Inputs);
+					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>(), context, Rules);
+				}
+			}
+		}
 
 		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules)
 		{
@@ -30,17 +43,27 @@ namespace FSMLib.Graphs
 			Node<T> root;
 			Segment<T> segment;
 			GraphFactoryContext<T> context;
-
+			
+			
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 
 			graph = new Graph<T>();
-			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph,Rules);
+			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
 			root = context.CreateNode();
 
+			// build all segments from rules
 			foreach(Rule<T> rule in Rules)
 			{
 				segment = context.BuildSegment( rule);
 				context.Connect( root.AsEnumerable(), segment.Inputs);
+			}
+
+			// check all transition in order to complete non terminal transitions
+			foreach(Node<T> node in graph.Nodes)
+			{
+				if (node == root) continue;
+				AddNonTerminalTransitionToNode(node,node.Transitions,context,Rules);
+				
 			}
 
 			return graph;
@@ -61,7 +84,7 @@ namespace FSMLib.Graphs
 
 			graph = new Graph<T>();
 			if (BaseGraph.Nodes.Count == 0) return graph;
-			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph,Enumerable.Empty<Rule<T>>());
+			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph);
 
 			situationMapping = new List<GraphTuple<T>>();
 			openList = new Stack<GraphTuple<T>>();

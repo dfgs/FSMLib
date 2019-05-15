@@ -8,10 +8,10 @@ namespace FSMLib.Graphs
 {
 	public interface IGraphFactoryContext<T>
 	{
-		IEnumerable<Rule<T>> Rules
+		/*IEnumerable<Rule<T>> Rules
 		{
 			get;
-		}
+		}*/
 
 		Segment<T> BuildSegment( Rule<T> Rule);
 		void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseTransition<T>> Transitions);

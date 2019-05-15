@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRuleParser.cs" />
     <Compile Include="RuleGrammar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CharRuleParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sprache-develop\src\Sprache\Sprache.csproj">

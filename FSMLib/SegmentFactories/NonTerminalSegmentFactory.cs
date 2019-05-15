@@ -23,10 +23,11 @@ namespace FSMLib.SegmentFactories
 
 			Node<T> node;
 			Transition<T> transition;
-			Segment<T> nonTerminalSegment,segment;
+			Segment<T> segment;
 			List<BaseTransition<T>> transitions;
 
 			node = Context.CreateNode();
+			Context.Connect(node.AsEnumerable(), OutTransitions);
 
 			transitions = new List<BaseTransition<T>>();
 
@@ -35,11 +36,12 @@ namespace FSMLib.SegmentFactories
 			transition.Input = new NonTerminalInput<T>() {  Name=Predicate.Name };
 			transitions.Add(transition);
 
-			foreach(Rule<T> rule in Context.Rules.Where(item=>item.Name==Predicate.Name))
+			// we must defer this part to graph builder when all rules are cached
+			/*foreach(Rule<T> rule in Context.Rules.Where(item=>item.Name==Predicate.Name))
 			{
 				nonTerminalSegment = Context.BuildSegment(rule);
 				transitions.AddRange(nonTerminalSegment.Inputs);
-			}
+			}*/
 
 	
 			segment = new Segment<T>();

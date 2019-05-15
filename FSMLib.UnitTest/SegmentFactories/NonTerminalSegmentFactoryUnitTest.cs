@@ -48,7 +48,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			rule = new Rule<char>() { Name = "S", Predicate = new Terminal<char>() { Value = 'a' } };
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider, graph, rule.AsEnumerable()) ;
+			context = new GraphFactoryContext<char>(provider, graph) ;
 			factory = new NonTerminalSegmentFactory<char>(provider);
 
 			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "S" }, new EORTransition<char>().AsEnumerable());
@@ -74,7 +74,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			rule = new Rule<char>() { Name = "S", Predicate = new Terminal<char>() { Value = 'a' } };
 			graph = new Graph<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider, graph, rule.AsEnumerable());
+			context = new GraphFactoryContext<char>(provider, graph);
 			factory = new NonTerminalSegmentFactory<char>(provider);
 
 			segment = factory.BuildSegment(context, new NonTerminal<char>() { Name = "A" }, new EORTransition<char>().AsEnumerable());
