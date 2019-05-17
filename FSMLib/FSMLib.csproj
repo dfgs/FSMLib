@@ -54,6 +54,7 @@
     <Compile Include="Graphs\Inputs\IInput.cs" />
     <Compile Include="Graphs\Inputs\NonTerminalInput.cs" />
     <Compile Include="Graphs\Inputs\TerminalInput.cs" />
+    <Compile Include="Graphs\MatchedRule.cs" />
     <Compile Include="Graphs\Node.cs" />
     <Compile Include="Graphs\EORTransition.cs" />
     <Compile Include="Graphs\Segment.cs" />

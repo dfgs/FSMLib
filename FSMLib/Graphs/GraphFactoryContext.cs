@@ -40,13 +40,15 @@ namespace FSMLib.Graphs
 		{
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
+			MatchedRule matchedRule;
 
 			if (cache.TryGetValue(Rule, out segment)) return segment;
 
 			if (compilingList.Contains(Rule)) throw new InvalidOperationException("Recursive rule call");
 			compilingList.Add(Rule);
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
-			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { Rule = Rule.Name }.AsEnumerable());
+			matchedRule = new MatchedRule() { Name=Rule.Name, ID= Rule.GetHashCode()};
+			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { MatchedRule = matchedRule }.AsEnumerable());
 			cache.Add(Rule, segment);
 			compilingList.Remove(Rule);
 
@@ -62,7 +64,7 @@ namespace FSMLib.Graphs
 			{
 				foreach (BaseTransition<T> transition in Transitions)
 				{
-					if (transition is EORTransition<T> eorTransition) node.RecognizedRules.Add(eorTransition.Rule);
+					if (transition is EORTransition<T> eorTransition) node.MatchedRules.Add(eorTransition.MatchedRule);
 					else node.Transitions.Add((Transition<T>)transition);
 				}
 			}

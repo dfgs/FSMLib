@@ -43,12 +43,12 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.AreEqual(1, segment.Outputs.Count());
 		}
 		[TestMethod]
-		public void ShouldThrowExceptionWhenRulesAreRecursive()
+		public void ShouldNotThrowExceptionWhenRulesAreRecursive()
 		{
 			Rule<char> rule1,rule2;
 			NonTerminal<char> predicate1,predicate2;
 			GraphFactoryContext<char> context;
-
+			Segment<char> segment;
 
 			predicate1 = new NonTerminal<char>() { Name = "B" };
 			predicate2 = new NonTerminal<char>() { Name = "A" };
@@ -59,8 +59,10 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>() );
 
-			Assert.ThrowsException<InvalidOperationException>(() => context.BuildSegment(rule1));
-			Assert.ThrowsException<InvalidOperationException>(() => context.BuildSegment(rule2));
+			segment = context.BuildSegment(rule1);
+			Assert.IsNotNull(segment);
+			segment = context.BuildSegment(rule2);
+			Assert.IsNotNull(segment);
 
 		}
 
@@ -203,16 +205,18 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
 			Node<char> a;
+			MatchedRule matchedRule; ;
 
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			context.Connect(a.AsEnumerable(), new EORTransition<char>() { Rule = "rule" }.AsEnumerable());
+			matchedRule = new MatchedRule() { Name = "rule" ,ID=0};
+			context.Connect(a.AsEnumerable(), new EORTransition<char>() { MatchedRule = matchedRule}.AsEnumerable());
 
 			Assert.AreEqual(0, a.Transitions.Count);
-			Assert.AreEqual(1, a.RecognizedRules.Count);
-			Assert.AreEqual("rule", a.RecognizedRules[0]);
+			Assert.AreEqual(1, a.MatchedRules.Count);
+			Assert.AreEqual("rule", a.MatchedRules[0].Name);
 		}
 
 		[TestMethod]

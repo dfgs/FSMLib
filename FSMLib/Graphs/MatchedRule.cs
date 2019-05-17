@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Graphs
 {
-	public class EORTransition<T>:BaseTransition<T>
+	public class MatchedRule
 	{
-		public MatchedRule MatchedRule
+		public int ID
 		{
 			get;
 			set;
 		}
-
-		public EORTransition()
+		public string Name
 		{
-
+			get;
+			set;
 		}
-		
 	}
 }

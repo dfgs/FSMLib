@@ -12,10 +12,9 @@ namespace FSMLib
 	{
 		private Graph<T> graph;
 		private int nodeIndex;
-		private int longuestStackSize;
-		private int acceptedInputCount;
 
 		private Stack<IInput<T>> inputStack;
+		private Stack<int> nodeIndexStack;
 
 		public int StackCount
 		{
@@ -27,17 +26,15 @@ namespace FSMLib
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
 			inputStack = new Stack<IInput<T>>();
+			nodeIndexStack = new Stack<int>();
 			nodeIndex = 0;
-			longuestStackSize = 0;
-			acceptedInputCount = 0;
 		}
 
 		public void Reset()
 		{
 			nodeIndex = 0;
-			longuestStackSize = 0;
-			acceptedInputCount = 0;
 			inputStack.Clear();
+			nodeIndexStack.Clear();
 		}
 
 		public bool Feed(IInput<T> Item)
@@ -49,10 +46,9 @@ namespace FSMLib
 			{
 				if (transition.Input.Match(Item))
 				{
-					acceptedInputCount++;
-					nodeIndex = transition.TargetNodeIndex;
+					nodeIndexStack.Push(nodeIndex);
 					inputStack.Push(Item);
-					if (CanReduce()) longuestStackSize = StackCount;
+					nodeIndex = transition.TargetNodeIndex;
 					return true;
 				}
 			}
@@ -69,21 +65,27 @@ namespace FSMLib
 			Node<T> node;
 
 			node = graph.Nodes[nodeIndex];
-			return node.RecognizedRules.Count > 0;
+			return node.MatchedRules.Count > 0;
 		}
 
 		public string Reduce()
 		{
 			Node<T> node;
+			IInput<T> input;
+			MatchedRule matchedRule;
 
 			node = graph.Nodes[nodeIndex];
-			if (node.RecognizedRules.Count == 0) return null;
-			for (int t = 0; t < acceptedInputCount; t++)
+			if (node.MatchedRules.Count == 0) return null;
+
+			matchedRule = node.MatchedRules[0];
+
+			while (inputStack.Count>0 &&  (!graph.Nodes[nodeIndex].RootIDs.Contains(matchedRule.ID)) )
 			{
-				inputStack.Pop();
+				nodeIndex = nodeIndexStack.Pop();
+				input=inputStack.Pop();
 			}
-			acceptedInputCount = 0;
-			return node.RecognizedRules[0];
+
+			return matchedRule.Name;
 			
 		}
 

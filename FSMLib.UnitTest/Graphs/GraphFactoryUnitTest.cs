@@ -149,8 +149,8 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(parser.Parse('c'));
 			Assert.AreEqual(1, parser.TransitionCount);
 			Assert.IsTrue(parser.Parse('a'));
-			Assert.AreEqual(1, graph.Nodes[0].RecognizedRules.Count);
-			Assert.AreEqual("rule", graph.Nodes[0].RecognizedRules[0]);
+			Assert.AreEqual(1, graph.Nodes[0].MatchedRules.Count);
+			Assert.AreEqual("rule", graph.Nodes[0].MatchedRules[0].Name);
 		}
 		[TestMethod]
 		public void ShouldNotBuildGraphWhenNullRulesAreProvided()
@@ -205,9 +205,9 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(graph.Nodes[1].Transitions[0].Input.Match('b'));
 			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('c'));
 
-			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].RecognizedRules.Count);
+			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
 
-			Assert.AreEqual(2, graph.Nodes[3].RecognizedRules.Count);
+			Assert.AreEqual(2, graph.Nodes[3].MatchedRules.Count);
 		}
 
 		[TestMethod]
@@ -232,10 +232,10 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('c'));
 			Assert.IsTrue(graph.Nodes[2].Transitions[1].Input.Match('d'));
 
-			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].RecognizedRules.Count);
+			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
 
-			Assert.AreEqual(1, graph.Nodes[3].RecognizedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].RecognizedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[3].MatchedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
 
 		}
 		[TestMethod]
@@ -263,10 +263,10 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(graph.Nodes[3].Transitions[0].Input.Match('a'));
 
 
-			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].RecognizedRules.Count);
+			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
 
-			Assert.AreEqual(1, graph.Nodes[5].RecognizedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].RecognizedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[5].MatchedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
 
 		}
 
@@ -296,10 +296,10 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(graph.Nodes[2].Transitions[1].Input.Match('d'));
 			Assert.IsTrue(graph.Nodes[3].Transitions[0].Input.Match('d'));
 
-			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].RecognizedRules.Count);
+			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
 
-			Assert.AreEqual(1, graph.Nodes[5].RecognizedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].RecognizedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[5].MatchedRules.Count);
+			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
 		}
 
 

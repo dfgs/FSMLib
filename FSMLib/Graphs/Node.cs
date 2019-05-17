@@ -19,15 +19,23 @@ namespace FSMLib.Graphs
 			set;
 		}
 
-		public List<string> RecognizedRules
+		public List<MatchedRule> MatchedRules
 		{
 			get;
 			set;
 		}
+
+		public List<int> RootIDs
+		{
+			get;
+			set;
+		}
+
 		public Node()
 		{
 			Transitions = new List<Transition<T>>();
-			RecognizedRules = new List<string>();
+			MatchedRules = new List<MatchedRule>();
+			RootIDs = new List<int>();
 		}
 		public override string ToString()
 		{

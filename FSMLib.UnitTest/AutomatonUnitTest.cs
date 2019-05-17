@@ -1,4 +1,9 @@
 ﻿using System;
+using FSMLib.Graphs;
+using FSMLib.Graphs.Inputs;
+using FSMLib.Helpers;
+using FSMLib.Predicates;
+using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -122,7 +127,67 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual("B", automaton.Reduce());
 		}
 
+		[TestMethod]
+		public void ShouldFeedAndReduce()
+		{
+			Automaton<char> automaton;
+			Graph<char> graph;
 
+			graph = GraphHelper.BuildDeterminiticGraph("A=a{BCD}e", "BCD=b{C}d", "C=c");
+			automaton = new Automaton<char>(graph);
+
+			Assert.IsTrue(automaton.Feed('a'));
+			Assert.IsTrue(automaton.Feed('b'));
+			Assert.IsTrue(automaton.Feed('c'));
+			Assert.AreEqual(3, automaton.StackCount);
+
+			Assert.IsFalse(automaton.Feed('d'));
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("C",automaton.Reduce());
+
+			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name="C" }  ));
+			Assert.IsTrue(automaton.Feed('d'));
+
+			Assert.IsFalse(automaton.Feed('e'));
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("BCD", automaton.Reduce());
+
+			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "BCD" }));
+			Assert.IsTrue(automaton.Feed('e'));
+
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("A", automaton.Reduce());
+
+			Assert.AreEqual(0, automaton.StackCount);
+		}
+
+		[TestMethod]
+		public void ShouldFeedAndReduce2()
+		{
+			Automaton<char> automaton;
+			Graph<char> graph;
+
+			// using non terminal recursion
+			graph = GraphHelper.BuildDeterminiticGraph("A=a{S}a", "S={S}b", "S=c");
+			automaton = new Automaton<char>(graph);
+
+			Assert.IsTrue(automaton.Feed('a'));
+			Assert.IsTrue(automaton.Feed('c'));
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("S", automaton.Reduce());
+			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "S" }));
+			Assert.IsTrue(automaton.Feed('b'));
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("S", automaton.Reduce());
+			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "S" }));
+			Assert.IsTrue(automaton.Feed('a'));
+			Assert.IsTrue(automaton.CanReduce());
+			Assert.AreEqual("A", automaton.Reduce());
+
+
+
+			Assert.AreEqual(0, automaton.StackCount);
+		}
 
 	}
 }

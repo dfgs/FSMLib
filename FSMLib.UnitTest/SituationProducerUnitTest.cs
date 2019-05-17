@@ -70,6 +70,36 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(distinctInputs[1].Match('b'));
 			Assert.IsTrue(distinctInputs[2].Match('c'));
 		}
+		[TestMethod]
+		public void ShouldGetDistinctNonTerminalInputs()
+		{
+			Situation<char> a, b, c;
+			TestGraph7 graph;
+			IInput<char>[] distinctInputs;
+			SituationProducer<char> producer;
+
+			/*
+					   |---- a ---|   
+					   |          |   
+				O0 -a-> O1 -{B}-> O2|-c-> O3 
+				   -a-> O4 -{B}-> O5|
+				   -a-> O6 -c-> O7
+			*/
+
+			graph = new TestGraph7();
+
+			a = new Situation<char>() { Graph = graph, NodeIndex = 1 };
+			b = new Situation<char>() { Graph = graph, NodeIndex = 4 };
+			c = new Situation<char>() { Graph = graph, NodeIndex = 6 };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextInputs(new Situation<char>[] { a, b, c }).ToArray();
+
+			Assert.AreEqual(2, distinctInputs.Length);
+			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char>() { Name="B" }));
+			Assert.IsTrue(distinctInputs[1].Match('c'));
+		}
+
 
 		[TestMethod]
 		public void ShouldGetNextSituations()

@@ -57,6 +57,7 @@
     <Compile Include="Graphs\GraphTupleUnitTest.cs" />
     <Compile Include="Graphs\Inputs\GenericInputUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
+    <Compile Include="Mocks\TestGraph7.cs" />
     <Compile Include="Mocks\TestGraph6.cs" />
     <Compile Include="Mocks\TestGraph5.cs" />
     <Compile Include="Mocks\TestGraph4.cs" />
@@ -96,6 +97,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
+      <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
+      <Name>FSMLib.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-DD75-4351-B6C1-8B30CB694EEE}</Project>
       <Name>FSMLib</Name>

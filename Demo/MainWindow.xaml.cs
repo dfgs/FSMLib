@@ -54,6 +54,10 @@ namespace Demo
 
 			CreateView(parser.Parse("A=a{B}a"), parser.Parse("B=b{A}b"));
 
+			CreateView(parser.Parse("A=a{S}a"), parser.Parse("S={S}b"), parser.Parse("S=c"));
+
+
+
 		}
 		private void CreateView(BasePredicate<char> Predicate)
 		{
@@ -85,9 +89,9 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
 
-				if (node.RecognizedRules.Count > 0) n.UserData = string.Join(",", node.RecognizedRules);
+				if (node.MatchedRules.Count > 0) n.UserData = string.Join(",", node.MatchedRules);
 
-				if (node.RecognizedRules.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				if (node.MatchedRules.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}
 			foreach (Node<T> node in Model.Nodes)

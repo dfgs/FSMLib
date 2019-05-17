@@ -31,8 +31,11 @@ namespace FSMLib.Graphs
 				foreach (Rule<T> rule in Rules.Where(item => item.Name == input.Name))
 				{
 					nonTerminalSegment = context.BuildSegment(rule);
+					node.RootIDs.Add(rule.GetHashCode());
 					context.Connect(node.AsEnumerable(), nonTerminalSegment.Inputs);
-					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>(), context, Rules);
+					// we must connect recusively node to all segments, everytime a Non Terminal transition appears
+					// but we must exclude Non Terminal transition with current input Name in order to avoid infinite loop
+					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>().Where( item=> !(item.Input is NonTerminalInput<T> nextNonTerminalInput) || (nextNonTerminalInput.Name!=input.Name) ) , context, Rules);
 				}
 			}
 		}
@@ -50,7 +53,7 @@ namespace FSMLib.Graphs
 			graph = new Graph<T>();
 			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
 			root = context.CreateNode();
-
+			root.RootIDs.AddRange(Rules.Select(item=>item.GetHashCode()));
 			// build all segments from rules
 			foreach(Rule<T> rule in Rules)
 			{
@@ -63,7 +66,6 @@ namespace FSMLib.Graphs
 			{
 				if (node == root) continue;
 				AddNonTerminalTransitionToNode(node,node.Transitions,context,Rules);
-				
 			}
 
 			return graph;
@@ -92,7 +94,8 @@ namespace FSMLib.Graphs
 			currentTuple = new GraphTuple<T>();
 			currentTuple.Node = context.CreateNode();
 			currentTuple.Situations = new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 }.AsEnumerable();
-			currentTuple.Node.RecognizedRules.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
+			currentTuple.Node.RootIDs.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RootIDs));
+			currentTuple.Node.MatchedRules.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].MatchedRules));
 			
 			situationMapping.Add(currentTuple);
 			openList.Push(currentTuple);
@@ -110,7 +113,8 @@ namespace FSMLib.Graphs
 						nextTuple = new GraphTuple<T>();
 						nextTuple.Node = context.CreateNode();
 						nextTuple.Situations = nextSituations;
-						nextTuple.Node.RecognizedRules.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RecognizedRules));
+						nextTuple.Node.RootIDs.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RootIDs));
+						nextTuple.Node.MatchedRules.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].MatchedRules));
 
 						situationMapping.Add(nextTuple);
 						openList.Push(nextTuple);

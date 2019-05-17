@@ -54,10 +54,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "S" }, new EORTransition<char>().AsEnumerable());
 
 			Assert.IsNotNull(segment);
-			Assert.AreEqual(2, segment.Inputs.Count());
+			Assert.AreEqual(1, segment.Inputs.Count());	// not two, because translation from non terminal input is done at graph factory level
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(2, graph.Nodes.Count);
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(1)).Input.Match('a'));
+			Assert.AreEqual(1, graph.Nodes.Count);
+			//Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(1)).Input.Match('a'));
 			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(0)).Input.Match(new NonTerminalInput<char>() { Name = "S" }));
 		}
 
