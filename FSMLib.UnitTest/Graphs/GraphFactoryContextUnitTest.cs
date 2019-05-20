@@ -1,6 +1,7 @@
 ﻿using FSMLib.Graphs;
 using FSMLib.Graphs.Inputs;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

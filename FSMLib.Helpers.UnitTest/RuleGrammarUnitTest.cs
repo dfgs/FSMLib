@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Helpers;
 using Sprache;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 
 namespace FSMLib.Helpers.UnitTest
 {

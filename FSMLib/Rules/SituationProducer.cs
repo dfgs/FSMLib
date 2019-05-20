@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FSMLib.Graphs;
 using FSMLib.Graphs.Inputs;
 
-namespace FSMLib
+namespace FSMLib.Rules
 {
 	public class SituationProducer<T> : ISituationProducer<T>
 	{

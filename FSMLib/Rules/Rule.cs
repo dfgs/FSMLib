@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib
+namespace FSMLib.Rules
 {
 	[System.Serializable]
     public class Rule<T>

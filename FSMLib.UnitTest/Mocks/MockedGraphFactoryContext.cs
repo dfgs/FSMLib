@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

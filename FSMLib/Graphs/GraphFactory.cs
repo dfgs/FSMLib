@@ -1,5 +1,6 @@
 ﻿using FSMLib.Graphs.Inputs;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
 using System.Collections.Generic;

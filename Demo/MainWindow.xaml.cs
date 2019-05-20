@@ -2,6 +2,7 @@
 using FSMLib.Graphs;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.Glee.Drawing;

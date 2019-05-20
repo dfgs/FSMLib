@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FSMLib.Graphs;
+using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest.Graphs

@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automaton.cs" />
+    <Compile Include="Automatons\Automaton.cs" />
+    <Compile Include="Automatons\NonTerminalNode.cs" />
+    <Compile Include="Automatons\TerminalNode.cs" />
+    <Compile Include="Automatons\BaseNode.cs" />
     <Compile Include="CollectionProcessor.cs" />
     <Compile Include="Graphs\Graph.cs" />
     <Compile Include="Graphs\GraphFactory.cs" />
@@ -60,9 +63,7 @@
     <Compile Include="Graphs\Segment.cs" />
     <Compile Include="Graphs\BaseTransition.cs" />
     <Compile Include="Graphs\Transition.cs" />
-    <Compile Include="IAutomaton.cs" />
-    <Compile Include="InputStreams\IInputStream.cs" />
-    <Compile Include="InputStreams\BaseInputStream.cs" />
+    <Compile Include="Automatons\IAutomaton.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />
     <Compile Include="Predicates\Optional.cs" />
@@ -72,8 +73,8 @@
     <Compile Include="Predicates\Sequence.cs" />
     <Compile Include="Predicates\Terminal.cs" />
     <Compile Include="Predicates\BasePredicate.cs" />
-    <Compile Include="ISituationProducer.cs" />
-    <Compile Include="Rule.cs" />
+    <Compile Include="Rules\ISituationProducer.cs" />
+    <Compile Include="Rules\Rule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SegmentFactories\ISegmentFactory.cs" />
     <Compile Include="SegmentFactories\ISegmentFactoryProvider.cs" />
@@ -87,8 +88,8 @@
     <Compile Include="SegmentFactories\OneOrMoreSegmentFactory.cs" />
     <Compile Include="SegmentFactories\SequenceSegmentFactory.cs" />
     <Compile Include="SegmentFactories\TerminalSegmentFactory.cs" />
-    <Compile Include="Situation.cs" />
-    <Compile Include="SituationProducer.cs" />
+    <Compile Include="Rules\Situation.cs" />
+    <Compile Include="Rules\SituationProducer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

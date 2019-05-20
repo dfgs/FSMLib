@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib
+namespace FSMLib.Automatons
 {
 	public interface IAutomaton<T>
 	{
@@ -21,7 +21,7 @@ namespace FSMLib
 
 		bool CanReduce();
 
-		string Reduce();
+		NonTerminalNode<T> Reduce();
 
 		void SaveSituation();
 		void RestoreSituation();

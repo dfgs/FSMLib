@@ -1,4 +1,5 @@
 ﻿using FSMLib.Predicates;
+using FSMLib.Rules;
 using Sprache;
 using System;
 using System.Collections.Generic;

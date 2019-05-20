@@ -2,6 +2,7 @@
 using System.Linq;
 using FSMLib.Graphs;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

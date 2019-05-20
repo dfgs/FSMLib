@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.InputStreams
+namespace FSMLib.Automatons
 {
-	public abstract class BaseInputStream<T> : IInputStream<T>
+	public abstract class BaseNode<T>
 	{
-		public abstract T Read();
 	}
 }

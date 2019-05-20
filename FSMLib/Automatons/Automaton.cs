@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib
+namespace FSMLib.Automatons
 {
 	public class Automaton<T>:IAutomaton<T>
 	{
 		private Graph<T> graph;
 		private int nodeIndex;
 
-		private Stack<IInput<T>> inputStack;
+		private Stack<BaseNode<T>> nodeStack;
 		private Stack<int> nodeIndexStack;
 
 		private int savedStackCount;
@@ -21,14 +21,14 @@ namespace FSMLib
 
 		public int StackCount
 		{
-			get => inputStack.Count;
+			get => nodeStack.Count;
 		}
 
 		public Automaton(Graph<T> Graph)
 		{
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
-			inputStack = new Stack<IInput<T>>();
+			nodeStack = new Stack<BaseNode<T>>();
 			nodeIndexStack = new Stack<int>();
 			nodeIndex = 0;
 			savedStackCount = 0;
@@ -40,7 +40,7 @@ namespace FSMLib
 			nodeIndex = 0;
 			savedStackCount = 0;
 			savedNodeIndex = 0;
-			inputStack.Clear();
+			nodeStack.Clear();
 			nodeIndexStack.Clear();
 		}
 
@@ -53,7 +53,7 @@ namespace FSMLib
 		{
 			while(StackCount>savedStackCount)
 			{
-				inputStack.Pop();
+				nodeStack.Pop();
 				nodeIndexStack.Pop();
 			}
 			nodeIndex = savedNodeIndex;
@@ -64,6 +64,11 @@ namespace FSMLib
 		public bool Feed(IInput<T> Item)
 		{
 			Node<T> node;
+			BaseNode<T> baseNode;
+
+			if (Item is TerminalInput<T> terminalInput) baseNode = new TerminalNode<T>() { Value = terminalInput.Value };
+			else if (Item is NonTerminalInput<T> nonTerminalInput) baseNode = new NonTerminalNode<T>() { Name = nonTerminalInput.Name };
+			else throw new ArgumentException("Invalid input provided");
 
 			node = graph.Nodes[nodeIndex];
 			foreach(Transition<T> transition in node.Transitions.OrderBy(item=>item.Input.Priority))	// must match input with lower priority first
@@ -71,7 +76,7 @@ namespace FSMLib
 				if (transition.Input.Match(Item))
 				{
 					nodeIndexStack.Push(nodeIndex);
-					inputStack.Push(Item);
+					nodeStack.Push(baseNode);
 					nodeIndex = transition.TargetNodeIndex;
 					return true;
 				}
@@ -92,24 +97,29 @@ namespace FSMLib
 			return node.MatchedRules.Count > 0;
 		}
 
-		public string Reduce()
+		public NonTerminalNode<T> Reduce()
 		{
 			Node<T> node;
-			IInput<T> input;
+			BaseNode<T> baseNode;
 			MatchedRule matchedRule;
+			NonTerminalNode<T> reducedNode;
+
 
 			node = graph.Nodes[nodeIndex];
 			if (node.MatchedRules.Count == 0) return null;
 
 			matchedRule = node.MatchedRules[0];
+			reducedNode = new NonTerminalNode<T>() { Name= matchedRule.Name };
 
-			while (inputStack.Count>0 &&  (!graph.Nodes[nodeIndex].RootIDs.Contains(matchedRule.ID)) )
+
+			while (nodeStack.Count>0 &&  (!graph.Nodes[nodeIndex].RootIDs.Contains(matchedRule.ID)) )
 			{
 				nodeIndex = nodeIndexStack.Pop();
-				input=inputStack.Pop();
+				baseNode=nodeStack.Pop();
+				reducedNode.Nodes.Add(baseNode);
 			}
 
-			return matchedRule.Name;
+			return reducedNode;
 			
 		}
 

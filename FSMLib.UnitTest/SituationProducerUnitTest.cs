@@ -2,6 +2,7 @@
 using System.Linq;
 using FSMLib.Graphs;
 using FSMLib.Graphs.Inputs;
+using FSMLib.Rules;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

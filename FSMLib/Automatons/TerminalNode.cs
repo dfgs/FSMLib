@@ -4,10 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.InputStreams
+namespace FSMLib.Automatons
 {
-	public interface IInputStream<T>
+	public class TerminalNode<T>:BaseNode<T>
 	{
-		T Read();
+		public T Value
+		{
+			get;
+			set;
+		}
+
+		
+
 	}
 }

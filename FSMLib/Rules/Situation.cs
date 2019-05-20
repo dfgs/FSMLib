@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib
+namespace FSMLib.Rules
 {
 	public class Situation<T>:IEquatable<Situation<T>>
 	{
