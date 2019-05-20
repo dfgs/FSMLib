@@ -14,7 +14,11 @@ namespace FSMLib.Automatons
 			set;
 		}
 
-		
+		public override IEnumerable<T> EnumerateTerminals()
+		{
+			yield return Value;
+		}
+
 
 	}
 }

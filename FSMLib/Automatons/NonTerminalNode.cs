@@ -25,6 +25,12 @@ namespace FSMLib.Automatons
 			this.Nodes = new List<BaseNode<T>>();
 		}
 
+		public override IEnumerable<T> EnumerateTerminals()
+		{
+			if (Nodes == null) return Enumerable.Empty<T>();
+			return Nodes.SelectMany((item) => item.EnumerateTerminals());
+		}
+
 
 	}
 }

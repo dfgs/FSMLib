@@ -8,5 +8,6 @@ namespace FSMLib.Automatons
 {
 	public abstract class BaseNode<T>
 	{
+		public abstract IEnumerable<T> EnumerateTerminals();
 	}
 }
