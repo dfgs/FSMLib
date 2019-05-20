@@ -22,5 +22,8 @@ namespace FSMLib
 		bool CanReduce();
 
 		string Reduce();
+
+		void SaveSituation();
+		void RestoreSituation();
 	}
 }

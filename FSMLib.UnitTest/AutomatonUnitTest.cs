@@ -189,5 +189,24 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(0, automaton.StackCount);
 		}
 
+		[TestMethod]
+		public void ShouldSaveAndRestore()
+		{
+			Automaton<char> automaton;
+
+			automaton = new Automaton<char>(new TestGraph5());
+			Assert.IsTrue(automaton.Feed('a'));
+			Assert.IsTrue(automaton.Feed('b'));
+			automaton.SaveSituation();
+			Assert.IsTrue(automaton.Feed('c'));
+			Assert.AreEqual(3, automaton.StackCount);
+			Assert.IsTrue(automaton.CanReduce());
+			automaton.RestoreSituation();
+			Assert.AreEqual(2, automaton.StackCount);
+			Assert.IsFalse(automaton.CanReduce());
+
+		}
+
+
 	}
 }

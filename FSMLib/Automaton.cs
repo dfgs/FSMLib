@@ -16,6 +16,9 @@ namespace FSMLib
 		private Stack<IInput<T>> inputStack;
 		private Stack<int> nodeIndexStack;
 
+		private int savedStackCount;
+		private int savedNodeIndex;
+
 		public int StackCount
 		{
 			get => inputStack.Count;
@@ -28,14 +31,35 @@ namespace FSMLib
 			inputStack = new Stack<IInput<T>>();
 			nodeIndexStack = new Stack<int>();
 			nodeIndex = 0;
+			savedStackCount = 0;
+			savedNodeIndex = 0;
 		}
 
 		public void Reset()
 		{
 			nodeIndex = 0;
+			savedStackCount = 0;
+			savedNodeIndex = 0;
 			inputStack.Clear();
 			nodeIndexStack.Clear();
 		}
+
+		public void SaveSituation()
+		{
+			savedStackCount = StackCount;
+			savedNodeIndex = nodeIndex; ;
+		}
+		public void RestoreSituation()
+		{
+			while(StackCount>savedStackCount)
+			{
+				inputStack.Pop();
+				nodeIndexStack.Pop();
+			}
+			nodeIndex = savedNodeIndex;
+		}
+
+
 
 		public bool Feed(IInput<T> Item)
 		{
