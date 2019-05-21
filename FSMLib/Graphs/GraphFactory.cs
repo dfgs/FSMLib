@@ -23,20 +23,20 @@ namespace FSMLib.Graphs
 			this.situationProducer = SituationProducer;
 		}
 
-		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<Transition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules)
+		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<Transition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules,Rule<T> Axiom)
 		{
 			Segment<T> nonTerminalSegment;
-			
+		
 			foreach (NonTerminalInput<T> input in Transitions.Select(item => item.Input).OfType<NonTerminalInput<T>>().ToArray())
 			{
 				foreach (Rule<T> rule in Rules.Where(item => item.Name == input.Name))
 				{
-					nonTerminalSegment = context.BuildSegment(rule);
+					nonTerminalSegment = context.BuildSegment(rule,rule==Axiom);
 					node.RootIDs.Add(rule.GetHashCode());
 					context.Connect(node.AsEnumerable(), nonTerminalSegment.Inputs);
 					// we must connect recusively node to all segments, everytime a Non Terminal transition appears
 					// but we must exclude Non Terminal transition with current input Name in order to avoid infinite loop
-					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>().Where( item=> !(item.Input is NonTerminalInput<T> nextNonTerminalInput) || (nextNonTerminalInput.Name!=input.Name) ) , context, Rules);
+					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>().Where( item=> !(item.Input is NonTerminalInput<T> nextNonTerminalInput) || (nextNonTerminalInput.Name!=input.Name) ) , context, Rules,Axiom);
 				}
 			}
 		}
@@ -47,9 +47,12 @@ namespace FSMLib.Graphs
 			Node<T> root;
 			Segment<T> segment;
 			GraphFactoryContext<T> context;
-			
+			Rule<T> axiom;
+
 			
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
+
+			axiom = Rules.FirstOrDefault();
 
 			graph = new Graph<T>();
 			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
@@ -58,7 +61,7 @@ namespace FSMLib.Graphs
 			// build all segments from rules
 			foreach(Rule<T> rule in Rules)
 			{
-				segment = context.BuildSegment( rule);
+				segment = context.BuildSegment( rule,rule==axiom);
 				context.Connect( root.AsEnumerable(), segment.Inputs);
 			}
 
@@ -66,7 +69,7 @@ namespace FSMLib.Graphs
 			foreach(Node<T> node in graph.Nodes)
 			{
 				if (node == root) continue;
-				AddNonTerminalTransitionToNode(node,node.Transitions,context,Rules);
+				AddNonTerminalTransitionToNode(node,node.Transitions,context,Rules,axiom);
 			}
 
 			return graph;

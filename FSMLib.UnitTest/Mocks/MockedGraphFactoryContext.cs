@@ -14,7 +14,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		public IEnumerable<Rule<char>> Rules => throw new NotImplementedException();
 
-		public Segment<char> BuildSegment(Rule<char> Rule)
+		public Segment<char> BuildSegment(Rule<char> Rule,bool IsAxiom)
 		{
 			throw new NotImplementedException();
 		}

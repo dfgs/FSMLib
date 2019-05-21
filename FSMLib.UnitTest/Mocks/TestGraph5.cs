@@ -20,7 +20,7 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			for (int t = 0; t < 4; t++) this.Nodes.Add(new Node<char>());
 
-			Nodes[3].MatchedRules.Add(new MatchedRule() { Name = "A" });
+			Nodes[3].MatchedRules.Add(new MatchedRule() { Name = "A", IsAxiom = true });
 
 			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } });
 			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new TerminalInput<char>() { Value = 'b' } });

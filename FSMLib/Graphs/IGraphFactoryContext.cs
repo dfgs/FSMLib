@@ -14,7 +14,7 @@ namespace FSMLib.Graphs
 			get;
 		}*/
 
-		Segment<T> BuildSegment( Rule<T> Rule);
+		Segment<T> BuildSegment( Rule<T> Rule,bool IsAxiom);
 		void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseTransition<T>> Transitions);
 		Node<T> GetTargetNode(Transition<T> Transition);
 		Node<T> CreateNode();

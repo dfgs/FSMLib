@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
+    <Compile Include="Automatons\AutomatonException.cs" />
     <Compile Include="Automatons\NonTerminalNode.cs" />
     <Compile Include="Automatons\TerminalNode.cs" />
     <Compile Include="Automatons\BaseNode.cs" />

@@ -23,7 +23,7 @@ namespace FSMLib.UnitTest.Mocks
 		public TestGraph7()
 		{
 			for(int t=0;t<8;t++) this.Nodes.Add(new Node<char>());
-			Nodes[3].MatchedRules.Add(new MatchedRule() { Name = "A" });
+			Nodes[3].MatchedRules.Add(new MatchedRule() { Name = "A", IsAxiom = true });
 			Nodes[5].MatchedRules.Add(new MatchedRule() { Name = "B" });
 			Nodes[7].MatchedRules.Add(new MatchedRule() { Name = "C" });
 

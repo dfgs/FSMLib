@@ -38,7 +38,7 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			segment = context.BuildSegment( rule);
+			segment = context.BuildSegment( rule,true);
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
@@ -60,9 +60,9 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>() );
 
-			segment = context.BuildSegment(rule1);
+			segment = context.BuildSegment(rule1, true);
 			Assert.IsNotNull(segment);
-			segment = context.BuildSegment(rule2);
+			segment = context.BuildSegment(rule2, true);
 			Assert.IsNotNull(segment);
 
 		}
@@ -81,8 +81,8 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			segment1 = context.BuildSegment(rule);
-			segment2 = context.BuildSegment(rule);
+			segment1 = context.BuildSegment(rule, true);
+			segment2 = context.BuildSegment(rule, true);
 			Assert.AreEqual(segment1, segment2);
 		}
 		[TestMethod]

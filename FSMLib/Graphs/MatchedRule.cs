@@ -18,5 +18,12 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
+
+		public bool IsAxiom
+		{
+			get;
+			set;
+		}
+		
 	}
 }

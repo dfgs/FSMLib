@@ -16,14 +16,14 @@ namespace FSMLib.Automatons
 
 		void Reset();
 
-		bool Feed(IInput<T> Item);
-		bool Feed(T Item);
+		//bool Feed(IInput<T> Item);
+		void Feed(T Item);
 
-		bool CanReduce();
+		bool CanAccept();
 
-		NonTerminalNode<T> Reduce();
+		NonTerminalNode<T> Accept();
 
-		void SaveSituation();
-		void RestoreSituation();
+		/*void SaveSituation();
+		void RestoreSituation();*/
 	}
 }

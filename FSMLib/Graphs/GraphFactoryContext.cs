@@ -16,11 +16,7 @@ namespace FSMLib.Graphs
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private Dictionary<Rule<T>, Segment<T>> cache;
 
-		/*public IEnumerable<Rule<T>> Rules
-		{
-			get;
-			private set;
-		}*/
+	
 
 		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
 		{
@@ -28,8 +24,6 @@ namespace FSMLib.Graphs
 			this.segmentFactoryProvider = SegmentFactoryProvider;
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
-			/*if (Rules == null) throw new ArgumentNullException("Rules");
-			this.Rules = Rules;*/
 
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 
@@ -37,7 +31,7 @@ namespace FSMLib.Graphs
 		}
 
 
-		public Segment<T> BuildSegment( Rule<T> Rule)
+		public Segment<T> BuildSegment( Rule<T> Rule, bool IsAxiom)
 		{
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
@@ -48,7 +42,8 @@ namespace FSMLib.Graphs
 			if (compilingList.Contains(Rule)) throw new InvalidOperationException("Recursive rule call");
 			compilingList.Add(Rule);
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
-			matchedRule = new MatchedRule() { Name=Rule.Name, ID= Rule.GetHashCode()};
+			matchedRule = new MatchedRule() { Name=Rule.Name, ID= Rule.GetHashCode(), IsAxiom=IsAxiom};
+
 			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { MatchedRule = matchedRule }.AsEnumerable());
 			cache.Add(Rule, segment);
 			compilingList.Remove(Rule);

@@ -25,10 +25,10 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 
 			automaton = new Automaton<char>(new TestGraph5());
-
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.Feed('c'));
+	
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 		}
 		[TestMethod]
@@ -38,23 +38,14 @@ namespace FSMLib.UnitTest
 
 			automaton = new Automaton<char>(new TestGraph5());
 
-			Assert.IsTrue(automaton.Feed('a'));
+			automaton.Feed('a');
 			automaton.Reset();
 			Assert.AreEqual(0, automaton.StackCount);
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.Feed('c'));
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
 		}
-		[TestMethod]
-		public void ShouldNotFeedWithInvalidInput()
-		{
-			Automaton<char> automaton;
-
-			automaton = new Automaton<char>(new TestGraph5());
-
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.ThrowsException<ArgumentException>(() => automaton.Feed(new AnyTerminalInput<char>()));
-		}
+		
 
 		[TestMethod]
 		public void MayNotFeed()
@@ -63,45 +54,51 @@ namespace FSMLib.UnitTest
 
 			automaton = new Automaton<char>(new TestGraph5());
 
-			Assert.IsTrue(automaton.Feed('a'));
+			automaton.Feed('a');
 			Assert.AreEqual(1, automaton.StackCount);
-			Assert.IsFalse(automaton.Feed('z'));
+
+			Assert.ThrowsException<AutomatonException<char>>(() => automaton.Feed('z'));
 			Assert.AreEqual(1, automaton.StackCount);
-			Assert.IsTrue(automaton.Feed('b'));
+
+			automaton.Feed('b');
 			Assert.AreEqual(2, automaton.StackCount);
-			Assert.IsFalse(automaton.Feed('z'));
+
+			Assert.ThrowsException<AutomatonException<char>>(() => automaton.Feed('z'));
 			Assert.AreEqual(2, automaton.StackCount);
-			Assert.IsTrue(automaton.Feed('c'));
+
+			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsFalse(automaton.Feed('z'));
-			Assert.AreEqual(3, automaton.StackCount);
+
+			Assert.ThrowsException<AutomatonException<char>>(() => automaton.Feed('z'));
+			Assert.AreEqual(0, automaton.StackCount);
 		}
+
 		[TestMethod]
-		public void ShouldReturnCanReduce()
+		public void ShouldReturnCanAccept()
 		{
 			Automaton<char> automaton;
-
+			
 			automaton = new Automaton<char>(new TestGraph5());
-			Assert.IsFalse(automaton.CanReduce());
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsFalse(automaton.CanReduce());
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsFalse(automaton.CanReduce());
-			Assert.IsTrue(automaton.Feed('c'));
-			Assert.IsTrue(automaton.CanReduce());
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('a');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
 		}
 		[TestMethod]
-		public void ShouldReduce()
+		public void ShouldAccept()
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
 
 			automaton = new Automaton<char>(new TestGraph5());
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.Feed('c'));
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			node = automaton.Reduce();
+			node = automaton.Accept();
 			Assert.AreEqual("A", node.Name);
 			Assert.AreEqual(3, node.Nodes.Count);
 			Assert.AreEqual(0, automaton.StackCount);
@@ -112,19 +109,19 @@ namespace FSMLib.UnitTest
 
 		}
 		[TestMethod]
-		public void MayNotReduce()
+		public void MayNotAccept()
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
 
 			automaton = new Automaton<char>(new TestGraph5());
-			Assert.IsNull(automaton.Reduce());
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsNull(automaton.Reduce());
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsNull(automaton.Reduce());
-			Assert.IsTrue(automaton.Feed('c'));
-			node = automaton.Reduce();
+			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
+			automaton.Feed('a');
+			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
+			automaton.Feed('b');
+			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
+			automaton.Feed('c');
+			node = automaton.Accept();
 			Assert.AreEqual("A", node.Name);
 			Assert.AreEqual(3, node.Nodes.Count);
 		}
@@ -138,20 +135,20 @@ namespace FSMLib.UnitTest
 
 			automaton = new Automaton<char>(new TestGraph6());
 
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('a'));
-			node = automaton.Reduce();
+			automaton.Feed('a');
+			automaton.Feed('a');
+			automaton.Feed('a');
+			node = automaton.Accept();
 			Assert.AreEqual("A", node.Name);
 			Assert.AreEqual(3, node.Nodes.Count); 
 
 			automaton.Reset();
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.Feed('a'));
-			node = automaton.Reduce();
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('a');
+			/*node = automaton.Accept();
 			Assert.AreEqual("B", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
+			Assert.AreEqual(3, node.Nodes.Count);*/
 		}
 
 
@@ -160,40 +157,22 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			Graph<char> graph;
-			NonTerminalNode<char> node;
 
 			graph = GraphHelper.BuildDeterminiticGraph("A=a{BCD}e", "BCD=b{C}d", "C=c");
 			automaton = new Automaton<char>(graph);
 
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.Feed('c'));
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsFalse(automaton.Feed('d'));
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("C", node.Name);
-			Assert.AreEqual(1, node.Nodes.Count);
+			Assert.IsFalse(automaton.CanAccept());
 
-			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name="C" }  ));
-			Assert.IsTrue(automaton.Feed('d'));
+			automaton.Feed('d');
+			Assert.IsFalse(automaton.CanAccept());
 
-			Assert.IsFalse(automaton.Feed('e'));
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("BCD", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
-
-			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "BCD" }));
-			Assert.IsTrue(automaton.Feed('e'));
-
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("A", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
-
-			Assert.AreEqual(0, automaton.StackCount);
+			automaton.Feed('e');
+			Assert.IsTrue(automaton.CanAccept());
 		}
 
 		[TestMethod]
@@ -201,56 +180,56 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			Graph<char> graph;
-			NonTerminalNode<char> node;
 
 
-			// using non terminal recursion
 			graph = GraphHelper.BuildDeterminiticGraph("A=a{S}a", "S={S}b", "S=c");
 			automaton = new Automaton<char>(graph);
 
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('c'));
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("S", node.Name);
-			Assert.AreEqual(1, node.Nodes.Count);
+			automaton.Feed('a');
+			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+	
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
 
-			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "S" }));
-			Assert.IsTrue(automaton.Feed('b'));
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("S", node.Name);
-			Assert.AreEqual(2, node.Nodes.Count);
+			automaton.Feed('a');
+			Assert.IsTrue(automaton.CanAccept());
 
-			Assert.IsTrue(automaton.Feed(new NonTerminalInput<char>() { Name = "S" }));
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.CanReduce());
-			node = automaton.Reduce();
-			Assert.AreEqual("A", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
-
-
-
-			Assert.AreEqual(0, automaton.StackCount);
 		}
-
 		[TestMethod]
+		public void ShouldFeedAndReduce3()
+		{
+			Automaton<char> automaton;
+			Graph<char> graph;
+
+			graph = GraphHelper.BuildDeterminiticGraph("A=a{B}c", "B={C}", "C=b");
+			automaton = new Automaton<char>(graph);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+
+			Assert.IsTrue(automaton.CanAccept());
+
+		}
+		/*[TestMethod]
 		public void ShouldSaveAndRestore()
 		{
 			Automaton<char> automaton;
 
 			automaton = new Automaton<char>(new TestGraph5());
-			Assert.IsTrue(automaton.Feed('a'));
-			Assert.IsTrue(automaton.Feed('b'));
+			automaton.Feed('a'));
+			automaton.Feed('b'));
 			automaton.SaveSituation();
-			Assert.IsTrue(automaton.Feed('c'));
+			automaton.Feed('c'));
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsTrue(automaton.CanReduce());
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.RestoreSituation();
 			Assert.AreEqual(2, automaton.StackCount);
-			Assert.IsFalse(automaton.CanReduce());
+			Assert.IsFalse(automaton.CanAccept());
 
-		}
+		}*/
 
 
 	}
