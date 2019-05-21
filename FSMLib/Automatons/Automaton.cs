@@ -116,7 +116,7 @@ namespace FSMLib.Automatons
 			{
 				nodeIndex = nodeIndexStack.Pop();
 				baseNode=nodeStack.Pop();
-				reducedNode.Nodes.Add(baseNode);
+				reducedNode.Nodes.Insert(0,baseNode);	// stack order is inverted compared to node childs
 			}
 
 			return reducedNode;
