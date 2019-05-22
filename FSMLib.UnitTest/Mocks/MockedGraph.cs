@@ -1,5 +1,5 @@
 ﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Graphs.Transitions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -9,38 +9,32 @@ using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
-	/*
-		       |---- a ---|   
-		       |          |   
-		O0 -a-> O1 -b-> O2|-c-> O3 
-		   -a-> O4 -b-> O5|
-		   -a-> O6 -c-> O7
-	*/
-
+	
 	[ExcludeFromCodeCoverage]
 	public class MockedGraph:Graph<char>
 	{
-		public MockedGraph()
+		public MockedGraph(params char[] Values)
 		{
-			for(int t=0;t<8;t++) this.Nodes.Add(new Node<char>());
-			Nodes[3].MatchedRules.Add(new MatchedRule() { Name = "A" });
-			Nodes[5].MatchedRules.Add(new MatchedRule() { Name = "B" });
-			Nodes[7].MatchedRules.Add(new MatchedRule() { Name = "C" });
 
-			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } });
-			Nodes[1].Transitions.Add(new Transition<char>() { TargetNodeIndex = 2, Input = new TerminalInput<char>() { Value = 'b' } });
-			Nodes[2].Transitions.Add(new Transition<char>() { TargetNodeIndex = 3, Input = new TerminalInput<char>() { Value = 'c' } });
+			Nodes.Add(new Node<char>());
 
-			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 4, Input = new TerminalInput<char>() { Value = 'a' } });
-			Nodes[4].Transitions.Add(new Transition<char>() { TargetNodeIndex = 5, Input = new TerminalInput<char>() { Value = 'b' } });
-
-
-			Nodes[0].Transitions.Add(new Transition<char>() { TargetNodeIndex = 6, Input = new TerminalInput<char>() { Value = 'a' } });
-			Nodes[6].Transitions.Add(new Transition<char>() { TargetNodeIndex = 7, Input = new TerminalInput<char>() { Value = 'c' } });
-
-			Nodes[2].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } });
-			Nodes[5].Transitions.Add(new Transition<char>() { TargetNodeIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } });
+			for (int t = 0; t < Values.Length; t++)
+			{
+				Nodes.Add(new Node<char>());
+				Nodes[t].TerminalTransitions.Add(new TerminalTransition<char>() { Value = Values[t], TargetNodeIndex = t+1 });
+			}
 
 		}
+		public MockedGraph(params string[] Values)
+		{
+			Nodes.Add(new Node<char>());
+
+			for (int t = 0; t < Values.Length; t++)
+			{
+				Nodes.Add(new Node<char>());
+				Nodes[t].NonTerminalTransitions.Add(new NonTerminalTransition<char>() { Name = Values[t], TargetNodeIndex = t + 1 });
+			}
+		}
+
 	}
 }

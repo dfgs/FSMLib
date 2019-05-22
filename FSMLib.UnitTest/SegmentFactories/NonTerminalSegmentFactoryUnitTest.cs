@@ -1,5 +1,5 @@
 ﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -24,7 +24,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			NonTerminalSegmentFactory<char> factory;
 
 			factory = new NonTerminalSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedGraphFactoryContext() ,new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));;
+			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedGraphFactoryContext() ,new MockedPredicate<char>(), Enumerable.Empty<ReductionTransition<char>>() ));;
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -32,8 +32,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			NonTerminalSegmentFactory<char> factory;
 
 			factory = new NonTerminalSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new NonTerminal<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), null, new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, new NonTerminal<char>(), Enumerable.Empty<ReductionTransition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(), null, Enumerable.Empty<ReductionTransition<char>>()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),  new NonTerminal<char>(), null));
 		}
 		[TestMethod]
@@ -52,14 +52,14 @@ namespace FSMLib.UnitTest.SegmentFactories
 			context = new GraphFactoryContext<char>(provider, graph) ;
 			factory = new NonTerminalSegmentFactory<char>(provider);
 
-			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "S" }, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context,  new NonTerminal<char>() { Name = "S" }, Enumerable.Empty<ReductionTransition<char>>());
 
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());	// not two, because translation from non terminal input is done at graph factory level
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, graph.Nodes.Count);
 			//Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(1)).Input.Match('a'));
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(0)).Input.Match(new NonTerminalInput<char>() { Name = "S" }));
+			Assert.AreEqual(true, ((NonTerminalTransition<char>)segment.Inputs.ElementAt(0)).Match("S"));
 		}
 
 		[TestMethod]
@@ -78,13 +78,13 @@ namespace FSMLib.UnitTest.SegmentFactories
 			context = new GraphFactoryContext<char>(provider, graph);
 			factory = new NonTerminalSegmentFactory<char>(provider);
 
-			segment = factory.BuildSegment(context, new NonTerminal<char>() { Name = "A" }, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context, new NonTerminal<char>() { Name = "A" }, Enumerable.Empty<ReductionTransition<char>>());
 
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, graph.Nodes.Count);
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.ElementAt(0)).Input.Match(new NonTerminalInput<char>() { Name = "A" }));
+			Assert.AreEqual(true, ((NonTerminalTransition<char>)segment.Inputs.ElementAt(0)).Match( "A" ));
 		}
 
 	}

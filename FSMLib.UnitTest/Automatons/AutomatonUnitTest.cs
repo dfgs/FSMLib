@@ -1,7 +1,7 @@
 ﻿using System;
 using FSMLib.Automatons;
 using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
@@ -23,8 +23,11 @@ namespace FSMLib.UnitTest
 		public void ShouldFeed()
 		{
 			Automaton<char> automaton;
+			Graph<char> graph;
 
-			automaton = new Automaton<char>(new TestGraph5());
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 	
 			automaton.Feed('a');
 			automaton.Feed('b');
@@ -35,8 +38,11 @@ namespace FSMLib.UnitTest
 		public void ShouldReset()
 		{
 			Automaton<char> automaton;
+			Graph<char> graph;
 
-			automaton = new Automaton<char>(new TestGraph5());
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 
 			automaton.Feed('a');
 			automaton.Reset();
@@ -51,8 +57,11 @@ namespace FSMLib.UnitTest
 		public void MayNotFeed()
 		{
 			Automaton<char> automaton;
+			Graph<char> graph;
 
-			automaton = new Automaton<char>(new TestGraph5());
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 
 			automaton.Feed('a');
 			Assert.AreEqual(1, automaton.StackCount);
@@ -77,8 +86,11 @@ namespace FSMLib.UnitTest
 		public void ShouldReturnCanAccept()
 		{
 			Automaton<char> automaton;
-			
-			automaton = new Automaton<char>(new TestGraph5());
+			Graph<char> graph;
+
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('a');
 			Assert.IsFalse(automaton.CanAccept());
@@ -92,8 +104,11 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
+			Graph<char> graph;
 
-			automaton = new Automaton<char>(new TestGraph5());
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 			automaton.Feed('a');
 			automaton.Feed('b');
 			automaton.Feed('c');
@@ -113,8 +128,11 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
+			Graph<char> graph;
 
-			automaton = new Automaton<char>(new TestGraph5());
+			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(graph);
 			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
 			automaton.Feed('a');
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
@@ -128,37 +146,12 @@ namespace FSMLib.UnitTest
 
 
 		[TestMethod]
-		public void ShouldFeedUsingMostExplicitTransition()
-		{
-			Automaton<char> automaton;
-			NonTerminalNode<char> node;
-
-			automaton = new Automaton<char>(new TestGraph6());
-
-			automaton.Feed('a');
-			automaton.Feed('a');
-			automaton.Feed('a');
-			node = automaton.Accept();
-			Assert.AreEqual("A", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count); 
-
-			automaton.Reset();
-			automaton.Feed('a');
-			automaton.Feed('b');
-			automaton.Feed('a');
-			/*node = automaton.Accept();
-			Assert.AreEqual("B", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);*/
-		}
-
-
-		[TestMethod]
 		public void ShouldFeedAndReduce()
 		{
 			Automaton<char> automaton;
 			Graph<char> graph;
 
-			graph = GraphHelper.BuildDeterminiticGraph("A=a{BCD}e", "BCD=b{C}d", "C=c");
+			graph = GraphHelper.BuildDeterminiticGraph( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(graph);
 
 			automaton.Feed('a');
@@ -182,7 +175,7 @@ namespace FSMLib.UnitTest
 			Graph<char> graph;
 
 
-			graph = GraphHelper.BuildDeterminiticGraph("A=a{S}a", "S={S}b", "S=c");
+			graph = GraphHelper.BuildDeterminiticGraph(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(graph);
 
 			automaton.Feed('a');
@@ -202,7 +195,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			Graph<char> graph;
 
-			graph = GraphHelper.BuildDeterminiticGraph("A=a{B}c", "B={C}", "C=b");
+			graph = GraphHelper.BuildDeterminiticGraph(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(graph);
 
 			automaton.Feed('a');

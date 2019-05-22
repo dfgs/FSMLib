@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FSMLib.Graphs;
+using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -35,7 +36,7 @@ namespace FSMLib.UnitTest.Graphs
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			graph = factory.BuildGraph(rule.AsEnumerable());
+			graph = factory.BuildGraph(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
@@ -68,7 +69,7 @@ namespace FSMLib.UnitTest.Graphs
 			rule2 = new Rule<char>();
 			rule2.Predicate = predicate;
 
-			graph = factory.BuildGraph(new Rule<char>[] { rule1,rule2 });
+			graph = factory.BuildGraph(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(7, graph.Nodes.Count);
 
@@ -107,17 +108,17 @@ namespace FSMLib.UnitTest.Graphs
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			graph = factory.BuildGraph(rule.AsEnumerable());
+			graph = factory.BuildGraph(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
-			Assert.AreEqual(3, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(2, graph.Nodes[0].Transitions[1].TargetNodeIndex);
-			Assert.AreEqual(3, graph.Nodes[0].Transitions[2].TargetNodeIndex);
-			Assert.AreEqual(0, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[3].Transitions.Count);
+			Assert.AreEqual(3, graph.Nodes[0].TerminalTransitions.Count);
+			Assert.AreEqual(1, graph.Nodes[0].TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual(2, graph.Nodes[0].TerminalTransitions[1].TargetNodeIndex);
+			Assert.AreEqual(3, graph.Nodes[0].TerminalTransitions[2].TargetNodeIndex);
+			Assert.AreEqual(0, graph.Nodes[1].TerminalTransitions.Count);
+			Assert.AreEqual(0, graph.Nodes[2].TerminalTransitions.Count);
+			Assert.AreEqual(0, graph.Nodes[3].TerminalTransitions.Count);
 
 		}
 
@@ -136,7 +137,7 @@ namespace FSMLib.UnitTest.Graphs
 			rule = new Rule<char>() { Name="rule" };
 			rule.Predicate = new ZeroOrMore<char>() { Item = predicate };
 
-			graph = factory.BuildGraph(rule.AsEnumerable());
+			graph = factory.BuildGraph(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
@@ -150,8 +151,6 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.IsTrue(parser.Parse('c'));
 			Assert.AreEqual(1, parser.TransitionCount);
 			Assert.IsTrue(parser.Parse('a'));
-			Assert.AreEqual(1, graph.Nodes[0].MatchedRules.Count);
-			Assert.AreEqual("rule", graph.Nodes[0].MatchedRules[0].Name);
 		}
 		[TestMethod]
 		public void ShouldNotBuildGraphWhenNullRulesAreProvided()
@@ -160,9 +159,21 @@ namespace FSMLib.UnitTest.Graphs
 
 			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null));
+			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildGraph(null,new char[] { 'a', 'b', 'c' }));
 		}
+		[TestMethod]
+		public void ShouldNotBuildGraphWhenNullAlphabetIsProvided()
+		{
+			Rule<char> rule;
+			GraphFactory<char> factory;
 
+			
+			rule = new Rule<char>() { Name = "rule" };
+	
+			factory = new GraphFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildGraph(rule.AsEnumerable(), null));
+		}
 		[TestMethod]
 		public void ShouldNotBuildDeterministicGraphWhenNullParameterIsProvided()
 		{
@@ -190,118 +201,30 @@ namespace FSMLib.UnitTest.Graphs
 		public void ShouldBuildDeterministicGraphFromTestGraph1()
 		{
 			GraphFactory<char> factory;
-			Graph<char> baseGraph,graph;
+			Graph<char> baseGraph;
+			Graph<char> graph;
+
+			baseGraph = GraphHelper.BuildGraph(new string[] { "A=abc", "B=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
 
 			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			baseGraph = new TestGraph1();
 			graph = factory.BuildDeterministicGraph(baseGraph);
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[3].Transitions.Count);
-			Assert.IsTrue(graph.Nodes[0].Transitions[0].Input.Match('a'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[0].Input.Match('b'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('c'));
+			Assert.AreEqual(1, graph.Nodes[0].TerminalTransitions.Count);
+			Assert.AreEqual(1, graph.Nodes[1].TerminalTransitions.Count);
+			Assert.AreEqual(1, graph.Nodes[2].TerminalTransitions.Count);
+			Assert.AreEqual(0, graph.Nodes[3].TerminalTransitions.Count);
+			Assert.IsTrue(graph.Nodes[0].TerminalTransitions[0].Match('a'));
+			Assert.IsTrue(graph.Nodes[1].TerminalTransitions[0].Match('b'));
+			Assert.IsTrue(graph.Nodes[2].TerminalTransitions[0].Match('c'));
 
-			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
-
-			Assert.AreEqual(2, graph.Nodes[3].MatchedRules.Count);
-		}
-
-		[TestMethod]
-		public void ShouldBuildDeterministicGraphFromTestGraph2()
-		{
-			GraphFactory<char> factory;
-			Graph<char> baseGraph, graph;
-
-			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
-
-			baseGraph = new TestGraph2();
-			graph = factory.BuildDeterministicGraph(baseGraph);
-			Assert.IsNotNull(graph);
-			Assert.AreEqual(5, graph.Nodes.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[3].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[4].Transitions.Count);
-			Assert.IsTrue(graph.Nodes[0].Transitions[0].Input.Match('a'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[0].Input.Match('b'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('c'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[1].Input.Match('d'));
-
-			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
-
-			Assert.AreEqual(1, graph.Nodes[3].MatchedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
-
-		}
-		[TestMethod]
-		public void ShouldBuildDeterministicGraphFromTestGraph3()
-		{
-			GraphFactory<char> factory;
-			Graph<char> baseGraph, graph;
-
-			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
-
-			baseGraph = new TestGraph3();
-			graph = factory.BuildDeterministicGraph(baseGraph);
-			Assert.IsNotNull(graph);
-			Assert.AreEqual(6, graph.Nodes.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[3].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[4].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[5].Transitions.Count);
-			Assert.IsTrue(graph.Nodes[0].Transitions[0].Input.Match('a'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[0].Input.Match('b'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[1].Input.Match('c'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('a'));
-			Assert.IsTrue(graph.Nodes[3].Transitions[0].Input.Match('a'));
-
-
-			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
-
-			Assert.AreEqual(1, graph.Nodes[5].MatchedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
+			for (int t = 0; t < 3; t++) Assert.AreEqual(0, graph.Nodes[t].ReductionTransitions.Count);
 
 		}
 
-
-		[TestMethod]
-		public void ShouldBuildDeterministicGraphFromTestGraph4()
-		{
-			GraphFactory<char> factory;
-			Graph<char> baseGraph, graph;
-
-			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
-
-			baseGraph = new TestGraph4();
-			graph = factory.BuildDeterministicGraph(baseGraph);
-			Assert.IsNotNull(graph);
-			Assert.AreEqual(6, graph.Nodes.Count);
-			Assert.AreEqual(1, graph.Nodes[0].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[1].Transitions.Count);
-			Assert.AreEqual(2, graph.Nodes[2].Transitions.Count);
-			Assert.AreEqual(1, graph.Nodes[3].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[4].Transitions.Count);
-			Assert.AreEqual(0, graph.Nodes[5].Transitions.Count);
-			Assert.IsTrue(graph.Nodes[0].Transitions[0].Input.Match('a'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[0].Input.Match('b'));
-			Assert.IsTrue(graph.Nodes[1].Transitions[1].Input.Match('z'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[0].Input.Match('c'));
-			Assert.IsTrue(graph.Nodes[2].Transitions[1].Input.Match('d'));
-			Assert.IsTrue(graph.Nodes[3].Transitions[0].Input.Match('d'));
-
-			for (int t = 0; t < 4; t++) Assert.AreEqual(0, graph.Nodes[t].MatchedRules.Count);
-
-			Assert.AreEqual(1, graph.Nodes[5].MatchedRules.Count);
-			Assert.AreEqual(1, graph.Nodes[4].MatchedRules.Count);
-		}
+	
 
 
 	}

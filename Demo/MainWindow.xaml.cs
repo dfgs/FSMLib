@@ -1,5 +1,6 @@
 ﻿using FSMLib;
 using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -33,6 +34,8 @@ namespace Demo
 		private GraphFactory<char> graphFactory;
 		private CharRuleParser parser;
 
+		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't' };
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -43,15 +46,12 @@ namespace Demo
 
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
-			CreateView(new TestGraph1());
-			CreateView(new TestGraph2());
-			CreateView(new TestGraph3());
-			CreateView(new TestGraph4());
+			CreateView(parser.Parse("A=a{BCD}e"), parser.Parse("BCD=b{C}d"), parser.Parse("C = c"));
+			CreateView(parser.Parse("A=abcde"));
 
 			CreateView(new ZeroOrMore<char>() { Item= new Terminal<char>() {Value='a' }  });
 			CreateView(parser.Parse("A=a{S}a"), parser.Parse("S=st"));
 
-			CreateView(parser.Parse("A=a{BCD}e"), parser.Parse("BCD={BC}d"), parser.Parse("BC=bc"));
 
 			CreateView(parser.Parse("A=a{B}a"), parser.Parse("B=b{A}b"));
 
@@ -65,11 +65,11 @@ namespace Demo
 			Rule<char> rule;
 
 			rule = new Rule<char>() { Predicate = Predicate };
-			CreateView(graphFactory.BuildGraph(rule.AsEnumerable()));
+			CreateView(graphFactory.BuildGraph(rule.AsEnumerable(), alphabet));
 		}
 		private void CreateView(params Rule<char>[] Rules)
 		{
-			CreateView(graphFactory.BuildGraph(Rules));
+			CreateView(graphFactory.BuildGraph(Rules,alphabet));
 		}
 		private void CreateView(Graph<char> Model)
 		{
@@ -90,16 +90,20 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
 
-				if (node.MatchedRules.Count > 0) n.UserData = string.Join(",", node.MatchedRules);
+				n.UserData = string.Join(",", node.ReductionTransitions.Select(item=>$"{item.Name}:{item.TargetNodeIndex}"));
 
-				if (node.MatchedRules.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				if (node.ReductionTransitions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}
 			foreach (Node<T> node in Model.Nodes)
 			{
-				foreach (Transition<T> transition in node.Transitions)
+				foreach (TerminalTransition<T> transition in node.TerminalTransitions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), transition.Input.ToString(), transition.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), transition.Value.ToString(), transition.TargetNodeIndex.ToString());
+				}
+				foreach (NonTerminalTransition<T> transition in node.NonTerminalTransitions)
+				{
+					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), transition.Name, transition.TargetNodeIndex.ToString());
 				}
 			}
 

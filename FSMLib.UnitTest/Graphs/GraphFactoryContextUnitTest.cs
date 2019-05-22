@@ -1,5 +1,5 @@
 ﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -38,7 +38,7 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			segment = context.BuildSegment( rule,true);
+			segment = context.BuildSegment( rule, Enumerable.Empty<BaseTransition<char>>());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
@@ -60,9 +60,9 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>() );
 
-			segment = context.BuildSegment(rule1, true);
+			segment = context.BuildSegment(rule1, Enumerable.Empty<ReductionTransition<char>>());
 			Assert.IsNotNull(segment);
-			segment = context.BuildSegment(rule2, true);
+			segment = context.BuildSegment(rule2, Enumerable.Empty<ReductionTransition<char>>());
 			Assert.IsNotNull(segment);
 
 		}
@@ -81,15 +81,14 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			segment1 = context.BuildSegment(rule, true);
-			segment2 = context.BuildSegment(rule, true);
+			segment1 = context.BuildSegment(rule, Enumerable.Empty<ReductionTransition<char>>());
+			segment2 = context.BuildSegment(rule, Enumerable.Empty<ReductionTransition<char>>());
 			Assert.AreEqual(segment1, segment2);
 		}
 		[TestMethod]
 		public void ShouldReturnTargetNode()
 		{
 			GraphFactoryContext<char> context;
-			Transition<char> transition;
 			Node<char> target;
 			Graph<char> graph;
 
@@ -99,10 +98,7 @@ namespace FSMLib.UnitTest.Graphs
 			graph.Nodes.Add(new Node<char>());
 			graph.Nodes.Add(new Node<char>());
 
-			transition = new Transition<char>() { TargetNodeIndex = 1 };
-			graph.Nodes[0].Transitions.Add(transition);
-
-			target = context.GetTargetNode(transition);
+			target = context.GetTargetNode(1);
 			Assert.AreEqual(graph.Nodes[1], target);
 		}
 
@@ -111,17 +107,13 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			GraphFactoryContext<char> context;
 			Graph<char> graph;
-			Transition<char> transition;
 
 			graph = new Graph<char>();
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			graph.Nodes.Add(new Node<char>());
 			graph.Nodes.Add(new Node<char>());
 
-			transition = new Transition<char>() { TargetNodeIndex = 2 };  // Index out of range
-			graph.Nodes[0].Transitions.Add(transition);
-
-			Assert.ThrowsException<IndexOutOfRangeException>(() => context.GetTargetNode(transition));
+			Assert.ThrowsException<IndexOutOfRangeException>(() => context.GetTargetNode(2));
 		}
 		[TestMethod]
 		public void ShouldReturnNodeIndex()
@@ -171,7 +163,7 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(null, Enumerable.Empty<Transition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(null, Enumerable.Empty<BaseTransition<char>>()));
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(Enumerable.Empty<Node<char>>(), null));
 
 		}
@@ -181,44 +173,25 @@ namespace FSMLib.UnitTest.Graphs
 		{
 			Graph<char> graph;
 			Node<char> a, b;
-			IInput<char> input;
-			Transition<char> transition;
+			TerminalTransition<char> transition;
 			GraphFactoryContext<char> context;
 
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
-			input = new TerminalInput<char>();
-			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(b) };
+			
+			transition = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(b) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(a.AsEnumerable(), transition.AsEnumerable());
 
-			Assert.AreEqual(1, a.Transitions.Count);
-			Assert.AreEqual(0, b.Transitions.Count);
-			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(input, a.Transitions[0].Input);
+			Assert.AreEqual(1, a.TerminalTransitions.Count);
+			Assert.AreEqual(0, b.TerminalTransitions.Count);
+			Assert.AreEqual(1, a.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual('a', a.TerminalTransitions[0].Value);
 		}
 
-		[TestMethod]
-		public void ShouldAddRecognizedRules()
-		{
-			Graph<char> graph;
-			GraphFactoryContext<char> context;
-			Node<char> a;
-			MatchedRule matchedRule; ;
-
-			graph = new Graph<char>();
-			a = new Node<char>(); graph.Nodes.Add(a);
-
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			matchedRule = new MatchedRule() { Name = "rule" ,ID=0};
-			context.Connect(a.AsEnumerable(), new EORTransition<char>() { MatchedRule = matchedRule}.AsEnumerable());
-
-			Assert.AreEqual(0, a.Transitions.Count);
-			Assert.AreEqual(1, a.MatchedRules.Count);
-			Assert.AreEqual("rule", a.MatchedRules[0].Name);
-		}
+		
 
 		[TestMethod]
 		public void ShouldConnectOneToMany()
@@ -226,27 +199,27 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
 			Node<char> a, b, c;
-			Transition<char> transitionToB, transitionToC;
-			IInput<char> input;
-
+			TerminalTransition<char> transitionToB, transitionToC;
+	
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
-			input = new TerminalInput<char>();
-			transitionToB = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(b) };
-			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
+
+
+			transitionToB = new TerminalTransition<char>() { Value='a', TargetNodeIndex = graph.Nodes.IndexOf(b) };
+			transitionToC = new TerminalTransition<char>() { Value = 'b', TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			context.Connect(a.AsEnumerable(), new Transition<char>[] { transitionToB, transitionToC });
+			context.Connect(a.AsEnumerable(), new TerminalTransition<char>[] { transitionToB, transitionToC });
 
-			Assert.AreEqual(2, a.Transitions.Count);
-			Assert.AreEqual(0, b.Transitions.Count);
-			Assert.AreEqual(0, c.Transitions.Count);
-			Assert.AreEqual(1, a.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(2, a.Transitions[1].TargetNodeIndex);
-			Assert.AreEqual(input, a.Transitions[0].Input);
-			Assert.AreEqual(input, a.Transitions[1].Input);
+			Assert.AreEqual(2, a.TerminalTransitions.Count);
+			Assert.AreEqual(0, b.TerminalTransitions.Count);
+			Assert.AreEqual(0, c.TerminalTransitions.Count);
+			Assert.AreEqual(1, a.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual(2, a.TerminalTransitions[1].TargetNodeIndex);
+			Assert.AreEqual('a', a.TerminalTransitions[0].Value);
+			Assert.AreEqual('b', a.TerminalTransitions[1].Value);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToOne()
@@ -254,26 +227,25 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
 			Node<char> a, b, c;
-			IInput<char> input;
-			Transition<char> transition;
+			TerminalTransition<char> transition;
 
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
-			input = new TerminalInput<char>();
-			transition = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
+			
+			transition = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.Connect(new Node<char>[] { a, b }, transition.AsEnumerable());
 
-			Assert.AreEqual(1, a.Transitions.Count);
-			Assert.AreEqual(1, b.Transitions.Count);
-			Assert.AreEqual(0, c.Transitions.Count);
-			Assert.AreEqual(2, a.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(2, b.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(input, a.Transitions[0].Input);
-			Assert.AreEqual(input, b.Transitions[0].Input);
+			Assert.AreEqual(1, a.TerminalTransitions.Count);
+			Assert.AreEqual(1, b.TerminalTransitions.Count);
+			Assert.AreEqual(0, c.TerminalTransitions.Count);
+			Assert.AreEqual(2, a.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual(2, b.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual('a', a.TerminalTransitions[0].Value);
+			Assert.AreEqual('a', b.TerminalTransitions[0].Value);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToMany()
@@ -281,34 +253,33 @@ namespace FSMLib.UnitTest.Graphs
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
 			Node<char> a, b, c, d;
-			IInput<char> input;
-			Transition<char> transitionToD, transitionToC;
+			TerminalTransition<char> transitionToD, transitionToC;
 
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
 			d = new Node<char>(); graph.Nodes.Add(d);
-			input = new TerminalInput<char>();
-			transitionToC = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(c) };
-			transitionToD = new Transition<char>() { Input = input, TargetNodeIndex = graph.Nodes.IndexOf(d) };
+			
+			transitionToC = new TerminalTransition<char>() { Value='a', TargetNodeIndex = graph.Nodes.IndexOf(c) };
+			transitionToD = new TerminalTransition<char>() { Value = 'b', TargetNodeIndex = graph.Nodes.IndexOf(d) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			context.Connect(new Node<char>[] { a, b }, new Transition<char>[] { transitionToC, transitionToD });
+			context.Connect(new Node<char>[] { a, b }, new TerminalTransition<char>[] { transitionToC, transitionToD });
 
-			Assert.AreEqual(2, a.Transitions.Count);
-			Assert.AreEqual(2, b.Transitions.Count);
-			Assert.AreEqual(0, c.Transitions.Count);
-			Assert.AreEqual(0, d.Transitions.Count);
-			Assert.AreEqual(2, a.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(2, b.Transitions[0].TargetNodeIndex);
-			Assert.AreEqual(3, a.Transitions[1].TargetNodeIndex);
-			Assert.AreEqual(3, b.Transitions[1].TargetNodeIndex);
+			Assert.AreEqual(2, a.TerminalTransitions.Count);
+			Assert.AreEqual(2, b.TerminalTransitions.Count);
+			Assert.AreEqual(0, c.TerminalTransitions.Count);
+			Assert.AreEqual(0, d.TerminalTransitions.Count);
+			Assert.AreEqual(2, a.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual(2, b.TerminalTransitions[0].TargetNodeIndex);
+			Assert.AreEqual(3, a.TerminalTransitions[1].TargetNodeIndex);
+			Assert.AreEqual(3, b.TerminalTransitions[1].TargetNodeIndex);
 
-			Assert.AreEqual(input, a.Transitions[0].Input);
-			Assert.AreEqual(input, b.Transitions[0].Input);
-			Assert.AreEqual(input, a.Transitions[1].Input);
-			Assert.AreEqual(input, b.Transitions[1].Input);
+			Assert.AreEqual('a', a.TerminalTransitions[0].Value);
+			Assert.AreEqual('a', b.TerminalTransitions[0].Value);
+			Assert.AreEqual('b', a.TerminalTransitions[1].Value);
+			Assert.AreEqual('b', b.TerminalTransitions[1].Value);
 		}
 
 	}

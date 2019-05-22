@@ -1,5 +1,5 @@
 ﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +10,9 @@ namespace FSMLib.Rules
 {
 	public interface ISituationProducer<T>
 	{
-		//IEnumerable<Transition<T>> GetAllTransitions(IEnumerable<Situation<T>> Situations);
-		IEnumerable<IInput<T>> GetNextInputs(IEnumerable<Situation<T>> Situations);
-		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, IInput<T> Input);
+		IEnumerable<T> GetNextTerminals(IEnumerable<Situation<T>> Situations);
+		IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations);
+		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, T Value);
+		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, string Name);
 	}
 }

@@ -9,7 +9,7 @@ namespace FSMLib.Graphs
 {
 	public interface IGraphFactory<T>
 	{
-		Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules);
+		Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet);
 		Graph<T> BuildDeterministicGraph(Graph<T> BaseGraph);
 
 	}

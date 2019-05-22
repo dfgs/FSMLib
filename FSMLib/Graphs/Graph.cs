@@ -13,9 +13,17 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
+
+		public List<T> Alphabet
+		{
+			get;
+			set;
+		}
+
 		public Graph()
 		{
 			Nodes = new List<Node<T>>();
+			Alphabet = new List<T>();
 		}
 
 		

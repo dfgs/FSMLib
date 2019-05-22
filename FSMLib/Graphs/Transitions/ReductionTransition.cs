@@ -4,15 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.Graphs.Transitions
 {
-	public class MatchedRule
+	public class ReductionTransition<T>:BaseTransition<T>
 	{
-		public int ID
+
+		public T Value
 		{
 			get;
 			set;
 		}
+
+		public int TargetNodeIndex
+		{
+			get;
+			set;
+		}
+
 		public string Name
 		{
 			get;
@@ -24,6 +32,14 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
+
+		public ReductionTransition()
+		{
+
+		}
+
 		
+
+
 	}
 }

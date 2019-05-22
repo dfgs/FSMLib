@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Helpers;
 using FSMLib.Rules;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,149 +15,165 @@ namespace FSMLib.UnitTest
 
 
 		[TestMethod]
-		public void ShouldGetDistinctInputs()
+		public void ShouldGetOneDistinctTerminal()
 		{
-			Situation<char> a;
-			MockedGraph graph;
-			IInput<char>[] distinctInputs;
+			Situation<char> s1,s2,s3;
 			SituationProducer<char> producer;
+			char[] distinctInputs;
+			Graph<char> graph;
 
-			/*
-					   |---- a ---|   
-					   |          |   
-				O0 -a-> O1 -b-> O2|-c-> O3 
-				   -a-> O4 -b-> O5|
-				   -a-> O6 -c-> O7
-			*/
+			graph = new MockedGraph('a','b','c');
 
-			graph = new MockedGraph();
-
-			a = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			distinctInputs=producer.GetNextInputs(new Situation<char>[] { a }).ToArray();
+			distinctInputs=producer.GetNextTerminals(new Situation<char>[] { s1,s2,s3 }).ToArray();
 
 			Assert.AreEqual(1, distinctInputs.Length);
-			Assert.IsTrue(distinctInputs[0].Match('a'));
-		}
-
-		[TestMethod]
-		public void ShouldGetDistinctInputs2()
-		{
-			Situation<char> a, b, c;
-			MockedGraph graph;
-			IInput<char>[] distinctInputs;
-			SituationProducer<char> producer;
-
-			/*
-					   |---- a ---|   
-					   |          |   
-				O0 -a-> O1 -b-> O2|-c-> O3 
-				   -a-> O4 -b-> O5|
-				   -a-> O6 -c-> O7
-			*/
-
-			graph = new MockedGraph();
-
-			a = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			b = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			c = new Situation<char>() { Graph = graph, NodeIndex = 2 };
-
-			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextInputs(new Situation<char>[] { a, b, c }).ToArray();
-
-			Assert.AreEqual(3, distinctInputs.Length);
-			Assert.IsTrue(distinctInputs[0].Match('a'));
-			Assert.IsTrue(distinctInputs[1].Match('b'));
-			Assert.IsTrue(distinctInputs[2].Match('c'));
+			Assert.AreEqual('a', distinctInputs[0]);
 		}
 		[TestMethod]
-		public void ShouldGetDistinctNonTerminalInputs()
+		public void ShouldGetTwoDistinctTerminals()
 		{
-			Situation<char> a, b, c;
-			TestGraph7 graph;
-			IInput<char>[] distinctInputs;
+			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
+			char[] distinctInputs;
+			Graph<char> graph;
 
-			/*
-					   |---- a ---|   
-					   |          |   
-				O0 -a-> O1 -{B}-> O2|-c-> O3 
-				   -a-> O4 -{B}-> O5|
-				   -a-> O6 -c-> O7
-			*/
+			graph = new MockedGraph('a', 'b', 'c');
 
-			graph = new TestGraph7();
-
-			a = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			b = new Situation<char>() { Graph = graph, NodeIndex = 4 };
-			c = new Situation<char>() { Graph = graph, NodeIndex = 6 };
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextInputs(new Situation<char>[] { a, b, c }).ToArray();
+			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(2, distinctInputs.Length);
-			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char>() { Name="B" }));
-			Assert.IsTrue(distinctInputs[1].Match('c'));
+			Assert.AreEqual('a', distinctInputs[0]);
+			Assert.AreEqual('b', distinctInputs[1]);
 		}
+
+		[TestMethod]
+		public void ShouldGetThreeDistinctTerminals()
+		{
+			Situation<char> s1, s2, s3;
+			SituationProducer<char> producer;
+			char[] distinctInputs;
+			Graph<char> graph;
+
+			graph = new MockedGraph('a', 'b', 'c');
+
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 2 };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+
+			Assert.AreEqual(3, distinctInputs.Length);
+			Assert.AreEqual('a',distinctInputs[0]);
+			Assert.AreEqual('b', distinctInputs[1]);
+			Assert.AreEqual('c', distinctInputs[2]);
+		}
+
+
+
+
+
+		[TestMethod]
+		public void ShouldGetOneDistinctNonTerminal()
+		{
+			Situation<char> s1, s2, s3;
+			SituationProducer<char> producer;
+			string[] distinctInputs;
+			Graph<char> graph;
+
+			graph = new MockedGraph("A", "B", "C");
+
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+
+			Assert.AreEqual(1, distinctInputs.Length);
+			Assert.AreEqual("A", distinctInputs[0]);
+			
+		}
+		[TestMethod]
+		public void ShouldGetTwoDistinctNonTerminal()
+		{
+			Situation<char> s1, s2, s3;
+			SituationProducer<char> producer;
+			string[] distinctInputs;
+			Graph<char> graph;
+
+			graph = new MockedGraph("A", "B", "C");
+
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+
+			Assert.AreEqual(2, distinctInputs.Length);
+			Assert.AreEqual("A", distinctInputs[0]);
+			Assert.AreEqual("B", distinctInputs[1]);
+		}
+		[TestMethod]
+		public void ShouldGetThreeDistinctNonTerminal()
+		{
+			Situation<char> s1, s2, s3;
+			SituationProducer<char> producer;
+			string[] distinctInputs;
+			Graph<char> graph;
+
+			graph = new MockedGraph("A", "B", "C");
+
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 2 };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+
+			Assert.AreEqual(3, distinctInputs.Length);
+			Assert.AreEqual("A", distinctInputs[0]);
+			Assert.AreEqual("B", distinctInputs[1]);
+			Assert.AreEqual("C", distinctInputs[2]);
+		}
+
+
+
 
 
 		[TestMethod]
 		public void ShouldGetNextSituations()
 		{
-			Situation<char> a, b;
-			MockedGraph graph;
-			Situation<char>[] distinctSituations;
+			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
+			Graph<char> graph;
+			Situation<char>[] nextSituations;
 
-			/*
-					   |---- a ---|   
-					   |          |   
-				O0 -a-> O1 -b-> O2|-c-> O3 
-				   -a-> O4 -b-> O5|
-				   -a-> O6 -c-> O7
-			*/
+			graph = new MockedGraph('a', 'b', 'c');
 
-			graph = new MockedGraph();
-
-			a = new Situation<char>() { Graph = graph, NodeIndex = 2 };
-			b = new Situation<char>() { Graph = graph, NodeIndex = 5 };
+			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b },new TerminalInput<char>() {Value='a' } ).ToArray();
+			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, 'a').ToArray();
 
-			Assert.AreEqual(1, distinctSituations.Length);
-			Assert.AreEqual(1,distinctSituations[0].NodeIndex);
+			Assert.AreEqual(1, nextSituations.Length);
+			Assert.AreEqual(1, nextSituations[0].NodeIndex);
 		}
-		[TestMethod]
-		public void ShouldGetNextSituations2()
-		{
-			Situation<char> a, b;
-			MockedGraph graph;
-			Situation<char>[] distinctSituations;
-			SituationProducer<char> producer;
+		
 
-			/*
-					   |---- a ---|   
-					   |          |   
-				O0 -a-> O1 -b-> O2|-c-> O3 
-				   -a-> O4 -b-> O5|
-				   -a-> O6 -c-> O7
-			*/
-
-			graph = new MockedGraph();
-
-			a = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			b = new Situation<char>() { Graph = graph, NodeIndex = 5 };
-
-			producer = new SituationProducer<char>();
-			distinctSituations = producer.GetNextSituations(new Situation<char>[] { a, b }, new TerminalInput<char>() { Value = 'a' }).ToArray();
-
-			Assert.AreEqual(3, distinctSituations.Length);
-			Assert.AreEqual(1, distinctSituations[0].NodeIndex);
-			Assert.AreEqual(4, distinctSituations[1].NodeIndex);
-			Assert.AreEqual(6, distinctSituations[2].NodeIndex);
-		}
 
 	}
 }

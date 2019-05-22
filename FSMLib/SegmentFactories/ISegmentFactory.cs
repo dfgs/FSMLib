@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 using System.Collections.Generic;
 using System.Linq;

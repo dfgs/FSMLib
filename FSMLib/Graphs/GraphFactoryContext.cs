@@ -1,4 +1,5 @@
-﻿using FSMLib.Rules;
+﻿using FSMLib.Graphs.Transitions;
+using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace FSMLib.Graphs
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private Dictionary<Rule<T>, Segment<T>> cache;
 
-	
 
 		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
 		{
@@ -24,27 +24,29 @@ namespace FSMLib.Graphs
 			this.segmentFactoryProvider = SegmentFactoryProvider;
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
-
+	
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 
 			compilingList = new List<Rule<T>>();
 		}
 
 
-		public Segment<T> BuildSegment( Rule<T> Rule, bool IsAxiom)
+		public Segment<T> BuildSegment( Rule<T> Rule, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
-			MatchedRule matchedRule;
-
-			if (cache.TryGetValue(Rule, out segment)) return segment;
+			
+			if (cache.TryGetValue(Rule, out segment))
+			{
+				return segment;
+			}
 
 			if (compilingList.Contains(Rule)) throw new InvalidOperationException("Recursive rule call");
 			compilingList.Add(Rule);
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
-			matchedRule = new MatchedRule() { Name=Rule.Name, ID= Rule.GetHashCode(), IsAxiom=IsAxiom};
 
-			segment = segmentFactory.BuildSegment(this, Rule.Predicate, new EORTransition<T>() { MatchedRule = matchedRule }.AsEnumerable());
+
+			segment = segmentFactory.BuildSegment(this, Rule.Predicate,OutTransitions  );
 			cache.Add(Rule, segment);
 			compilingList.Remove(Rule);
 
@@ -60,17 +62,34 @@ namespace FSMLib.Graphs
 			{
 				foreach (BaseTransition<T> transition in Transitions)
 				{
-					if (transition is EORTransition<T> eorTransition) node.MatchedRules.Add(eorTransition.MatchedRule);
-					else node.Transitions.Add((Transition<T>)transition);
+					switch(transition)
+					{
+						case TerminalTransition<T> tr:
+							node.TerminalTransitions.Add(tr);
+							break;
+						case NonTerminalTransition<T> tr:
+							node.NonTerminalTransitions.Add(tr);
+							break;
+						case ReductionTransition<T> tr:
+							node.ReductionTransitions.Add(tr);
+							break;
+						case AcceptTransition<T> tr:
+							node.AcceptTransitions.Add(tr);
+							break;
+
+						default:
+							throw (new NotImplementedException("Invalid transition type"));
+					}
+					
 				}
 			}
 		}
 
 
-		public Node<T> GetTargetNode(Transition<T> Transition)
+		public Node<T> GetTargetNode(int Index)
 		{
-			if ((Transition.TargetNodeIndex < 0) || (Transition.TargetNodeIndex >= graph.Nodes.Count)) throw (new IndexOutOfRangeException("Node index is out of range"));
-			return graph.Nodes[Transition.TargetNodeIndex];
+			if ((Index < 0) || (Index >= graph.Nodes.Count)) throw (new IndexOutOfRangeException("Node index is out of range"));
+			return graph.Nodes[Index];
 		}
 
 		public Node<T> CreateNode()
@@ -87,6 +106,10 @@ namespace FSMLib.Graphs
 			return graph.Nodes.IndexOf(Node);
 		}
 
+		public IEnumerable<T> GetAlphabet()
+		{
+			return graph.Alphabet;
+		}
 
 	}
 }

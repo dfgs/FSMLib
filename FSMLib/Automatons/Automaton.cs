@@ -1,5 +1,5 @@
 ﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Graphs.Transitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,14 +40,14 @@ namespace FSMLib.Automatons
 
 		
 
-		private bool Feed(BaseNode<T> Node,IInput<T> Input)
+		private bool Feed(TerminalNode<T> Node)
 		{
 			Node<T> node;
 
 			node = graph.Nodes[nodeIndex];
-			foreach (Transition<T> transition in node.Transitions.OrderBy(item => item.Input.Priority)) // must match input with lower priority first
+			foreach (TerminalTransition<T> transition in node.TerminalTransitions)
 			{
-				if (transition.Input.Match(Input))
+				if (transition.Match(Node.Value))
 				{
 					nodeIndexStack.Push(nodeIndex);
 					nodeStack.Push(Node);
@@ -58,31 +58,43 @@ namespace FSMLib.Automatons
 			return false;
 		}
 
-		public void Feed(T Item)
+		private bool Feed(NonTerminalNode<T> Node)
+		{
+			Node<T> node;
+
+			node = graph.Nodes[nodeIndex];
+			foreach (NonTerminalTransition<T> transition in node.NonTerminalTransitions)
+			{
+				if (transition.Match(Node.Name))
+				{
+					nodeIndexStack.Push(nodeIndex);
+					nodeStack.Push(Node);
+					nodeIndex = transition.TargetNodeIndex;
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public void Feed(T Input)
 		{
 			TerminalNode<T> inputNode;
-			TerminalInput<T> terminalInput;
-			
 			NonTerminalNode<T> nonTerminalNode;
-			NonTerminalInput<T> nonTerminalInput;
 
-
-			terminalInput = new TerminalInput<T>() { Value = Item };
-			inputNode = new TerminalNode<T>() { Value=Item };
+			inputNode = new TerminalNode<T>() { Value=Input };
 
 		retry:
 
-			if (Feed(inputNode, terminalInput)) return;
+			if (Feed(inputNode)) return;
 			
 			if (CanReduce())
 			{
 				nonTerminalNode = Reduce();
-				nonTerminalInput = new NonTerminalInput<T>() { Name = nonTerminalNode.Name };
-				if (!Feed(nonTerminalNode, nonTerminalInput)) throw new AutomatonException<T>(nonTerminalInput, nodeStack);
+				if (!Feed(nonTerminalNode)) throw new AutomatonException<T>(Input, nodeStack);
 				goto retry;
 			}
 
-			throw new AutomatonException<T>(terminalInput, nodeStack);
+			throw new AutomatonException<T>(Input, nodeStack);
 		}
 
 
@@ -91,31 +103,31 @@ namespace FSMLib.Automatons
 			Node<T> node;
 
 			node = graph.Nodes[nodeIndex];
-			return node.MatchedRules.Count > 0;
+			return node.ReductionTransitions.Count > 0;
 		}
 
 		private NonTerminalNode<T> Reduce()
 		{
 			Node<T> node;
 			BaseNode<T> baseNode;
-			MatchedRule matchedRule;
+			ReductionTransition<T> reductionTransition;
 			NonTerminalNode<T> reducedNode;
 
 
 			node = graph.Nodes[nodeIndex];
-			if (node.MatchedRules.Count == 0) throw new InvalidOperationException("Automaton cannot reduce in current state");
+			if (node.ReductionTransitions.Count == 0) throw new InvalidOperationException("Automaton cannot reduce in current state");
 
-			matchedRule = node.MatchedRules[0];
-			reducedNode = new NonTerminalNode<T>() { Name= matchedRule.Name };
+			reductionTransition = node.ReductionTransitions[0];
+			reducedNode = new NonTerminalNode<T>() { Name= reductionTransition.Name };
 
-
-			while (nodeStack.Count>0 &&  (!graph.Nodes[nodeIndex].RootIDs.Contains(matchedRule.ID)) )
+			
+			while (nodeStack.Count>0 &&  (nodeIndex!=reductionTransition.TargetNodeIndex) )
 			{
 				nodeIndex = nodeIndexStack.Pop();
 				baseNode=nodeStack.Pop();
 				reducedNode.Nodes.Insert(0,baseNode);	// stack order is inverted compared to node childs
 			}
-
+			
 			return reducedNode;
 			
 		}
@@ -123,10 +135,10 @@ namespace FSMLib.Automatons
 		public bool CanAccept()
 		{
 			Node<T> node;
-			MatchedRule axiom;
+			AcceptTransition<T> axiom;
 
 			node = graph.Nodes[nodeIndex];
-			axiom = node.MatchedRules.FirstOrDefault(item => item.IsAxiom);
+			axiom = node.AcceptTransitions.FirstOrDefault();
 
 			return axiom != null;
 		}

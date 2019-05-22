@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,7 @@ namespace FSMLib.UnitTest.Mocks
 	[ExcludeFromCodeCoverage]
 	public class MockedGraphFactoryContext : IGraphFactoryContext<char>
 	{
-		public IEnumerable<Rule<char>> Rules => throw new NotImplementedException();
-
-		public Segment<char> BuildSegment(Rule<char> Rule,bool IsAxiom)
+		public Segment<char> BuildSegment(Rule<char> Rule, IEnumerable<BaseTransition<char>> OutTransitions)
 		{
 			throw new NotImplementedException();
 		}
@@ -29,12 +28,17 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
+		public IEnumerable<char> GetAlphabet()
+		{
+			throw new NotImplementedException();
+		}
+
 		public int GetNodeIndex(Node<char> Node)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Node<char> GetTargetNode(Transition<char> Transition)
+		public Node<char> GetTargetNode(int Index)
 		{
 			throw new NotImplementedException();
 		}

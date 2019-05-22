@@ -2,7 +2,7 @@
 using System.Linq;
 using FSMLib.Automatons;
 using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;

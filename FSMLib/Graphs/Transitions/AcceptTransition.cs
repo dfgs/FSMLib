@@ -1,16 +1,16 @@
-﻿using FSMLib.Graphs.Inputs;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.Graphs.Transitions
 {
-	public abstract class BaseTransition<T>
+	public class AcceptTransition<T>:BaseTransition<T>
 	{
+
+	
 		
-
 	}
-
 }

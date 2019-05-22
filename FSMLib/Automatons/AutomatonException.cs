@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs.Inputs;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace FSMLib.Automatons
 {
 	public class AutomatonException<T>:Exception
 	{
-		public IInput<T> Input
+		public T Input
 		{
 			get;
 			private set;
@@ -20,7 +20,7 @@ namespace FSMLib.Automatons
 			get;
 			private set;
 		}
-		public AutomatonException(IInput<T> Input, IEnumerable<BaseNode<T>> Stack)
+		public AutomatonException(T Input, IEnumerable<BaseNode<T>> Stack)
 		{
 			this.Input = Input;
 			this.Stack = Stack;

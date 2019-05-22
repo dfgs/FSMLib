@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs.Inputs;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace FSMLib.Automatons
 		void Reset();
 
 		//bool Feed(IInput<T> Item);
-		void Feed(T Item);
+		void Feed(T Input);
 
 		bool CanAccept();
 

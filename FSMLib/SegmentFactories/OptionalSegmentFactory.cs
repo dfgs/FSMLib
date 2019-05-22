@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories

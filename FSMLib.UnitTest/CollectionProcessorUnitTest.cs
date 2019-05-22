@@ -19,7 +19,7 @@ namespace FSMLib.UnitTest
 			a.Add(1);
 			a.Add(2);
 			a.Add(3);
-			items = CollectionProcessor.DisctinctEx(a).ToArray();
+			items = CollectionProcessor.DistinctEx(a).ToArray();
 			Assert.AreEqual(3, items.Length);
 			Assert.AreEqual(1, items[0]);
 			Assert.AreEqual(2, items[1]);
@@ -28,7 +28,7 @@ namespace FSMLib.UnitTest
 			a.Add(2);
 			a.Add(3);
 			a.Add(1);
-			items = CollectionProcessor.DisctinctEx(a).ToArray();
+			items = CollectionProcessor.DistinctEx(a).ToArray();
 			Assert.AreEqual(3, items.Length);
 			Assert.AreEqual(1, items[0]);
 			Assert.AreEqual(2, items[1]);
@@ -40,7 +40,7 @@ namespace FSMLib.UnitTest
 		{
 			int[] items;
 
-			items = CollectionProcessor.DisctinctEx<int>(null).ToArray();
+			items = CollectionProcessor.DistinctEx<int>(null).ToArray();
 			Assert.AreEqual(0, items.Length);
 		}
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Graphs;
-using FSMLib.Graphs.Inputs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -22,13 +22,13 @@ namespace FSMLib.SegmentFactories
 			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
 
 			Node<T> node;
-			Transition<T> transition;
+			TerminalTransition<T> transition;
 			Segment<T> segment;
 
 			node = Context.CreateNode();
-			transition = new Transition<T>();
+			transition = new TerminalTransition<T>();
 			transition.TargetNodeIndex = Context.GetNodeIndex(node);
-			transition.Input = new TerminalInput<T>() {  Value=Predicate.Value };
+			transition.Value = Predicate.Value;
 
 			Context.Connect(node.AsEnumerable(), OutTransitions);
 

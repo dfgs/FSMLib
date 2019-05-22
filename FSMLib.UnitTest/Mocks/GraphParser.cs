@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -16,7 +17,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		public int TransitionCount
 		{
-			get { return graph.Nodes[nodeIndex].Transitions.Count; }
+			get { return graph.Nodes[nodeIndex].TerminalTransitions.Count; }
 		}
 
 		
@@ -30,9 +31,9 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			int index = 0;
 
-			foreach(Transition<T> transition in graph.Nodes[nodeIndex].Transitions)
+			foreach(TerminalTransition<T> transition in graph.Nodes[nodeIndex].TerminalTransitions)
 			{
-				if (transition.Input.Match(Input))
+				if (transition.Match(Input))
 				{
 					if (index == MatchIndex)
 					{

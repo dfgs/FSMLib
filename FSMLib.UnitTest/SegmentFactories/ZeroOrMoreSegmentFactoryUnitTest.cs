@@ -1,4 +1,5 @@
 ﻿using FSMLib.Graphs;
+using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -22,7 +23,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			ZeroOrMoreSegmentFactory<char> factory;
 
 			factory = new ZeroOrMoreSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),new MockedPredicate<char>(), new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),new MockedPredicate<char>(), Enumerable.Empty<ReductionTransition<char>>()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -30,8 +31,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			ZeroOrMoreSegmentFactory<char> factory;
 
 			factory = new ZeroOrMoreSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null,  new ZeroOrMore<char>(), new EORTransition<char>().AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(),  null, new EORTransition<char>().AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null,  new ZeroOrMore<char>(), Enumerable.Empty<ReductionTransition<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(),  null, Enumerable.Empty<ReductionTransition<char>>()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(),  new ZeroOrMore<char>(),null));
 		}
 		[TestMethod]
@@ -57,15 +58,15 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new ZeroOrMore<char>() {  Item=sequence};
 
-			segment = factory.BuildSegment(context,  predicate, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context,  predicate, new TerminalTransition<char>() { Value = 'd' }.AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(2, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(3, graph.Nodes.Count);
-			Assert.AreEqual(1, segment.Outputs.First().Transitions.Count);
+			Assert.AreEqual(2, segment.Outputs.First().TerminalTransitions.Count);
 
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.First()).Input.Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().Transitions[0].Input.Match('a'));
+			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.First()).Match('a'));
+			Assert.AreEqual(true, segment.Outputs.First().TerminalTransitions[0].Match('d'));
 
 		}
 		[TestMethod]
@@ -91,17 +92,18 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new ZeroOrMore<char>() { Item = or };
 
-			segment = factory.BuildSegment(context, predicate, new EORTransition<char>().AsEnumerable());
+			segment = factory.BuildSegment(context, predicate, new TerminalTransition<char>() { Value='d' }.AsEnumerable()  );
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(4, segment.Inputs.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
 			Assert.AreEqual(3, graph.Nodes.Count);
-			Assert.AreEqual(3, segment.Outputs.First().Transitions.Count);
+			Assert.AreEqual(4, segment.Outputs.First().TerminalTransitions.Count);
 
-			Assert.AreEqual(true, ((Transition<char>)segment.Inputs.First()).Input.Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().Transitions[0].Input.Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().Transitions[1].Input.Match('b'));
-			Assert.AreEqual(true, segment.Outputs.First().Transitions[2].Input.Match('c'));
+			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.First()).Match('a'));
+			Assert.AreEqual(true, segment.Outputs.First().TerminalTransitions[0].Match('d'));
+			Assert.AreEqual(true, segment.Outputs.First().TerminalTransitions[1].Match('a'));
+			Assert.AreEqual(true, segment.Outputs.First().TerminalTransitions[2].Match('b'));
+			Assert.AreEqual(true, segment.Outputs.First().TerminalTransitions[3].Match('c'));
 
 		}
 

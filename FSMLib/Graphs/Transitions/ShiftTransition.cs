@@ -4,20 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.Graphs.Transitions
 {
-	public class EORTransition<T>:BaseTransition<T>
+	public class ShiftTransition<T>:BaseTransition<T>
 	{
-		public MatchedRule MatchedRule
+		public int TargetNodeIndex
 		{
 			get;
 			set;
 		}
 
-		public EORTransition()
-		{
-
-		}
-		
 	}
 }

@@ -8,7 +8,7 @@ namespace FSMLib
 {
 	public static class CollectionProcessor
 	{
-		public static IEnumerable<T> DisctinctEx<T>(this IEnumerable<T> Items)
+		public static IEnumerable<T> DistinctEx<T>(this IEnumerable<T> Items)
 			where T:IEquatable<T>
 		{
 			List<T> existing;

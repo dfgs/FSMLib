@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs.Inputs;
+﻿using FSMLib.Graphs.Transitions;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -23,59 +23,108 @@ namespace FSMLib.Graphs
 			this.situationProducer = SituationProducer;
 		}
 
-		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<Transition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules,Rule<T> Axiom)
+		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<NonTerminalTransition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules,Rule<T> Axiom)
 		{
 			Segment<T> nonTerminalSegment;
-		
-			foreach (NonTerminalInput<T> input in Transitions.Select(item => item.Input).OfType<NonTerminalInput<T>>().ToArray())
+			ReductionTransition<T> reductionTransition;
+
+			foreach (string name in Transitions.Select(item => item.Name))
 			{
-				foreach (Rule<T> rule in Rules.Where(item => item.Name == input.Name))
+				foreach (Rule<T> rule in Rules.Where(item => item.Name == name))
 				{
-					nonTerminalSegment = context.BuildSegment(rule,rule==Axiom);
-					node.RootIDs.Add(rule.GetHashCode());
+					// Get segment corresponding to non terminal
+					nonTerminalSegment = context.BuildSegment(rule,Enumerable.Empty<BaseTransition<T>>() );
+
+					// add reduction to non terminal segment
+					foreach (Node<T> outputNode in nonTerminalSegment.Outputs)
+					{
+						reductionTransition = new ReductionTransition<T>();
+						reductionTransition.Name = rule.Name;
+						reductionTransition.TargetNodeIndex = context.GetNodeIndex(node);
+						//reductionTransition.Value = terminalTransition.Value;
+						outputNode.ReductionTransitions.Add(reductionTransition);
+					}
+
+					// connect node to non terminal segment
 					context.Connect(node.AsEnumerable(), nonTerminalSegment.Inputs);
+
+					
+
 					// we must connect recusively node to all segments, everytime a Non Terminal transition appears
 					// but we must exclude Non Terminal transition with current input Name in order to avoid infinite loop
-					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<Transition<T>>().Where( item=> !(item.Input is NonTerminalInput<T> nextNonTerminalInput) || (nextNonTerminalInput.Name!=input.Name) ) , context, Rules,Axiom);
+					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<NonTerminalTransition<T>>().Where( item=> item.Name!=name ) , context, Rules,Axiom);
 				}
 			}
 		}
 
-		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules)
+		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			Graph<T> graph;
 			Node<T> root;
 			Segment<T> segment;
 			GraphFactoryContext<T> context;
 			Rule<T> axiom;
-
-			
+	
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
+			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
 
-			axiom = Rules.FirstOrDefault();
-
+	
 			graph = new Graph<T>();
+			graph.Alphabet.AddRange(Alphabet);
+
+			if (!Rules.Any()) return graph;
+
+			axiom = Rules.First();
+			
 			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
 			root = context.CreateNode();
-			root.RootIDs.AddRange(Rules.Select(item=>item.GetHashCode()));
+			
 			// build all segments from rules
 			foreach(Rule<T> rule in Rules)
 			{
-				segment = context.BuildSegment( rule,rule==axiom);
-				context.Connect( root.AsEnumerable(), segment.Inputs);
+				segment = context.BuildSegment( rule, Enumerable.Empty<BaseTransition<T>>());
+				context.Connect(root.AsEnumerable(), segment.Inputs);
 			}
 
-			// check all transition in order to complete non terminal transitions
-			foreach(Node<T> node in graph.Nodes)
+			// add accept transition to root segment
+			segment = context.BuildSegment(axiom, Enumerable.Empty<BaseTransition<T>>());
+			foreach (Node<T> node in segment.Outputs)
+			{
+				node.AcceptTransitions.Add(new AcceptTransition<T>());
+				node.ReductionTransitions.Add(new ReductionTransition<T>() { IsAxiom=true, TargetNodeIndex=0, Name=axiom.Name } );
+			}
+
+			// add reduction transition to nodes
+			foreach (Node<T> node in graph.Nodes)
 			{
 				if (node == root) continue;
-				AddNonTerminalTransitionToNode(node,node.Transitions,context,Rules,axiom);
+				AddNonTerminalTransitionToNode(node,node.NonTerminalTransitions.ToArray(),context,Rules,axiom);
 			}
 
 			return graph;
 		}
 
 
+		private GraphTuple<T> GetNextTuple(GraphFactoryContext<T> Context, Stack<GraphTuple<T>> OpenList,List<GraphTuple<T>> SituationMapping, IEnumerable<Situation<T>> NextSituations)
+		{
+			GraphTuple<T> nextTuple;
+
+			nextTuple = SituationMapping.FirstOrDefault(item => item.Situations.IsIndenticalToEx(NextSituations));
+			if (nextTuple == null)
+			{
+				nextTuple = new GraphTuple<T>();
+				nextTuple.Node = Context.CreateNode();
+				nextTuple.Situations = NextSituations;
+
+				nextTuple.Node.ReductionTransitions.AddRange(NextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].ReductionTransitions));
+				nextTuple.Node.AcceptTransitions.AddRange(NextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].AcceptTransitions));
+
+				SituationMapping.Add(nextTuple);
+				OpenList.Push(nextTuple);
+			}
+
+			return nextTuple;
+		}
 		public Graph<T> BuildDeterministicGraph(Graph<T> BaseGraph)
 		{
 			IEnumerable<Situation<T>> nextSituations;
@@ -83,50 +132,52 @@ namespace FSMLib.Graphs
 			List<GraphTuple<T>> situationMapping;
 			GraphTuple<T> currentTuple,nextTuple;
 			Stack<GraphTuple<T>> openList;
-			Transition<T> transition;
+			ShiftTransition<T> transition;
 			GraphFactoryContext<T> context;
 
 			if (BaseGraph == null) throw new System.ArgumentNullException("BaseGraph");
 
 			graph = new Graph<T>();
+			graph.Alphabet.AddRange(BaseGraph.Alphabet);
+
 			if (BaseGraph.Nodes.Count == 0) return graph;
 			context = new GraphFactoryContext<T>(segmentFactoryProvider,graph);
 
 			situationMapping = new List<GraphTuple<T>>();
 			openList = new Stack<GraphTuple<T>>();
 
-			currentTuple = new GraphTuple<T>();
-			currentTuple.Node = context.CreateNode();
-			currentTuple.Situations = new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 }.AsEnumerable();
-			currentTuple.Node.RootIDs.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RootIDs));
-			currentTuple.Node.MatchedRules.AddRange(currentTuple.Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].MatchedRules));
-			
-			situationMapping.Add(currentTuple);
-			openList.Push(currentTuple);
-
+			currentTuple= GetNextTuple(context, openList, situationMapping, new Situation<T>() { Graph = BaseGraph, NodeIndex = 0 }.AsEnumerable());
+	
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach(IInput<T> input in situationProducer.GetNextInputs(currentTuple.Situations))
+				foreach (T value in situationProducer.GetNextTerminals(currentTuple.Situations))
 				{
-					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, input);
+					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, value);
 					// do we have the same situation list in graph ?
-					nextTuple = situationMapping.FirstOrDefault(item => item.Situations.IsIndenticalToEx(nextSituations));
-					if (nextTuple == null)
-					{
-						nextTuple = new GraphTuple<T>();
-						nextTuple.Node = context.CreateNode();
-						nextTuple.Situations = nextSituations;
-						nextTuple.Node.RootIDs.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].RootIDs));
-						nextTuple.Node.MatchedRules.AddRange(nextSituations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].MatchedRules));
-
-						situationMapping.Add(nextTuple);
-						openList.Push(nextTuple);
-					}
+					nextTuple = GetNextTuple(context,openList,situationMapping,nextSituations);
 					// if not we push this situation list in processing stack
-					transition = new Transition<T>() { Input = input, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
-					context.Connect( currentTuple.Node.AsEnumerable(),transition.AsEnumerable() );
+					transition = new TerminalTransition<T>() { Value = value, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
+					context.Connect(currentTuple.Node.AsEnumerable(), transition.AsEnumerable());
 				}
+				foreach (string name in situationProducer.GetNextNonTerminals(currentTuple.Situations))
+				{
+					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, name);
+					// do we have the same situation list in graph ?
+					nextTuple = GetNextTuple(context, openList, situationMapping, nextSituations);
+					// if not we push this situation list in processing stack
+					transition = new NonTerminalTransition<T>() { Name = name, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
+					context.Connect(currentTuple.Node.AsEnumerable(), transition.AsEnumerable());
+				}
+
+			}
+
+			// translate reduction transitions, because indices in base graph are not the same in det graph
+			foreach (ReductionTransition<T> reductionTransition in graph.Nodes.SelectMany(item=>item.ReductionTransitions))
+			{
+				nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation=>situation.NodeIndex==reductionTransition.TargetNodeIndex)!=null );
+				if (nextTuple == null) throw new Exception("Failed to translate reduction transitions");
+				reductionTransition.TargetNodeIndex = context.GetNodeIndex(nextTuple.Node);
 			}
 
 			return graph;
@@ -141,4 +192,5 @@ namespace FSMLib.Graphs
 
 
 	}
-	}
+
+}

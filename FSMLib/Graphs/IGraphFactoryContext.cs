@@ -1,4 +1,5 @@
-﻿using FSMLib.Rules;
+﻿using FSMLib.Graphs.Transitions;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace FSMLib.Graphs
 			get;
 		}*/
 
-		Segment<T> BuildSegment( Rule<T> Rule,bool IsAxiom);
+		Segment<T> BuildSegment( Rule<T> Rule, IEnumerable<BaseTransition<T>> OutTransitions);
 		void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseTransition<T>> Transitions);
-		Node<T> GetTargetNode(Transition<T> Transition);
+		Node<T> GetTargetNode(int Index);
 		Node<T> CreateNode();
 		int GetNodeIndex(Node<T> Node);
+
+		IEnumerable<T> GetAlphabet();
 	}
 }

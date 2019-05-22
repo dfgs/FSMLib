@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Graphs.Transitions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,29 +14,42 @@ namespace FSMLib.Graphs
 			get;
 			set;
 		}
-		public List<Transition<T>> Transitions
+		public List<TerminalTransition<T>> TerminalTransitions
+		{
+			get;
+			set;
+		}
+		public List<NonTerminalTransition<T>> NonTerminalTransitions
 		{
 			get;
 			set;
 		}
 
-		public List<MatchedRule> MatchedRules
+		public List<ReductionTransition<T>> ReductionTransitions
 		{
 			get;
 			set;
 		}
 
-		public List<int> RootIDs
+		public List<AcceptTransition<T>> AcceptTransitions
 		{
 			get;
 			set;
 		}
+
+		/*public List<int> RootIDs
+		{
+			get;
+			set;
+		}*/
 
 		public Node()
 		{
-			Transitions = new List<Transition<T>>();
-			MatchedRules = new List<MatchedRule>();
-			RootIDs = new List<int>();
+			TerminalTransitions = new List<TerminalTransition<T>>();
+			NonTerminalTransitions = new List<NonTerminalTransition<T>>();
+			ReductionTransitions = new List<ReductionTransition<T>>();
+			AcceptTransitions = new List<AcceptTransition<T>>();
+			//RootIDs = new List<int>();
 		}
 		public override string ToString()
 		{
