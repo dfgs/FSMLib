@@ -154,6 +154,56 @@ namespace FSMLib.Helpers.UnitTest
 
 		}
 
+		[TestMethod]
+		public void ShouldParseOr()
+		{
+			Or<char> result;
+
+			result = RuleGrammar.Or.Parse("a|b|c|d");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.Or.Parse(@"a|b|\.|d");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.Or.Parse(@"a|b|.|d");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.Or.Parse(@" |b|.| "); // a space at begin and end
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.Or.Parse("a|bcd|d");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Sequence<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+
+			result = RuleGrammar.Or.Parse("a|{b}|c|{d}");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(NonTerminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(NonTerminal<char>));
+
+
+		}
+
+
 
 	}
 }

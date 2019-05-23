@@ -17,7 +17,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		public int TransitionCount
 		{
-			get { return graph.Nodes[nodeIndex].TerminalTransitions.Count; }
+			get { return graph.Nodes[nodeIndex].TerminalTransitions.Count+ graph.Nodes[nodeIndex].NonTerminalTransitions.Count; }
 		}
 
 		

@@ -50,7 +50,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharRuleParserUnitTest.cs" />
     <Compile Include="RuleGrammarUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -27,14 +27,11 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> graph;
 			Rule<char> rule;
-			Sequence<char> predicate;
 			GraphParser<char> parser;
 
 			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(),new SituationProducer<char>() ) ;
 
-			predicate = new char[] { 'a', 'b', 'c'};
-			rule = new Rule<char>();
-			rule.Predicate = predicate;
+			rule = RuleHelper.BuildRule("A=abc");
 
 			graph = factory.BuildGraph(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
@@ -57,17 +54,12 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> graph;
 			Rule<char> rule1,rule2;
-			Sequence<char> predicate;
 			GraphParser<char> parser;
 
 			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			predicate = new char[] { 'a', 'b', 'c' };
-			rule1 = new Rule<char>();
-			rule1.Predicate = predicate;
-			predicate = new char[] { 'a', 'b', 'c' };
-			rule2 = new Rule<char>();
-			rule2.Predicate = predicate;
+			rule1 = RuleHelper.BuildRule("A=abc");
+			rule2 = RuleHelper.BuildRule("B=abc");
 
 			graph = factory.BuildGraph(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
@@ -100,25 +92,25 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactory<char> factory;
 			Graph<char> graph;
 			Rule<char> rule;
-			Or<char> predicate;
+			GraphParser<char> parser;
 
 			factory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			predicate = new char[] { 'a', 'b', 'c' };
-			rule = new Rule<char>();
-			rule.Predicate = predicate;
+			rule = RuleHelper.BuildRule("A=a|b|c");
 
 			graph = factory.BuildGraph(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(graph);
 			Assert.AreEqual(4, graph.Nodes.Count);
 
-			Assert.AreEqual(3, graph.Nodes[0].TerminalTransitions.Count);
-			Assert.AreEqual(1, graph.Nodes[0].TerminalTransitions[0].TargetNodeIndex);
-			Assert.AreEqual(2, graph.Nodes[0].TerminalTransitions[1].TargetNodeIndex);
-			Assert.AreEqual(3, graph.Nodes[0].TerminalTransitions[2].TargetNodeIndex);
-			Assert.AreEqual(0, graph.Nodes[1].TerminalTransitions.Count);
-			Assert.AreEqual(0, graph.Nodes[2].TerminalTransitions.Count);
-			Assert.AreEqual(0, graph.Nodes[3].TerminalTransitions.Count);
+			parser = new GraphParser<char>(graph);
+
+			Assert.AreEqual(3, parser.TransitionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			parser.Reset();
+			Assert.IsTrue(parser.Parse('b'));
+			parser.Reset();
+			Assert.IsTrue(parser.Parse('c'));
+
 
 		}
 

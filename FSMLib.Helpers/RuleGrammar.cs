@@ -18,8 +18,9 @@ namespace FSMLib.Helpers
 		private static readonly Parser<char> Plus = Parse.Char('+');
 		private static readonly Parser<char> Star = Parse.Char('*');
 		private static readonly Parser<char> QuestionMark = Parse.Char('?');
+		private static readonly Parser<char> Pipe = Parse.Char('|');
 
-		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark);
+		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe);
 		private static Parser<char> NormalChar = Parse.AnyChar.Except(SpecialChar);
 
 		private static readonly Parser<char> EscapedChar =
@@ -51,6 +52,15 @@ namespace FSMLib.Helpers
 			from otherPredicates in TerminalPredicate.AtLeastOnce()
 			select (Sequence<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates) ).ToArray();
 
+		public static readonly Parser<BasePredicate<char>> OrItem =
+			from _ in Pipe
+			from value in TerminalSequence.Or(TerminalPredicate)
+			select value;
+
+		public static readonly Parser<Or<char>> Or =
+			from firstPredicate in TerminalPredicate
+			from otherPredicates in OrItem.AtLeastOnce()
+			select (Or<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates)).ToArray();
 
 		public static readonly Parser<OneOrMore<char>> OneOrMore =
 			from value in TerminalPredicate
@@ -69,7 +79,7 @@ namespace FSMLib.Helpers
 
 		private static readonly Parser<BasePredicate<char>> AdvancedPredicate =
 			TerminalSequence.Or<BasePredicate<char>>(OneOrMore)
-			.Or<BasePredicate<char>>(ZeroOrMore).Or(Optional);
+			.Or<BasePredicate<char>>(ZeroOrMore).Or(Optional).Or(Or);
 
 		private static readonly Parser<BasePredicate<char>> RuleSinglePredicate =
 			from predicate in AdvancedPredicate.Or(TerminalPredicate)

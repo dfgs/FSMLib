@@ -32,7 +32,6 @@ namespace Demo
 	{
 		private ObservableCollection<GraphView> views;
 		private GraphFactory<char> graphFactory;
-		private CharRuleParser parser;
 
 		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't' };
 
@@ -42,20 +41,19 @@ namespace Demo
 
 			graphFactory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			parser = new CharRuleParser();
-
+	
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
-			CreateView(parser.Parse("A=a{BCD}e"), parser.Parse("BCD=b{C}d"), parser.Parse("C = c"));
-			CreateView(parser.Parse("A=abcde"));
+			CreateView("A=a{BCD}e", "BCD=b{C}d", "C = c");
+			CreateView("A=abcde");
 
 			CreateView(new ZeroOrMore<char>() { Item= new Terminal<char>() {Value='a' }  });
-			CreateView(parser.Parse("A=a{S}a"), parser.Parse("S=st"));
+			CreateView("A=a{S}a", "S=st");
 
 
-			CreateView(parser.Parse("A=a{B}a"), parser.Parse("B=b{A}b"));
+			CreateView("A=a{B}a", "B=b{A}b");
 
-			CreateView(parser.Parse("A=a{S}a"), parser.Parse("S={S}b"), parser.Parse("S=c"));
+			CreateView("A=a{S}a", "S={S}b", "S=c");
 
 
 
@@ -67,9 +65,9 @@ namespace Demo
 			rule = new Rule<char>() { Predicate = Predicate };
 			CreateView(graphFactory.BuildGraph(rule.AsEnumerable(), alphabet));
 		}
-		private void CreateView(params Rule<char>[] Rules)
+		private void CreateView(params string[] Rules)
 		{
-			CreateView(graphFactory.BuildGraph(Rules,alphabet));
+			CreateView(graphFactory.BuildGraph(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
 		}
 		private void CreateView(Graph<char> Model)
 		{
