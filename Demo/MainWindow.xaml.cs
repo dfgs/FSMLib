@@ -45,10 +45,11 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A=a{BCD}e", "BCD=b{C}d", "C=c");
+
 			CreateView("A=a{B}c", "B={C}", "C=b");
 			CreateView("A=a{B}d", "B=bc?");
 			CreateView("A=a{S}a", "S={S}b", "S=c");
-			CreateView("A=a{BCD}e", "BCD=b{C}d", "C = c");
 
 			CreateView("A=abcde");
 
@@ -93,7 +94,7 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
 
-				n.UserData = string.Join(",", node.ReductionTransitions.Select(item=>$"{item.Name}:{item.TargetNodeIndex}:{item.Value}"));
+				n.UserData = string.Join(",", node.ReductionTransitions.Select(item=>$"{item.Name}:{string.Join("/",item.Targets.Select(target=> target.TargetNodeIndex+"/"+target.Value))}")); //:{item.TargetNodeIndex}:{item.Value}
 
 				if (node.ReductionTransitions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
@@ -106,7 +107,7 @@ namespace Demo
 				}
 				foreach (NonTerminalTransition<T> transition in node.NonTerminalTransitions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), transition.Name, transition.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), "{"+transition.Name+"}", transition.TargetNodeIndex.ToString());
 				}
 			}
 

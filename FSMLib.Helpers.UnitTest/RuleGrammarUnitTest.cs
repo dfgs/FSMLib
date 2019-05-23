@@ -98,6 +98,12 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.TerminalSequence.Parse(@"ab?d");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Optional<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
 		}
 
 

@@ -26,32 +26,31 @@ namespace FSMLib.Graphs
 		
 		private void AddReductionTransitionsToRootNode(Node<T> node, IEnumerable<NonTerminalTransition<T>> Transitions, IGraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
-			ReductionTransition<T> reductionTransition;
 			T[] nextInputs;
-
+			string[] reductionDependencies;
+			Segment<T> dependentSegment;
 
 			foreach (NonTerminalTransition<T> nonTerminalTransition in Transitions)
 			{
 				nextInputs = context.GetFirstTerminalsAfterTransition(Rules, nonTerminalTransition).ToArray();
 
-				foreach(Segment<T> developpedSegment in context.GetDeveloppedSegmentsForRule(Rules,nonTerminalTransition.Name))
+				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalTransition.Name).ToArray();
+				foreach(string reductionDepency in reductionDependencies)
 				{
-					// connect current node to developped segment
-					context.Connect(node.AsEnumerable(), developpedSegment.Inputs);
-
-					// add reduction transitions to developped segment
-					
-					foreach(Node<T> outputNode in developpedSegment.Outputs)
+					foreach (Rule<T> dependentRule in Rules.Where(item => item.Name == reductionDepency))
 					{
-						foreach(T value in nextInputs)
+						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseTransition<T>>());
+						context.Connect(node.AsEnumerable(), dependentSegment.Inputs);
+					}
+
+					foreach (ReductionTransition<T> reductionTransition in context.GetReductionTransitions(reductionDepency))
+					{
+						foreach (T value in nextInputs)
 						{
-							reductionTransition = new ReductionTransition<T>();
-							reductionTransition.Name = nonTerminalTransition.Name;
-							reductionTransition.TargetNodeIndex = context.GetNodeIndex(node);
-							reductionTransition.Value = value;
-							outputNode.ReductionTransitions.Add(reductionTransition);
+							reductionTransition.Targets.Add(new ReductionTarget<T>() { TargetNodeIndex = context.GetNodeIndex(node), Value = value });
 						}
 					}
+
 				}
 			}
 		}
@@ -64,7 +63,7 @@ namespace FSMLib.Graphs
 			GraphFactoryContext<T> context;
 			Rule<T> axiom;
 			Rule<T>[] rules;
-
+			BaseTransition<T>[] transitions;
 
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
@@ -86,19 +85,24 @@ namespace FSMLib.Graphs
 			// build all segments from rules
 			foreach(Rule<T> rule in rules)
 			{
-				segment = context.BuildSegment( rule, Enumerable.Empty<BaseTransition<T>>());
+				if (rule==axiom)
+				{
+					transitions = new BaseTransition<T>[]
+					{
+						new ReductionTransition<T>() {    Name=rule.Name},
+						new AcceptTransition<T>() { Name=rule.Name}
+					};
+				}
+				else
+				{
+					transitions = new BaseTransition<T>[]
+					{
+						new ReductionTransition<T>() {   Name=rule.Name}
+					};
+				}
+				segment = context.BuildSegment( rule, transitions  );
 				context.Connect(root.AsEnumerable(), segment.Inputs);
 			}
-
-			// add accept transition to root segment
-			segment = context.BuildSegment(axiom, Enumerable.Empty<BaseTransition<T>>());
-			foreach (Node<T> node in segment.Outputs)
-			{
-				node.AcceptTransitions.Add(new AcceptTransition<T>());
-				node.ReductionTransitions.Add(new ReductionTransition<T>() { IsAxiom=true, TargetNodeIndex=0, Name=axiom.Name } );
-			}//*/
-
-			
 
 			// develop and add reduction transition to root nodes
 			foreach (Node<T> node in graph.Nodes)
@@ -141,6 +145,7 @@ namespace FSMLib.Graphs
 			Stack<GraphTuple<T>> openList;
 			ShiftTransition<T> transition;
 			GraphFactoryContext<T> context;
+			ReductionTarget<T>[] targets;
 
 			if (BaseGraph == null) throw new System.ArgumentNullException("BaseGraph");
 
@@ -182,9 +187,14 @@ namespace FSMLib.Graphs
 			// translate reduction transitions, because indices in base graph are not the same in det graph
 			foreach (ReductionTransition<T> reductionTransition in graph.Nodes.SelectMany(item=>item.ReductionTransitions))
 			{
-				nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation=>situation.NodeIndex==reductionTransition.TargetNodeIndex)!=null );
-				if (nextTuple == null) throw new Exception("Failed to translate reduction transitions");
-				reductionTransition.TargetNodeIndex = context.GetNodeIndex(nextTuple.Node);
+				targets = reductionTransition.Targets.ToArray();
+				reductionTransition.Targets.Clear();
+				foreach(ReductionTarget<T> target in targets)
+				{
+					nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation => situation.NodeIndex == target.TargetNodeIndex) != null);
+					if (nextTuple == null) throw new Exception("Failed to translate reduction transitions");
+					reductionTransition.Targets.Add(new ReductionTarget<T>() { TargetNodeIndex = context.GetNodeIndex(nextTuple.Node), Value = target.Value }); ;
+				}
 			}
 
 			return graph;

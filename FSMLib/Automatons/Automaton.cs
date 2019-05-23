@@ -76,30 +76,35 @@ namespace FSMLib.Automatons
 			return false;
 		}
 
-		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
+		private NonTerminalNode<T> Reduce(string Name,int TargetNodeIndex)
 		{
-			Node<T> node;
 			BaseNode<T> baseNode;
 			NonTerminalNode<T> reducedNode;
 
+			reducedNode = new NonTerminalNode<T>() { Name = Name };
+
+			while (nodeStack.Count > 0 && (nodeIndex != TargetNodeIndex))
+			{
+				nodeIndex = nodeIndexStack.Pop();
+				baseNode = nodeStack.Pop();
+				reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to node childs
+			}
+
+			return reducedNode;
+		}
+		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
+		{
+			Node<T> node;
+			ReductionTarget<T> target;
 
 			node = graph.Nodes[nodeIndex];
 
 			foreach (ReductionTransition<T> transition in node.ReductionTransitions)
 			{
-				if (Node.Value.Equals(transition.Value))
-				{
-					reducedNode = new NonTerminalNode<T>() { Name = transition.Name };
+				target = transition.Targets.FirstOrDefault(item =>  Node.Value.Equals(item.Value));
+				if (target == null) continue;
 
-					while (nodeStack.Count > 0 && (nodeIndex != transition.TargetNodeIndex))
-					{
-						nodeIndex = nodeIndexStack.Pop();
-						baseNode = nodeStack.Pop();
-						reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to node childs
-					}
-
-					return reducedNode;
-				}
+				return Reduce(transition.Name, target.TargetNodeIndex);
 			}
 			return null;
 		}
@@ -145,8 +150,14 @@ namespace FSMLib.Automatons
 
 		public NonTerminalNode<T> Accept()
 		{
-			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
-			return Reduce(new TerminalNode<T>());
+			Node<T> node;
+			AcceptTransition<T> axiom;
+
+			node = graph.Nodes[nodeIndex];
+			axiom = node.AcceptTransitions.FirstOrDefault();
+
+			if (axiom==null) throw new InvalidOperationException("Automaton cannot accept in current state");
+			return Reduce( axiom.Name,0 );
 		}
 
 

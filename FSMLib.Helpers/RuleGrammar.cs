@@ -47,20 +47,8 @@ namespace FSMLib.Helpers
 			Terminal.Or<BasePredicate<char>>(NonTerminal)
 			.Or<BasePredicate<char>>(AnyTerminal);
 
-		public static readonly Parser<Sequence<char>> TerminalSequence =
-			from firstPredicate in TerminalPredicate
-			from otherPredicates in TerminalPredicate.AtLeastOnce()
-			select (Sequence<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates) ).ToArray();
 
-		public static readonly Parser<BasePredicate<char>> OrItem =
-			from _ in Pipe
-			from value in TerminalSequence.Or(TerminalPredicate)
-			select value;
 
-		public static readonly Parser<Or<char>> Or =
-			from firstPredicate in TerminalPredicate
-			from otherPredicates in OrItem.AtLeastOnce()
-			select (Or<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates)).ToArray();
 
 		public static readonly Parser<OneOrMore<char>> OneOrMore =
 			from value in TerminalPredicate
@@ -77,9 +65,26 @@ namespace FSMLib.Helpers
 			from _ in QuestionMark
 			select new Optional<char>() { Item = value };
 
+
+
+		public static readonly Parser<Sequence<char>> TerminalSequence =
+			from firstPredicate in ZeroOrMore.Or<BasePredicate<char>>(OneOrMore).Or(Optional).Or(TerminalPredicate)
+			from otherPredicates in (ZeroOrMore.Or<BasePredicate<char>>(OneOrMore).Or(Optional).Or(TerminalPredicate)).AtLeastOnce()
+			select (Sequence<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates)).ToArray();
+
+
+		public static readonly Parser<BasePredicate<char>> OrItem =
+			from _ in Pipe
+			from value in TerminalSequence.Or(TerminalPredicate)
+			select value;
+
+		public static readonly Parser<Or<char>> Or =
+			from firstPredicate in TerminalPredicate
+			from otherPredicates in OrItem.AtLeastOnce()
+			select (Or<char>)(new BasePredicate<char>[] { firstPredicate }.Concat(otherPredicates)).ToArray();
+
 		private static readonly Parser<BasePredicate<char>> AdvancedPredicate =
-			TerminalSequence.Or<BasePredicate<char>>(OneOrMore)
-			.Or<BasePredicate<char>>(ZeroOrMore).Or(Optional).Or(Or);
+			OneOrMore.Or<BasePredicate<char>>(ZeroOrMore).Or(Optional).Or(Or).Or(TerminalSequence);
 
 		private static readonly Parser<BasePredicate<char>> RuleSinglePredicate =
 			from predicate in AdvancedPredicate.Or(TerminalPredicate)
@@ -88,6 +93,7 @@ namespace FSMLib.Helpers
 		private static readonly Parser<Sequence<char>> RuleSequencePredicate =
 			from predicates in (AdvancedPredicate.Or(TerminalPredicate)).Many()
 			select (Sequence<char>)predicates.ToArray();
+
 
 		public static readonly Parser<Rule<char>> Rule =
 			from name in Parse.Letter.Many().Text().Token()

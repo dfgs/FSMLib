@@ -170,7 +170,7 @@ namespace FSMLib.Graphs
 			return items;
 		}
 
-		public IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name)
+		/*public IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name)
 		{
 			Segment<T> segment;
 
@@ -196,7 +196,43 @@ namespace FSMLib.Graphs
 			openList.Remove(Name);
 
 
+		}//*/
+
+		public IEnumerable<string> GetRuleReductionDependency(IEnumerable<Rule<T>> Rules, string Name)
+		{
+			Segment<T> segment;
+			List<string> items;
+
+			items = new List<string>();
+
+			if (openList.Contains(Name)) return items;
+			openList.Add(Name);
+
+			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
+			{
+
+				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+
+				if (!items.Contains(rule.Name)) items.Add(rule.Name);
+
+				foreach (NonTerminalTransition<T> nonTerminalTransition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				{
+					foreach (string dependantRule in GetRuleReductionDependency(Rules, nonTerminalTransition.Name))
+					{
+						if (!items.Contains(dependantRule)) items.Add(dependantRule);
+					}
+				}
+
+			}
+			openList.Remove(Name);
+			return items;
 		}
+
+		public IEnumerable<ReductionTransition<T>> GetReductionTransitions(string Name)
+		{
+			return graph.Nodes.SelectMany(item => item.ReductionTransitions).Where(item=>item.Name==Name);
+		}
+
 
 
 	}

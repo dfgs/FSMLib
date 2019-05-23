@@ -9,25 +9,16 @@ namespace FSMLib.Graphs.Transitions
 	public class ReductionTransition<T>:BaseTransition<T>
 	{
 
-		public T Value
-		{
-			get;
-			set;
-		}
-
-		public int TargetNodeIndex
-		{
-			get;
-			set;
-		}
-
+		
 		public string Name
 		{
 			get;
 			set;
 		}
 
-		public bool IsAxiom
+		
+		
+		public List<ReductionTarget<T>> Targets
 		{
 			get;
 			set;
@@ -35,7 +26,7 @@ namespace FSMLib.Graphs.Transitions
 
 		public ReductionTransition()
 		{
-
+			Targets = new List<ReductionTarget<T>>();
 		}
 
 		

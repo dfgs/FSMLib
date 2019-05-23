@@ -58,9 +58,19 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		IEnumerable<Segment<char>> IGraphFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		public IEnumerable<string> GetRuleReductionDependency(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}
+
+		public IEnumerable<ReductionTransition<char>> GetReductionTransitions(string Name)
+		{
+			throw new NotImplementedException();
+		}
+
+		/*IEnumerable<Segment<char>> IGraphFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		{
+			throw new NotImplementedException();
+		}*/
 	}
 }

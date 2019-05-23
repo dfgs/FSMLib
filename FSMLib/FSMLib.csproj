@@ -55,6 +55,7 @@
     <Compile Include="Graphs\IGraphFactoryContext.cs" />
     <Compile Include="Graphs\Node.cs" />
     <Compile Include="Graphs\Transitions\AcceptTransition.cs" />
+    <Compile Include="Graphs\Transitions\ReductionTarget.cs" />
     <Compile Include="Graphs\Transitions\ReductionTransition.cs" />
     <Compile Include="Graphs\Segment.cs" />
     <Compile Include="Graphs\Transitions\BaseTransition.cs" />

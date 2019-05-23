@@ -372,12 +372,12 @@ namespace FSMLib.UnitTest.Graphs
 		}
 
 		[TestMethod]
-		public void ShouldGetDeveloppedSegmentForRule()
+		public void ShouldGetRuleReductionDependency()
 		{
 			Rule<char>[] rules;
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
-			Segment<char>[] items;
+			string[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -387,20 +387,18 @@ namespace FSMLib.UnitTest.Graphs
 
 			graph = new Graph<char>();
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
-			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
-
+			items = context.GetRuleReductionDependency(rules, "A").ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual("A", items[0]);
 		}
 
 		[TestMethod]
-		public void ShouldGetNestedDeveloppedSegmentForRule()
+		public void ShouldGetNestedRuleReductionDependency()
 		{
 			Rule<char>[] rules;
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
-			Segment<char>[] items;
+			string[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -410,21 +408,20 @@ namespace FSMLib.UnitTest.Graphs
 
 			graph = new Graph<char>();
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
-			Assert.AreEqual(3, items.Length);
-			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
-			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
-			Assert.AreEqual(context.BuildSegment(rules[2], Enumerable.Empty<BaseTransition<char>>()), items[2]);
+			items = context.GetRuleReductionDependency(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual("A", items[0]);
+			Assert.AreEqual("B", items[1]);
 
 		}
 
 		[TestMethod]
-		public void ShouldGetLoopedDeveloppedSegmentForRule()
+		public void ShouldGetLoopedRuleReductionDependency()
 		{
 			Rule<char>[] rules;
 			Graph<char> graph;
 			GraphFactoryContext<char> context;
-			Segment<char>[] items;
+			string[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -434,11 +431,10 @@ namespace FSMLib.UnitTest.Graphs
 
 			graph = new Graph<char>();
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
-			Assert.AreEqual(3, items.Length);
-			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
-			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
-			Assert.AreEqual(context.BuildSegment(rules[2], Enumerable.Empty<BaseTransition<char>>()), items[2]);
+			items = context.GetRuleReductionDependency(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual("A", items[0]);
+			Assert.AreEqual("B", items[1]);
 
 		}
 
@@ -486,6 +482,27 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('a', items[0]);
 		}
+
+
+		public void ShouldGetNodeWithReductionRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			ReductionTransition<char>[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A=def");
+			rules[2] = RuleHelper.BuildRule("B=abc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetReductionTransitions("A").ToArray();
+			Assert.AreEqual(2, items.Length);
+		}
+
 
 
 	}

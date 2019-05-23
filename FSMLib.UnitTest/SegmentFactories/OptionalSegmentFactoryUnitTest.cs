@@ -66,8 +66,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, graph.Nodes.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalTransitions.Count);
 
-			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.First()).Match('a'));
-
+			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.ElementAt(0)).Match('a'));
+			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.ElementAt(1)).Match('d'));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedOrPredicate()
