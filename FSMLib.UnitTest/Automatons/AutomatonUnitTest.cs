@@ -79,7 +79,7 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, automaton.StackCount);
 
 			Assert.ThrowsException<AutomatonException<char>>(() => automaton.Feed('z'));
-			Assert.AreEqual(0, automaton.StackCount);
+			Assert.AreEqual(3, automaton.StackCount);
 		}
 
 		[TestMethod]
@@ -169,7 +169,7 @@ namespace FSMLib.UnitTest
 		}
 
 		[TestMethod]
-		public void ShouldFeedAndReduce2()
+		public void ShouldFeedAndCascadeReduce()
 		{
 			Automaton<char> automaton;
 			Graph<char> graph;
@@ -190,7 +190,7 @@ namespace FSMLib.UnitTest
 
 		}
 		[TestMethod]
-		public void ShouldFeedAndReduce3()
+		public void ShouldFeedAndReduceNestedNonTerminal()
 		{
 			Automaton<char> automaton;
 			Graph<char> graph;
@@ -206,23 +206,8 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.CanAccept());
 
 		}
-		/*[TestMethod]
-		public void ShouldSaveAndRestore()
-		{
-			Automaton<char> automaton;
+		
 
-			automaton = new Automaton<char>(new TestGraph5());
-			automaton.Feed('a'));
-			automaton.Feed('b'));
-			automaton.SaveSituation();
-			automaton.Feed('c'));
-			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsTrue(automaton.CanAccept());
-			automaton.RestoreSituation();
-			Assert.AreEqual(2, automaton.StackCount);
-			Assert.IsFalse(automaton.CanAccept());
-
-		}*/
 
 
 	}

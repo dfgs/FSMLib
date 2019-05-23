@@ -76,6 +76,34 @@ namespace FSMLib.Automatons
 			return false;
 		}
 
+		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
+		{
+			Node<T> node;
+			BaseNode<T> baseNode;
+			NonTerminalNode<T> reducedNode;
+
+
+			node = graph.Nodes[nodeIndex];
+
+			foreach (ReductionTransition<T> transition in node.ReductionTransitions)
+			{
+				if (Node.Value.Equals(transition.Value))
+				{
+					reducedNode = new NonTerminalNode<T>() { Name = transition.Name };
+
+					while (nodeStack.Count > 0 && (nodeIndex != transition.TargetNodeIndex))
+					{
+						nodeIndex = nodeIndexStack.Pop();
+						baseNode = nodeStack.Pop();
+						reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to node childs
+					}
+
+					return reducedNode;
+				}
+			}
+			return null;
+		}
+
 		public void Feed(T Input)
 		{
 			TerminalNode<T> inputNode;
@@ -83,54 +111,26 @@ namespace FSMLib.Automatons
 
 			inputNode = new TerminalNode<T>() { Value=Input };
 
-		retry:
-
-			if (Feed(inputNode)) return;
-			
-			if (CanReduce())
+			while (true)
 			{
-				nonTerminalNode = Reduce();
-				if (!Feed(nonTerminalNode)) throw new AutomatonException<T>(Input, nodeStack);
-				goto retry;
-			}
+				if (Feed(inputNode)) return;
 
-			throw new AutomatonException<T>(Input, nodeStack);
+				nonTerminalNode = Reduce(inputNode);
+				if ((nonTerminalNode == null) || (!Feed(nonTerminalNode))) throw new AutomatonException<T>(Input, nodeStack);
+			}		
+
 		}
 
 
-		private bool CanReduce()
+		/*private bool CanReduce()
 		{
 			Node<T> node;
 
 			node = graph.Nodes[nodeIndex];
 			return node.ReductionTransitions.Count > 0;
-		}
-
-		private NonTerminalNode<T> Reduce()
-		{
-			Node<T> node;
-			BaseNode<T> baseNode;
-			ReductionTransition<T> reductionTransition;
-			NonTerminalNode<T> reducedNode;
+		}*/
 
 
-			node = graph.Nodes[nodeIndex];
-			if (node.ReductionTransitions.Count == 0) throw new InvalidOperationException("Automaton cannot reduce in current state");
-
-			reductionTransition = node.ReductionTransitions[0];
-			reducedNode = new NonTerminalNode<T>() { Name= reductionTransition.Name };
-
-			
-			while (nodeStack.Count>0 &&  (nodeIndex!=reductionTransition.TargetNodeIndex) )
-			{
-				nodeIndex = nodeIndexStack.Pop();
-				baseNode=nodeStack.Pop();
-				reducedNode.Nodes.Insert(0,baseNode);	// stack order is inverted compared to node childs
-			}
-			
-			return reducedNode;
-			
-		}
 
 		public bool CanAccept()
 		{
@@ -146,7 +146,7 @@ namespace FSMLib.Automatons
 		public NonTerminalNode<T> Accept()
 		{
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
-			return Reduce();
+			return Reduce(new TerminalNode<T>());
 		}
 
 

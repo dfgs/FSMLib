@@ -23,36 +23,35 @@ namespace FSMLib.Graphs
 			this.situationProducer = SituationProducer;
 		}
 
-		private void AddNonTerminalTransitionToNode(Node<T> node,IEnumerable<NonTerminalTransition<T>> Transitions, GraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules,Rule<T> Axiom)
+		
+		private void AddReductionTransitionsToRootNode(Node<T> node, IEnumerable<NonTerminalTransition<T>> Transitions, IGraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
-			Segment<T> nonTerminalSegment;
 			ReductionTransition<T> reductionTransition;
+			T[] nextInputs;
 
-			foreach (string name in Transitions.Select(item => item.Name))
+
+			foreach (NonTerminalTransition<T> nonTerminalTransition in Transitions)
 			{
-				foreach (Rule<T> rule in Rules.Where(item => item.Name == name))
+				nextInputs = context.GetFirstTerminalsAfterTransition(Rules, nonTerminalTransition).ToArray();
+
+				foreach(Segment<T> developpedSegment in context.GetDeveloppedSegmentsForRule(Rules,nonTerminalTransition.Name))
 				{
-					// Get segment corresponding to non terminal
-					nonTerminalSegment = context.BuildSegment(rule,Enumerable.Empty<BaseTransition<T>>() );
+					// connect current node to developped segment
+					context.Connect(node.AsEnumerable(), developpedSegment.Inputs);
 
-					// add reduction to non terminal segment
-					foreach (Node<T> outputNode in nonTerminalSegment.Outputs)
-					{
-						reductionTransition = new ReductionTransition<T>();
-						reductionTransition.Name = rule.Name;
-						reductionTransition.TargetNodeIndex = context.GetNodeIndex(node);
-						//reductionTransition.Value = terminalTransition.Value;
-						outputNode.ReductionTransitions.Add(reductionTransition);
-					}
-
-					// connect node to non terminal segment
-					context.Connect(node.AsEnumerable(), nonTerminalSegment.Inputs);
-
+					// add reduction transitions to developped segment
 					
-
-					// we must connect recusively node to all segments, everytime a Non Terminal transition appears
-					// but we must exclude Non Terminal transition with current input Name in order to avoid infinite loop
-					AddNonTerminalTransitionToNode(node, nonTerminalSegment.Inputs.OfType<NonTerminalTransition<T>>().Where( item=> item.Name!=name ) , context, Rules,Axiom);
+					foreach(Node<T> outputNode in developpedSegment.Outputs)
+					{
+						foreach(T value in nextInputs)
+						{
+							reductionTransition = new ReductionTransition<T>();
+							reductionTransition.Name = nonTerminalTransition.Name;
+							reductionTransition.TargetNodeIndex = context.GetNodeIndex(node);
+							reductionTransition.Value = value;
+							outputNode.ReductionTransitions.Add(reductionTransition);
+						}
+					}
 				}
 			}
 		}
@@ -64,23 +63,28 @@ namespace FSMLib.Graphs
 			Segment<T> segment;
 			GraphFactoryContext<T> context;
 			Rule<T> axiom;
-	
+			Rule<T>[] rules;
+
+
+
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
 
 	
+
 			graph = new Graph<T>();
 			graph.Alphabet.AddRange(Alphabet);
 
 			if (!Rules.Any()) return graph;
 
-			axiom = Rules.First();
+			rules = Rules.ToArray();// mandatory in order to fix cache issue when using enumeration
+			axiom = rules.First();
 			
 			context = new GraphFactoryContext<T>(segmentFactoryProvider, graph);
 			root = context.CreateNode();
 			
 			// build all segments from rules
-			foreach(Rule<T> rule in Rules)
+			foreach(Rule<T> rule in rules)
 			{
 				segment = context.BuildSegment( rule, Enumerable.Empty<BaseTransition<T>>());
 				context.Connect(root.AsEnumerable(), segment.Inputs);
@@ -92,14 +96,17 @@ namespace FSMLib.Graphs
 			{
 				node.AcceptTransitions.Add(new AcceptTransition<T>());
 				node.ReductionTransitions.Add(new ReductionTransition<T>() { IsAxiom=true, TargetNodeIndex=0, Name=axiom.Name } );
-			}
+			}//*/
 
-			// add reduction transition to nodes
+			
+
+			// develop and add reduction transition to root nodes
 			foreach (Node<T> node in graph.Nodes)
 			{
 				if (node == root) continue;
-				AddNonTerminalTransitionToNode(node,node.NonTerminalTransitions.ToArray(),context,Rules,axiom);
-			}
+				AddReductionTransitionsToRootNode(node, node.NonTerminalTransitions.ToArray(), context, rules, axiom);
+			}//*/
+
 
 			return graph;
 		}

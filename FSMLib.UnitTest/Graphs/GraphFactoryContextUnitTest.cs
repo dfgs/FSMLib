@@ -1,5 +1,6 @@
 ﻿using FSMLib.Graphs;
 using FSMLib.Graphs.Transitions;
+using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -38,7 +39,7 @@ namespace FSMLib.UnitTest.Graphs
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
-			segment = context.BuildSegment( rule, Enumerable.Empty<BaseTransition<char>>());
+			segment = context.BuildSegment(rule, Enumerable.Empty<BaseTransition<char>>());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Inputs.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
@@ -46,19 +47,19 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldNotThrowExceptionWhenRulesAreRecursive()
 		{
-			Rule<char> rule1,rule2;
-			NonTerminal<char> predicate1,predicate2;
+			Rule<char> rule1, rule2;
+			NonTerminal<char> predicate1, predicate2;
 			GraphFactoryContext<char> context;
 			Segment<char> segment;
 
 			predicate1 = new NonTerminal<char>() { Name = "B" };
 			predicate2 = new NonTerminal<char>() { Name = "A" };
-			rule1 = new Rule<char>() { Name="A"};
-			rule1.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value='a'}, predicate1, new Terminal<char>() { Value = 'a' } };
+			rule1 = new Rule<char>() { Name = "A" };
+			rule1.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value = 'a' }, predicate1, new Terminal<char>() { Value = 'a' } };
 			rule2 = new Rule<char>() { Name = "B" };
 			rule2.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value = 'b' }, predicate2, new Terminal<char>() { Value = 'b' } };
 
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>() );
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), new Graph<char>());
 
 			segment = context.BuildSegment(rule1, Enumerable.Empty<ReductionTransition<char>>());
 			Assert.IsNotNull(segment);
@@ -70,7 +71,7 @@ namespace FSMLib.UnitTest.Graphs
 		[TestMethod]
 		public void ShouldUseCacheForSegments()
 		{
-			Segment<char> segment1,segment2;
+			Segment<char> segment1, segment2;
 			Rule<char> rule;
 			Sequence<char> predicate;
 			GraphFactoryContext<char> context;
@@ -179,7 +180,7 @@ namespace FSMLib.UnitTest.Graphs
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
-			
+
 			transition = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(b) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
@@ -191,7 +192,7 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.AreEqual('a', a.TerminalTransitions[0].Value);
 		}
 
-		
+
 
 		[TestMethod]
 		public void ShouldConnectOneToMany()
@@ -200,14 +201,14 @@ namespace FSMLib.UnitTest.Graphs
 			GraphFactoryContext<char> context;
 			Node<char> a, b, c;
 			TerminalTransition<char> transitionToB, transitionToC;
-	
+
 			graph = new Graph<char>();
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
 
 
-			transitionToB = new TerminalTransition<char>() { Value='a', TargetNodeIndex = graph.Nodes.IndexOf(b) };
+			transitionToB = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(b) };
 			transitionToC = new TerminalTransition<char>() { Value = 'b', TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
@@ -233,7 +234,7 @@ namespace FSMLib.UnitTest.Graphs
 			a = new Node<char>(); graph.Nodes.Add(a);
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
-			
+
 			transition = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(c) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
@@ -260,8 +261,8 @@ namespace FSMLib.UnitTest.Graphs
 			b = new Node<char>(); graph.Nodes.Add(b);
 			c = new Node<char>(); graph.Nodes.Add(c);
 			d = new Node<char>(); graph.Nodes.Add(d);
-			
-			transitionToC = new TerminalTransition<char>() { Value='a', TargetNodeIndex = graph.Nodes.IndexOf(c) };
+
+			transitionToC = new TerminalTransition<char>() { Value = 'a', TargetNodeIndex = graph.Nodes.IndexOf(c) };
 			transitionToD = new TerminalTransition<char>() { Value = 'b', TargetNodeIndex = graph.Nodes.IndexOf(d) };
 
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
@@ -281,6 +282,211 @@ namespace FSMLib.UnitTest.Graphs
 			Assert.AreEqual('b', a.TerminalTransitions[1].Value);
 			Assert.AreEqual('b', b.TerminalTransitions[1].Value);
 		}
+
+
+		[TestMethod]
+		public void ShouldGetFirstTerminalForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A=def");
+			rules[2] = RuleHelper.BuildRule("B=abc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items=context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual('a', items[0]);
+			Assert.AreEqual('d', items[1]);
+		}
+
+		[TestMethod]
+		public void ShouldGetDistinctFirstTerminalForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A=aef");
+			rules[2] = RuleHelper.BuildRule("B=abc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual('a', items[0]);
+		}
+
+		[TestMethod]
+		public void ShouldGetNestedFirstTerminalForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A={B}ef");
+			rules[2] = RuleHelper.BuildRule("B=def");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual('a', items[0]);
+			Assert.AreEqual('d', items[1]);
+		}
+
+		[TestMethod]
+		public void ShouldGetLoopedFirstTerminalForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A={B}bc");
+			rules[1] = RuleHelper.BuildRule("A=def");
+			rules[2] = RuleHelper.BuildRule("B={A}bc");
+			rules[3] = RuleHelper.BuildRule("B=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual('a', items[0]);
+			Assert.AreEqual('d', items[1]);
+		}
+
+		[TestMethod]
+		public void ShouldGetDeveloppedSegmentForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			Segment<char>[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A=def");
+			rules[2] = RuleHelper.BuildRule("B=abc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
+			Assert.AreEqual(2, items.Length);
+			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
+			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
+
+		}
+
+		[TestMethod]
+		public void ShouldGetNestedDeveloppedSegmentForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			Segment<char>[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A={B}ef");
+			rules[2] = RuleHelper.BuildRule("B=abc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
+			Assert.AreEqual(3, items.Length);
+			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
+			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
+			Assert.AreEqual(context.BuildSegment(rules[2], Enumerable.Empty<BaseTransition<char>>()), items[2]);
+
+		}
+
+		[TestMethod]
+		public void ShouldGetLoopedDeveloppedSegmentForRule()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			Segment<char>[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=abc");
+			rules[1] = RuleHelper.BuildRule("A={B}ef");
+			rules[2] = RuleHelper.BuildRule("B={A}bc");
+			rules[3] = RuleHelper.BuildRule("C=abc");
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			items = context.GetDeveloppedSegmentsForRule(rules, "A").ToArray();
+			Assert.AreEqual(3, items.Length);
+			Assert.AreEqual(context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>()), items[0]);
+			Assert.AreEqual(context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>()), items[1]);
+			Assert.AreEqual(context.BuildSegment(rules[2], Enumerable.Empty<BaseTransition<char>>()), items[2]);
+
+		}
+
+
+		[TestMethod]
+		public void ShouldGetFirstTerminalsAfterTransition()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[4];
+			rules[0] = RuleHelper.BuildRule("A=a{B}c");
+			
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>());
+
+			items = context.GetFirstTerminalsAfterTransition(rules, graph.Nodes[2].NonTerminalTransitions[0]).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual('c', items[0]);
+		}
+
+		[TestMethod]
+		public void ShouldGetNestedFirstTerminalsAfterTransition()
+		{
+			Rule<char>[] rules;
+			Graph<char> graph;
+			GraphFactoryContext<char> context;
+			char[] items;
+
+			rules = new Rule<char>[2];
+			rules[0] = RuleHelper.BuildRule("A=a{B}{C}");
+			rules[1] = RuleHelper.BuildRule("C=abc");
+
+
+			graph = new Graph<char>();
+			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
+			context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>());
+			context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>());
+
+			items = context.GetFirstTerminalsAfterTransition(rules, graph.Nodes[2].NonTerminalTransitions[0]).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual('a', items[0]);
+		}
+
 
 	}
 

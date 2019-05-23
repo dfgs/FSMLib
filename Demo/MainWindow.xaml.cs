@@ -44,7 +44,12 @@ namespace Demo
 	
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
+
+			CreateView("A=a{B}c", "B={C}", "C=b");
+			CreateView("A=a{B}d", "B=bc?");
+			CreateView("A=a{S}a", "S={S}b", "S=c");
 			CreateView("A=a{BCD}e", "BCD=b{C}d", "C = c");
+
 			CreateView("A=abcde");
 
 			CreateView(new ZeroOrMore<char>() { Item= new Terminal<char>() {Value='a' }  });
@@ -88,7 +93,7 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
 
-				n.UserData = string.Join(",", node.ReductionTransitions.Select(item=>$"{item.Name}:{item.TargetNodeIndex}"));
+				n.UserData = string.Join(",", node.ReductionTransitions.Select(item=>$"{item.Name}:{item.TargetNodeIndex}:{item.Value}"));
 
 				if (node.ReductionTransitions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;

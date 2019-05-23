@@ -22,5 +22,10 @@ namespace FSMLib.Graphs
 		int GetNodeIndex(Node<T> Node);
 
 		IEnumerable<T> GetAlphabet();
+
+		IEnumerable<T> GetFirstTerminalsForRule(IEnumerable<Rule<T>> Rules, string Name);
+		IEnumerable<T> GetFirstTerminalsAfterTransition(IEnumerable<Rule<T>> Rules, NonTerminalTransition<T> NonTerminalTransition);
+		IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name);
+
 	}
 }

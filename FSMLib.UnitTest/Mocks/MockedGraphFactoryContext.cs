@@ -33,12 +33,32 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
+		public IEnumerable<char> GetFirstTerminalsAfterTransition(IEnumerable<Rule<char>> Rules, NonTerminalTransition<char> NonTerminalTransition)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<char> GetFirstTerminalsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<BaseTransition<char>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		{
+			throw new NotImplementedException();
+		}
+
 		public int GetNodeIndex(Node<char> Node)
 		{
 			throw new NotImplementedException();
 		}
 
 		public Node<char> GetTargetNode(int Index)
+		{
+			throw new NotImplementedException();
+		}
+
+		IEnumerable<Segment<char>> IGraphFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}

@@ -12,6 +12,7 @@ namespace FSMLib.Graphs
 	public class GraphFactoryContext<T> : IGraphFactoryContext<T>
 	{
 		private List<Rule<T>> compilingList;
+		private List<string> openList;
 
 		private Graph<T> graph;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
@@ -24,18 +25,19 @@ namespace FSMLib.Graphs
 			this.segmentFactoryProvider = SegmentFactoryProvider;
 			if (Graph == null) throw new ArgumentNullException("Graph");
 			this.graph = Graph;
-	
+
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 
 			compilingList = new List<Rule<T>>();
+			openList = new List<string>();
 		}
 
 
-		public Segment<T> BuildSegment( Rule<T> Rule, IEnumerable<BaseTransition<T>> OutTransitions)
+		public Segment<T> BuildSegment(Rule<T> Rule, IEnumerable<BaseTransition<T>> OutTransitions)
 		{
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
-			
+
 			if (cache.TryGetValue(Rule, out segment))
 			{
 				return segment;
@@ -46,7 +48,7 @@ namespace FSMLib.Graphs
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
 
 
-			segment = segmentFactory.BuildSegment(this, Rule.Predicate,OutTransitions  );
+			segment = segmentFactory.BuildSegment(this, Rule.Predicate, OutTransitions);
 			cache.Add(Rule, segment);
 			compilingList.Remove(Rule);
 
@@ -62,7 +64,7 @@ namespace FSMLib.Graphs
 			{
 				foreach (BaseTransition<T> transition in Transitions)
 				{
-					switch(transition)
+					switch (transition)
 					{
 						case TerminalTransition<T> tr:
 							node.TerminalTransitions.Add(tr);
@@ -80,7 +82,7 @@ namespace FSMLib.Graphs
 						default:
 							throw (new NotImplementedException("Invalid transition type"));
 					}
-					
+
 				}
 			}
 		}
@@ -110,6 +112,92 @@ namespace FSMLib.Graphs
 		{
 			return graph.Alphabet;
 		}
+
+
+		public IEnumerable<T> GetFirstTerminalsAfterTransition(IEnumerable<Rule<T>> Rules, NonTerminalTransition<T> NonTerminalTransition)
+		{
+			Node<T> node;
+			List<T> items;
+
+			items = new List<T>();
+
+			node = GetTargetNode(NonTerminalTransition.TargetNodeIndex);
+			foreach(TerminalTransition<T> transition in node.TerminalTransitions)
+			{
+				if (!items.Contains(transition.Value)) items.Add(transition.Value);
+			}
+			foreach(NonTerminalTransition<T> nonTerminalTransition in node.NonTerminalTransitions)
+			{
+				foreach(T item in GetFirstTerminalsForRule(Rules,nonTerminalTransition.Name))
+				{
+					if (!items.Contains(item)) items.Add(item);
+				}
+			}
+
+			return items;
+		}
+
+		public IEnumerable<T> GetFirstTerminalsForRule(IEnumerable<Rule<T>> Rules,string Name)
+		{
+			Segment<T> segment;
+			List<T> items;
+
+			items = new List<T>();
+
+			if (openList.Contains(Name)) return items;
+			openList.Add(Name);
+			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
+			{
+	
+				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+
+				foreach (TerminalTransition<T> transition in segment.Inputs.OfType<TerminalTransition<T>>())
+				{
+					if (!items.Contains(transition.Value)) items.Add(transition.Value);
+				}
+
+				foreach (NonTerminalTransition<T> transition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				{
+					foreach(T input in GetFirstTerminalsForRule(Rules,transition.Name))
+					{
+						if (!items.Contains(input)) items.Add(input);
+					}
+				}
+
+			}
+			openList.Remove(Name);
+
+			return items;
+		}
+
+		public IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name)
+		{
+			Segment<T> segment;
+
+			if (openList.Contains(Name)) yield break;
+			openList.Add(Name);
+
+			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
+			{
+
+				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+
+				yield return segment;
+				
+				foreach (NonTerminalTransition<T> nonTerminalTransition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				{
+					foreach (Segment<T> nestedSegment in GetDeveloppedSegmentsForRule(Rules, nonTerminalTransition.Name))
+					{
+						yield return nestedSegment;
+					}
+				}
+
+			}
+			openList.Remove(Name);
+
+
+		}
+
 
 	}
 }
