@@ -15,8 +15,8 @@ namespace FSMLib.UnitTest
 			ActionTable<char> actionTable;
 
 			actionTable = new ActionTable<char>();
-			a = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			b = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			a = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			b = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 			Assert.AreEqual(true, a.Equals(b));
 			Assert.AreEqual(true, b.Equals(a));
 		}
@@ -27,8 +27,8 @@ namespace FSMLib.UnitTest
 			ActionTable<char> actionTable;
 
 			actionTable = new ActionTable<char>();
-			a = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			b = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
+			a = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			b = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
 			Assert.AreEqual(false, a.Equals(b));
 			Assert.AreEqual(false, b.Equals(a));
 			Assert.AreEqual(false, a.Equals(null));

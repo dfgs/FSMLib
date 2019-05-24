@@ -63,7 +63,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(3, actionTable.Nodes.Count);
+			Assert.AreEqual(3, actionTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
 			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
@@ -97,7 +97,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(3, segment.Actions.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
-			Assert.AreEqual(3, actionTable.Nodes.Count);
+			Assert.AreEqual(3, actionTable.States.Count);
 			Assert.AreEqual(3, segment.Outputs.First().TerminalActions.Count);
 
 			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));

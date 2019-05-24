@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FSMLib.UnitTest
 {
 	[TestClass]
-	public class BaseNodeUnitTest
+	public class BaseStateUnitTest
 	{
 		[TestMethod]
 		public void ShoulEnumerateTerminals()
@@ -20,14 +20,14 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> parent, child;
 
 			child = new NonTerminalNode<char>();
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'b' });
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'c' });
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'd' });
+			child.States.Add(new TerminalNode<char>() { Value = 'b' });
+			child.States.Add(new TerminalNode<char>() { Value = 'c' });
+			child.States.Add(new TerminalNode<char>() { Value = 'd' });
 
 			parent = new NonTerminalNode<char>();
-			parent.Nodes.Add(new TerminalNode<char>() { Value = 'a' });
-			parent.Nodes.Add(child);
-			parent.Nodes.Add(new TerminalNode<char>() { Value = 'e' });
+			parent.States.Add(new TerminalNode<char>() { Value = 'a' });
+			parent.States.Add(child);
+			parent.States.Add(new TerminalNode<char>() { Value = 'e' });
 
 			Assert.AreEqual("abcde", new string( parent.EnumerateTerminals().ToArray() ));
 		}

@@ -13,17 +13,17 @@ namespace FSMLib.UnitTest.Mocks
 	public class ActionTableParser<T>
 	{
 		private ActionTable<T> actionTable;
-		private int nodeIndex;
+		private int stateIndex;
 
 		public int ActionCount
 		{
-			get { return actionTable.Nodes[nodeIndex].TerminalActions.Count+ actionTable.Nodes[nodeIndex].NonTerminalActions.Count; }
+			get { return actionTable.States[stateIndex].TerminalActions.Count+ actionTable.States[stateIndex].NonTerminalActions.Count; }
 		}
 
 		
 		public ActionTableParser(ActionTable<T> ActionTable)
 		{
-			this.actionTable = ActionTable;this.nodeIndex = 0;
+			this.actionTable = ActionTable;this.stateIndex = 0;
 
 		}
 
@@ -31,13 +31,13 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			int index = 0;
 
-			foreach(ShiftOnTerminal<T> action in actionTable.Nodes[nodeIndex].TerminalActions)
+			foreach(ShiftOnTerminal<T> action in actionTable.States[stateIndex].TerminalActions)
 			{
 				if (action.Match(Input))
 				{
 					if (index == MatchIndex)
 					{
-						nodeIndex = action.TargetNodeIndex;
+						stateIndex = action.TargetStateIndex;
 						return true;
 					}
 					index++;
@@ -48,7 +48,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		public void Reset()
 		{
-			nodeIndex = 0;
+			stateIndex = 0;
 		}
 
 	}

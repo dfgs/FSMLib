@@ -9,7 +9,7 @@ namespace FSMLib.ActionTables
 {
 	public class ActionTableTuple<T>
 	{
-		public Node<T> Node
+		public State<T> State
 		{
 			get;
 			set;
@@ -24,11 +24,11 @@ namespace FSMLib.ActionTables
 		{
 
 		}
-		public ActionTableTuple(Node<T> Node, IEnumerable<Situation<T>> Situations)
+		public ActionTableTuple(State<T> State, IEnumerable<Situation<T>> Situations)
 		{
-			if (Node == null) throw new ArgumentNullException();
+			if (State == null) throw new ArgumentNullException();
 			if (Situations == null) throw new ArgumentNullException();
-			this.Node = Node;this.Situations = Situations;
+			this.State = State;this.Situations = Situations;
 		}
 	}
 }

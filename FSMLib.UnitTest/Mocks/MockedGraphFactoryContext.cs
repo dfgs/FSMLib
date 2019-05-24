@@ -18,12 +18,12 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public void Connect(IEnumerable<Node<char>> Nodes, IEnumerable<BaseAction<char>> Actions)
+		public void Connect(IEnumerable<State<char>> States, IEnumerable<BaseAction<char>> Actions)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Node<char> CreateNode()
+		public State<char> CreateState()
 		{
 			throw new NotImplementedException();
 		}
@@ -48,12 +48,12 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public int GetNodeIndex(Node<char> Node)
+		public int GetStateIndex(State<char> State)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Node<char> GetTargetNode(int Index)
+		public State<char> GetTargetState(int Index)
 		{
 			throw new NotImplementedException();
 		}
@@ -68,7 +68,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterAction(Node<char> Node, string Name)
+		public IEnumerable<char> GetFirstTerminalsAfterAction(State<char> State, string Name)
 		{
 			throw new NotImplementedException();
 		}

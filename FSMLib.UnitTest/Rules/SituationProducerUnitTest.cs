@@ -24,9 +24,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable('a','b','c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs=producer.GetNextTerminals(new Situation<char>[] { s1,s2,s3 }).ToArray();
@@ -44,9 +44,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -66,9 +66,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 2 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -93,9 +93,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -114,9 +114,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -135,9 +135,9 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 2 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -162,15 +162,15 @@ namespace FSMLib.UnitTest
 
 			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, 'a').ToArray();
 
 			Assert.AreEqual(1, nextSituations.Length);
-			Assert.AreEqual(1, nextSituations[0].NodeIndex);
+			Assert.AreEqual(1, nextSituations[0].StateIndex);
 		}
 		
 

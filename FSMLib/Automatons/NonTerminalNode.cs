@@ -14,7 +14,7 @@ namespace FSMLib.Automatons
 			set;
 		}
 
-		public List<BaseNode<T>> Nodes
+		public List<BaseNode<T>> States
 		{
 			get;
 			set;
@@ -22,13 +22,13 @@ namespace FSMLib.Automatons
 
 		public NonTerminalNode()
 		{
-			this.Nodes = new List<BaseNode<T>>();
+			this.States = new List<BaseNode<T>>();
 		}
 
 		public override IEnumerable<T> EnumerateTerminals()
 		{
-			if (Nodes == null) return Enumerable.Empty<T>();
-			return Nodes.SelectMany((item) => item.EnumerateTerminals());
+			if (States == null) return Enumerable.Empty<T>();
+			return States.SelectMany((item) => item.EnumerateTerminals());
 		}
 
 

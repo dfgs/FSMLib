@@ -21,27 +21,27 @@ namespace FSMLib.SegmentFactories
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
-			Node<T> node;
+			State<T> state;
 			ShiftOnTerminal<T> action;
 			Segment<T> segment;
 			List<ShiftOnTerminal<T>> actions;
 			
 
-			node = Context.CreateNode();
+			state = Context.CreateState();
 
 			actions = new List<ShiftOnTerminal<T>>();
 			foreach (T input in Context.GetAlphabet())
 			{
 				action = new ShiftOnTerminal<T>();
-				action.TargetNodeIndex = Context.GetNodeIndex(node);
+				action.TargetStateIndex = Context.GetStateIndex(state);
 				action.Value = input ;
 				actions.Add(action);
 			}
 
-			Context.Connect(node.AsEnumerable(), OutActions);
+			Context.Connect(state.AsEnumerable(), OutActions);
 
 			segment = new Segment<T>();
-			segment.Outputs = node.AsEnumerable(); ;
+			segment.Outputs = state.AsEnumerable(); ;
 			segment.Actions = actions;
 
 			return segment;

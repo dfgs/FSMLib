@@ -57,7 +57,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Actions.Count());	// not two, because translation from non terminal input is done at actionTable factory level
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(1, actionTable.Nodes.Count);
+			Assert.AreEqual(1, actionTable.States.Count);
 			//Assert.AreEqual(true, ((Action<char>)segment.Inputs.ElementAt(1)).Input.Match('a'));
 			Assert.AreEqual(true, ((ShifOnNonTerminal<char>)segment.Actions.ElementAt(0)).Match("S"));
 		}
@@ -83,7 +83,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(1, actionTable.Nodes.Count);
+			Assert.AreEqual(1, actionTable.States.Count);
 			Assert.AreEqual(true, ((ShifOnNonTerminal<char>)segment.Actions.ElementAt(0)).Match( "A" ));
 		}
 

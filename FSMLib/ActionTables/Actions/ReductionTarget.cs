@@ -8,7 +8,7 @@ namespace FSMLib.ActionTables.Actions
 {
 	public class ReductionTarget<T>
 	{
-		public int TargetNodeIndex
+		public int TargetStateIndex
 		{
 			get;
 			set;

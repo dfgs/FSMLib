@@ -54,29 +54,29 @@ namespace FSMLib.ActionTables
 
 			return segment;
 		}
-		public void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseAction<T>> Actions)
+		public void Connect(IEnumerable<State<T>> States, IEnumerable<BaseAction<T>> Actions)
 		{
 
-			if (Nodes == null) throw new ArgumentNullException("Nodes");
+			if (States == null) throw new ArgumentNullException("States");
 			if (Actions == null) throw new ArgumentNullException("Actions");
 
-			foreach (Node<T> node in Nodes)
+			foreach (State<T> state in States)
 			{
 				foreach (BaseAction<T> action in Actions)
 				{
 					switch (action)
 					{
 						case ShiftOnTerminal<T> tr:
-							node.TerminalActions.Add(tr);
+							state.TerminalActions.Add(tr);
 							break;
 						case ShifOnNonTerminal<T> tr:
-							node.NonTerminalActions.Add(tr);
+							state.NonTerminalActions.Add(tr);
 							break;
 						case Reduce<T> tr:
-							node.ReductionActions.Add(tr);
+							state.ReductionActions.Add(tr);
 							break;
 						case Accept<T> tr:
-							node.AcceptActions.Add(tr);
+							state.AcceptActions.Add(tr);
 							break;
 
 						default:
@@ -88,24 +88,24 @@ namespace FSMLib.ActionTables
 		}
 
 
-		public Node<T> GetTargetNode(int Index)
+		public State<T> GetTargetState(int Index)
 		{
-			if ((Index < 0) || (Index >= actionTable.Nodes.Count)) throw (new IndexOutOfRangeException("Node index is out of range"));
-			return actionTable.Nodes[Index];
+			if ((Index < 0) || (Index >= actionTable.States.Count)) throw (new IndexOutOfRangeException("State index is out of range"));
+			return actionTable.States[Index];
 		}
 
-		public Node<T> CreateNode()
+		public State<T> CreateState()
 		{
-			Node<T> node;
-			node = new Node<T>();
-			node.Name = actionTable.Nodes.Count.ToString();
-			actionTable.Nodes.Add(node);
-			return node;
+			State<T> state;
+			state = new State<T>();
+			//state.Name = actionTable.States.Count.ToString();
+			actionTable.States.Add(state);
+			return state;
 		}
 
-		public int GetNodeIndex(Node<T> Node)
+		public int GetStateIndex(State<T> State)
 		{
-			return actionTable.Nodes.IndexOf(Node);
+			return actionTable.States.IndexOf(State);
 		}
 
 		public IEnumerable<T> GetAlphabet()
@@ -114,18 +114,18 @@ namespace FSMLib.ActionTables
 		}
 
 
-		public IEnumerable<T> GetFirstTerminalsAfterAction(Node<T> Node, string Name)
+		public IEnumerable<T> GetFirstTerminalsAfterAction(State<T> State, string Name)
 		{
-			Node<T> nextNode;
+			State<T> nextState;
 			List<T> items;
 
 			items = new List<T>();
 
 
-			foreach(ShifOnNonTerminal<T> action in Node.NonTerminalActions.Where(item=>item.Name==Name))
+			foreach(ShifOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
 			{
-				nextNode = GetTargetNode(action.TargetNodeIndex);
-				foreach (ShiftOnTerminal<T> terminalAction in nextNode.TerminalActions)
+				nextState = GetTargetState(action.TargetStateIndex);
+				foreach (ShiftOnTerminal<T> terminalAction in nextState.TerminalActions)
 				{
 					if (!items.Contains(terminalAction.Value)) items.Add(terminalAction.Value);
 				}
@@ -228,7 +228,7 @@ namespace FSMLib.ActionTables
 
 		public IEnumerable<Reduce<T>> GetReductionActions(string Name)
 		{
-			return actionTable.Nodes.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
+			return actionTable.States.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
 		}
 
 

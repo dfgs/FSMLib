@@ -87,74 +87,74 @@ namespace FSMLib.UnitTest.ActionTables
 			Assert.AreEqual(segment1, segment2);
 		}
 		[TestMethod]
-		public void ShouldReturnTargetNode()
+		public void ShouldReturnTargetState()
 		{
 			ActionTableFactoryContext<char> context;
-			Node<char> target;
+			State<char> target;
 			ActionTable<char> actionTable;
 
 
 			actionTable = new ActionTable<char>();
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			actionTable.Nodes.Add(new Node<char>());
-			actionTable.Nodes.Add(new Node<char>());
+			actionTable.States.Add(new State<char>());
+			actionTable.States.Add(new State<char>());
 
-			target = context.GetTargetNode(1);
-			Assert.AreEqual(actionTable.Nodes[1], target);
+			target = context.GetTargetState(1);
+			Assert.AreEqual(actionTable.States[1], target);
 		}
 
 		[TestMethod]
-		public void ShouldReturnNotTargetNode()
+		public void ShouldReturnNotTargetState()
 		{
 			ActionTableFactoryContext<char> context;
 			ActionTable<char> actionTable;
 
 			actionTable = new ActionTable<char>();
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			actionTable.Nodes.Add(new Node<char>());
-			actionTable.Nodes.Add(new Node<char>());
+			actionTable.States.Add(new State<char>());
+			actionTable.States.Add(new State<char>());
 
-			Assert.ThrowsException<IndexOutOfRangeException>(() => context.GetTargetNode(2));
+			Assert.ThrowsException<IndexOutOfRangeException>(() => context.GetTargetState(2));
 		}
 		[TestMethod]
-		public void ShouldReturnNodeIndex()
+		public void ShouldReturnStateIndex()
 		{
 			ActionTableFactoryContext<char> context;
-			Node<char> a, b;
+			State<char> a, b;
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
-			a = context.CreateNode();
-			b = context.CreateNode();
+			a = context.CreateState();
+			b = context.CreateState();
 
-			Assert.AreEqual(0, context.GetNodeIndex(a));
-			Assert.AreEqual(1, context.GetNodeIndex(b));
+			Assert.AreEqual(0, context.GetStateIndex(a));
+			Assert.AreEqual(1, context.GetStateIndex(b));
 		}
 		[TestMethod]
-		public void ShouldReturnMinusOneIfNodeDoesntExists()
+		public void ShouldReturnMinusOneIfStateDoesntExists()
 		{
 			ActionTableFactoryContext<char> context;
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
 
-			Assert.AreEqual(-1, context.GetNodeIndex(new Node<char>()));
+			Assert.AreEqual(-1, context.GetStateIndex(new State<char>()));
 		}
 
 		[TestMethod]
-		public void ShouldCreateNode()
+		public void ShouldCreateState()
 		{
 			ActionTableFactoryContext<char> context;
-			Node<char> a, b;
+			State<char> a, b;
 			ActionTable<char> actionTable;
 
 			actionTable = new ActionTable<char>();
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
 
-			a = context.CreateNode();
+			a = context.CreateState();
 			Assert.IsNotNull(a);
-			Assert.AreEqual(1, actionTable.Nodes.Count);
-			b = context.CreateNode();
+			Assert.AreEqual(1, actionTable.States.Count);
+			b = context.CreateState();
 			Assert.IsNotNull(b);
-			Assert.AreEqual(2, actionTable.Nodes.Count);
+			Assert.AreEqual(2, actionTable.States.Count);
 		}
 
 		[TestMethod]
@@ -165,7 +165,7 @@ namespace FSMLib.UnitTest.ActionTables
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(null, Enumerable.Empty<BaseAction<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(Enumerable.Empty<Node<char>>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(Enumerable.Empty<State<char>>(), null));
 
 		}
 
@@ -173,22 +173,22 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldConnectOneToOne()
 		{
 			ActionTable<char> actionTable;
-			Node<char> a, b;
+			State<char> a, b;
 			ShiftOnTerminal<char> action;
 			ActionTableFactoryContext<char> context;
 
 			actionTable = new ActionTable<char>();
-			a = new Node<char>(); actionTable.Nodes.Add(a);
-			b = new Node<char>(); actionTable.Nodes.Add(b);
+			a = new State<char>(); actionTable.States.Add(a);
+			b = new State<char>(); actionTable.States.Add(b);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetNodeIndex = actionTable.Nodes.IndexOf(b) };
+			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(b) };
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
 			context.Connect(a.AsEnumerable(), action.AsEnumerable());
 
 			Assert.AreEqual(1, a.TerminalActions.Count);
 			Assert.AreEqual(0, b.TerminalActions.Count);
-			Assert.AreEqual(1, a.TerminalActions[0].TargetNodeIndex);
+			Assert.AreEqual(1, a.TerminalActions[0].TargetStateIndex);
 			Assert.AreEqual('a', a.TerminalActions[0].Value);
 		}
 
@@ -199,17 +199,17 @@ namespace FSMLib.UnitTest.ActionTables
 		{
 			ActionTable<char> actionTable;
 			ActionTableFactoryContext<char> context;
-			Node<char> a, b, c;
+			State<char> a, b, c;
 			ShiftOnTerminal<char> actionToB, actionToC;
 
 			actionTable = new ActionTable<char>();
-			a = new Node<char>(); actionTable.Nodes.Add(a);
-			b = new Node<char>(); actionTable.Nodes.Add(b);
-			c = new Node<char>(); actionTable.Nodes.Add(c);
+			a = new State<char>(); actionTable.States.Add(a);
+			b = new State<char>(); actionTable.States.Add(b);
+			c = new State<char>(); actionTable.States.Add(c);
 
 
-			actionToB = new ShiftOnTerminal<char>() { Value = 'a', TargetNodeIndex = actionTable.Nodes.IndexOf(b) };
-			actionToC = new ShiftOnTerminal<char>() { Value = 'b', TargetNodeIndex = actionTable.Nodes.IndexOf(c) };
+			actionToB = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(b) };
+			actionToC = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = actionTable.States.IndexOf(c) };
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
 			context.Connect(a.AsEnumerable(), new ShiftOnTerminal<char>[] { actionToB, actionToC });
@@ -217,8 +217,8 @@ namespace FSMLib.UnitTest.ActionTables
 			Assert.AreEqual(2, a.TerminalActions.Count);
 			Assert.AreEqual(0, b.TerminalActions.Count);
 			Assert.AreEqual(0, c.TerminalActions.Count);
-			Assert.AreEqual(1, a.TerminalActions[0].TargetNodeIndex);
-			Assert.AreEqual(2, a.TerminalActions[1].TargetNodeIndex);
+			Assert.AreEqual(1, a.TerminalActions[0].TargetStateIndex);
+			Assert.AreEqual(2, a.TerminalActions[1].TargetStateIndex);
 			Assert.AreEqual('a', a.TerminalActions[0].Value);
 			Assert.AreEqual('b', a.TerminalActions[1].Value);
 		}
@@ -227,24 +227,24 @@ namespace FSMLib.UnitTest.ActionTables
 		{
 			ActionTable<char> actionTable;
 			ActionTableFactoryContext<char> context;
-			Node<char> a, b, c;
+			State<char> a, b, c;
 			ShiftOnTerminal<char> action;
 
 			actionTable = new ActionTable<char>();
-			a = new Node<char>(); actionTable.Nodes.Add(a);
-			b = new Node<char>(); actionTable.Nodes.Add(b);
-			c = new Node<char>(); actionTable.Nodes.Add(c);
+			a = new State<char>(); actionTable.States.Add(a);
+			b = new State<char>(); actionTable.States.Add(b);
+			c = new State<char>(); actionTable.States.Add(c);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetNodeIndex = actionTable.Nodes.IndexOf(c) };
+			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(c) };
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			context.Connect(new Node<char>[] { a, b }, action.AsEnumerable());
+			context.Connect(new State<char>[] { a, b }, action.AsEnumerable());
 
 			Assert.AreEqual(1, a.TerminalActions.Count);
 			Assert.AreEqual(1, b.TerminalActions.Count);
 			Assert.AreEqual(0, c.TerminalActions.Count);
-			Assert.AreEqual(2, a.TerminalActions[0].TargetNodeIndex);
-			Assert.AreEqual(2, b.TerminalActions[0].TargetNodeIndex);
+			Assert.AreEqual(2, a.TerminalActions[0].TargetStateIndex);
+			Assert.AreEqual(2, b.TerminalActions[0].TargetStateIndex);
 			Assert.AreEqual('a', a.TerminalActions[0].Value);
 			Assert.AreEqual('a', b.TerminalActions[0].Value);
 		}
@@ -253,29 +253,29 @@ namespace FSMLib.UnitTest.ActionTables
 		{
 			ActionTable<char> actionTable;
 			ActionTableFactoryContext<char> context;
-			Node<char> a, b, c, d;
+			State<char> a, b, c, d;
 			ShiftOnTerminal<char> actionToD, actionToC;
 
 			actionTable = new ActionTable<char>();
-			a = new Node<char>(); actionTable.Nodes.Add(a);
-			b = new Node<char>(); actionTable.Nodes.Add(b);
-			c = new Node<char>(); actionTable.Nodes.Add(c);
-			d = new Node<char>(); actionTable.Nodes.Add(d);
+			a = new State<char>(); actionTable.States.Add(a);
+			b = new State<char>(); actionTable.States.Add(b);
+			c = new State<char>(); actionTable.States.Add(c);
+			d = new State<char>(); actionTable.States.Add(d);
 
-			actionToC = new ShiftOnTerminal<char>() { Value = 'a', TargetNodeIndex = actionTable.Nodes.IndexOf(c) };
-			actionToD = new ShiftOnTerminal<char>() { Value = 'b', TargetNodeIndex = actionTable.Nodes.IndexOf(d) };
+			actionToC = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(c) };
+			actionToD = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = actionTable.States.IndexOf(d) };
 
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			context.Connect(new Node<char>[] { a, b }, new ShiftOnTerminal<char>[] { actionToC, actionToD });
+			context.Connect(new State<char>[] { a, b }, new ShiftOnTerminal<char>[] { actionToC, actionToD });
 
 			Assert.AreEqual(2, a.TerminalActions.Count);
 			Assert.AreEqual(2, b.TerminalActions.Count);
 			Assert.AreEqual(0, c.TerminalActions.Count);
 			Assert.AreEqual(0, d.TerminalActions.Count);
-			Assert.AreEqual(2, a.TerminalActions[0].TargetNodeIndex);
-			Assert.AreEqual(2, b.TerminalActions[0].TargetNodeIndex);
-			Assert.AreEqual(3, a.TerminalActions[1].TargetNodeIndex);
-			Assert.AreEqual(3, b.TerminalActions[1].TargetNodeIndex);
+			Assert.AreEqual(2, a.TerminalActions[0].TargetStateIndex);
+			Assert.AreEqual(2, b.TerminalActions[0].TargetStateIndex);
+			Assert.AreEqual(3, a.TerminalActions[1].TargetStateIndex);
+			Assert.AreEqual(3, b.TerminalActions[1].TargetStateIndex);
 
 			Assert.AreEqual('a', a.TerminalActions[0].Value);
 			Assert.AreEqual('a', b.TerminalActions[0].Value);
@@ -455,7 +455,7 @@ namespace FSMLib.UnitTest.ActionTables
 			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
 			context.BuildSegment(rules[0], Enumerable.Empty<BaseAction<char>>());
 
-			items = context.GetFirstTerminalsAfterAction(actionTable.Nodes[2], "B").ToArray();
+			items = context.GetFirstTerminalsAfterAction(actionTable.States[2], "B").ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('c', items[0]);
 		}
@@ -463,7 +463,7 @@ namespace FSMLib.UnitTest.ActionTables
 		
 
 
-		public void ShouldGetNodeWithReductionRule()
+		public void ShouldGetStateWithReductionRule()
 		{
 			Rule<char>[] rules;
 			ActionTable<char> actionTable;

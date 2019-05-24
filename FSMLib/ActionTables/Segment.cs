@@ -15,7 +15,7 @@ namespace FSMLib.ActionTables
 			set;
 		}
 
-		public IEnumerable<Node<T>> Outputs
+		public IEnumerable<State<T>> Outputs
 		{
 			get;
 			set;

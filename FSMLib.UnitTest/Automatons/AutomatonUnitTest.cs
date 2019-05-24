@@ -103,7 +103,7 @@ namespace FSMLib.UnitTest
 		public void ShouldAccept()
 		{
 			Automaton<char> automaton;
-			NonTerminalNode<char> node;
+			NonTerminalNode<char> state;
 			ActionTable<char> actionTable;
 
 			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
@@ -113,21 +113,21 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			node = automaton.Accept();
-			Assert.AreEqual("A", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
+			state = automaton.Accept();
+			Assert.AreEqual("A", state.Name);
+			Assert.AreEqual(3, state.States.Count);
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.AreEqual('a', ((TerminalNode<char>)node.Nodes[0]).Value);
-			Assert.AreEqual('b', ((TerminalNode<char>)node.Nodes[1]).Value);
-			Assert.AreEqual('c', ((TerminalNode<char>)node.Nodes[2]).Value);
+			Assert.AreEqual('a', ((TerminalNode<char>)state.States[0]).Value);
+			Assert.AreEqual('b', ((TerminalNode<char>)state.States[1]).Value);
+			Assert.AreEqual('c', ((TerminalNode<char>)state.States[2]).Value);
 
 		}
 		[TestMethod]
 		public void MayNotAccept()
 		{
 			Automaton<char> automaton;
-			NonTerminalNode<char> node;
+			NonTerminalNode<char> state;
 			ActionTable<char> actionTable;
 
 			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
@@ -139,9 +139,9 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('c');
-			node = automaton.Accept();
-			Assert.AreEqual("A", node.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
+			state = automaton.Accept();
+			Assert.AreEqual("A", state.Name);
+			Assert.AreEqual(3, state.States.Count);
 		}
 
 

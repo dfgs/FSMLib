@@ -89,24 +89,24 @@ namespace Demo
 			Graph graph = new Graph("graph");
 			graph.GraphAttr.Orientation = Microsoft.Glee.Drawing.Orientation.Landscape;
 			
-			foreach (Node<T> node in Model.Nodes)
+			foreach (State<T> state in Model.States)
 			{
-				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
+				n=graph.AddNode(Model.States.IndexOf(state).ToString());
 
-				n.UserData = string.Join("/", node.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetNodeIndex+"/"+target.Value))}")); //:{item.TargetNodeIndex}:{item.Value}
+				n.UserData = string.Join("/", state.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetStateIndex+"/"+target.Value))}")); //:{item.TargetStateIndex}:{item.Value}
 
-				if (node.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				if (state.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}
-			foreach (Node<T> node in Model.Nodes)
+			foreach (State<T> state in Model.States)
 			{
-				foreach (ShiftOnTerminal<T> action in node.TerminalActions)
+				foreach (ShiftOnTerminal<T> action in state.TerminalActions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), action.Value.ToString(), action.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.States.IndexOf(state).ToString(), action.Value.ToString(), action.TargetStateIndex.ToString());
 				}
-				foreach (ShifOnNonTerminal<T> action in node.NonTerminalActions)
+				foreach (ShifOnNonTerminal<T> action in state.NonTerminalActions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), "{"+action.Name+"}", action.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.States.IndexOf(state).ToString(), "{"+action.Name+"}", action.TargetStateIndex.ToString());
 				}
 			}
 

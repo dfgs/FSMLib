@@ -8,7 +8,7 @@ namespace FSMLib.ActionTables
 {
 	public class ActionTable<T> 
 	{
-		public List<Node<T>> Nodes
+		public List<State<T>> States
 		{
 			get;
 			set;
@@ -22,7 +22,7 @@ namespace FSMLib.ActionTables
 
 		public ActionTable()
 		{
-			Nodes = new List<Node<T>>();
+			States = new List<State<T>>();
 			Alphabet = new List<T>();
 		}
 

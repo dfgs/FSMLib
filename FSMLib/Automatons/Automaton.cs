@@ -11,10 +11,10 @@ namespace FSMLib.Automatons
 	public class Automaton<T>:IAutomaton<T>
 	{
 		private ActionTable<T> actionTable;
-		private int nodeIndex;
+		private int stateIndex;
 
 		private Stack<BaseNode<T>> nodeStack;
-		private Stack<int> nodeIndexStack;
+		private Stack<int> stateIndexStack;
 
 
 		public int StackCount
@@ -27,31 +27,31 @@ namespace FSMLib.Automatons
 			if (ActionTable == null) throw new ArgumentNullException("ActionTable");
 			this.actionTable = ActionTable;
 			nodeStack = new Stack<BaseNode<T>>();
-			nodeIndexStack = new Stack<int>();
-			nodeIndex = 0;
+			stateIndexStack = new Stack<int>();
+			stateIndex = 0;
 		}
 
 		public void Reset()
 		{
-			nodeIndex = 0;
+			stateIndex = 0;
 			nodeStack.Clear();
-			nodeIndexStack.Clear();
+			stateIndexStack.Clear();
 		}
 
 		
 
 		private bool Feed(TerminalNode<T> Node)
 		{
-			Node<T> node;
+			State<T> state;
 
-			node = actionTable.Nodes[nodeIndex];
-			foreach (ShiftOnTerminal<T> action in node.TerminalActions)
+			state = actionTable.States[stateIndex];
+			foreach (ShiftOnTerminal<T> action in state.TerminalActions)
 			{
 				if (action.Match(Node.Value))
 				{
-					nodeIndexStack.Push(nodeIndex);
+					stateIndexStack.Push(stateIndex);
 					nodeStack.Push(Node);
-					nodeIndex = action.TargetNodeIndex;
+					stateIndex = action.TargetStateIndex;
 					return true;
 				}
 			}
@@ -60,51 +60,51 @@ namespace FSMLib.Automatons
 
 		private bool Feed(NonTerminalNode<T> Node)
 		{
-			Node<T> node;
+			State<T> state;
 
-			node = actionTable.Nodes[nodeIndex];
-			foreach (ShifOnNonTerminal<T> action in node.NonTerminalActions)
+			state = actionTable.States[stateIndex];
+			foreach (ShifOnNonTerminal<T> action in state.NonTerminalActions)
 			{
 				if (action.Match(Node.Name))
 				{
-					nodeIndexStack.Push(nodeIndex);
+					stateIndexStack.Push(stateIndex);
 					nodeStack.Push(Node);
-					nodeIndex = action.TargetNodeIndex;
+					stateIndex = action.TargetStateIndex;
 					return true;
 				}
 			}
 			return false;
 		}
 
-		private NonTerminalNode<T> Reduce(string Name,int TargetNodeIndex)
+		private NonTerminalNode<T> Reduce(string Name,int TargetStateIndex)
 		{
 			BaseNode<T> baseNode;
 			NonTerminalNode<T> reducedNode;
 
 			reducedNode = new NonTerminalNode<T>() { Name = Name };
 
-			while (nodeStack.Count > 0 && (nodeIndex != TargetNodeIndex))
+			while (nodeStack.Count > 0 && (stateIndex != TargetStateIndex))
 			{
-				nodeIndex = nodeIndexStack.Pop();
+				stateIndex = stateIndexStack.Pop();
 				baseNode = nodeStack.Pop();
-				reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to node childs
+				reducedNode.States.Insert(0, baseNode);  // stack order is inverted compared to state childs
 			}
 
 			return reducedNode;
 		}
 		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
 		{
-			Node<T> node;
+			State<T> state;
 			ReductionTarget<T> target;
 
-			node = actionTable.Nodes[nodeIndex];
+			state = actionTable.States[stateIndex];
 
-			foreach (Reduce<T> action in node.ReductionActions)
+			foreach (Reduce<T> action in state.ReductionActions)
 			{
 				target = action.Targets.FirstOrDefault(item =>  Node.Value.Equals(item.Value));
 				if (target == null) continue;
 
-				return Reduce(action.Name, target.TargetNodeIndex);
+				return Reduce(action.Name, target.TargetStateIndex);
 			}
 			return null;
 		}
@@ -129,32 +129,32 @@ namespace FSMLib.Automatons
 
 		/*private bool CanReduce()
 		{
-			Node<T> node;
+			State<T> state;
 
-			node = actionTable.Nodes[nodeIndex];
-			return node.ReductionActions.Count > 0;
+			state = actionTable.States[stateIndex];
+			return state.ReductionActions.Count > 0;
 		}*/
 
 
 
 		public bool CanAccept()
 		{
-			Node<T> node;
+			State<T> state;
 			Accept<T> axiom;
 
-			node = actionTable.Nodes[nodeIndex];
-			axiom = node.AcceptActions.FirstOrDefault();
+			state = actionTable.States[stateIndex];
+			axiom = state.AcceptActions.FirstOrDefault();
 
 			return axiom != null;
 		}
 
 		public NonTerminalNode<T> Accept()
 		{
-			Node<T> node;
+			State<T> state;
 			Accept<T> axiom;
 
-			node = actionTable.Nodes[nodeIndex];
-			axiom = node.AcceptActions.FirstOrDefault();
+			state = actionTable.States[stateIndex];
+			axiom = state.AcceptActions.FirstOrDefault();
 
 			if (axiom==null) throw new InvalidOperationException("Automaton cannot accept in current state");
 			return Reduce( axiom.Name,0 );

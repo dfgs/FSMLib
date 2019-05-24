@@ -24,7 +24,7 @@ namespace FSMLib.ActionTables
 		}
 
 		
-		private void DevelopRuleDependencies(Node<T> node, IEnumerable<ShifOnNonTerminal<T>> Actions, IActionTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
+		private void DevelopRuleDependencies(State<T> state, IEnumerable<ShifOnNonTerminal<T>> Actions, IActionTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
 			string[] reductionDependencies;
 			Segment<T> dependentSegment;
@@ -37,19 +37,19 @@ namespace FSMLib.ActionTables
 					foreach (Rule<T> dependentRule in Rules.Where(item => item.Name == reductionDepency))
 					{
 						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseAction<T>>());
-						context.Connect(node.AsEnumerable(), dependentSegment.Actions);
+						context.Connect(state.AsEnumerable(), dependentSegment.Actions);
 					}
 				}
 			}
 		}
-		private void CompleteReductionTargets(Node<T> node, IEnumerable<ShifOnNonTerminal<T>> Actions, IActionTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
+		private void CompleteReductionTargets(State<T> state, IEnumerable<ShifOnNonTerminal<T>> Actions, IActionTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
 			T[] nextInputs;
 			string[] reductionDependencies;
 
 			foreach (ShifOnNonTerminal<T> nonTerminalAction in Actions)
 			{
-				nextInputs = context.GetFirstTerminalsAfterAction(node, nonTerminalAction.Name).ToArray();
+				nextInputs = context.GetFirstTerminalsAfterAction(state, nonTerminalAction.Name).ToArray();
 
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach (string reductionDepency in reductionDependencies)
@@ -58,7 +58,7 @@ namespace FSMLib.ActionTables
 					{
 						foreach (T value in nextInputs)
 						{
-							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetNodeIndex = context.GetNodeIndex(node), Value = value });
+							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = context.GetStateIndex(state), Value = value });
 						}
 					}
 
@@ -68,7 +68,7 @@ namespace FSMLib.ActionTables
 		public ActionTable<T> BuildActionTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			ActionTable<T> actionTable;
-			Node<T> root;
+			State<T> root;
 			Segment<T> segment;
 			ActionTableFactoryContext<T> context;
 			Rule<T> axiom;
@@ -90,7 +90,7 @@ namespace FSMLib.ActionTables
 			axiom = rules.First();
 			
 			context = new ActionTableFactoryContext<T>(segmentFactoryProvider, actionTable);
-			root = context.CreateNode();
+			root = context.CreateState();
 			
 			// build all segments from rules
 			foreach(Rule<T> rule in rules)
@@ -115,16 +115,16 @@ namespace FSMLib.ActionTables
 			}
 
 			// develop rule dependencies
-			foreach (Node<T> node in actionTable.Nodes)
+			foreach (State<T> state in actionTable.States)
 			{
-				if (node == root) continue;
-				DevelopRuleDependencies(node, node.NonTerminalActions.ToArray(), context, rules, axiom);
+				if (state == root) continue;
+				DevelopRuleDependencies(state, state.NonTerminalActions.ToArray(), context, rules, axiom);
 			}//*/
-			 // add reduction action to root nodes
-			foreach (Node<T> node in actionTable.Nodes)
+			 // add reduction action to root states
+			foreach (State<T> state in actionTable.States)
 			{
-				if (node == root) continue;
-				CompleteReductionTargets(node, node.NonTerminalActions.ToArray(), context, rules, axiom);
+				if (state == root) continue;
+				CompleteReductionTargets(state, state.NonTerminalActions.ToArray(), context, rules, axiom);
 			}//*/
 
 
@@ -140,11 +140,11 @@ namespace FSMLib.ActionTables
 			if (nextTuple == null)
 			{
 				nextTuple = new ActionTableTuple<T>();
-				nextTuple.Node = Context.CreateNode();
+				nextTuple.State = Context.CreateState();
 				nextTuple.Situations = NextSituations;
 
-				nextTuple.Node.ReductionActions.AddRange(NextSituations.SelectMany(item => item.ActionTable.Nodes[item.NodeIndex].ReductionActions));
-				nextTuple.Node.AcceptActions.AddRange(NextSituations.SelectMany(item => item.ActionTable.Nodes[item.NodeIndex].AcceptActions));
+				nextTuple.State.ReductionActions.AddRange(NextSituations.SelectMany(item => item.ActionTable.States[item.StateIndex].ReductionActions));
+				nextTuple.State.AcceptActions.AddRange(NextSituations.SelectMany(item => item.ActionTable.States[item.StateIndex].AcceptActions));
 
 				SituationMapping.Add(nextTuple);
 				OpenList.Push(nextTuple);
@@ -168,13 +168,13 @@ namespace FSMLib.ActionTables
 			actionTable = new ActionTable<T>();
 			actionTable.Alphabet.AddRange(BaseActionTable.Alphabet);
 
-			if (BaseActionTable.Nodes.Count == 0) return actionTable;
+			if (BaseActionTable.States.Count == 0) return actionTable;
 			context = new ActionTableFactoryContext<T>(segmentFactoryProvider,actionTable);
 
 			situationMapping = new List<ActionTableTuple<T>>();
 			openList = new Stack<ActionTableTuple<T>>();
 
-			currentTuple= GetNextTuple(context, openList, situationMapping, new Situation<T>() { ActionTable = BaseActionTable, NodeIndex = 0 }.AsEnumerable());
+			currentTuple= GetNextTuple(context, openList, situationMapping, new Situation<T>() { ActionTable = BaseActionTable, StateIndex = 0 }.AsEnumerable());
 	
 			while (openList.Count>0)
 			{
@@ -185,8 +185,8 @@ namespace FSMLib.ActionTables
 					// do we have the same situation list in actionTable ?
 					nextTuple = GetNextTuple(context,openList,situationMapping,nextSituations);
 					// if not we push this situation list in processing stack
-					action = new ShiftOnTerminal<T>() { Value = value, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
-					context.Connect(currentTuple.Node.AsEnumerable(), action.AsEnumerable());
+					action = new ShiftOnTerminal<T>() { Value = value, TargetStateIndex = context.GetStateIndex(nextTuple.State) };
+					context.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
 				foreach (string name in situationProducer.GetNextNonTerminals(currentTuple.Situations))
 				{
@@ -194,22 +194,22 @@ namespace FSMLib.ActionTables
 					// do we have the same situation list in actionTable ?
 					nextTuple = GetNextTuple(context, openList, situationMapping, nextSituations);
 					// if not we push this situation list in processing stack
-					action = new ShifOnNonTerminal<T>() { Name = name, TargetNodeIndex = context.GetNodeIndex(nextTuple.Node) };
-					context.Connect(currentTuple.Node.AsEnumerable(), action.AsEnumerable());
+					action = new ShifOnNonTerminal<T>() { Name = name, TargetStateIndex = context.GetStateIndex(nextTuple.State) };
+					context.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
 
 			}
 
 			// translate reduction actions, because indices in base actionTable are not the same in det actionTable
-			foreach (Reduce<T> reductionAction in actionTable.Nodes.SelectMany(item=>item.ReductionActions))
+			foreach (Reduce<T> reductionAction in actionTable.States.SelectMany(item=>item.ReductionActions))
 			{
 				targets = reductionAction.Targets.ToArray();
 				reductionAction.Targets.Clear();
 				foreach(ReductionTarget<T> target in targets)
 				{
-					nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation => situation.NodeIndex == target.TargetNodeIndex) != null);
+					nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation => situation.StateIndex == target.TargetStateIndex) != null);
 					if (nextTuple == null) throw new Exception("Failed to translate reduction actions");
-					reductionAction.Targets.Add(new ReductionTarget<T>() { TargetNodeIndex = context.GetNodeIndex(nextTuple.Node), Value = target.Value }); ;
+					reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = context.GetStateIndex(nextTuple.State), Value = target.Value }); ;
 				}
 			}
 

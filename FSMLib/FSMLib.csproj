@@ -53,7 +53,7 @@
     <Compile Include="ActionTables\IActionTableFactory.cs" />
     <Compile Include="ActionTables\ActionTableFactoryContext.cs" />
     <Compile Include="ActionTables\IActionTableFactoryContext.cs" />
-    <Compile Include="ActionTables\Node.cs" />
+    <Compile Include="ActionTables\State.cs" />
     <Compile Include="ActionTables\Actions\Accept.cs" />
     <Compile Include="ActionTables\Actions\ReductionTarget.cs" />
     <Compile Include="ActionTables\Actions\Reduce.cs" />

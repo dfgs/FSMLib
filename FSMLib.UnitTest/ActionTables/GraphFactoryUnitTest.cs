@@ -35,7 +35,7 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildActionTable(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(4, actionTable.Nodes.Count);
+			Assert.AreEqual(4, actionTable.States.Count);
 
 			parser = new ActionTableParser<char>(actionTable);
 
@@ -63,7 +63,7 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildActionTable(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(7, actionTable.Nodes.Count);
+			Assert.AreEqual(7, actionTable.States.Count);
 
 			parser = new ActionTableParser<char>(actionTable);
 
@@ -100,7 +100,7 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildActionTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(4, actionTable.Nodes.Count);
+			Assert.AreEqual(4, actionTable.States.Count);
 
 			parser = new ActionTableParser<char>(actionTable);
 
@@ -131,7 +131,7 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildActionTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(4, actionTable.Nodes.Count);
+			Assert.AreEqual(4, actionTable.States.Count);
 
 			parser = new ActionTableParser<char>(actionTable);
 
@@ -185,7 +185,7 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildDeterministicActionTable(new ActionTable<char>());
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(0, actionTable.Nodes.Count);
+			Assert.AreEqual(0, actionTable.States.Count);
 		}
 
 
@@ -203,16 +203,16 @@ namespace FSMLib.UnitTest.ActionTables
 
 			actionTable = factory.BuildDeterministicActionTable(baseActionTable);
 			Assert.IsNotNull(actionTable);
-			Assert.AreEqual(4, actionTable.Nodes.Count);
-			Assert.AreEqual(1, actionTable.Nodes[0].TerminalActions.Count);
-			Assert.AreEqual(1, actionTable.Nodes[1].TerminalActions.Count);
-			Assert.AreEqual(1, actionTable.Nodes[2].TerminalActions.Count);
-			Assert.AreEqual(0, actionTable.Nodes[3].TerminalActions.Count);
-			Assert.IsTrue(actionTable.Nodes[0].TerminalActions[0].Match('a'));
-			Assert.IsTrue(actionTable.Nodes[1].TerminalActions[0].Match('b'));
-			Assert.IsTrue(actionTable.Nodes[2].TerminalActions[0].Match('c'));
+			Assert.AreEqual(4, actionTable.States.Count);
+			Assert.AreEqual(1, actionTable.States[0].TerminalActions.Count);
+			Assert.AreEqual(1, actionTable.States[1].TerminalActions.Count);
+			Assert.AreEqual(1, actionTable.States[2].TerminalActions.Count);
+			Assert.AreEqual(0, actionTable.States[3].TerminalActions.Count);
+			Assert.IsTrue(actionTable.States[0].TerminalActions[0].Match('a'));
+			Assert.IsTrue(actionTable.States[1].TerminalActions[0].Match('b'));
+			Assert.IsTrue(actionTable.States[2].TerminalActions[0].Match('c'));
 
-			for (int t = 0; t < 3; t++) Assert.AreEqual(0, actionTable.Nodes[t].ReductionActions.Count);
+			for (int t = 0; t < 3; t++) Assert.AreEqual(0, actionTable.States[t].ReductionActions.Count);
 
 		}
 

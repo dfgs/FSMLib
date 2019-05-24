@@ -13,7 +13,7 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShoudHaveValidConstructor()
 		{
 			Assert.ThrowsException<ArgumentNullException>(() => new ActionTableTuple<object>(null, Enumerable.Empty<Situation<object>>() ));
-			Assert.ThrowsException<ArgumentNullException>(() => new ActionTableTuple<object>(new Node<object>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new ActionTableTuple<object>(new State<object>(), null));
 		}
 	}
 }

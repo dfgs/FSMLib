@@ -15,7 +15,7 @@ namespace FSMLib.Rules
 			set;
 		}
 
-		public int NodeIndex
+		public int StateIndex
 		{
 			get;
 			set;
@@ -24,12 +24,12 @@ namespace FSMLib.Rules
 		public bool Equals(Situation<T> other)
 		{
 			if (other == null) return false;
-			return ((other.ActionTable == ActionTable) && (other.NodeIndex == NodeIndex));
+			return ((other.ActionTable == ActionTable) && (other.StateIndex == StateIndex));
 		}
 
 		public override string ToString()
 		{
-			return NodeIndex.ToString();
+			return StateIndex.ToString();
 		}
 
 	}

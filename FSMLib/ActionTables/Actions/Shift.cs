@@ -8,7 +8,7 @@ namespace FSMLib.ActionTables.Actions
 {
 	public abstract class Shift<T>:BaseAction<T>
 	{
-		public int TargetNodeIndex
+		public int TargetStateIndex
 		{
 			get;
 			set;

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FSMLib.ActionTables
 {
-	public class Node<T>
+	public class State<T>
 	{
-		public string Name
+		/*public string Name
 		{
 			get;
 			set;
-		}
+		}*/
 		public List<ShiftOnTerminal<T>> TerminalActions
 		{
 			get;
@@ -37,13 +37,9 @@ namespace FSMLib.ActionTables
 			set;
 		}
 
-		/*public List<int> RootIDs
-		{
-			get;
-			set;
-		}*/
+		
 
-		public Node()
+		public State()
 		{
 			TerminalActions = new List<ShiftOnTerminal<T>>();
 			NonTerminalActions = new List<ShifOnNonTerminal<T>>();
@@ -51,10 +47,10 @@ namespace FSMLib.ActionTables
 			AcceptActions = new List<Accept<T>>();
 			//RootIDs = new List<int>();
 		}
-		public override string ToString()
+		/*public override string ToString()
 		{
 			return Name??"No name";
-		}
+		}*/
 
 	}
 }
