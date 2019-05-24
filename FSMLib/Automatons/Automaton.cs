@@ -124,6 +124,25 @@ namespace FSMLib.Tables
 			return null;
 		}
 
+		public bool CanFeed(BaseTerminalInput<T> Input)
+		{
+			State<T> state;
+
+			state = automatonTable.States[stateIndex];
+			// check if we can shift
+			if (state.TerminalActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
+			// check if we can reduce and shift
+			if (state.ReductionActions.SelectMany(item => item.Targets).FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
+
+			return false;
+		}
+
+
+		public bool CanFeed(T Input)
+		{
+			return CanFeed(new TerminalInput<T>() { Value = Input });
+		}
+
 
 		public void Feed(BaseTerminalInput<T> Input)
 		{

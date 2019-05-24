@@ -294,6 +294,61 @@ namespace FSMLib.UnitTest
 			node = automaton.Accept();
 		}
 
+		[TestMethod]
+		public void ShouldFeedAndReduceWithOptionalPredicate()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+			NonTerminalNode<char> node;
+
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+
+			automaton.Feed(new EOSInput<char>());
+			Assert.IsTrue(automaton.CanAccept());
+
+			node = automaton.Accept();
+		}
+
+		[TestMethod]
+		public void ShouldReturnCanFeed()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(automatonTable);
+
+			Assert.IsTrue(automaton.CanFeed('a'));
+			automaton.Feed('a');
+			Assert.IsFalse(automaton.CanFeed('a'));
+			Assert.IsFalse(automaton.CanFeed(new EOSInput<char>()));
+			Assert.IsTrue(automaton.CanFeed('b'));
+			automaton.Feed('b');
+
+			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
+			Assert.IsTrue(automaton.CanFeed('c'));
+			automaton.Feed('c');
+
+			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
+			Assert.IsTrue(automaton.CanFeed('c'));
+			automaton.Feed('c');
+
+			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
+			Assert.IsTrue(automaton.CanFeed('c'));
+			automaton.Feed('c');
+
+			automaton.Feed(new EOSInput<char>());
+			Assert.IsTrue(automaton.CanAccept());
+		}
+
+
 
 	}
 }

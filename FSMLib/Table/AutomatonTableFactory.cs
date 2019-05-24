@@ -64,7 +64,7 @@ namespace FSMLib.Table
 						{
 							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = input });
 						}
-						reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = new EOSInput<T>() });
+						//reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = new EOSInput<T>() });
 					}
 
 				}
@@ -98,16 +98,27 @@ namespace FSMLib.Table
 			root = context.CreateState();
 			acceptState = context.CreateState();
 			acceptState.AcceptActions.Add(new Accept<T>() { Name = axiom.Name });
-			
+
 
 			// build all segments from rules
 			foreach (Rule<T> rule in rules)
 			{
-				actions = new BaseAction<T>[]
+				// no shift on EOS if rule is not axiom
+				if (rule == axiom)
+				{ 
+					actions = new BaseAction<T>[]
+					{
+						new ShiftOnTerminal<T>() { Input=new EOSInput<T>(), TargetStateIndex=1},
+						new Reduce<T>() { Name = rule.Name }
+					};
+				}
+				else
 				{
-					new ShiftOnTerminal<T>() { Input=new EOSInput<T>(), TargetStateIndex=1},
-					new Reduce<T>() { Name = rule.Name }
-				};
+					actions = new BaseAction<T>[]
+					{
+						new Reduce<T>() { Name = rule.Name }
+					};
+				}
 
 				segment = context.BuildSegment( rule, actions  );
 				context.Connect(root.AsEnumerable(), segment.Actions);

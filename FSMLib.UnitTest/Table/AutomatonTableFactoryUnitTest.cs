@@ -67,6 +67,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
+			// axiom branch
 			Assert.AreEqual(2, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
@@ -75,6 +76,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('c'));
 			Assert.AreEqual(1, parser.ActionCount);
 
+			// not axiom branch
 			parser.Reset();
 			Assert.AreEqual(2, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a',1));
@@ -82,7 +84,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(1, parser.ActionCount);
+			Assert.AreEqual(0, parser.ActionCount);
 
 		}
 
