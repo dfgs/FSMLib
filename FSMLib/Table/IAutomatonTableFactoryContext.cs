@@ -24,7 +24,7 @@ namespace FSMLib.Table
 		IEnumerable<T> GetAlphabet();
 
 		IEnumerable<T> GetFirstTerminalsForRule(IEnumerable<Rule<T>> Rules, string Name);
-		IEnumerable<T> GetFirstTerminalsAfterAction(State<T> State, string Name);
+		IEnumerable<T> GetFirstTerminalsAfterAction( ShiftOnNonTerminal<T> Action);
 
 		//IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name);
 

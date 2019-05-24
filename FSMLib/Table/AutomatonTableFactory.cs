@@ -49,7 +49,7 @@ namespace FSMLib.Table
 
 			foreach (ShiftOnNonTerminal<T> nonTerminalAction in Actions)
 			{
-				nextInputs = context.GetFirstTerminalsAfterAction(state, nonTerminalAction.Name).ToArray();
+				nextInputs = context.GetFirstTerminalsAfterAction( nonTerminalAction).ToArray();
 
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach (string reductionDepency in reductionDependencies)

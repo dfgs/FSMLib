@@ -114,7 +114,7 @@ namespace FSMLib.Table
 		}
 
 
-		public IEnumerable<T> GetFirstTerminalsAfterAction(State<T> State, string Name)
+		public IEnumerable<T> GetFirstTerminalsAfterAction(ShiftOnNonTerminal<T> Action)
 		{
 			State<T> nextState;
 			List<T> items;
@@ -122,14 +122,14 @@ namespace FSMLib.Table
 			items = new List<T>();
 
 
-			foreach(ShiftOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
+			//foreach(ShiftOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
+			//{
+			nextState = GetTargetState(Action.TargetStateIndex);
+			foreach (ShiftOnTerminal<T> terminalAction in nextState.TerminalActions)
 			{
-				nextState = GetTargetState(action.TargetStateIndex);
-				foreach (ShiftOnTerminal<T> terminalAction in nextState.TerminalActions)
-				{
-					if (!items.Contains(terminalAction.Value)) items.Add(terminalAction.Value);
-				}
+				if (!items.Contains(terminalAction.Value)) items.Add(terminalAction.Value);
 			}
+			//}
 			
 
 			return items;

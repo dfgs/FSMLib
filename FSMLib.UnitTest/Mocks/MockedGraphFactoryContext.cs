@@ -68,7 +68,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterAction(State<char> State, string Name)
+		public IEnumerable<char> GetFirstTerminalsAfterAction( ShiftOnNonTerminal<char> Action)
 		{
 			throw new NotImplementedException();
 		}

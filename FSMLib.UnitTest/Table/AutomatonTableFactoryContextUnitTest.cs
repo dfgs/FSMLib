@@ -501,7 +501,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.BuildSegment(rules[0], Enumerable.Empty<BaseAction<char>>());
 
-			items = context.GetFirstTerminalsAfterAction(automatonTable.States[2], "B").ToArray();
+			items = context.GetFirstTerminalsAfterAction( automatonTable.States[2].NonTerminalActions.First()).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('c', items[0]);
 		}
