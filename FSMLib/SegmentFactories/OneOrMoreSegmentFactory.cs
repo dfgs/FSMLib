@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,21 +15,21 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context,  OneOrMore<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  OneOrMore<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			ISegmentFactory<T> childSegmentFactory;
 			Segment<T> segment;
 
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
+			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
 			// create child segment
 			childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Item);
-			segment=childSegmentFactory.BuildSegment(Context, Predicate.Item,OutTransitions);
+			segment=childSegmentFactory.BuildSegment(Context, Predicate.Item,OutActions);
 			
 			// connect segments
-			Context.Connect(segment.Outputs , segment.Inputs);
+			Context.Connect(segment.Outputs , segment.Actions);
 			
 			
 			return segment;

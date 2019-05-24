@@ -1,5 +1,5 @@
-﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockedGraphFactoryContext : IGraphFactoryContext<char>
+	public class MockedActionTableFactoryContext : IActionTableFactoryContext<char>
 	{
-		public Segment<char> BuildSegment(Rule<char> Rule, IEnumerable<BaseTransition<char>> OutTransitions)
+		public Segment<char> BuildSegment(Rule<char> Rule, IEnumerable<BaseAction<char>> OutActions)
 		{
 			throw new NotImplementedException();
 		}
 
-		public void Connect(IEnumerable<Node<char>> Nodes, IEnumerable<BaseTransition<char>> Transitions)
+		public void Connect(IEnumerable<Node<char>> Nodes, IEnumerable<BaseAction<char>> Actions)
 		{
 			throw new NotImplementedException();
 		}
@@ -33,7 +33,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterTransition(IEnumerable<Rule<char>> Rules, NonTerminalTransition<char> NonTerminalTransition)
+		public IEnumerable<char> GetFirstTerminalsAfterAction(IEnumerable<Rule<char>> Rules, ShifOnNonTerminal<char> NonTerminalAction)
 		{
 			throw new NotImplementedException();
 		}
@@ -43,7 +43,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<BaseTransition<char>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		public IEnumerable<BaseAction<char>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}
@@ -63,17 +63,17 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<ReductionTransition<char>> GetReductionTransitions(string Name)
+		public IEnumerable<Reduce<char>> GetReductionActions(string Name)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterTransition(Node<char> Node, string Name)
+		public IEnumerable<char> GetFirstTerminalsAfterAction(Node<char> Node, string Name)
 		{
 			throw new NotImplementedException();
 		}
 
-		/*IEnumerable<Segment<char>> IGraphFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		/*IEnumerable<Segment<char>> IActionTableFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}*/

@@ -1,5 +1,5 @@
-﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class GraphParser<T>
+	public class ActionTableParser<T>
 	{
-		private Graph<T> graph;
+		private ActionTable<T> actionTable;
 		private int nodeIndex;
 
-		public int TransitionCount
+		public int ActionCount
 		{
-			get { return graph.Nodes[nodeIndex].TerminalTransitions.Count+ graph.Nodes[nodeIndex].NonTerminalTransitions.Count; }
+			get { return actionTable.Nodes[nodeIndex].TerminalActions.Count+ actionTable.Nodes[nodeIndex].NonTerminalActions.Count; }
 		}
 
 		
-		public GraphParser(Graph<T> Graph)
+		public ActionTableParser(ActionTable<T> ActionTable)
 		{
-			this.graph = Graph;this.nodeIndex = 0;
+			this.actionTable = ActionTable;this.nodeIndex = 0;
 
 		}
 
@@ -31,13 +31,13 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			int index = 0;
 
-			foreach(TerminalTransition<T> transition in graph.Nodes[nodeIndex].TerminalTransitions)
+			foreach(ShiftOnTerminal<T> action in actionTable.Nodes[nodeIndex].TerminalActions)
 			{
-				if (transition.Match(Input))
+				if (action.Match(Input))
 				{
 					if (index == MatchIndex)
 					{
-						nodeIndex = transition.TargetNodeIndex;
+						nodeIndex = action.TargetNodeIndex;
 						return true;
 					}
 					index++;

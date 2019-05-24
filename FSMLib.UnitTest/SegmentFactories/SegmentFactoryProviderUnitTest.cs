@@ -1,5 +1,5 @@
 ﻿using System;
-using FSMLib.Graphs;
+using FSMLib.ActionTables;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;

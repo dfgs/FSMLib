@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs;
+﻿using FSMLib.ActionTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace FSMLib.Rules
 {
 	public class Situation<T>:IEquatable<Situation<T>>
 	{
-		public Graph<T> Graph
+		public ActionTable<T> ActionTable
 		{
 			get;
 			set;
@@ -24,7 +24,7 @@ namespace FSMLib.Rules
 		public bool Equals(Situation<T> other)
 		{
 			if (other == null) return false;
-			return ((other.Graph == Graph) && (other.NodeIndex == NodeIndex));
+			return ((other.ActionTable == ActionTable) && (other.NodeIndex == NodeIndex));
 		}
 
 		public override string ToString()

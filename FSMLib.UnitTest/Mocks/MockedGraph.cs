@@ -1,5 +1,5 @@
-﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -11,9 +11,9 @@ namespace FSMLib.UnitTest.Mocks
 {
 	
 	[ExcludeFromCodeCoverage]
-	public class MockedGraph:Graph<char>
+	public class MockedActionTable:ActionTable<char>
 	{
-		public MockedGraph(params char[] Values)
+		public MockedActionTable(params char[] Values)
 		{
 
 			Nodes.Add(new Node<char>());
@@ -21,18 +21,18 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				Nodes.Add(new Node<char>());
-				Nodes[t].TerminalTransitions.Add(new TerminalTransition<char>() { Value = Values[t], TargetNodeIndex = t+1 });
+				Nodes[t].TerminalActions.Add(new ShiftOnTerminal<char>() { Value = Values[t], TargetNodeIndex = t+1 });
 			}
 
 		}
-		public MockedGraph(params string[] Values)
+		public MockedActionTable(params string[] Values)
 		{
 			Nodes.Add(new Node<char>());
 
 			for (int t = 0; t < Values.Length; t++)
 			{
 				Nodes.Add(new Node<char>());
-				Nodes[t].NonTerminalTransitions.Add(new NonTerminalTransition<char>() { Name = Values[t], TargetNodeIndex = t + 1 });
+				Nodes[t].NonTerminalActions.Add(new ShifOnNonTerminal<char>() { Name = Values[t], TargetNodeIndex = t + 1 });
 			}
 		}
 

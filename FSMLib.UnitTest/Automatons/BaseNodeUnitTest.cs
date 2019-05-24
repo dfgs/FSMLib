@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FSMLib.Automatons;
-using FSMLib.Graphs;
+using FSMLib.ActionTables;
 
 using FSMLib.Helpers;
 using FSMLib.Predicates;

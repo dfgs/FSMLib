@@ -1,6 +1,6 @@
 ﻿using FSMLib;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -31,7 +31,7 @@ namespace Demo
 	public partial class MainWindow : Window
 	{
 		private ObservableCollection<GraphView> views;
-		private GraphFactory<char> graphFactory;
+		private ActionTableFactory<char> actionTableFactory;
 
 		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't' };
 
@@ -39,7 +39,7 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			graphFactory = new GraphFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			actionTableFactory = new ActionTableFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 	
 			views = new ObservableCollection<GraphView>();
@@ -68,21 +68,21 @@ namespace Demo
 			Rule<char> rule;
 
 			rule = new Rule<char>() { Predicate = Predicate };
-			CreateView(graphFactory.BuildGraph(rule.AsEnumerable(), alphabet));
+			CreateView(actionTableFactory.BuildActionTable(rule.AsEnumerable(), alphabet));
 		}
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(graphFactory.BuildGraph(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
+			CreateView(actionTableFactory.BuildActionTable(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
 		}
-		private void CreateView(Graph<char> Model)
+		private void CreateView(ActionTable<char> Model)
 		{
 			GraphView view;
 
 			view = new GraphView();
 			views.Add(view);
-			view.SetGraphs(CreateGraph(Model), CreateGraph(graphFactory.BuildDeterministicGraph(Model)) );
+			view.SetActionTables(CreateGraph(Model), CreateGraph(actionTableFactory.BuildDeterministicActionTable(Model)) );
 		}
-		private static Graph CreateGraph<T>(Graph<T> Model)
+		private static Graph CreateGraph<T>(ActionTable<T> Model)
 		{
 			Node n;
 
@@ -93,20 +93,20 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.Nodes.IndexOf(node).ToString());
 
-				n.UserData = string.Join("/", node.ReductionTransitions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetNodeIndex+"/"+target.Value))}")); //:{item.TargetNodeIndex}:{item.Value}
+				n.UserData = string.Join("/", node.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetNodeIndex+"/"+target.Value))}")); //:{item.TargetNodeIndex}:{item.Value}
 
-				if (node.ReductionTransitions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				if (node.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 			}
 			foreach (Node<T> node in Model.Nodes)
 			{
-				foreach (TerminalTransition<T> transition in node.TerminalTransitions)
+				foreach (ShiftOnTerminal<T> action in node.TerminalActions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), transition.Value.ToString(), transition.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), action.Value.ToString(), action.TargetNodeIndex.ToString());
 				}
-				foreach (NonTerminalTransition<T> transition in node.NonTerminalTransitions)
+				foreach (ShifOnNonTerminal<T> action in node.NonTerminalActions)
 				{
-					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), "{"+transition.Name+"}", transition.TargetNodeIndex.ToString());
+					graph.AddEdge(Model.Nodes.IndexOf(node).ToString(), "{"+action.Name+"}", action.TargetNodeIndex.ToString());
 				}
 			}
 

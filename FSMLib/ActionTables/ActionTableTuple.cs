@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.ActionTables
 {
-	public class GraphTuple<T>
+	public class ActionTableTuple<T>
 	{
 		public Node<T> Node
 		{
@@ -20,11 +20,11 @@ namespace FSMLib.Graphs
 			set;
 		}
 
-		public GraphTuple()
+		public ActionTableTuple()
 		{
 
 		}
-		public GraphTuple(Node<T> Node, IEnumerable<Situation<T>> Situations)
+		public ActionTableTuple(Node<T> Node, IEnumerable<Situation<T>> Situations)
 		{
 			if (Node == null) throw new ArgumentNullException();
 			if (Situations == null) throw new ArgumentNullException();

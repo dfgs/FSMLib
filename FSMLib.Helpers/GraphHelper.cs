@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs;
+﻿using FSMLib.ActionTables;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Helpers
 {
-	public static class GraphHelper
+	public static class ActionTableHelper
 	{
-		public static Graph<char> BuildGraph(IEnumerable<string> Rules, IEnumerable<char> Alphabet)
+		public static ActionTable<char> BuildActionTable(IEnumerable<string> Rules, IEnumerable<char> Alphabet)
 		{
-			GraphFactory<char> graphFactory;
-			Graph<char> graph;
+			ActionTableFactory<char> actionTableFactory;
+			ActionTable<char> actionTable;
 
-			graphFactory = new GraphFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			actionTableFactory = new ActionTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			graph = graphFactory.BuildGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
+			actionTable = actionTableFactory.BuildActionTable(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
 		
-			return graph;
+			return actionTable;
 
 		}
 
-		public static Graph<char> BuildDeterminiticGraph(IEnumerable<string> Rules,IEnumerable<char> Alphabet)
+		public static ActionTable<char> BuildDeterminiticActionTable(IEnumerable<string> Rules,IEnumerable<char> Alphabet)
 		{
-			GraphFactory<char> graphFactory;
-			Graph<char> graph,detGraph;
+			ActionTableFactory<char> actionTableFactory;
+			ActionTable<char> actionTable,detActionTable;
 
-			graphFactory = new GraphFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			actionTableFactory = new ActionTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			graph=graphFactory.BuildGraph( Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet );
-			detGraph = graphFactory.BuildDeterministicGraph(graph);
+			actionTable=actionTableFactory.BuildActionTable( Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet );
+			detActionTable = actionTableFactory.BuildDeterministicActionTable(actionTable);
 
-			return detGraph;
+			return detActionTable;
 
 		}
 	}

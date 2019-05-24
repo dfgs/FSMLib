@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,26 +15,26 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context,  Terminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  Terminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
+			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
 			Node<T> node;
-			TerminalTransition<T> transition;
+			ShiftOnTerminal<T> action;
 			Segment<T> segment;
 
 			node = Context.CreateNode();
-			transition = new TerminalTransition<T>();
-			transition.TargetNodeIndex = Context.GetNodeIndex(node);
-			transition.Value = Predicate.Value;
+			action = new ShiftOnTerminal<T>();
+			action.TargetNodeIndex = Context.GetNodeIndex(node);
+			action.Value = Predicate.Value;
 
-			Context.Connect(node.AsEnumerable(), OutTransitions);
+			Context.Connect(node.AsEnumerable(), OutActions);
 
 			segment = new Segment<T>();
 			segment.Outputs = node.AsEnumerable(); ;
-			segment.Inputs = transition.AsEnumerable();
+			segment.Actions = action.AsEnumerable();
 
 			return segment;
 		}

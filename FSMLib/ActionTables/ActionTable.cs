@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.ActionTables
 {
-	public class Graph<T> 
+	public class ActionTable<T> 
 	{
 		public List<Node<T>> Nodes
 		{
@@ -20,7 +20,7 @@ namespace FSMLib.Graphs
 			set;
 		}
 
-		public Graph()
+		public ActionTable()
 		{
 			Nodes = new List<Node<T>>();
 			Alphabet = new List<T>();

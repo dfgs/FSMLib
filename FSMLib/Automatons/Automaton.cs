@@ -1,5 +1,5 @@
-﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace FSMLib.Automatons
 {
 	public class Automaton<T>:IAutomaton<T>
 	{
-		private Graph<T> graph;
+		private ActionTable<T> actionTable;
 		private int nodeIndex;
 
 		private Stack<BaseNode<T>> nodeStack;
@@ -22,10 +22,10 @@ namespace FSMLib.Automatons
 			get => nodeStack.Count;
 		}
 
-		public Automaton(Graph<T> Graph)
+		public Automaton(ActionTable<T> ActionTable)
 		{
-			if (Graph == null) throw new ArgumentNullException("Graph");
-			this.graph = Graph;
+			if (ActionTable == null) throw new ArgumentNullException("ActionTable");
+			this.actionTable = ActionTable;
 			nodeStack = new Stack<BaseNode<T>>();
 			nodeIndexStack = new Stack<int>();
 			nodeIndex = 0;
@@ -44,14 +44,14 @@ namespace FSMLib.Automatons
 		{
 			Node<T> node;
 
-			node = graph.Nodes[nodeIndex];
-			foreach (TerminalTransition<T> transition in node.TerminalTransitions)
+			node = actionTable.Nodes[nodeIndex];
+			foreach (ShiftOnTerminal<T> action in node.TerminalActions)
 			{
-				if (transition.Match(Node.Value))
+				if (action.Match(Node.Value))
 				{
 					nodeIndexStack.Push(nodeIndex);
 					nodeStack.Push(Node);
-					nodeIndex = transition.TargetNodeIndex;
+					nodeIndex = action.TargetNodeIndex;
 					return true;
 				}
 			}
@@ -62,14 +62,14 @@ namespace FSMLib.Automatons
 		{
 			Node<T> node;
 
-			node = graph.Nodes[nodeIndex];
-			foreach (NonTerminalTransition<T> transition in node.NonTerminalTransitions)
+			node = actionTable.Nodes[nodeIndex];
+			foreach (ShifOnNonTerminal<T> action in node.NonTerminalActions)
 			{
-				if (transition.Match(Node.Name))
+				if (action.Match(Node.Name))
 				{
 					nodeIndexStack.Push(nodeIndex);
 					nodeStack.Push(Node);
-					nodeIndex = transition.TargetNodeIndex;
+					nodeIndex = action.TargetNodeIndex;
 					return true;
 				}
 			}
@@ -97,14 +97,14 @@ namespace FSMLib.Automatons
 			Node<T> node;
 			ReductionTarget<T> target;
 
-			node = graph.Nodes[nodeIndex];
+			node = actionTable.Nodes[nodeIndex];
 
-			foreach (ReductionTransition<T> transition in node.ReductionTransitions)
+			foreach (Reduce<T> action in node.ReductionActions)
 			{
-				target = transition.Targets.FirstOrDefault(item =>  Node.Value.Equals(item.Value));
+				target = action.Targets.FirstOrDefault(item =>  Node.Value.Equals(item.Value));
 				if (target == null) continue;
 
-				return Reduce(transition.Name, target.TargetNodeIndex);
+				return Reduce(action.Name, target.TargetNodeIndex);
 			}
 			return null;
 		}
@@ -131,8 +131,8 @@ namespace FSMLib.Automatons
 		{
 			Node<T> node;
 
-			node = graph.Nodes[nodeIndex];
-			return node.ReductionTransitions.Count > 0;
+			node = actionTable.Nodes[nodeIndex];
+			return node.ReductionActions.Count > 0;
 		}*/
 
 
@@ -140,10 +140,10 @@ namespace FSMLib.Automatons
 		public bool CanAccept()
 		{
 			Node<T> node;
-			AcceptTransition<T> axiom;
+			Accept<T> axiom;
 
-			node = graph.Nodes[nodeIndex];
-			axiom = node.AcceptTransitions.FirstOrDefault();
+			node = actionTable.Nodes[nodeIndex];
+			axiom = node.AcceptActions.FirstOrDefault();
 
 			return axiom != null;
 		}
@@ -151,10 +151,10 @@ namespace FSMLib.Automatons
 		public NonTerminalNode<T> Accept()
 		{
 			Node<T> node;
-			AcceptTransition<T> axiom;
+			Accept<T> axiom;
 
-			node = graph.Nodes[nodeIndex];
-			axiom = node.AcceptTransitions.FirstOrDefault();
+			node = actionTable.Nodes[nodeIndex];
+			axiom = node.AcceptActions.FirstOrDefault();
 
 			if (axiom==null) throw new InvalidOperationException("Automaton cannot accept in current state");
 			return Reduce( axiom.Name,0 );

@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables.Actions;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
@@ -7,24 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs
+namespace FSMLib.ActionTables
 {
-	public class GraphFactoryContext<T> : IGraphFactoryContext<T>
+	public class ActionTableFactoryContext<T> : IActionTableFactoryContext<T>
 	{
 		private List<Rule<T>> compilingList;
 		private List<string> openList;
 
-		private Graph<T> graph;
+		private ActionTable<T> actionTable;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private Dictionary<Rule<T>, Segment<T>> cache;
 
 
-		public GraphFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, Graph<T> Graph)
+		public ActionTableFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, ActionTable<T> ActionTable)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
-			if (Graph == null) throw new ArgumentNullException("Graph");
-			this.graph = Graph;
+			if (ActionTable == null) throw new ArgumentNullException("ActionTable");
+			this.actionTable = ActionTable;
 
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 
@@ -33,7 +33,7 @@ namespace FSMLib.Graphs
 		}
 
 
-		public Segment<T> BuildSegment(Rule<T> Rule, IEnumerable<BaseTransition<T>> OutTransitions)
+		public Segment<T> BuildSegment(Rule<T> Rule, IEnumerable<BaseAction<T>> OutActions)
 		{
 			ISegmentFactory<T> segmentFactory;
 			Segment<T> segment;
@@ -48,39 +48,39 @@ namespace FSMLib.Graphs
 			segmentFactory = segmentFactoryProvider.GetSegmentFactory(Rule.Predicate);
 
 
-			segment = segmentFactory.BuildSegment(this, Rule.Predicate, OutTransitions);
+			segment = segmentFactory.BuildSegment(this, Rule.Predicate, OutActions);
 			cache.Add(Rule, segment);
 			compilingList.Remove(Rule);
 
 			return segment;
 		}
-		public void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseTransition<T>> Transitions)
+		public void Connect(IEnumerable<Node<T>> Nodes, IEnumerable<BaseAction<T>> Actions)
 		{
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
-			if (Transitions == null) throw new ArgumentNullException("Transitions");
+			if (Actions == null) throw new ArgumentNullException("Actions");
 
 			foreach (Node<T> node in Nodes)
 			{
-				foreach (BaseTransition<T> transition in Transitions)
+				foreach (BaseAction<T> action in Actions)
 				{
-					switch (transition)
+					switch (action)
 					{
-						case TerminalTransition<T> tr:
-							node.TerminalTransitions.Add(tr);
+						case ShiftOnTerminal<T> tr:
+							node.TerminalActions.Add(tr);
 							break;
-						case NonTerminalTransition<T> tr:
-							node.NonTerminalTransitions.Add(tr);
+						case ShifOnNonTerminal<T> tr:
+							node.NonTerminalActions.Add(tr);
 							break;
-						case ReductionTransition<T> tr:
-							node.ReductionTransitions.Add(tr);
+						case Reduce<T> tr:
+							node.ReductionActions.Add(tr);
 							break;
-						case AcceptTransition<T> tr:
-							node.AcceptTransitions.Add(tr);
+						case Accept<T> tr:
+							node.AcceptActions.Add(tr);
 							break;
 
 						default:
-							throw (new NotImplementedException("Invalid transition type"));
+							throw (new NotImplementedException("Invalid action type"));
 					}
 
 				}
@@ -90,31 +90,31 @@ namespace FSMLib.Graphs
 
 		public Node<T> GetTargetNode(int Index)
 		{
-			if ((Index < 0) || (Index >= graph.Nodes.Count)) throw (new IndexOutOfRangeException("Node index is out of range"));
-			return graph.Nodes[Index];
+			if ((Index < 0) || (Index >= actionTable.Nodes.Count)) throw (new IndexOutOfRangeException("Node index is out of range"));
+			return actionTable.Nodes[Index];
 		}
 
 		public Node<T> CreateNode()
 		{
 			Node<T> node;
 			node = new Node<T>();
-			node.Name = graph.Nodes.Count.ToString();
-			graph.Nodes.Add(node);
+			node.Name = actionTable.Nodes.Count.ToString();
+			actionTable.Nodes.Add(node);
 			return node;
 		}
 
 		public int GetNodeIndex(Node<T> Node)
 		{
-			return graph.Nodes.IndexOf(Node);
+			return actionTable.Nodes.IndexOf(Node);
 		}
 
 		public IEnumerable<T> GetAlphabet()
 		{
-			return graph.Alphabet;
+			return actionTable.Alphabet;
 		}
 
 
-		public IEnumerable<T> GetFirstTerminalsAfterTransition(Node<T> Node, string Name)
+		public IEnumerable<T> GetFirstTerminalsAfterAction(Node<T> Node, string Name)
 		{
 			Node<T> nextNode;
 			List<T> items;
@@ -122,12 +122,12 @@ namespace FSMLib.Graphs
 			items = new List<T>();
 
 
-			foreach(NonTerminalTransition<T> transition in Node.NonTerminalTransitions.Where(item=>item.Name==Name))
+			foreach(ShifOnNonTerminal<T> action in Node.NonTerminalActions.Where(item=>item.Name==Name))
 			{
-				nextNode = GetTargetNode(transition.TargetNodeIndex);
-				foreach (TerminalTransition<T> terminalTransition in nextNode.TerminalTransitions)
+				nextNode = GetTargetNode(action.TargetNodeIndex);
+				foreach (ShiftOnTerminal<T> terminalAction in nextNode.TerminalActions)
 				{
-					if (!items.Contains(terminalTransition.Value)) items.Add(terminalTransition.Value);
+					if (!items.Contains(terminalAction.Value)) items.Add(terminalAction.Value);
 				}
 			}
 			
@@ -147,16 +147,16 @@ namespace FSMLib.Graphs
 			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
 			{
 	
-				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+				segment = BuildSegment(rule, Enumerable.Empty<BaseAction<T>>());
 
-				foreach (TerminalTransition<T> transition in segment.Inputs.OfType<TerminalTransition<T>>())
+				foreach (ShiftOnTerminal<T> action in segment.Actions.OfType<ShiftOnTerminal<T>>())
 				{
-					if (!items.Contains(transition.Value)) items.Add(transition.Value);
+					if (!items.Contains(action.Value)) items.Add(action.Value);
 				}
 
-				foreach (NonTerminalTransition<T> transition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				foreach (ShifOnNonTerminal<T> action in segment.Actions.OfType<ShifOnNonTerminal<T>>())
 				{
-					foreach(T input in GetFirstTerminalsForRule(Rules,transition.Name))
+					foreach(T input in GetFirstTerminalsForRule(Rules,action.Name))
 					{
 						if (!items.Contains(input)) items.Add(input);
 					}
@@ -178,13 +178,13 @@ namespace FSMLib.Graphs
 			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
 			{
 
-				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+				segment = BuildSegment(rule, Enumerable.Empty<BaseAction<T>>());
 
 				yield return segment;
 				
-				foreach (NonTerminalTransition<T> nonTerminalTransition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				foreach (NonTerminalAction<T> nonTerminalAction in segment.Inputs.OfType<NonTerminalAction<T>>())
 				{
-					foreach (Segment<T> nestedSegment in GetDeveloppedSegmentsForRule(Rules, nonTerminalTransition.Name))
+					foreach (Segment<T> nestedSegment in GetDeveloppedSegmentsForRule(Rules, nonTerminalAction.Name))
 					{
 						yield return nestedSegment;
 					}
@@ -209,13 +209,13 @@ namespace FSMLib.Graphs
 			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
 			{
 
-				segment = BuildSegment(rule, Enumerable.Empty<BaseTransition<T>>());
+				segment = BuildSegment(rule, Enumerable.Empty<BaseAction<T>>());
 
 				if (!items.Contains(rule.Name)) items.Add(rule.Name);
 
-				foreach (NonTerminalTransition<T> nonTerminalTransition in segment.Inputs.OfType<NonTerminalTransition<T>>())
+				foreach (ShifOnNonTerminal<T> nonTerminalAction in segment.Actions.OfType<ShifOnNonTerminal<T>>())
 				{
-					foreach (string dependantRule in GetRuleReductionDependency(Rules, nonTerminalTransition.Name))
+					foreach (string dependantRule in GetRuleReductionDependency(Rules, nonTerminalAction.Name))
 					{
 						if (!items.Contains(dependantRule)) items.Add(dependantRule);
 					}
@@ -226,9 +226,9 @@ namespace FSMLib.Graphs
 			return items;
 		}
 
-		public IEnumerable<ReductionTransition<T>> GetReductionTransitions(string Name)
+		public IEnumerable<Reduce<T>> GetReductionActions(string Name)
 		{
-			return graph.Nodes.SelectMany(item => item.ReductionTransitions).Where(item=>item.Name==Name);
+			return actionTable.Nodes.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
 		}
 
 

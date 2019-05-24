@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FSMLib.Graphs;
+using FSMLib.ActionTables;
 using FSMLib.Helpers;
 using FSMLib.Rules;
 using FSMLib.UnitTest.Mocks;
@@ -20,13 +20,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1,s2,s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph('a','b','c');
+			actionTable = new MockedActionTable('a','b','c');
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs=producer.GetNextTerminals(new Situation<char>[] { s1,s2,s3 }).ToArray();
@@ -40,13 +40,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph('a', 'b', 'c');
+			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -62,13 +62,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph('a', 'b', 'c');
+			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 2 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -89,13 +89,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph("A", "B", "C");
+			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -110,13 +110,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph("A", "B", "C");
+			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -131,13 +131,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = new MockedGraph("A", "B", "C");
+			actionTable = new MockedActionTable("A", "B", "C");
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 1 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 2 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 1 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -157,14 +157,14 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 			Situation<char>[] nextSituations;
 
-			graph = new MockedGraph('a', 'b', 'c');
+			actionTable = new MockedActionTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s2 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
-			s3 = new Situation<char>() { Graph = graph, NodeIndex = 0 };
+			s1 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s2 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
+			s3 = new Situation<char>() { ActionTable = actionTable, NodeIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, 'a').ToArray();

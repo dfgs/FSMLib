@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs.Transitions
+namespace FSMLib.ActionTables.Actions
 {
 	public class ReductionTarget<T>
 	{

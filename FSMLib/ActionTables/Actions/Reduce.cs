@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs.Transitions
+namespace FSMLib.ActionTables.Actions
 {
-	public class ReductionTransition<T>:BaseTransition<T>
+	public class Reduce<T>:BaseAction<T>
 	{
 
 		
@@ -24,7 +24,7 @@ namespace FSMLib.Graphs.Transitions
 			set;
 		}
 
-		public ReductionTransition()
+		public Reduce()
 		{
 			Targets = new List<ReductionTarget<T>>();
 		}

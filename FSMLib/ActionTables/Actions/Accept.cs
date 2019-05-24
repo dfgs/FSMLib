@@ -1,18 +1,20 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs.Transitions
+namespace FSMLib.ActionTables.Actions
 {
-	public class ShiftTransition<T>:BaseTransition<T>
+	public class Accept<T>:BaseAction<T>
 	{
-		public int TargetNodeIndex
+		public string Name
 		{
 			get;
 			set;
 		}
-
+	
+		
 	}
 }

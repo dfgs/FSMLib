@@ -35,7 +35,7 @@ namespace Demo
 			InitializeComponent();
 		}
 
-		public void SetGraphs(Graph A, Graph B)
+		public void SetActionTables(Graph A, Graph B)
 		{
 			gViewer1.Graph = A;
 			gViewer2.Graph = B;

@@ -1,5 +1,5 @@
-﻿using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+﻿using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -23,7 +23,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OptionalSegmentFactory<char> factory;
 
 			factory = new OptionalSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedGraphFactoryContext(),new MockedPredicate<char>(), Enumerable.Empty<ReductionTransition<char>>()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedActionTableFactoryContext(),new MockedPredicate<char>(), Enumerable.Empty<Reduce<char>>()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -31,24 +31,24 @@ namespace FSMLib.UnitTest.SegmentFactories
 			OptionalSegmentFactory<char> factory;
 
 			factory = new OptionalSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null,  new Optional<char>(), Enumerable.Empty<ReductionTransition<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(), null, Enumerable.Empty<ReductionTransition<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedGraphFactoryContext(),  new Optional<char>(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null,  new Optional<char>(), Enumerable.Empty<Reduce<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedActionTableFactoryContext(), null, Enumerable.Empty<Reduce<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedActionTableFactoryContext(),  new Optional<char>(),null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedSequencePredicate()
 		{
 			OptionalSegmentFactory<char> factory;
 			Segment<char> segment;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 			SegmentFactoryProvider<char> provider;
 			Sequence<char> sequence;
 			Optional<char> predicate;
-			GraphFactoryContext<char> context;
+			ActionTableFactoryContext<char> context;
 
-			graph = new Graph<char>();
+			actionTable = new ActionTable<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new ActionTableFactoryContext<char>(provider,actionTable);
 
 			factory = new OptionalSegmentFactory<char>( provider);
 
@@ -59,30 +59,30 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new Optional<char>() {  Item=sequence};
 
-			segment = factory.BuildSegment(context,  predicate, new TerminalTransition<char>() { Value = 'd' }.AsEnumerable());
+			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Value = 'd' }.AsEnumerable());
 			Assert.IsNotNull(segment);
-			Assert.AreEqual(2, segment.Inputs.Count());
+			Assert.AreEqual(2, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(3, graph.Nodes.Count);
-			Assert.AreEqual(1, segment.Outputs.First().TerminalTransitions.Count);
+			Assert.AreEqual(3, actionTable.Nodes.Count);
+			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.ElementAt(0)).Match('a'));
-			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.ElementAt(1)).Match('d'));
+			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Match('a'));
+			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Match('d'));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedOrPredicate()
 		{
 			OptionalSegmentFactory<char> factory;
 			Segment<char> segment;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 			SegmentFactoryProvider<char> provider;
 			Or<char> or;
 			Optional<char> predicate;
-			GraphFactoryContext<char> context;
+			ActionTableFactoryContext<char> context;
 
-			graph = new Graph<char>();
+			actionTable = new ActionTable<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new GraphFactoryContext<char>(provider,graph);
+			context = new ActionTableFactoryContext<char>(provider,actionTable);
 			factory = new OptionalSegmentFactory<char>(provider);
 
 			or = new Or<char>();
@@ -92,14 +92,14 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new Optional<char>() { Item = or };
 
-			segment = factory.BuildSegment(context,  predicate, new TerminalTransition<char>() { Value = 'd' }.AsEnumerable());
+			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Value = 'd' }.AsEnumerable());
 			Assert.IsNotNull(segment);
-			Assert.AreEqual(4, segment.Inputs.Count());
+			Assert.AreEqual(4, segment.Actions.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
-			Assert.AreEqual(3, graph.Nodes.Count);
-			Assert.AreEqual(1, segment.Outputs.First().TerminalTransitions.Count);
+			Assert.AreEqual(3, actionTable.Nodes.Count);
+			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((TerminalTransition<char>)segment.Inputs.First()).Match('a'));
+			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
 			
 
 		}

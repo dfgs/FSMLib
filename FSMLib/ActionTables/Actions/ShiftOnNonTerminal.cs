@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Graphs.Transitions
+namespace FSMLib.ActionTables.Actions
 {
-	public class NonTerminalTransition<T>:ShiftTransition<T>
+	public class ShifOnNonTerminal<T>:Shift<T>
 	{
 
 		

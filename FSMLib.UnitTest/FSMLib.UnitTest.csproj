@@ -50,11 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
-    <Compile Include="Graphs\GraphFactoryContextUnitTest.cs" />
-    <Compile Include="Graphs\GraphFactoryUnitTest.cs" />
-    <Compile Include="Graphs\Transitions\NonTerminalTransitionUnitTest.cs" />
-    <Compile Include="Graphs\Transitions\TerminalTransitionUnitTest.cs" />
-    <Compile Include="Graphs\GraphTupleUnitTest.cs" />
+    <Compile Include="ActionTables\GraphFactoryContextUnitTest.cs" />
+    <Compile Include="ActionTables\GraphFactoryUnitTest.cs" />
+    <Compile Include="ActionTables\Actions\ShifOnNonTerminalUnitTest.cs" />
+    <Compile Include="ActionTables\Actions\ShifOnTerminalUnitTest.cs" />
+    <Compile Include="ActionTables\GraphTupleUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedGraphFactoryContext.cs" />

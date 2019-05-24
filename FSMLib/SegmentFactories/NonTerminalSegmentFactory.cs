@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,33 +15,33 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context,  NonTerminal<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  NonTerminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
+			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
 			Node<T> node;
-			NonTerminalTransition<T> transition;
+			ShifOnNonTerminal<T> action;
 			Segment<T> segment;
-			List<BaseTransition<T>> transitions;
+			List<BaseAction<T>> actions;
 
 			node = Context.CreateNode();
-			Context.Connect(node.AsEnumerable(), OutTransitions);
+			Context.Connect(node.AsEnumerable(), OutActions);
 
-			transitions = new List<BaseTransition<T>>();
+			actions = new List<BaseAction<T>>();
 
-			transition = new NonTerminalTransition<T>();
-			transition.TargetNodeIndex = Context.GetNodeIndex(node);
-			transition.Name = Predicate.Name;
-			transitions.Add(transition);
+			action = new ShifOnNonTerminal<T>();
+			action.TargetNodeIndex = Context.GetNodeIndex(node);
+			action.Name = Predicate.Name;
+			actions.Add(action);
 
 			
 
 	
 			segment = new Segment<T>();
 			segment.Outputs = node.AsEnumerable(); ;
-			segment.Inputs = transitions;
+			segment.Actions = actions;
 
 			return segment;
 		}

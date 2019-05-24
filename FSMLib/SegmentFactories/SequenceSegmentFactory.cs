@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,29 +15,29 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IGraphFactoryContext<T> Context, Sequence<T> Predicate, IEnumerable<BaseTransition<T>> OutTransitions)
+		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context, Sequence<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			Segment<T> segment;
 			Segment<T>[] segments;
 			ISegmentFactory<T> childSegmentFactory;
-			IEnumerable<BaseTransition<T>> nextTransitions;
+			IEnumerable<BaseAction<T>> nextActions;
 
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (OutTransitions == null) throw new ArgumentNullException("OutTransitions");
+			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
-			nextTransitions = OutTransitions;
+			nextActions = OutActions;
 			segments = new Segment<T>[Predicate.Items.Count];
 			// create segments
 			for (int t= Predicate.Items.Count-1; t>=0;t--)
 			{
 				childSegmentFactory = SegmentFactoryProvider.GetSegmentFactory(Predicate.Items[t]);
-				segments[t]=childSegmentFactory.BuildSegment(Context, Predicate.Items[t],nextTransitions);
-				nextTransitions = segments[t].Inputs;
+				segments[t]=childSegmentFactory.BuildSegment(Context, Predicate.Items[t],nextActions);
+				nextActions = segments[t].Actions;
 			}
 			
 			segment = new Segment<T>();
-			segment.Inputs = nextTransitions;
+			segment.Actions = nextActions;
 			segment.Outputs = segments.Last().Outputs;
 
 			return segment;

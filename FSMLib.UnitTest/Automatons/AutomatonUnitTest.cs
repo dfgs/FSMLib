@@ -1,6 +1,6 @@
 ﻿using System;
 using FSMLib.Automatons;
-using FSMLib.Graphs;
+using FSMLib.ActionTables;
 
 using FSMLib.Helpers;
 using FSMLib.Predicates;
@@ -23,11 +23,11 @@ namespace FSMLib.UnitTest
 		public void ShouldFeed()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 	
 			automaton.Feed('a');
 			automaton.Feed('b');
@@ -38,11 +38,11 @@ namespace FSMLib.UnitTest
 		public void ShouldReset()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 
 			automaton.Feed('a');
 			automaton.Reset();
@@ -57,11 +57,11 @@ namespace FSMLib.UnitTest
 		public void MayNotFeed()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 
 			automaton.Feed('a');
 			Assert.AreEqual(1, automaton.StackCount);
@@ -86,11 +86,11 @@ namespace FSMLib.UnitTest
 		public void ShouldReturnCanAccept()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('a');
 			Assert.IsFalse(automaton.CanAccept());
@@ -104,11 +104,11 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 			automaton.Feed('a');
 			automaton.Feed('b');
 			automaton.Feed('c');
@@ -128,11 +128,11 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> node;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildGraph(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(graph);
+			automaton = new Automaton<char>(actionTable);
 			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
 			automaton.Feed('a');
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
@@ -149,10 +149,10 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduce()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildDeterminiticGraph( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(graph);
+			actionTable = ActionTableHelper.BuildDeterminiticActionTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(actionTable);
 
 			automaton.Feed('a');
 			automaton.Feed('b');
@@ -172,11 +172,11 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndCascadeReduce()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
 
-			graph = GraphHelper.BuildDeterminiticGraph(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(graph);
+			actionTable = ActionTableHelper.BuildDeterminiticActionTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(actionTable);
 
 			automaton.Feed('a');
 			automaton.Feed('c');
@@ -193,10 +193,10 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceNestedNonTerminal()
 		{
 			Automaton<char> automaton;
-			Graph<char> graph;
+			ActionTable<char> actionTable;
 
-			graph = GraphHelper.BuildDeterminiticGraph(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(graph);
+			actionTable = ActionTableHelper.BuildDeterminiticActionTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(actionTable);
 
 			automaton.Feed('a');
 			automaton.Feed('b');

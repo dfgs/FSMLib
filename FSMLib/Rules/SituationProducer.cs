@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.Graphs;
-using FSMLib.Graphs.Transitions;
+using FSMLib.ActionTables;
+using FSMLib.ActionTables.Actions;
 
 namespace FSMLib.Rules
 {
 	public class SituationProducer<T> : ISituationProducer<T>
 	{
-		/*public IEnumerable<Transition<T>> GetAllTransitions(IEnumerable<Situation<T>> Situations)
+		/*public IEnumerable<Action<T>> GetAllActions(IEnumerable<Situation<T>> Situations)
 		{
 			return ;
 		}*/
@@ -19,11 +19,11 @@ namespace FSMLib.Rules
 
 		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations)
 		{
-			return Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].NonTerminalTransitions).Select(item => item.Name).Distinct();
+			return Situations.SelectMany(item => item.ActionTable.Nodes[item.NodeIndex].NonTerminalActions).Select(item => item.Name).Distinct();
 		}
 		public IEnumerable<T> GetNextTerminals(IEnumerable<Situation<T>> Situations)
 		{
-			return Situations.SelectMany(item => item.Graph.Nodes[item.NodeIndex].TerminalTransitions).Select(item => item.Value).Distinct();
+			return Situations.SelectMany(item => item.ActionTable.Nodes[item.NodeIndex].TerminalActions).Select(item => item.Value).Distinct();
 		}
 
 	
@@ -36,10 +36,10 @@ namespace FSMLib.Rules
 			results = new List<Situation<T>>();
 			foreach (Situation<T> situation in Situations)
 			{
-				foreach (TerminalTransition<T> transition in situation.Graph.Nodes[situation.NodeIndex].TerminalTransitions)
+				foreach (ShiftOnTerminal<T> action in situation.ActionTable.Nodes[situation.NodeIndex].TerminalActions)
 				{
-					if (!transition.Match(Value)) continue;
-					newSituation = new Situation<T>() { Graph = situation.Graph, NodeIndex = transition.TargetNodeIndex };
+					if (!action.Match(Value)) continue;
+					newSituation = new Situation<T>() { ActionTable = situation.ActionTable, NodeIndex = action.TargetNodeIndex };
 					results.Add(newSituation);
 				}
 			}
@@ -55,10 +55,10 @@ namespace FSMLib.Rules
 			results = new List<Situation<T>>();
 			foreach (Situation<T> situation in Situations)
 			{
-				foreach (NonTerminalTransition<T> transition in situation.Graph.Nodes[situation.NodeIndex].NonTerminalTransitions)
+				foreach (ShifOnNonTerminal<T> action in situation.ActionTable.Nodes[situation.NodeIndex].NonTerminalActions)
 				{
-					if (transition.Name!=Name) continue;
-					newSituation = new Situation<T>() { Graph = situation.Graph, NodeIndex = transition.TargetNodeIndex };
+					if (action.Name!=Name) continue;
+					newSituation = new Situation<T>() { ActionTable = situation.ActionTable, NodeIndex = action.TargetNodeIndex };
 					results.Add(newSituation);
 				}
 			}

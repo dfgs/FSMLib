@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FSMLib.Graphs;
+using FSMLib.ActionTables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest

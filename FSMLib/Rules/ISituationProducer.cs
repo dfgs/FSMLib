@@ -1,4 +1,4 @@
-﻿using FSMLib.Graphs;
+﻿using FSMLib.ActionTables;
 
 using System;
 using System.Collections.Generic;

@@ -15,7 +15,7 @@
 		<TabControl x:Name="tabControl">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="Graph"/>
+					<TextBlock Text="ActionTable"/>
 				</DataTemplate>
 			</TabControl.ItemTemplate>
 		</TabControl>
