@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -23,7 +23,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			SequenceSegmentFactory<char> factory;
 
 			factory = new SequenceSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedActionTableFactoryContext(),new MockedPredicate<char>(), Enumerable.Empty<Reduce<char>>()));
+			Assert.ThrowsException<InvalidCastException>(() => factory.BuildSegment(new MockedAutomatonTableFactoryContext(),new MockedPredicate<char>(), Enumerable.Empty<Reduce<char>>()));
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -32,22 +32,22 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			factory = new SequenceSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( null,  new Sequence<char>(), Enumerable.Empty<Reduce<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedActionTableFactoryContext(),  null, Enumerable.Empty<Reduce<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedActionTableFactoryContext(),  new Sequence<char>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedAutomatonTableFactoryContext(),  null, Enumerable.Empty<Reduce<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment( new MockedAutomatonTableFactoryContext(),  new Sequence<char>(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
 		{
 			SequenceSegmentFactory<char> factory;
 			Segment<char> segment;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 			SegmentFactoryProvider<char> provider;
 			Sequence<char> sequence;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
-			actionTable = new ActionTable<char>();
+			automatonTable = new AutomatonTable<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new ActionTableFactoryContext<char>(provider,actionTable);
+			context = new AutomatonTableFactoryContext<char>(provider,automatonTable);
 			factory = new SequenceSegmentFactory<char>( provider);
 
 			sequence = new Sequence<char>();
@@ -59,7 +59,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(3, actionTable.States.Count);
+			Assert.AreEqual(3, automatonTable.States.Count);
 
 			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
 

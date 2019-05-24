@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,14 +15,14 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  NonTerminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
+		public override Segment<T> BuildSegment( IAutomatonTableFactoryContext<T> Context,  NonTerminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (OutActions == null) throw new ArgumentNullException("OutActions");
 
 			State<T> state;
-			ShifOnNonTerminal<T> action;
+			ShiftOnNonTerminal<T> action;
 			Segment<T> segment;
 			List<BaseAction<T>> actions;
 
@@ -31,7 +31,7 @@ namespace FSMLib.SegmentFactories
 
 			actions = new List<BaseAction<T>>();
 
-			action = new ShifOnNonTerminal<T>();
+			action = new ShiftOnNonTerminal<T>();
 			action.TargetStateIndex = Context.GetStateIndex(state);
 			action.Name = Predicate.Name;
 			actions.Add(action);

@@ -1,16 +1,16 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Tables
 {
 	public class Automaton<T>:IAutomaton<T>
 	{
-		private ActionTable<T> actionTable;
+		private AutomatonTable<T> automatonTable;
 		private int stateIndex;
 
 		private Stack<BaseNode<T>> nodeStack;
@@ -22,10 +22,10 @@ namespace FSMLib.Automatons
 			get => nodeStack.Count;
 		}
 
-		public Automaton(ActionTable<T> ActionTable)
+		public Automaton(AutomatonTable<T> AutomatonTable)
 		{
-			if (ActionTable == null) throw new ArgumentNullException("ActionTable");
-			this.actionTable = ActionTable;
+			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
+			this.automatonTable = AutomatonTable;
 			nodeStack = new Stack<BaseNode<T>>();
 			stateIndexStack = new Stack<int>();
 			stateIndex = 0;
@@ -44,7 +44,7 @@ namespace FSMLib.Automatons
 		{
 			State<T> state;
 
-			state = actionTable.States[stateIndex];
+			state = automatonTable.States[stateIndex];
 			foreach (ShiftOnTerminal<T> action in state.TerminalActions)
 			{
 				if (action.Match(Node.Value))
@@ -62,8 +62,8 @@ namespace FSMLib.Automatons
 		{
 			State<T> state;
 
-			state = actionTable.States[stateIndex];
-			foreach (ShifOnNonTerminal<T> action in state.NonTerminalActions)
+			state = automatonTable.States[stateIndex];
+			foreach (ShiftOnNonTerminal<T> action in state.NonTerminalActions)
 			{
 				if (action.Match(Node.Name))
 				{
@@ -87,7 +87,7 @@ namespace FSMLib.Automatons
 			{
 				stateIndex = stateIndexStack.Pop();
 				baseNode = nodeStack.Pop();
-				reducedNode.States.Insert(0, baseNode);  // stack order is inverted compared to state childs
+				reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to state childs
 			}
 
 			return reducedNode;
@@ -97,7 +97,7 @@ namespace FSMLib.Automatons
 			State<T> state;
 			ReductionTarget<T> target;
 
-			state = actionTable.States[stateIndex];
+			state = automatonTable.States[stateIndex];
 
 			foreach (Reduce<T> action in state.ReductionActions)
 			{
@@ -131,7 +131,7 @@ namespace FSMLib.Automatons
 		{
 			State<T> state;
 
-			state = actionTable.States[stateIndex];
+			state = automatonTable.States[stateIndex];
 			return state.ReductionActions.Count > 0;
 		}*/
 
@@ -142,7 +142,7 @@ namespace FSMLib.Automatons
 			State<T> state;
 			Accept<T> axiom;
 
-			state = actionTable.States[stateIndex];
+			state = automatonTable.States[stateIndex];
 			axiom = state.AcceptActions.FirstOrDefault();
 
 			return axiom != null;
@@ -153,7 +153,7 @@ namespace FSMLib.Automatons
 			State<T> state;
 			Accept<T> axiom;
 
-			state = actionTable.States[stateIndex];
+			state = automatonTable.States[stateIndex];
 			axiom = state.AcceptActions.FirstOrDefault();
 
 			if (axiom==null) throw new InvalidOperationException("Automaton cannot accept in current state");

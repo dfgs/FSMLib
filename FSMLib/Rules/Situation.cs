@@ -1,4 +1,4 @@
-﻿using FSMLib.ActionTables;
+﻿using FSMLib.Table;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace FSMLib.Rules
 {
 	public class Situation<T>:IEquatable<Situation<T>>
 	{
-		public ActionTable<T> ActionTable
+		public AutomatonTable<T> AutomatonTable
 		{
 			get;
 			set;
@@ -24,7 +24,7 @@ namespace FSMLib.Rules
 		public bool Equals(Situation<T> other)
 		{
 			if (other == null) return false;
-			return ((other.ActionTable == ActionTable) && (other.StateIndex == StateIndex));
+			return ((other.AutomatonTable == AutomatonTable) && (other.StateIndex == StateIndex));
 		}
 
 		public override string ToString()

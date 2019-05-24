@@ -1,4 +1,4 @@
-﻿using FSMLib.ActionTables;
+﻿using FSMLib.Table;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;

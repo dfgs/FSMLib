@@ -1,11 +1,11 @@
-﻿using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables
+namespace FSMLib.Table
 {
 	public class State<T>
 	{
@@ -19,7 +19,7 @@ namespace FSMLib.ActionTables
 			get;
 			set;
 		}
-		public List<ShifOnNonTerminal<T>> NonTerminalActions
+		public List<ShiftOnNonTerminal<T>> NonTerminalActions
 		{
 			get;
 			set;
@@ -42,7 +42,7 @@ namespace FSMLib.ActionTables
 		public State()
 		{
 			TerminalActions = new List<ShiftOnTerminal<T>>();
-			NonTerminalActions = new List<ShifOnNonTerminal<T>>();
+			NonTerminalActions = new List<ShiftOnNonTerminal<T>>();
 			ReductionActions = new List<Reduce<T>>();
 			AcceptActions = new List<Accept<T>>();
 			//RootIDs = new List<int>();

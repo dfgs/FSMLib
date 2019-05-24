@@ -1,6 +1,6 @@
 ﻿using System;
-using FSMLib.Automatons;
-using FSMLib.ActionTables;
+using FSMLib.Tables;
+using FSMLib.Table;
 
 using FSMLib.Helpers;
 using FSMLib.Predicates;
@@ -23,26 +23,28 @@ namespace FSMLib.UnitTest
 		public void ShouldFeed()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 	
 			automaton.Feed('a');
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 		}
+		
+
 		[TestMethod]
 		public void ShouldReset()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
 			automaton.Reset();
@@ -57,11 +59,11 @@ namespace FSMLib.UnitTest
 		public void MayNotFeed()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
 			Assert.AreEqual(1, automaton.StackCount);
@@ -86,11 +88,11 @@ namespace FSMLib.UnitTest
 		public void ShouldReturnCanAccept()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('a');
 			Assert.IsFalse(automaton.CanAccept());
@@ -104,23 +106,23 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> state;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 			automaton.Feed('a');
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 			state = automaton.Accept();
 			Assert.AreEqual("A", state.Name);
-			Assert.AreEqual(3, state.States.Count);
+			Assert.AreEqual(3, state.Nodes.Count);
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.AreEqual('a', ((TerminalNode<char>)state.States[0]).Value);
-			Assert.AreEqual('b', ((TerminalNode<char>)state.States[1]).Value);
-			Assert.AreEqual('c', ((TerminalNode<char>)state.States[2]).Value);
+			Assert.AreEqual('a', ((TerminalNode<char>)state.Nodes[0]).Value);
+			Assert.AreEqual('b', ((TerminalNode<char>)state.Nodes[1]).Value);
+			Assert.AreEqual('c', ((TerminalNode<char>)state.Nodes[2]).Value);
 
 		}
 		[TestMethod]
@@ -128,11 +130,11 @@ namespace FSMLib.UnitTest
 		{
 			Automaton<char> automaton;
 			NonTerminalNode<char> state;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildActionTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
-			automaton = new Automaton<char>(actionTable);
+			automaton = new Automaton<char>(automatonTable);
 			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
 			automaton.Feed('a');
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
@@ -141,7 +143,7 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			state = automaton.Accept();
 			Assert.AreEqual("A", state.Name);
-			Assert.AreEqual(3, state.States.Count);
+			Assert.AreEqual(3, state.Nodes.Count);
 		}
 
 
@@ -149,10 +151,10 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduce()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildDeterminiticActionTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(actionTable);
+			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
 			automaton.Feed('b');
@@ -172,11 +174,11 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndCascadeReduce()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
 
-			actionTable = ActionTableHelper.BuildDeterminiticActionTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(actionTable);
+			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
 			automaton.Feed('c');
@@ -193,10 +195,10 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceNestedNonTerminal()
 		{
 			Automaton<char> automaton;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = ActionTableHelper.BuildDeterminiticActionTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
-			automaton = new Automaton<char>(actionTable);
+			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
 			automaton.Feed('b');
@@ -206,8 +208,58 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.CanAccept());
 
 		}
-		
 
+		[TestMethod]
+		public void ShouldFeedGreedy()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+			NonTerminalNode<char> node;
+
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc*" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			node = automaton.Accept();
+			Assert.AreEqual(6, node.Nodes.Count);
+		}
+
+		[TestMethod]
+		public void ShouldFeedAndReduceGreedy()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+			NonTerminalNode<char> node;
+
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*" ,"C=c"}, new char[] { 'a', 'b', 'c', 'd', 'e' });
+
+			automaton = new Automaton<char>(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
+			node = automaton.Accept();
+			Assert.AreEqual(6, node.Nodes.Count);
+		}
 
 
 	}

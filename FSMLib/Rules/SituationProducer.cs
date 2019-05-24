@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+using FSMLib.Table;
+using FSMLib.Table.Actions;
 
 namespace FSMLib.Rules
 {
@@ -19,11 +19,11 @@ namespace FSMLib.Rules
 
 		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations)
 		{
-			return Situations.SelectMany(item => item.ActionTable.States[item.StateIndex].NonTerminalActions).Select(item => item.Name).Distinct();
+			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].NonTerminalActions).Select(item => item.Name).Distinct();
 		}
 		public IEnumerable<T> GetNextTerminals(IEnumerable<Situation<T>> Situations)
 		{
-			return Situations.SelectMany(item => item.ActionTable.States[item.StateIndex].TerminalActions).Select(item => item.Value).Distinct();
+			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].TerminalActions).Select(item => item.Value).Distinct();
 		}
 
 	
@@ -36,10 +36,10 @@ namespace FSMLib.Rules
 			results = new List<Situation<T>>();
 			foreach (Situation<T> situation in Situations)
 			{
-				foreach (ShiftOnTerminal<T> action in situation.ActionTable.States[situation.StateIndex].TerminalActions)
+				foreach (ShiftOnTerminal<T> action in situation.AutomatonTable.States[situation.StateIndex].TerminalActions)
 				{
 					if (!action.Match(Value)) continue;
-					newSituation = new Situation<T>() { ActionTable = situation.ActionTable, StateIndex = action.TargetStateIndex };
+					newSituation = new Situation<T>() { AutomatonTable = situation.AutomatonTable, StateIndex = action.TargetStateIndex };
 					results.Add(newSituation);
 				}
 			}
@@ -55,10 +55,10 @@ namespace FSMLib.Rules
 			results = new List<Situation<T>>();
 			foreach (Situation<T> situation in Situations)
 			{
-				foreach (ShifOnNonTerminal<T> action in situation.ActionTable.States[situation.StateIndex].NonTerminalActions)
+				foreach (ShiftOnNonTerminal<T> action in situation.AutomatonTable.States[situation.StateIndex].NonTerminalActions)
 				{
 					if (action.Name!=Name) continue;
-					newSituation = new Situation<T>() { ActionTable = situation.ActionTable, StateIndex = action.TargetStateIndex };
+					newSituation = new Situation<T>() { AutomatonTable = situation.AutomatonTable, StateIndex = action.TargetStateIndex };
 					results.Add(newSituation);
 				}
 			}

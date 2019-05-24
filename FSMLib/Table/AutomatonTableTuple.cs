@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables
+namespace FSMLib.Table
 {
-	public class ActionTableTuple<T>
+	public class AutomatonTableTuple<T>
 	{
 		public State<T> State
 		{
@@ -20,11 +20,11 @@ namespace FSMLib.ActionTables
 			set;
 		}
 
-		public ActionTableTuple()
+		public AutomatonTableTuple()
 		{
 
 		}
-		public ActionTableTuple(State<T> State, IEnumerable<Situation<T>> Situations)
+		public AutomatonTableTuple(State<T> State, IEnumerable<Situation<T>> Situations)
 		{
 			if (State == null) throw new ArgumentNullException();
 			if (Situations == null) throw new ArgumentNullException();

@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class ActionTableParser<T>
+	public class AutomatonTableParser<T>
 	{
-		private ActionTable<T> actionTable;
+		private AutomatonTable<T> automatonTable;
 		private int stateIndex;
 
 		public int ActionCount
 		{
-			get { return actionTable.States[stateIndex].TerminalActions.Count+ actionTable.States[stateIndex].NonTerminalActions.Count; }
+			get { return automatonTable.States[stateIndex].TerminalActions.Count+ automatonTable.States[stateIndex].NonTerminalActions.Count; }
 		}
 
 		
-		public ActionTableParser(ActionTable<T> ActionTable)
+		public AutomatonTableParser(AutomatonTable<T> AutomatonTable)
 		{
-			this.actionTable = ActionTable;this.stateIndex = 0;
+			this.automatonTable = AutomatonTable;this.stateIndex = 0;
 
 		}
 
@@ -31,7 +31,7 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			int index = 0;
 
-			foreach(ShiftOnTerminal<T> action in actionTable.States[stateIndex].TerminalActions)
+			foreach(ShiftOnTerminal<T> action in automatonTable.States[stateIndex].TerminalActions)
 			{
 				if (action.Match(Input))
 				{

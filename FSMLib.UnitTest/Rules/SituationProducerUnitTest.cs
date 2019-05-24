@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FSMLib.ActionTables;
+using FSMLib.Table;
 using FSMLib.Helpers;
 using FSMLib.Rules;
 using FSMLib.UnitTest.Mocks;
@@ -20,13 +20,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1,s2,s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable('a','b','c');
+			automatonTable = new MockedAutomatonTable('a','b','c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs=producer.GetNextTerminals(new Situation<char>[] { s1,s2,s3 }).ToArray();
@@ -40,13 +40,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable('a', 'b', 'c');
+			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 1 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -62,13 +62,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			char[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable('a', 'b', 'c');
+			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 2 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 1 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -89,13 +89,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable("A", "B", "C");
+			automatonTable = new MockedAutomatonTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -110,13 +110,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable("A", "B", "C");
+			automatonTable = new MockedAutomatonTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 1 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -131,13 +131,13 @@ namespace FSMLib.UnitTest
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
 			string[] distinctInputs;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new MockedActionTable("A", "B", "C");
+			automatonTable = new MockedAutomatonTable("A", "B", "C");
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 2 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 1 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 2 };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextNonTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
@@ -157,14 +157,14 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 			Situation<char>[] nextSituations;
 
-			actionTable = new MockedActionTable('a', 'b', 'c');
+			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
 
-			s1 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s2 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			s3 = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			s1 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s2 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
 			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, 'a').ToArray();

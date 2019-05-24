@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Predicates;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,11 @@ namespace FSMLib.SegmentFactories
 {
 	public  interface ISegmentFactory<T>
 	{
-		Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  BasePredicate<T> Predicate,IEnumerable<BaseAction<T>> OutActions);
+		Segment<T> BuildSegment( IAutomatonTableFactoryContext<T> Context,  BasePredicate<T> Predicate,IEnumerable<BaseAction<T>> OutActions);
 	}
 	public interface ISegmentFactory<TPredicate,T>: ISegmentFactory<T>
 		where TPredicate:BasePredicate<T>
 	{
-		Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  TPredicate Predicate, IEnumerable<BaseAction<T>> OutActions);
+		Segment<T> BuildSegment( IAutomatonTableFactoryContext<T> Context,  TPredicate Predicate, IEnumerable<BaseAction<T>> OutActions);
 	}
 }

@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -11,9 +11,9 @@ namespace FSMLib.UnitTest.Mocks
 {
 	
 	[ExcludeFromCodeCoverage]
-	public class MockedActionTable:ActionTable<char>
+	public class MockedAutomatonTable:AutomatonTable<char>
 	{
-		public MockedActionTable(params char[] Values)
+		public MockedAutomatonTable(params char[] Values)
 		{
 
 			States.Add(new State<char>());
@@ -25,14 +25,14 @@ namespace FSMLib.UnitTest.Mocks
 			}
 
 		}
-		public MockedActionTable(params string[] Values)
+		public MockedAutomatonTable(params string[] Values)
 		{
 			States.Add(new State<char>());
 
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].NonTerminalActions.Add(new ShifOnNonTerminal<char>() { Name = Values[t], TargetStateIndex = t + 1 });
+				States[t].NonTerminalActions.Add(new ShiftOnNonTerminal<char>() { Name = Values[t], TargetStateIndex = t + 1 });
 			}
 		}
 

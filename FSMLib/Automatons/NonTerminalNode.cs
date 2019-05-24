@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Tables
 {
 	public class NonTerminalNode<T> : BaseNode<T>
 	{
@@ -14,7 +14,7 @@ namespace FSMLib.Automatons
 			set;
 		}
 
-		public List<BaseNode<T>> States
+		public List<BaseNode<T>> Nodes
 		{
 			get;
 			set;
@@ -22,13 +22,13 @@ namespace FSMLib.Automatons
 
 		public NonTerminalNode()
 		{
-			this.States = new List<BaseNode<T>>();
+			this.Nodes = new List<BaseNode<T>>();
 		}
 
 		public override IEnumerable<T> EnumerateTerminals()
 		{
-			if (States == null) return Enumerable.Empty<T>();
-			return States.SelectMany((item) => item.EnumerateTerminals());
+			if (Nodes == null) return Enumerable.Empty<T>();
+			return Nodes.SelectMany((item) => item.EnumerateTerminals());
 		}
 
 

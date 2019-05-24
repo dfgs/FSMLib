@@ -1,4 +1,4 @@
-﻿using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table.Actions;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
@@ -7,24 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables
+namespace FSMLib.Table
 {
-	public class ActionTableFactoryContext<T> : IActionTableFactoryContext<T>
+	public class AutomatonTableFactoryContext<T> : IAutomatonTableFactoryContext<T>
 	{
 		private List<Rule<T>> compilingList;
 		private List<string> openList;
 
-		private ActionTable<T> actionTable;
+		private AutomatonTable<T> automatonTable;
 		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private Dictionary<Rule<T>, Segment<T>> cache;
 
 
-		public ActionTableFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, ActionTable<T> ActionTable)
+		public AutomatonTableFactoryContext(ISegmentFactoryProvider<T> SegmentFactoryProvider, AutomatonTable<T> AutomatonTable)
 		{
 			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
 			this.segmentFactoryProvider = SegmentFactoryProvider;
-			if (ActionTable == null) throw new ArgumentNullException("ActionTable");
-			this.actionTable = ActionTable;
+			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
+			this.automatonTable = AutomatonTable;
 
 			this.cache = new Dictionary<Rule<T>, Segment<T>>();
 
@@ -67,16 +67,16 @@ namespace FSMLib.ActionTables
 					switch (action)
 					{
 						case ShiftOnTerminal<T> tr:
-							state.TerminalActions.Add(tr);
+							if (state.TerminalActions.FirstOrDefault(item=>item.Equals(tr))==null) state.TerminalActions.Add(tr);
 							break;
-						case ShifOnNonTerminal<T> tr:
-							state.NonTerminalActions.Add(tr);
+						case ShiftOnNonTerminal<T> tr:
+							if (state.NonTerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.NonTerminalActions.Add(tr);
 							break;
 						case Reduce<T> tr:
-							state.ReductionActions.Add(tr);
+							if (state.ReductionActions.FirstOrDefault(item => item.Equals(tr)) == null) state.ReductionActions.Add(tr);
 							break;
 						case Accept<T> tr:
-							state.AcceptActions.Add(tr);
+							if (state.AcceptActions.FirstOrDefault(item => item.Equals(tr)) == null) state.AcceptActions.Add(tr);
 							break;
 
 						default:
@@ -90,27 +90,27 @@ namespace FSMLib.ActionTables
 
 		public State<T> GetTargetState(int Index)
 		{
-			if ((Index < 0) || (Index >= actionTable.States.Count)) throw (new IndexOutOfRangeException("State index is out of range"));
-			return actionTable.States[Index];
+			if ((Index < 0) || (Index >= automatonTable.States.Count)) throw (new IndexOutOfRangeException("State index is out of range"));
+			return automatonTable.States[Index];
 		}
 
 		public State<T> CreateState()
 		{
 			State<T> state;
 			state = new State<T>();
-			//state.Name = actionTable.States.Count.ToString();
-			actionTable.States.Add(state);
+			//state.Name = automatonTable.States.Count.ToString();
+			automatonTable.States.Add(state);
 			return state;
 		}
 
 		public int GetStateIndex(State<T> State)
 		{
-			return actionTable.States.IndexOf(State);
+			return automatonTable.States.IndexOf(State);
 		}
 
 		public IEnumerable<T> GetAlphabet()
 		{
-			return actionTable.Alphabet;
+			return automatonTable.Alphabet;
 		}
 
 
@@ -122,7 +122,7 @@ namespace FSMLib.ActionTables
 			items = new List<T>();
 
 
-			foreach(ShifOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
+			foreach(ShiftOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
 			{
 				nextState = GetTargetState(action.TargetStateIndex);
 				foreach (ShiftOnTerminal<T> terminalAction in nextState.TerminalActions)
@@ -154,7 +154,7 @@ namespace FSMLib.ActionTables
 					if (!items.Contains(action.Value)) items.Add(action.Value);
 				}
 
-				foreach (ShifOnNonTerminal<T> action in segment.Actions.OfType<ShifOnNonTerminal<T>>())
+				foreach (ShiftOnNonTerminal<T> action in segment.Actions.OfType<ShiftOnNonTerminal<T>>())
 				{
 					foreach(T input in GetFirstTerminalsForRule(Rules,action.Name))
 					{
@@ -213,7 +213,7 @@ namespace FSMLib.ActionTables
 
 				if (!items.Contains(rule.Name)) items.Add(rule.Name);
 
-				foreach (ShifOnNonTerminal<T> nonTerminalAction in segment.Actions.OfType<ShifOnNonTerminal<T>>())
+				foreach (ShiftOnNonTerminal<T> nonTerminalAction in segment.Actions.OfType<ShiftOnNonTerminal<T>>())
 				{
 					foreach (string dependantRule in GetRuleReductionDependency(Rules, nonTerminalAction.Name))
 					{
@@ -228,7 +228,7 @@ namespace FSMLib.ActionTables
 
 		public IEnumerable<Reduce<T>> GetReductionActions(string Name)
 		{
-			return actionTable.States.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
+			return automatonTable.States.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
 		}
 
 

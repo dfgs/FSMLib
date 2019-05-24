@@ -1,4 +1,4 @@
-﻿using FSMLib.ActionTables;
+﻿using FSMLib.Table;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Helpers
 {
-	public static class ActionTableHelper
+	public static class AutomatonTableHelper
 	{
-		public static ActionTable<char> BuildActionTable(IEnumerable<string> Rules, IEnumerable<char> Alphabet)
+		public static AutomatonTable<char> BuildAutomatonTable(IEnumerable<string> Rules, IEnumerable<char> Alphabet)
 		{
-			ActionTableFactory<char> actionTableFactory;
-			ActionTable<char> actionTable;
+			AutomatonTableFactory<char> automatonTableFactory;
+			AutomatonTable<char> automatonTable;
 
-			actionTableFactory = new ActionTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			actionTable = actionTableFactory.BuildActionTable(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
+			automatonTable = automatonTableFactory.BuildAutomatonTable(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
 		
-			return actionTable;
+			return automatonTable;
 
 		}
 
-		public static ActionTable<char> BuildDeterminiticActionTable(IEnumerable<string> Rules,IEnumerable<char> Alphabet)
+		public static AutomatonTable<char> BuildDeterminiticAutomatonTable(IEnumerable<string> Rules,IEnumerable<char> Alphabet)
 		{
-			ActionTableFactory<char> actionTableFactory;
-			ActionTable<char> actionTable,detActionTable;
+			AutomatonTableFactory<char> automatonTableFactory;
+			AutomatonTable<char> automatonTable,detAutomatonTable;
 
-			actionTableFactory = new ActionTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
-			actionTable=actionTableFactory.BuildActionTable( Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet );
-			detActionTable = actionTableFactory.BuildDeterministicActionTable(actionTable);
+			automatonTable=automatonTableFactory.BuildAutomatonTable( Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet );
+			detAutomatonTable = automatonTableFactory.BuildDeterministicAutomatonTable(automatonTable);
 
-			return detActionTable;
+			return detAutomatonTable;
 
 		}
 	}

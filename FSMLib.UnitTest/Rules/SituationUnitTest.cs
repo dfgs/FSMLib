@@ -1,5 +1,5 @@
 ﻿using System;
-using FSMLib.ActionTables;
+using FSMLib.Table;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,11 +12,11 @@ namespace FSMLib.UnitTest
 		public void ShouldBeEquals()
 		{
 			Situation<char> a, b;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new ActionTable<char>();
-			a = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			b = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
+			automatonTable = new AutomatonTable<char>();
+			a = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			b = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 			Assert.AreEqual(true, a.Equals(b));
 			Assert.AreEqual(true, b.Equals(a));
 		}
@@ -24,11 +24,11 @@ namespace FSMLib.UnitTest
 		public void ShouldNotBeEquals()
 		{
 			Situation<char> a, b;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new ActionTable<char>();
-			a = new Situation<char>() { ActionTable = actionTable, StateIndex = 0 };
-			b = new Situation<char>() { ActionTable = actionTable, StateIndex = 1 };
+			automatonTable = new AutomatonTable<char>();
+			a = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
+			b = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 1 };
 			Assert.AreEqual(false, a.Equals(b));
 			Assert.AreEqual(false, b.Equals(a));
 			Assert.AreEqual(false, a.Equals(null));

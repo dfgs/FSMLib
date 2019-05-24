@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Predicates;
 
 namespace FSMLib.SegmentFactories
@@ -15,7 +15,7 @@ namespace FSMLib.SegmentFactories
 		{
 		}
 
-		public override Segment<T> BuildSegment( IActionTableFactoryContext<T> Context,  Terminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
+		public override Segment<T> BuildSegment( IAutomatonTableFactoryContext<T> Context,  Terminal<T> Predicate, IEnumerable<BaseAction<T>> OutActions)
 		{
 			if (Context == null) throw new ArgumentNullException("Context");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");

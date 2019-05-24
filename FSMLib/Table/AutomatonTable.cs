@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables
+namespace FSMLib.Table
 {
-	public class ActionTable<T> 
+	public class AutomatonTable<T> 
 	{
 		public List<State<T>> States
 		{
@@ -20,7 +20,7 @@ namespace FSMLib.ActionTables
 			set;
 		}
 
-		public ActionTable()
+		public AutomatonTable()
 		{
 			States = new List<State<T>>();
 			Alphabet = new List<T>();

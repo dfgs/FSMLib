@@ -1,4 +1,4 @@
-﻿using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table.Actions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables
+namespace FSMLib.Table
 {
-	public interface IActionTableFactoryContext<T>
+	public interface IAutomatonTableFactoryContext<T>
 	{
 		/*IEnumerable<Rule<T>> Rules
 		{

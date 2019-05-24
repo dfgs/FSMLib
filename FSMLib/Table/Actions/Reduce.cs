@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables.Actions
+namespace FSMLib.Table.Actions
 {
-	public class Reduce<T>:BaseAction<T>
+	public class Reduce<T>:BaseAction<T>,IEquatable<Reduce<T>>
 	{
 
 		
@@ -29,8 +29,11 @@ namespace FSMLib.ActionTables.Actions
 			Targets = new List<ReductionTarget<T>>();
 		}
 
-		
-
+		public bool Equals(Reduce<T> other)
+		{
+			if (other == null) return false;
+			return other.Name == Name;
+		}
 
 	}
 }

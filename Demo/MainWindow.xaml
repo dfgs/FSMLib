@@ -15,7 +15,7 @@
 		<TabControl x:Name="tabControl">
 			<TabControl.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="ActionTable"/>
+					<TextBlock Text="AutomatonTable"/>
 				</DataTemplate>
 			</TabControl.ItemTemplate>
 		</TabControl>

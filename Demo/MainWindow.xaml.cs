@@ -1,6 +1,6 @@
 ﻿using FSMLib;
-using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -31,7 +31,7 @@ namespace Demo
 	public partial class MainWindow : Window
 	{
 		private ObservableCollection<GraphView> views;
-		private ActionTableFactory<char> actionTableFactory;
+		private AutomatonTableFactory<char> automatonTableFactory;
 
 		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't' };
 
@@ -39,7 +39,7 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			actionTableFactory = new ActionTableFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
 
 	
 			views = new ObservableCollection<GraphView>();
@@ -68,21 +68,21 @@ namespace Demo
 			Rule<char> rule;
 
 			rule = new Rule<char>() { Predicate = Predicate };
-			CreateView(actionTableFactory.BuildActionTable(rule.AsEnumerable(), alphabet));
+			CreateView(automatonTableFactory.BuildAutomatonTable(rule.AsEnumerable(), alphabet));
 		}
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(actionTableFactory.BuildActionTable(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
+			CreateView(automatonTableFactory.BuildAutomatonTable(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
 		}
-		private void CreateView(ActionTable<char> Model)
+		private void CreateView(AutomatonTable<char> Model)
 		{
 			GraphView view;
 
 			view = new GraphView();
 			views.Add(view);
-			view.SetActionTables(CreateGraph(Model), CreateGraph(actionTableFactory.BuildDeterministicActionTable(Model)) );
+			view.SetAutomatonTables(CreateGraph(Model), CreateGraph(automatonTableFactory.BuildDeterministicAutomatonTable(Model)) );
 		}
-		private static Graph CreateGraph<T>(ActionTable<T> Model)
+		private static Graph CreateGraph<T>(AutomatonTable<T> Model)
 		{
 			Node n;
 
@@ -104,7 +104,7 @@ namespace Demo
 				{
 					graph.AddEdge(Model.States.IndexOf(state).ToString(), action.Value.ToString(), action.TargetStateIndex.ToString());
 				}
-				foreach (ShifOnNonTerminal<T> action in state.NonTerminalActions)
+				foreach (ShiftOnNonTerminal<T> action in state.NonTerminalActions)
 				{
 					graph.AddEdge(Model.States.IndexOf(state).ToString(), "{"+action.Name+"}", action.TargetStateIndex.ToString());
 				}

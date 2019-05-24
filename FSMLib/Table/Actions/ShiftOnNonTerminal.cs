@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables.Actions
+namespace FSMLib.Table.Actions
 {
-	public class ShifOnNonTerminal<T>:Shift<T>
+	public class ShiftOnNonTerminal<T>:Shift<T>,IEquatable<ShiftOnNonTerminal<T>>
 	{
 
 		
@@ -17,7 +17,8 @@ namespace FSMLib.ActionTables.Actions
 			set;
 		}
 
-		// todo: add unit test
+	
+
 		public bool Match(string Other)
 		{
 			return Name == Other;
@@ -26,5 +27,13 @@ namespace FSMLib.ActionTables.Actions
 		{
 			return Name;
 		}
+
+		public bool Equals(ShiftOnNonTerminal<T> other)
+		{
+			if (other == null) return false;
+			return (other.Name == Name) && (other.TargetStateIndex == TargetStateIndex);
+		}
+
+
 	}
 }

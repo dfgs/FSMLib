@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -12,16 +12,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.UnitTest.ActionTables
+namespace FSMLib.UnitTest.AutomatonTables
 {
 	[TestClass]
-	public class ActionTableFactoryContextUnitTest
+	public class AutomatonTableFactoryContextUnitTest
 	{
 		[TestMethod]
 		public void ShouldHaveCorrectConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new ActionTableFactoryContext<char>(null, new ActionTable<char>()));
-			Assert.ThrowsException<ArgumentNullException>(() => new ActionTableFactoryContext<char>(new MockedSegmentFactoryProvider<char>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => new AutomatonTableFactoryContext<char>(null, new AutomatonTable<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new AutomatonTableFactoryContext<char>(new MockedSegmentFactoryProvider<char>(), null));
 		}
 
 		[TestMethod]
@@ -30,14 +30,14 @@ namespace FSMLib.UnitTest.ActionTables
 			Segment<char> segment;
 			Rule<char> rule;
 			Sequence<char> predicate;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 
 			segment = context.BuildSegment(rule, Enumerable.Empty<BaseAction<char>>());
 			Assert.IsNotNull(segment);
@@ -49,7 +49,7 @@ namespace FSMLib.UnitTest.ActionTables
 		{
 			Rule<char> rule1, rule2;
 			NonTerminal<char> predicate1, predicate2;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 			Segment<char> segment;
 
 			predicate1 = new NonTerminal<char>() { Name = "B" };
@@ -59,7 +59,7 @@ namespace FSMLib.UnitTest.ActionTables
 			rule2 = new Rule<char>() { Name = "B" };
 			rule2.Predicate = (Sequence<char>)new BasePredicate<char>[] { new Terminal<char>() { Value = 'b' }, predicate2, new Terminal<char>() { Value = 'b' } };
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 
 			segment = context.BuildSegment(rule1, Enumerable.Empty<Reduce<char>>());
 			Assert.IsNotNull(segment);
@@ -74,13 +74,13 @@ namespace FSMLib.UnitTest.ActionTables
 			Segment<char> segment1, segment2;
 			Rule<char> rule;
 			Sequence<char> predicate;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 
 			segment1 = context.BuildSegment(rule, Enumerable.Empty<Reduce<char>>());
 			segment2 = context.BuildSegment(rule, Enumerable.Empty<Reduce<char>>());
@@ -89,40 +89,40 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldReturnTargetState()
 		{
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 			State<char> target;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			actionTable.States.Add(new State<char>());
-			actionTable.States.Add(new State<char>());
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
+			automatonTable.States.Add(new State<char>());
+			automatonTable.States.Add(new State<char>());
 
 			target = context.GetTargetState(1);
-			Assert.AreEqual(actionTable.States[1], target);
+			Assert.AreEqual(automatonTable.States[1], target);
 		}
 
 		[TestMethod]
 		public void ShouldReturnNotTargetState()
 		{
-			ActionTableFactoryContext<char> context;
-			ActionTable<char> actionTable;
+			AutomatonTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
-			actionTable.States.Add(new State<char>());
-			actionTable.States.Add(new State<char>());
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
+			automatonTable.States.Add(new State<char>());
+			automatonTable.States.Add(new State<char>());
 
 			Assert.ThrowsException<IndexOutOfRangeException>(() => context.GetTargetState(2));
 		}
 		[TestMethod]
 		public void ShouldReturnStateIndex()
 		{
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 			State<char> a, b;
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 			a = context.CreateState();
 			b = context.CreateState();
 
@@ -132,9 +132,9 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldReturnMinusOneIfStateDoesntExists()
 		{
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 
 			Assert.AreEqual(-1, context.GetStateIndex(new State<char>()));
 		}
@@ -142,27 +142,27 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldCreateState()
 		{
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 			State<char> a, b;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 
 			a = context.CreateState();
 			Assert.IsNotNull(a);
-			Assert.AreEqual(1, actionTable.States.Count);
+			Assert.AreEqual(1, automatonTable.States.Count);
 			b = context.CreateState();
 			Assert.IsNotNull(b);
-			Assert.AreEqual(2, actionTable.States.Count);
+			Assert.AreEqual(2, automatonTable.States.Count);
 		}
 
 		[TestMethod]
 		public void ShouldThrowExceptionIfParametersAreNull()
 		{
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new ActionTable<char>());
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), new AutomatonTable<char>());
 
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(null, Enumerable.Empty<BaseAction<char>>()));
 			Assert.ThrowsException<ArgumentNullException>(() => context.Connect(Enumerable.Empty<State<char>>(), null));
@@ -172,18 +172,18 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldConnectOneToOne()
 		{
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 			State<char> a, b;
 			ShiftOnTerminal<char> action;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
-			actionTable = new ActionTable<char>();
-			a = new State<char>(); actionTable.States.Add(a);
-			b = new State<char>(); actionTable.States.Add(b);
+			automatonTable = new AutomatonTable<char>();
+			a = new State<char>(); automatonTable.States.Add(a);
+			b = new State<char>(); automatonTable.States.Add(b);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(b) };
+			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(a.AsEnumerable(), action.AsEnumerable());
 
 			Assert.AreEqual(1, a.TerminalActions.Count);
@@ -197,21 +197,21 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldConnectOneToMany()
 		{
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			State<char> a, b, c;
 			ShiftOnTerminal<char> actionToB, actionToC;
 
-			actionTable = new ActionTable<char>();
-			a = new State<char>(); actionTable.States.Add(a);
-			b = new State<char>(); actionTable.States.Add(b);
-			c = new State<char>(); actionTable.States.Add(c);
+			automatonTable = new AutomatonTable<char>();
+			a = new State<char>(); automatonTable.States.Add(a);
+			b = new State<char>(); automatonTable.States.Add(b);
+			c = new State<char>(); automatonTable.States.Add(c);
 
 
-			actionToB = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(b) };
-			actionToC = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = actionTable.States.IndexOf(c) };
+			actionToB = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
+			actionToC = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = automatonTable.States.IndexOf(c) };
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(a.AsEnumerable(), new ShiftOnTerminal<char>[] { actionToB, actionToC });
 
 			Assert.AreEqual(2, a.TerminalActions.Count);
@@ -225,19 +225,19 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldConnectManyToOne()
 		{
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			State<char> a, b, c;
 			ShiftOnTerminal<char> action;
 
-			actionTable = new ActionTable<char>();
-			a = new State<char>(); actionTable.States.Add(a);
-			b = new State<char>(); actionTable.States.Add(b);
-			c = new State<char>(); actionTable.States.Add(c);
+			automatonTable = new AutomatonTable<char>();
+			a = new State<char>(); automatonTable.States.Add(a);
+			b = new State<char>(); automatonTable.States.Add(b);
+			c = new State<char>(); automatonTable.States.Add(c);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(c) };
+			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(c) };
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(new State<char>[] { a, b }, action.AsEnumerable());
 
 			Assert.AreEqual(1, a.TerminalActions.Count);
@@ -251,21 +251,21 @@ namespace FSMLib.UnitTest.ActionTables
 		[TestMethod]
 		public void ShouldConnectManyToMany()
 		{
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			State<char> a, b, c, d;
 			ShiftOnTerminal<char> actionToD, actionToC;
 
-			actionTable = new ActionTable<char>();
-			a = new State<char>(); actionTable.States.Add(a);
-			b = new State<char>(); actionTable.States.Add(b);
-			c = new State<char>(); actionTable.States.Add(c);
-			d = new State<char>(); actionTable.States.Add(d);
+			automatonTable = new AutomatonTable<char>();
+			a = new State<char>(); automatonTable.States.Add(a);
+			b = new State<char>(); automatonTable.States.Add(b);
+			c = new State<char>(); automatonTable.States.Add(c);
+			d = new State<char>(); automatonTable.States.Add(d);
 
-			actionToC = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = actionTable.States.IndexOf(c) };
-			actionToD = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = actionTable.States.IndexOf(d) };
+			actionToC = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(c) };
+			actionToD = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = automatonTable.States.IndexOf(d) };
 
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(new State<char>[] { a, b }, new ShiftOnTerminal<char>[] { actionToC, actionToD });
 
 			Assert.AreEqual(2, a.TerminalActions.Count);
@@ -283,13 +283,59 @@ namespace FSMLib.UnitTest.ActionTables
 			Assert.AreEqual('b', b.TerminalActions[1].Value);
 		}
 
+		[TestMethod]
+		public void ShouldNotConnectIfAlreadyConnected()
+		{
+			AutomatonTable<char> automatonTable;
+			State<char> a, b;
+			ShiftOnTerminal<char> shiftTerminal;
+			ShiftOnNonTerminal<char> shiftNonTerminal;
+			Reduce<char> reduce;
+			Accept<char> accept;
+
+			AutomatonTableFactoryContext<char> context;
+
+			automatonTable = new AutomatonTable<char>();
+			a = new State<char>(); automatonTable.States.Add(a);
+			b = new State<char>(); automatonTable.States.Add(b);
+
+			shiftTerminal = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
+			shiftNonTerminal = new ShiftOnNonTerminal<char>() { Name = "a", TargetStateIndex = automatonTable.States.IndexOf(b) };
+			reduce = new Reduce<char>() { Name = "A" };
+			accept = new Accept<char>();
+
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
+
+			context.Connect(a.AsEnumerable(), shiftTerminal.AsEnumerable());
+			Assert.AreEqual(1, a.TerminalActions.Count);
+			context.Connect(a.AsEnumerable(), shiftTerminal.AsEnumerable());
+			Assert.AreEqual(1, a.TerminalActions.Count);
+
+			context.Connect(a.AsEnumerable(), shiftNonTerminal.AsEnumerable());
+			Assert.AreEqual(1, a.NonTerminalActions.Count);
+			context.Connect(a.AsEnumerable(), shiftNonTerminal.AsEnumerable());
+			Assert.AreEqual(1, a.NonTerminalActions.Count);
+
+			context.Connect(a.AsEnumerable(), reduce.AsEnumerable());
+			Assert.AreEqual(1, a.ReductionActions.Count);
+			context.Connect(a.AsEnumerable(), reduce.AsEnumerable());
+			Assert.AreEqual(1, a.ReductionActions.Count);
+
+			context.Connect(a.AsEnumerable(), accept.AsEnumerable());
+			Assert.AreEqual(1, a.AcceptActions.Count);
+			context.Connect(a.AsEnumerable(), accept.AsEnumerable());
+			Assert.AreEqual(1, a.AcceptActions.Count);
+
+
+
+		}
 
 		[TestMethod]
 		public void ShouldGetFirstTerminalForRule()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			char[] items;
 
 			rules = new Rule<char>[4];
@@ -298,8 +344,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=abc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items=context.GetFirstTerminalsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.AreEqual('a', items[0]);
@@ -310,8 +356,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetDistinctFirstTerminalForRule()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			char[] items;
 
 			rules = new Rule<char>[4];
@@ -320,8 +366,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=abc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('a', items[0]);
@@ -331,8 +377,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetNestedFirstTerminalForRule()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			char[] items;
 
 			rules = new Rule<char>[4];
@@ -341,8 +387,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=def");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.AreEqual('a', items[0]);
@@ -353,8 +399,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetLoopedFirstTerminalForRule()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			char[] items;
 
 			rules = new Rule<char>[4];
@@ -363,8 +409,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B={A}bc");
 			rules[3] = RuleHelper.BuildRule("B=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.AreEqual('a', items[0]);
@@ -375,8 +421,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetRuleReductionDependency()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			string[] items;
 
 			rules = new Rule<char>[4];
@@ -385,8 +431,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=abc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetRuleReductionDependency(rules, "A").ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual("A", items[0]);
@@ -396,8 +442,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetNestedRuleReductionDependency()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			string[] items;
 
 			rules = new Rule<char>[4];
@@ -406,8 +452,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=abc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetRuleReductionDependency(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.AreEqual("A", items[0]);
@@ -419,8 +465,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetLoopedRuleReductionDependency()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			string[] items;
 
 			rules = new Rule<char>[4];
@@ -429,8 +475,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B={A}bc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetRuleReductionDependency(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.AreEqual("A", items[0]);
@@ -443,19 +489,19 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetFirstTerminalsAfterAction()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			char[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=a{B}c");
 			
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.BuildSegment(rules[0], Enumerable.Empty<BaseAction<char>>());
 
-			items = context.GetFirstTerminalsAfterAction(actionTable.States[2], "B").ToArray();
+			items = context.GetFirstTerminalsAfterAction(automatonTable.States[2], "B").ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('c', items[0]);
 		}
@@ -466,8 +512,8 @@ namespace FSMLib.UnitTest.ActionTables
 		public void ShouldGetStateWithReductionRule()
 		{
 			Rule<char>[] rules;
-			ActionTable<char> actionTable;
-			ActionTableFactoryContext<char> context;
+			AutomatonTable<char> automatonTable;
+			AutomatonTableFactoryContext<char> context;
 			Reduce<char>[] items;
 
 			rules = new Rule<char>[4];
@@ -476,8 +522,8 @@ namespace FSMLib.UnitTest.ActionTables
 			rules[2] = RuleHelper.BuildRule("B=abc");
 			rules[3] = RuleHelper.BuildRule("C=abc");
 
-			actionTable = new ActionTable<char>();
-			context = new ActionTableFactoryContext<char>(new SegmentFactoryProvider<char>(), actionTable);
+			automatonTable = new AutomatonTable<char>();
+			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			items = context.GetReductionActions("A").ToArray();
 			Assert.AreEqual(2, items.Length);
 		}

@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockedActionTableFactoryContext : IActionTableFactoryContext<char>
+	public class MockedAutomatonTableFactoryContext : IAutomatonTableFactoryContext<char>
 	{
 		public Segment<char> BuildSegment(Rule<char> Rule, IEnumerable<BaseAction<char>> OutActions)
 		{
@@ -33,7 +33,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterAction(IEnumerable<Rule<char>> Rules, ShifOnNonTerminal<char> NonTerminalAction)
+		public IEnumerable<char> GetFirstTerminalsAfterAction(IEnumerable<Rule<char>> Rules, ShiftOnNonTerminal<char> NonTerminalAction)
 		{
 			throw new NotImplementedException();
 		}
@@ -73,7 +73,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		/*IEnumerable<Segment<char>> IActionTableFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		/*IEnumerable<Segment<char>> IAutomatonTableFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}*/

@@ -1,5 +1,5 @@
-﻿using FSMLib.ActionTables;
-using FSMLib.ActionTables.Actions;
+﻿using FSMLib.Table;
+using FSMLib.Table.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -23,7 +23,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			TerminalSegmentFactory<char> factory;
 
 			factory = new TerminalSegmentFactory<char>( new MockedSegmentFactoryProvider<char>());
-			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedActionTableFactoryContext() , new MockedPredicate<char>(), Enumerable.Empty<Reduce<char>>()));;
+			Assert.ThrowsException<InvalidCastException>(()=> factory.BuildSegment(new MockedAutomatonTableFactoryContext() , new MockedPredicate<char>(), Enumerable.Empty<Reduce<char>>()));;
 		}
 		[TestMethod]
 		public void ShouldFailWithNullParameters()
@@ -32,28 +32,28 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			factory = new TerminalSegmentFactory<char>(new MockedSegmentFactoryProvider<char>());
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null,  new Terminal<char>(), Enumerable.Empty<Reduce<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedActionTableFactoryContext(),  null, Enumerable.Empty<Reduce<char>>()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedActionTableFactoryContext(),  new Terminal<char>(), null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedAutomatonTableFactoryContext(),  null, Enumerable.Empty<Reduce<char>>()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(new MockedAutomatonTableFactoryContext(),  new Terminal<char>(), null));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromPredicate()
 		{
 			TerminalSegmentFactory<char> factory;
 			Segment<char> segment;
-			ActionTable<char> actionTable;
+			AutomatonTable<char> automatonTable;
 			SegmentFactoryProvider<char> provider;
-			ActionTableFactoryContext<char> context;
+			AutomatonTableFactoryContext<char> context;
 
-			actionTable = new ActionTable<char>();
+			automatonTable = new AutomatonTable<char>();
 			provider = new SegmentFactoryProvider<char>();
-			context = new ActionTableFactoryContext<char>(provider,actionTable);
+			context = new AutomatonTableFactoryContext<char>(provider,automatonTable);
 			factory = new TerminalSegmentFactory<char>( provider);
 
 			segment=factory.BuildSegment(context,  new Terminal<char>() { Value='a' }, Enumerable.Empty<Reduce<char>>());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(1, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
-			Assert.AreEqual(1, actionTable.States.Count);
+			Assert.AreEqual(1, automatonTable.States.Count);
 			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
 		}
 

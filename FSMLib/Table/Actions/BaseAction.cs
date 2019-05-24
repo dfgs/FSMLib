@@ -5,16 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ActionTables.Actions
+namespace FSMLib.Table.Actions
 {
-	public class Accept<T>:BaseAction<T>
+	public abstract class BaseAction<T>
 	{
-		public string Name
-		{
-			get;
-			set;
-		}
-	
 		
+
 	}
+
 }
