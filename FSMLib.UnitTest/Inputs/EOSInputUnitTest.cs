@@ -40,6 +40,16 @@ namespace FSMLib.UnitTest.Inputs
 			Assert.IsFalse(a.Match(b));
 
 		}
+		[TestMethod]
+		public void ShoudNotMatchT()
+		{
+			EOSInput<char> a;
+
+			a = new EOSInput<char>();
+
+			Assert.IsFalse(a.Match('a'));
+
+		}
 
 
 

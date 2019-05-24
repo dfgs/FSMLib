@@ -45,7 +45,7 @@ namespace FSMLib.Table
 		}
 		private void CompleteReductionTargets(State<T> state, IEnumerable<ShiftOnNonTerminal<T>> Actions, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
-			TerminalInput<T>[] nextInputs;
+			BaseTerminalInput<T>[] nextInputs;
 			string[] reductionDependencies;
 			int index;
 
@@ -60,7 +60,7 @@ namespace FSMLib.Table
 				{
 					foreach (Reduce<T> reductionAction in context.GetReductionActions(reductionDepency))
 					{
-						foreach (TerminalInput<T> input in nextInputs)
+						foreach (BaseTerminalInput<T> input in nextInputs)
 						{
 							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = input });
 						}
@@ -73,7 +73,7 @@ namespace FSMLib.Table
 		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			AutomatonTable<T> automatonTable;
-			State<T> root;
+			State<T> root,acceptState;
 			Segment<T> segment;
 			AutomatonTableFactoryContext<T> context;
 			Rule<T> axiom;
@@ -96,25 +96,19 @@ namespace FSMLib.Table
 			
 			context = new AutomatonTableFactoryContext<T>(segmentFactoryProvider, automatonTable);
 			root = context.CreateState();
+			acceptState = context.CreateState();
+			acceptState.AcceptActions.Add(new Accept<T>() { Name = axiom.Name });
 			
+
 			// build all segments from rules
-			foreach(Rule<T> rule in rules)
+			foreach (Rule<T> rule in rules)
 			{
-				if (rule==axiom)
+				actions = new BaseAction<T>[]
 				{
-					actions = new BaseAction<T>[]
-					{
-						new Reduce<T>() { Name=rule.Name},
-						new Accept<T>() { Name=rule.Name}
-					};
-				}
-				else
-				{
-					actions = new BaseAction<T>[]
-					{
-						new Reduce<T>() { Name=rule.Name}
-					};
-				}
+					new ShiftOnTerminal<T>() { Input=new EOSInput<T>(), TargetStateIndex=1},
+					new Reduce<T>() { Name = rule.Name }
+				};
+
 				segment = context.BuildSegment( rule, actions  );
 				context.Connect(root.AsEnumerable(), segment.Actions);
 			}
@@ -184,7 +178,7 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach (TerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
+				foreach (BaseTerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
 				{
 					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, input);
 					// do we have the same situation list in automatonTable ?

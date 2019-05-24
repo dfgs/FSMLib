@@ -33,7 +33,7 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		{
 			ShiftOnTerminal<char> a, b;
 
-			a = new ShiftOnTerminal<char>() { TargetStateIndex=1,Input= new TerminalInput<char>() { Value = 'a' } };
+			a = new ShiftOnTerminal<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } };
 			b = new ShiftOnTerminal<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } };
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));

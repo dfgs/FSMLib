@@ -42,7 +42,25 @@ namespace FSMLib.UnitTest.Inputs
 			Assert.IsFalse(a.Match(c));
 
 		}
+		[TestMethod]
+		public void ShoudMatchT()
+		{
+			TerminalInput<char> a;
 
+			a = new TerminalInput<char>() { Value = 'a' };
+			Assert.IsTrue(a.Match('a'));
+
+		}
+		[TestMethod]
+		public void ShoudNotMatchT()
+		{
+			TerminalInput<char> a;
+	
+			a = new TerminalInput<char>() { Value = 'a' };
+
+			Assert.IsFalse(a.Match('b'));
+
+		}
 
 
 	}

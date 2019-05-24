@@ -22,7 +22,7 @@ namespace FSMLib.Rules
 		{
 			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].NonTerminalActions).Select(item => item.Name).Distinct();
 		}
-		public IEnumerable<TerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
+		public IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
 			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].TerminalActions).Select(item => item.Input).Distinct();
 		}

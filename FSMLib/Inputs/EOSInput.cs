@@ -13,6 +13,12 @@ namespace FSMLib.Inputs
 			if (Other == null) return false;
 			return Other is EOSInput<T>;
 		}
+
+		public override bool Match(T Value)
+		{
+			return false;
+		}
+
 		public override string ToString()
 		{
 			return "←";

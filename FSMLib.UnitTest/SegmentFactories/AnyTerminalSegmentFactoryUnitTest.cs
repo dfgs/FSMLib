@@ -6,6 +6,7 @@ using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.SegmentFactories
 {
@@ -55,7 +56,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, automatonTable.States.Count);
-			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
+			Assert.IsTrue((((ShiftOnTerminal<char>)segment.Actions.First())).Input.Match('a'));
 		}
 
 

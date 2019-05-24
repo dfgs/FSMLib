@@ -27,7 +27,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<TerminalInput<char>> GetNextTerminalInputs(IEnumerable<Situation<char>> Situations)
+		public IEnumerable<BaseTerminalInput<char>> GetNextTerminalInputs(IEnumerable<Situation<char>> Situations)
 		{
 			throw new NotImplementedException();
 		}

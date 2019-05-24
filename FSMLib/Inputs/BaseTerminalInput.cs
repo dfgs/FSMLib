@@ -8,5 +8,6 @@ namespace FSMLib.Inputs
 {
 	public abstract class BaseTerminalInput<T>:BaseInput<T>
 	{
+		public abstract bool Match(T Value);
 	}
 }

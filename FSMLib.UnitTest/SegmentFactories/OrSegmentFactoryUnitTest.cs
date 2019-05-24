@@ -60,9 +60,12 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, segment.Actions.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
 			Assert.AreEqual(3, automatonTable.States.Count);
-			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Value);
-			Assert.AreEqual('b', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Input.Value);
-			Assert.AreEqual('c', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(2)).Input.Value);
+
+			Assert.IsTrue(((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Match('a'));
+			Assert.IsTrue(((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Input.Match('b'));
+			Assert.IsTrue(((ShiftOnTerminal<char>)segment.Actions.ElementAt(2)).Input.Match('c'));
+
+			
 		}
 
 

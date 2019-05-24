@@ -100,6 +100,8 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
 		}
 		[TestMethod]
@@ -112,18 +114,24 @@ namespace FSMLib.UnitTest
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
+
 			automaton.Feed('a');
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed(new EOSInput<char>());
+			Assert.IsTrue(automaton.CanAccept());
 			state = automaton.Accept();
 			Assert.AreEqual("A", state.Name);
-			Assert.AreEqual(3, state.Nodes.Count);
+
+
+			Assert.AreEqual(4, state.Nodes.Count);
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.AreEqual('a',((TerminalInput<char>)((TerminalNode<char>)state.Nodes[0]).Input).Value );
-			Assert.AreEqual('b', ((TerminalInput<char>)((TerminalNode<char>)state.Nodes[1]).Input).Value);
-			Assert.AreEqual('c', ((TerminalInput<char>)((TerminalNode<char>)state.Nodes[2]).Input).Value);
+			Assert.IsTrue(((TerminalNode<char>)state.Nodes[0]).Input.Match('a'));
+			Assert.IsTrue(((TerminalNode<char>)state.Nodes[1]).Input.Match('b'));
+			Assert.IsTrue(((TerminalNode<char>)state.Nodes[2]).Input.Match('c'));
 
 		}
 		[TestMethod]
@@ -136,15 +144,24 @@ namespace FSMLib.UnitTest
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
+
+			Assert.IsFalse(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
 			automaton.Feed('a');
+			Assert.IsFalse(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
+
+			automaton.Feed(new EOSInput<char>());
+			Assert.IsTrue(automaton.CanAccept());
 			state = automaton.Accept();
 			Assert.AreEqual("A", state.Name);
-			Assert.AreEqual(3, state.Nodes.Count);
+			Assert.AreEqual(4, state.Nodes.Count);
 		}
 
 
@@ -168,7 +185,11 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 			automaton.Feed('e');
+			Assert.IsFalse(automaton.CanAccept());
+
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+
 		}
 
 		[TestMethod]
@@ -189,7 +210,11 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 			automaton.Feed('a');
+			Assert.IsFalse(automaton.CanAccept());
+
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+
 
 		}
 		[TestMethod]
@@ -206,7 +231,10 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+
 
 		}
 
@@ -225,15 +253,18 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.AreEqual(6, node.Nodes.Count);
+			Assert.AreEqual(7, node.Nodes.Count);
 		}
 
 		[TestMethod]
@@ -249,7 +280,7 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsFalse(automaton.CanAccept());
 
 			automaton.Feed('c');
 			automaton.Feed('c');

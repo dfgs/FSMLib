@@ -34,12 +34,12 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<TerminalInput<char>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<char> Action)
+		public IEnumerable<BaseTerminalInput<char>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<char> Action)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<TerminalInput<char>> GetFirstTerminalInputsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		public IEnumerable<BaseTerminalInput<char>> GetFirstTerminalInputsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}

@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.Mocks
 {
@@ -14,6 +15,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		private AutomatonTable<T> automatonTable;
 		private int stateIndex;
+
 
 		public int ActionCount
 		{
@@ -27,13 +29,15 @@ namespace FSMLib.UnitTest.Mocks
 
 		}
 
+		
+
 		public bool Parse(T Input, int MatchIndex = 0)
 		{
 			int index = 0;
 
 			foreach(ShiftOnTerminal<T> action in automatonTable.States[stateIndex].TerminalActions)
 			{
-				if (action.Input.Value.Equals(Input))
+				if (action.Input.Match(new TerminalInput<T>() { Value = Input }))
 				{
 					if (index == MatchIndex)
 					{

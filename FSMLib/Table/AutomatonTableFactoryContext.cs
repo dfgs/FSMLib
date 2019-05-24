@@ -115,12 +115,12 @@ namespace FSMLib.Table
 		}
 
 
-		public IEnumerable<TerminalInput<T>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<T> Action)
+		public IEnumerable<BaseTerminalInput<T>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<T> Action)
 		{
 			State<T> nextState;
-			List<TerminalInput<T>> items;
+			List<BaseTerminalInput<T>> items;
 
-			items = new List<TerminalInput<T>>();
+			items = new List<BaseTerminalInput<T>>();
 
 
 			//foreach(ShiftOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
@@ -136,12 +136,12 @@ namespace FSMLib.Table
 			return items;
 		}
 
-		public IEnumerable<TerminalInput<T>> GetFirstTerminalInputsForRule(IEnumerable<Rule<T>> Rules,string Name)
+		public IEnumerable<BaseTerminalInput<T>> GetFirstTerminalInputsForRule(IEnumerable<Rule<T>> Rules,string Name)
 		{
 			Segment<T> segment;
-			List<TerminalInput<T>> items;
+			List<BaseTerminalInput<T>> items;
 
-			items = new List<TerminalInput<T>>();
+			items = new List<BaseTerminalInput<T>>();
 
 			if (openList.Contains(Name)) return items;
 			openList.Add(Name);
@@ -152,14 +152,14 @@ namespace FSMLib.Table
 
 				foreach (ShiftOnTerminal<T> action in segment.Actions.OfType<ShiftOnTerminal<T>>())
 				{
-					if (!items.Contains(action.Input)) items.Add(action.Input);
+					if (items.FirstOrDefault(item=>item.Match(action.Input))==null) items.Add(action.Input);
 				}
 
 				foreach (ShiftOnNonTerminal<T> action in segment.Actions.OfType<ShiftOnNonTerminal<T>>())
 				{
 					foreach(TerminalInput<T> input in GetFirstTerminalInputsForRule(Rules,action.Name))
 					{
-						if (!items.Contains(input)) items.Add(input);
+						if (items.FirstOrDefault(item => item.Match(input)) == null) items.Add(input);
 					}
 				}
 

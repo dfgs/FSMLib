@@ -67,8 +67,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Value);
-			Assert.AreEqual('d', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Input.Value);
+			Assert.IsTrue( ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Match('a'));
+			Assert.IsTrue( ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Input.Match('d'));
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedOrPredicate()
@@ -100,8 +100,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
-			
+			Assert.IsTrue(((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Match('a'));
+
 
 		}
 

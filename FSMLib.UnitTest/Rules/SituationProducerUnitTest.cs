@@ -20,7 +20,7 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1,s2,s3;
 			SituationProducer<char> producer;
-			TerminalInput<char>[] distinctInputs;
+			BaseTerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a','b','c');
@@ -33,14 +33,16 @@ namespace FSMLib.UnitTest
 			distinctInputs=producer.GetNextTerminalInputs(new Situation<char>[] { s1,s2,s3 }).ToArray();
 
 			Assert.AreEqual(1, distinctInputs.Length);
-			Assert.AreEqual('a', distinctInputs[0].Value);
+			Assert.IsTrue(distinctInputs[0].Match('a'));
+			
+
 		}
 		[TestMethod]
 		public void ShouldGetTwoDistinctTerminals()
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			TerminalInput<char>[] distinctInputs;
+			BaseTerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
@@ -53,8 +55,9 @@ namespace FSMLib.UnitTest
 			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(2, distinctInputs.Length);
-			Assert.AreEqual('a', distinctInputs[0].Value);
-			Assert.AreEqual('b', distinctInputs[1].Value);
+			Assert.IsTrue(distinctInputs[0].Match('a'));
+			Assert.IsTrue(distinctInputs[1].Match('b'));
+
 		}
 
 		[TestMethod]
@@ -62,7 +65,7 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			TerminalInput<char>[] distinctInputs;
+			BaseTerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
@@ -75,9 +78,11 @@ namespace FSMLib.UnitTest
 			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(3, distinctInputs.Length);
-			Assert.AreEqual('a',distinctInputs[0].Value);
-			Assert.AreEqual('b', distinctInputs[1].Value);
-			Assert.AreEqual('c', distinctInputs[2].Value);
+			Assert.IsTrue(distinctInputs[0].Match('a'));
+			Assert.IsTrue(distinctInputs[1].Match('b'));
+			Assert.IsTrue(distinctInputs[2].Match('c'));
+
+		
 		}
 
 

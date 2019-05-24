@@ -11,7 +11,7 @@ namespace FSMLib.Rules
 {
 	public interface ISituationProducer<T>
 	{
-		IEnumerable<TerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations);
+		IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations);
 		IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations);
 		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, BaseTerminalInput<T> Input);
 		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, string Name);

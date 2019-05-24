@@ -19,8 +19,8 @@ namespace FSMLib.Inputs
 		public bool Equals(TerminalInput<T> other)
 		{
 			if (other == null) return false;
-			if (other.Value == null) return Value == null;
-			return Value.Equals(other.Value);
+			if (other.Value == null) return this.Value == null;
+			return other.Value.Equals(this.Value);
 		}
 
 		/*public bool Equals(BaseInput<T> other)
@@ -35,6 +35,12 @@ namespace FSMLib.Inputs
 			if (Other is TerminalInput<T> terminalInput) return Equals(terminalInput);
 			
 			return false;
+		}
+
+		public override bool Match(T Value)
+		{
+			if (Value == null) return this.Value == null;
+			return Value.Equals(this.Value);
 		}
 
 		public override string ToString()

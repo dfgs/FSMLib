@@ -12,7 +12,7 @@ namespace FSMLib.Actions
 	{
 
 		
-		public TerminalInput<T> Input
+		public BaseTerminalInput<T> Input
 		{
 			get;
 			set;
@@ -36,7 +36,7 @@ namespace FSMLib.Actions
 			if (other == null) return false;
 			if (other.TargetStateIndex != TargetStateIndex) return false;
 			if (other.Input == null) return Input == null;
-			return other.Input.Equals(Input);
+			return other.Input.Match(Input);
 		}
 
 	}
