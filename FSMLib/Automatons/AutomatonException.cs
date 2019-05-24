@@ -1,4 +1,5 @@
 ﻿
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace FSMLib.Tables
 {
 	public class AutomatonException<T>:Exception
 	{
-		public T Input
+		public BaseTerminalInput<T> Input
 		{
 			get;
 			private set;
@@ -20,7 +21,7 @@ namespace FSMLib.Tables
 			get;
 			private set;
 		}
-		public AutomatonException(T Input, IEnumerable<BaseNode<T>> Stack)
+		public AutomatonException(BaseTerminalInput<T> Input, IEnumerable<BaseNode<T>> Stack)
 		{
 			this.Input = Input;
 			this.Stack = Stack;

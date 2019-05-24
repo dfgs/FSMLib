@@ -1,4 +1,4 @@
-﻿using FSMLib.Table.Actions;
+﻿using FSMLib.Actions;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.Table
 {
@@ -114,12 +115,12 @@ namespace FSMLib.Table
 		}
 
 
-		public IEnumerable<T> GetFirstTerminalsAfterAction(ShiftOnNonTerminal<T> Action)
+		public IEnumerable<TerminalInput<T>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<T> Action)
 		{
 			State<T> nextState;
-			List<T> items;
+			List<TerminalInput<T>> items;
 
-			items = new List<T>();
+			items = new List<TerminalInput<T>>();
 
 
 			//foreach(ShiftOnNonTerminal<T> action in State.NonTerminalActions.Where(item=>item.Name==Name))
@@ -127,7 +128,7 @@ namespace FSMLib.Table
 			nextState = GetTargetState(Action.TargetStateIndex);
 			foreach (ShiftOnTerminal<T> terminalAction in nextState.TerminalActions)
 			{
-				if (!items.Contains(terminalAction.Value)) items.Add(terminalAction.Value);
+				if (!items.Contains(terminalAction.Input)) items.Add(terminalAction.Input);
 			}
 			//}
 			
@@ -135,12 +136,12 @@ namespace FSMLib.Table
 			return items;
 		}
 
-		public IEnumerable<T> GetFirstTerminalsForRule(IEnumerable<Rule<T>> Rules,string Name)
+		public IEnumerable<TerminalInput<T>> GetFirstTerminalInputsForRule(IEnumerable<Rule<T>> Rules,string Name)
 		{
 			Segment<T> segment;
-			List<T> items;
+			List<TerminalInput<T>> items;
 
-			items = new List<T>();
+			items = new List<TerminalInput<T>>();
 
 			if (openList.Contains(Name)) return items;
 			openList.Add(Name);
@@ -151,12 +152,12 @@ namespace FSMLib.Table
 
 				foreach (ShiftOnTerminal<T> action in segment.Actions.OfType<ShiftOnTerminal<T>>())
 				{
-					if (!items.Contains(action.Value)) items.Add(action.Value);
+					if (!items.Contains(action.Input)) items.Add(action.Input);
 				}
 
 				foreach (ShiftOnNonTerminal<T> action in segment.Actions.OfType<ShiftOnNonTerminal<T>>())
 				{
-					foreach(T input in GetFirstTerminalsForRule(Rules,action.Name))
+					foreach(TerminalInput<T> input in GetFirstTerminalInputsForRule(Rules,action.Name))
 					{
 						if (!items.Contains(input)) items.Add(input);
 					}

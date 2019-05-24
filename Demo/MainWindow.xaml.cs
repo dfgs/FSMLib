@@ -1,6 +1,6 @@
 ﻿using FSMLib;
 using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -45,6 +45,7 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A=ab{C}*", "C=c");
 			CreateView("A=a{S}a", "S={S}b", "S=c");
 			CreateView("A=a{BCD}e", "BCD=b{C}d", "C=c");
 
@@ -93,7 +94,7 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.States.IndexOf(state).ToString());
 
-				n.UserData = string.Join("/", state.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetStateIndex+"/"+target.Value))}")); //:{item.TargetStateIndex}:{item.Value}
+				n.UserData = string.Join("/", state.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetStateIndex+"/"+target.Input))}")); //:{item.TargetStateIndex}:{item.Value}
 
 				if (state.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
@@ -102,7 +103,7 @@ namespace Demo
 			{
 				foreach (ShiftOnTerminal<T> action in state.TerminalActions)
 				{
-					graph.AddEdge(Model.States.IndexOf(state).ToString(), action.Value.ToString(), action.TargetStateIndex.ToString());
+					graph.AddEdge(Model.States.IndexOf(state).ToString(), action.Input.ToString(), action.TargetStateIndex.ToString());
 				}
 				foreach (ShiftOnNonTerminal<T> action in state.NonTerminalActions)
 				{

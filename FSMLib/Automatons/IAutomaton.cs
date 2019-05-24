@@ -1,4 +1,5 @@
 ﻿
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +17,11 @@ namespace FSMLib.Tables
 
 		void Reset();
 
-		//bool Feed(IInput<T> Item);
-		void Feed(T Input);
+		void Feed(BaseTerminalInput<T> Input);
 
 		bool CanAccept();
 
 		NonTerminalNode<T> Accept();
 
-		/*void SaveSituation();
-		void RestoreSituation();*/
 	}
 }

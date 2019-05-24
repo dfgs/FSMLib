@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Table.Actions
+namespace FSMLib.Actions
 {
 	public class Accept<T>:BaseAction<T>,IEquatable<Accept<T>>
 	{

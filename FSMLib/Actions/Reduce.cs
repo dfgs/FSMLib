@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Table.Actions
+namespace FSMLib.Actions
 {
 	public class Reduce<T>:BaseAction<T>,IEquatable<Reduce<T>>
 	{

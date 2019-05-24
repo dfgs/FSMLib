@@ -8,6 +8,7 @@ using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest
 {
@@ -20,16 +21,16 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> parent, child;
 
 			child = new NonTerminalNode<char>();
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'b' });
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'c' });
-			child.Nodes.Add(new TerminalNode<char>() { Value = 'd' });
+			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'b' } });
+			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'c' } });
+			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'd' } });
 
 			parent = new NonTerminalNode<char>();
-			parent.Nodes.Add(new TerminalNode<char>() { Value = 'a' });
+			parent.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value='a' } });
 			parent.Nodes.Add(child);
-			parent.Nodes.Add(new TerminalNode<char>() { Value = 'e' });
+			parent.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'e' } });
 
-			Assert.AreEqual("abcde", new string( parent.EnumerateTerminals().ToArray() ));
+			Assert.AreEqual("abcde", new string( parent.EnumerateInputs().OfType<TerminalInput<char>>().Select(item => item.Value).ToArray() ));
 		}
 
 

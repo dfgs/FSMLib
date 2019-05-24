@@ -1,5 +1,5 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.AutomatonTables
 {
@@ -181,7 +182,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			a = new State<char>(); automatonTable.States.Add(a);
 			b = new State<char>(); automatonTable.States.Add(b);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
+			action = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(b) };
 
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(a.AsEnumerable(), action.AsEnumerable());
@@ -189,7 +190,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(1, a.TerminalActions.Count);
 			Assert.AreEqual(0, b.TerminalActions.Count);
 			Assert.AreEqual(1, a.TerminalActions[0].TargetStateIndex);
-			Assert.AreEqual('a', a.TerminalActions[0].Value);
+			Assert.AreEqual('a', a.TerminalActions[0].Input.Value);
 		}
 
 
@@ -208,8 +209,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 			c = new State<char>(); automatonTable.States.Add(c);
 
 
-			actionToB = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
-			actionToC = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = automatonTable.States.IndexOf(c) };
+			actionToB = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(b) };
+			actionToC = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'b' }, TargetStateIndex = automatonTable.States.IndexOf(c) };
 
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(a.AsEnumerable(), new ShiftOnTerminal<char>[] { actionToB, actionToC });
@@ -219,8 +220,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(0, c.TerminalActions.Count);
 			Assert.AreEqual(1, a.TerminalActions[0].TargetStateIndex);
 			Assert.AreEqual(2, a.TerminalActions[1].TargetStateIndex);
-			Assert.AreEqual('a', a.TerminalActions[0].Value);
-			Assert.AreEqual('b', a.TerminalActions[1].Value);
+			Assert.AreEqual('a', a.TerminalActions[0].Input.Value);
+			Assert.AreEqual('b', a.TerminalActions[1].Input.Value);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToOne()
@@ -235,7 +236,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			b = new State<char>(); automatonTable.States.Add(b);
 			c = new State<char>(); automatonTable.States.Add(c);
 
-			action = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(c) };
+			action = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(c) };
 
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(new State<char>[] { a, b }, action.AsEnumerable());
@@ -245,8 +246,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(0, c.TerminalActions.Count);
 			Assert.AreEqual(2, a.TerminalActions[0].TargetStateIndex);
 			Assert.AreEqual(2, b.TerminalActions[0].TargetStateIndex);
-			Assert.AreEqual('a', a.TerminalActions[0].Value);
-			Assert.AreEqual('a', b.TerminalActions[0].Value);
+			Assert.AreEqual('a', a.TerminalActions[0].Input.Value);
+			Assert.AreEqual('a', b.TerminalActions[0].Input.Value);
 		}
 		[TestMethod]
 		public void ShouldConnectManyToMany()
@@ -262,8 +263,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 			c = new State<char>(); automatonTable.States.Add(c);
 			d = new State<char>(); automatonTable.States.Add(d);
 
-			actionToC = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(c) };
-			actionToD = new ShiftOnTerminal<char>() { Value = 'b', TargetStateIndex = automatonTable.States.IndexOf(d) };
+			actionToC = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(c) };
+			actionToD = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'b' }, TargetStateIndex = automatonTable.States.IndexOf(d) };
 
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.Connect(new State<char>[] { a, b }, new ShiftOnTerminal<char>[] { actionToC, actionToD });
@@ -277,10 +278,10 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(3, a.TerminalActions[1].TargetStateIndex);
 			Assert.AreEqual(3, b.TerminalActions[1].TargetStateIndex);
 
-			Assert.AreEqual('a', a.TerminalActions[0].Value);
-			Assert.AreEqual('a', b.TerminalActions[0].Value);
-			Assert.AreEqual('b', a.TerminalActions[1].Value);
-			Assert.AreEqual('b', b.TerminalActions[1].Value);
+			Assert.AreEqual('a', a.TerminalActions[0].Input.Value);
+			Assert.AreEqual('a', b.TerminalActions[0].Input.Value);
+			Assert.AreEqual('b', a.TerminalActions[1].Input.Value);
+			Assert.AreEqual('b', b.TerminalActions[1].Input.Value);
 		}
 
 		[TestMethod]
@@ -299,7 +300,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			a = new State<char>(); automatonTable.States.Add(a);
 			b = new State<char>(); automatonTable.States.Add(b);
 
-			shiftTerminal = new ShiftOnTerminal<char>() { Value = 'a', TargetStateIndex = automatonTable.States.IndexOf(b) };
+			shiftTerminal = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(b) };
 			shiftNonTerminal = new ShiftOnNonTerminal<char>() { Name = "a", TargetStateIndex = automatonTable.States.IndexOf(b) };
 			reduce = new Reduce<char>() { Name = "A" };
 			accept = new Accept<char>();
@@ -336,7 +337,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char>[] rules;
 			AutomatonTable<char> automatonTable;
 			AutomatonTableFactoryContext<char> context;
-			char[] items;
+			TerminalInput<char>[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -346,10 +347,10 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = new AutomatonTable<char>();
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
-			items=context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			items=context.GetFirstTerminalInputsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual('a', items[0]);
-			Assert.AreEqual('d', items[1]);
+			Assert.AreEqual('a', items[0].Value);
+			Assert.AreEqual('d', items[1].Value);
 		}
 
 		[TestMethod]
@@ -358,7 +359,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char>[] rules;
 			AutomatonTable<char> automatonTable;
 			AutomatonTableFactoryContext<char> context;
-			char[] items;
+			TerminalInput<char>[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -368,9 +369,9 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = new AutomatonTable<char>();
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
-			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			items = context.GetFirstTerminalInputsForRule(rules, "A").ToArray();
 			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual('a', items[0]);
+			Assert.AreEqual('a', items[0].Value);
 		}
 
 		[TestMethod]
@@ -379,7 +380,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char>[] rules;
 			AutomatonTable<char> automatonTable;
 			AutomatonTableFactoryContext<char> context;
-			char[] items;
+			TerminalInput<char>[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=abc");
@@ -389,10 +390,10 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = new AutomatonTable<char>();
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
-			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			items = context.GetFirstTerminalInputsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual('a', items[0]);
-			Assert.AreEqual('d', items[1]);
+			Assert.AreEqual('a', items[0].Value);
+			Assert.AreEqual('d', items[1].Value);
 		}
 
 		[TestMethod]
@@ -401,7 +402,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char>[] rules;
 			AutomatonTable<char> automatonTable;
 			AutomatonTableFactoryContext<char> context;
-			char[] items;
+			TerminalInput<char>[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A={B}bc");
@@ -411,10 +412,10 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = new AutomatonTable<char>();
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
-			items = context.GetFirstTerminalsForRule(rules, "A").ToArray();
+			items = context.GetFirstTerminalInputsForRule(rules, "A").ToArray();
 			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual('a', items[0]);
-			Assert.AreEqual('d', items[1]);
+			Assert.AreEqual('a', items[0].Value);
+			Assert.AreEqual('d', items[1].Value);
 		}
 
 		[TestMethod]
@@ -491,7 +492,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char>[] rules;
 			AutomatonTable<char> automatonTable;
 			AutomatonTableFactoryContext<char> context;
-			char[] items;
+			TerminalInput<char>[] items;
 
 			rules = new Rule<char>[4];
 			rules[0] = RuleHelper.BuildRule("A=a{B}c");
@@ -501,9 +502,9 @@ namespace FSMLib.UnitTest.AutomatonTables
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 			context.BuildSegment(rules[0], Enumerable.Empty<BaseAction<char>>());
 
-			items = context.GetFirstTerminalsAfterAction( automatonTable.States[2].NonTerminalActions.First()).ToArray();
+			items = context.GetFirstTerminalInputsAfterAction( automatonTable.States[2].NonTerminalActions.First()).ToArray();
 			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual('c', items[0]);
+			Assert.AreEqual('c', items[0].Value);
 		}
 
 		

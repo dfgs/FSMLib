@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Table.Actions
+namespace FSMLib.Actions
 {
 	public class ShiftOnNonTerminal<T>:Shift<T>,IEquatable<ShiftOnNonTerminal<T>>
 	{
@@ -19,10 +19,10 @@ namespace FSMLib.Table.Actions
 
 	
 
-		public bool Match(string Other)
+		/*public bool Match(string Other)
 		{
 			return Name == Other;
-		}
+		}*/
 		public override string ToString()
 		{
 			return Name;

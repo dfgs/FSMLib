@@ -1,10 +1,11 @@
-﻿using FSMLib.Table.Actions;
+﻿using FSMLib.Actions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.Table
 {
@@ -23,8 +24,8 @@ namespace FSMLib.Table
 
 		IEnumerable<T> GetAlphabet();
 
-		IEnumerable<T> GetFirstTerminalsForRule(IEnumerable<Rule<T>> Rules, string Name);
-		IEnumerable<T> GetFirstTerminalsAfterAction( ShiftOnNonTerminal<T> Action);
+		IEnumerable<TerminalInput<T>> GetFirstTerminalInputsForRule(IEnumerable<Rule<T>> Rules, string Name);
+		IEnumerable<TerminalInput<T>> GetFirstTerminalInputsAfterAction( ShiftOnNonTerminal<T> Action);
 
 		//IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name);
 

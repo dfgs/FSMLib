@@ -208,9 +208,9 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(1, automatonTable.States[1].TerminalActions.Count);
 			Assert.AreEqual(1, automatonTable.States[2].TerminalActions.Count);
 			Assert.AreEqual(0, automatonTable.States[3].TerminalActions.Count);
-			Assert.IsTrue(automatonTable.States[0].TerminalActions[0].Match('a'));
-			Assert.IsTrue(automatonTable.States[1].TerminalActions[0].Match('b'));
-			Assert.IsTrue(automatonTable.States[2].TerminalActions[0].Match('c'));
+			Assert.AreEqual('a',automatonTable.States[0].TerminalActions[0].Input.Value);
+			Assert.AreEqual('b', automatonTable.States[1].TerminalActions[0].Input.Value);
+			Assert.AreEqual('c', automatonTable.States[2].TerminalActions[0].Input.Value);
 
 			for (int t = 0; t < 3; t++) Assert.AreEqual(0, automatonTable.States[t].ReductionActions.Count);
 

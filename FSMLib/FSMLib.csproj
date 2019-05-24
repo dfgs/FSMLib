@@ -43,6 +43,12 @@
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
+    <Compile Include="Inputs\BaseInput.cs" />
+    <Compile Include="Inputs\BaseTerminalInput.cs" />
+    <Compile Include="Inputs\EOSInput.cs" />
+    <Compile Include="Inputs\IInput.cs" />
+    <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="Table\AutomatonStack.cs" />
     <Compile Include="Automatons\NonTerminalNode.cs" />
     <Compile Include="Automatons\TerminalNode.cs" />
     <Compile Include="Automatons\BaseNode.cs" />
@@ -54,14 +60,14 @@
     <Compile Include="Table\AutomatonTableFactoryContext.cs" />
     <Compile Include="Table\IAutomatonTableFactoryContext.cs" />
     <Compile Include="Table\State.cs" />
-    <Compile Include="Table\Actions\Accept.cs" />
-    <Compile Include="Table\Actions\ReductionTarget.cs" />
-    <Compile Include="Table\Actions\Reduce.cs" />
+    <Compile Include="Actions\Accept.cs" />
+    <Compile Include="Actions\ReductionTarget.cs" />
+    <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Table\Segment.cs" />
-    <Compile Include="Table\Actions\BaseAction.cs" />
-    <Compile Include="Table\Actions\ShiftOnNonTerminal.cs" />
-    <Compile Include="Table\Actions\Shift.cs" />
-    <Compile Include="Table\Actions\ShiftOnTerminal.cs" />
+    <Compile Include="Actions\BaseAction.cs" />
+    <Compile Include="Actions\ShiftOnNonTerminal.cs" />
+    <Compile Include="Actions\Shift.cs" />
+    <Compile Include="Actions\ShiftOnTerminal.cs" />
     <Compile Include="Automatons\IAutomaton.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />

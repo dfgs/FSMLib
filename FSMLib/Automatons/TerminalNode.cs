@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,15 @@ namespace FSMLib.Tables
 {
 	public class TerminalNode<T>:BaseNode<T>
 	{
-		public T Value
+		public BaseTerminalInput<T> Input
 		{
 			get;
 			set;
 		}
 
-		public override IEnumerable<T> EnumerateTerminals()
+		public override IEnumerable<BaseTerminalInput<T>> EnumerateInputs()
 		{
-			yield return Value;
+			yield return Input;
 		}
 
 

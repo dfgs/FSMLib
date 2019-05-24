@@ -1,5 +1,5 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -54,7 +54,7 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(1, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(1, automatonTable.States.Count);
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
+			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
 		}
 
 

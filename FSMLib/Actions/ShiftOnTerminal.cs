@@ -1,17 +1,18 @@
 ﻿
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Table.Actions
+namespace FSMLib.Actions
 {
 	public class ShiftOnTerminal<T>:Shift<T>,IEquatable<ShiftOnTerminal<T>>
 	{
 
 		
-		public T Value
+		public TerminalInput<T> Input
 		{
 			get;
 			set;
@@ -19,23 +20,23 @@ namespace FSMLib.Table.Actions
 
 
 	
-		public bool Match(T Other)
+		/*public bool Match(T Other)
 		{
-			if (Value == null) return Other == null;
-			else return Value.Equals(Other);
-		}
+			if (Input == null) return Other == null;
+			else return Input.Equals(Other);
+		}*/
 
 		public override string ToString()
 		{
-			return Value?.ToString();
+			return Input?.ToString();
 		}
 
 		public bool Equals(ShiftOnTerminal<T> other)
 		{
 			if (other == null) return false;
 			if (other.TargetStateIndex != TargetStateIndex) return false;
-			if (other.Value == null) return Value == null;
-			return other.Value.Equals(Value);
+			if (other.Input == null) return Input == null;
+			return other.Input.Equals(Input);
 		}
 
 	}

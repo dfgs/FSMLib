@@ -1,5 +1,5 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.Mocks
 {
@@ -33,17 +34,22 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsAfterAction(IEnumerable<Rule<char>> Rules, ShiftOnNonTerminal<char> NonTerminalAction)
+		public IEnumerable<TerminalInput<char>> GetFirstTerminalInputsAfterAction(ShiftOnNonTerminal<char> Action)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<char> GetFirstTerminalsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		public IEnumerable<TerminalInput<char>> GetFirstTerminalInputsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<BaseAction<char>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
+		public IEnumerable<Reduce<char>> GetReductionActions(string Name)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<string> GetRuleReductionDependency(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();
 		}
@@ -57,25 +63,5 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			throw new NotImplementedException();
 		}
-
-		public IEnumerable<string> GetRuleReductionDependency(IEnumerable<Rule<char>> Rules, string Name)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<Reduce<char>> GetReductionActions(string Name)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<char> GetFirstTerminalsAfterAction( ShiftOnNonTerminal<char> Action)
-		{
-			throw new NotImplementedException();
-		}
-
-		/*IEnumerable<Segment<char>> IAutomatonTableFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
-		{
-			throw new NotImplementedException();
-		}*/
 	}
 }

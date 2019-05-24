@@ -1,11 +1,12 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.Mocks
 {
@@ -21,7 +22,7 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].TerminalActions.Add(new ShiftOnTerminal<char>() { Value = Values[t], TargetStateIndex = t+1 });
+				States[t].TerminalActions.Add(new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = Values[t] }, TargetStateIndex = t+1 });
 			}
 
 		}

@@ -1,5 +1,5 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -33,7 +33,7 @@ namespace FSMLib.UnitTest.Mocks
 
 			foreach(ShiftOnTerminal<T> action in automatonTable.States[stateIndex].TerminalActions)
 			{
-				if (action.Match(Input))
+				if (action.Input.Value.Equals(Input))
 				{
 					if (index == MatchIndex)
 					{

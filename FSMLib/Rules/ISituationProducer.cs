@@ -1,4 +1,5 @@
-﻿using FSMLib.Table;
+﻿using FSMLib.Inputs;
+using FSMLib.Table;
 
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,9 @@ namespace FSMLib.Rules
 {
 	public interface ISituationProducer<T>
 	{
-		IEnumerable<T> GetNextTerminals(IEnumerable<Situation<T>> Situations);
+		IEnumerable<TerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations);
 		IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations);
-		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, T Value);
+		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, BaseTerminalInput<T> Input);
 		IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, string Name);
 	}
 }

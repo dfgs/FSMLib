@@ -4,16 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Table.Actions
+namespace FSMLib.Actions
 {
-	public class ReductionTarget<T>
+	public abstract class Shift<T>:BaseAction<T>
 	{
 		public int TargetStateIndex
-		{
-			get;
-			set;
-		}
-		public T Value
 		{
 			get;
 			set;

@@ -5,6 +5,7 @@ using FSMLib.Helpers;
 using FSMLib.Rules;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest
 {
@@ -19,7 +20,7 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1,s2,s3;
 			SituationProducer<char> producer;
-			char[] distinctInputs;
+			TerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a','b','c');
@@ -29,17 +30,17 @@ namespace FSMLib.UnitTest
 			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			distinctInputs=producer.GetNextTerminals(new Situation<char>[] { s1,s2,s3 }).ToArray();
+			distinctInputs=producer.GetNextTerminalInputs(new Situation<char>[] { s1,s2,s3 }).ToArray();
 
 			Assert.AreEqual(1, distinctInputs.Length);
-			Assert.AreEqual('a', distinctInputs[0]);
+			Assert.AreEqual('a', distinctInputs[0].Value);
 		}
 		[TestMethod]
 		public void ShouldGetTwoDistinctTerminals()
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			char[] distinctInputs;
+			TerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
@@ -49,11 +50,11 @@ namespace FSMLib.UnitTest
 			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(2, distinctInputs.Length);
-			Assert.AreEqual('a', distinctInputs[0]);
-			Assert.AreEqual('b', distinctInputs[1]);
+			Assert.AreEqual('a', distinctInputs[0].Value);
+			Assert.AreEqual('b', distinctInputs[1].Value);
 		}
 
 		[TestMethod]
@@ -61,7 +62,7 @@ namespace FSMLib.UnitTest
 		{
 			Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			char[] distinctInputs;
+			TerminalInput<char>[] distinctInputs;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = new MockedAutomatonTable('a', 'b', 'c');
@@ -71,12 +72,12 @@ namespace FSMLib.UnitTest
 			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 2 };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextTerminals(new Situation<char>[] { s1, s2, s3 }).ToArray();
+			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(3, distinctInputs.Length);
-			Assert.AreEqual('a',distinctInputs[0]);
-			Assert.AreEqual('b', distinctInputs[1]);
-			Assert.AreEqual('c', distinctInputs[2]);
+			Assert.AreEqual('a',distinctInputs[0].Value);
+			Assert.AreEqual('b', distinctInputs[1].Value);
+			Assert.AreEqual('c', distinctInputs[2].Value);
 		}
 
 
@@ -167,7 +168,7 @@ namespace FSMLib.UnitTest
 			s3 = new Situation<char>() { AutomatonTable = automatonTable, StateIndex = 0 };
 
 			producer = new SituationProducer<char>();
-			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, 'a').ToArray();
+			nextSituations = producer.GetNextSituations(new Situation<char>[] { s1, s2, s3 }, new TerminalInput<char>() { Value = 'a' }).ToArray();
 
 			Assert.AreEqual(1, nextSituations.Length);
 			Assert.AreEqual(1, nextSituations[0].StateIndex);

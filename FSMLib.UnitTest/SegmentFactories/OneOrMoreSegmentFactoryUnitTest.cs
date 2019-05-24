@@ -1,5 +1,5 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
@@ -66,8 +66,8 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().TerminalActions[0].Match('a'));
+			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
+			Assert.AreEqual('a', segment.Outputs.First().TerminalActions[0].Input.Value);
 
 		}
 		[TestMethod]
@@ -100,10 +100,10 @@ namespace FSMLib.UnitTest.SegmentFactories
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(3, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().TerminalActions[0].Match('a'));
-			Assert.AreEqual(true, segment.Outputs.First().TerminalActions[1].Match('b'));
-			Assert.AreEqual(true, segment.Outputs.First().TerminalActions[2].Match('c'));
+			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
+			Assert.AreEqual('a', segment.Outputs.First().TerminalActions[0].Input.Value);
+			Assert.AreEqual('b', segment.Outputs.First().TerminalActions[1].Input.Value);
+			Assert.AreEqual('c', segment.Outputs.First().TerminalActions[2].Input.Value);
 
 		}
 

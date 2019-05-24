@@ -1,4 +1,4 @@
-﻿using FSMLib.Table.Actions;
+﻿using FSMLib.Actions;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SegmentFactories;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.Table
 {
@@ -44,22 +45,26 @@ namespace FSMLib.Table
 		}
 		private void CompleteReductionTargets(State<T> state, IEnumerable<ShiftOnNonTerminal<T>> Actions, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
-			T[] nextInputs;
+			TerminalInput<T>[] nextInputs;
 			string[] reductionDependencies;
+			int index;
+
+			index = context.GetStateIndex(state);
 
 			foreach (ShiftOnNonTerminal<T> nonTerminalAction in Actions)
 			{
-				nextInputs = context.GetFirstTerminalsAfterAction( nonTerminalAction).ToArray();
+				nextInputs = context.GetFirstTerminalInputsAfterAction( nonTerminalAction).ToArray();
 
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach (string reductionDepency in reductionDependencies)
 				{
 					foreach (Reduce<T> reductionAction in context.GetReductionActions(reductionDepency))
 					{
-						foreach (T value in nextInputs)
+						foreach (TerminalInput<T> input in nextInputs)
 						{
-							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = context.GetStateIndex(state), Value = value });
+							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = input });
 						}
+						reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = new EOSInput<T>() });
 					}
 
 				}
@@ -99,7 +104,7 @@ namespace FSMLib.Table
 				{
 					actions = new BaseAction<T>[]
 					{
-						new Reduce<T>() {    Name=rule.Name},
+						new Reduce<T>() { Name=rule.Name},
 						new Accept<T>() { Name=rule.Name}
 					};
 				}
@@ -107,7 +112,7 @@ namespace FSMLib.Table
 				{
 					actions = new BaseAction<T>[]
 					{
-						new Reduce<T>() {   Name=rule.Name}
+						new Reduce<T>() { Name=rule.Name}
 					};
 				}
 				segment = context.BuildSegment( rule, actions  );
@@ -179,13 +184,13 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach (T value in situationProducer.GetNextTerminals(currentTuple.Situations))
+				foreach (TerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
 				{
-					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, value);
+					nextSituations = situationProducer.GetNextSituations(currentTuple.Situations, input);
 					// do we have the same situation list in automatonTable ?
 					nextTuple = GetNextTuple(context,openList,situationMapping,nextSituations);
 					// if not we push this situation list in processing stack
-					action = new ShiftOnTerminal<T>() { Value = value, TargetStateIndex = context.GetStateIndex(nextTuple.State) };
+					action = new ShiftOnTerminal<T>() { Input = input, TargetStateIndex = context.GetStateIndex(nextTuple.State) };
 					context.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
 				foreach (string name in situationProducer.GetNextNonTerminals(currentTuple.Situations))
@@ -209,7 +214,7 @@ namespace FSMLib.Table
 				{
 					nextTuple = situationMapping.FirstOrDefault(item => item.Situations.FirstOrDefault(situation => situation.StateIndex == target.TargetStateIndex) != null);
 					if (nextTuple == null) throw new Exception("Failed to translate reduction actions");
-					reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = context.GetStateIndex(nextTuple.State), Value = target.Value }); ;
+					reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = context.GetStateIndex(nextTuple.State), Input = target.Input }); ;
 				}
 			}
 

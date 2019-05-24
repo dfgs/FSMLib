@@ -1,11 +1,12 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.SegmentFactories
 {
@@ -59,15 +60,15 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new Optional<char>() {  Item=sequence};
 
-			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Value = 'd' }.AsEnumerable());
+			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'd' } }.AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(2, segment.Actions.Count());
 			Assert.AreEqual(1, segment.Outputs.Count());
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Match('a'));
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Match('d'));
+			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(0)).Input.Value);
+			Assert.AreEqual('d', ((ShiftOnTerminal<char>)segment.Actions.ElementAt(1)).Input.Value);
 		}
 		[TestMethod]
 		public void ShouldBuildSegmentFromNestedOrPredicate()
@@ -92,14 +93,14 @@ namespace FSMLib.UnitTest.SegmentFactories
 
 			predicate = new Optional<char>() { Item = or };
 
-			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Value = 'd' }.AsEnumerable());
+			segment = factory.BuildSegment(context,  predicate, new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'd' } }.AsEnumerable());
 			Assert.IsNotNull(segment);
 			Assert.AreEqual(4, segment.Actions.Count());
 			Assert.AreEqual(3, segment.Outputs.Count());
 			Assert.AreEqual(3, automatonTable.States.Count);
 			Assert.AreEqual(1, segment.Outputs.First().TerminalActions.Count);
 
-			Assert.AreEqual(true, ((ShiftOnTerminal<char>)segment.Actions.First()).Match('a'));
+			Assert.AreEqual('a', ((ShiftOnTerminal<char>)segment.Actions.First()).Input.Value);
 			
 
 		}

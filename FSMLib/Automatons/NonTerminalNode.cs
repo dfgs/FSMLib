@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,10 +26,10 @@ namespace FSMLib.Tables
 			this.Nodes = new List<BaseNode<T>>();
 		}
 
-		public override IEnumerable<T> EnumerateTerminals()
+		public override IEnumerable<BaseTerminalInput<T>> EnumerateInputs()
 		{
-			if (Nodes == null) return Enumerable.Empty<T>();
-			return Nodes.SelectMany((item) => item.EnumerateTerminals());
+			if (Nodes == null) return Enumerable.Empty<BaseTerminalInput<T>>();
+			return Nodes.SelectMany((item) => item.EnumerateInputs());
 		}
 
 

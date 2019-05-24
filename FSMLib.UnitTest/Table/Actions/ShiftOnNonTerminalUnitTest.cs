@@ -1,13 +1,13 @@
 ﻿using System;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest.AutomatonTables.Actions
 {
 	[TestClass]
-	public class ShifOnNonTerminalUnitTest
+	public class ShiftOnNonTerminalUnitTest
 	{
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldMatchNull()
 		{
 			ShiftOnNonTerminal<char> Action;
@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 
 			Action = new ShiftOnNonTerminal<char>() { Name = "A" };
 			Assert.IsFalse(Action.Match("B"));
-		}
+		}*/
 
 		[TestMethod]
 		public void ShouldEquals()

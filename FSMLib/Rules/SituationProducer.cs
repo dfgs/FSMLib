@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 
 namespace FSMLib.Rules
 {
@@ -21,14 +22,14 @@ namespace FSMLib.Rules
 		{
 			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].NonTerminalActions).Select(item => item.Name).Distinct();
 		}
-		public IEnumerable<T> GetNextTerminals(IEnumerable<Situation<T>> Situations)
+		public IEnumerable<TerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
-			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].TerminalActions).Select(item => item.Value).Distinct();
+			return Situations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].TerminalActions).Select(item => item.Input).Distinct();
 		}
 
 	
 
-		public IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, T Value)
+		public IEnumerable<Situation<T>> GetNextSituations(IEnumerable<Situation<T>> Situations, BaseTerminalInput<T> Input)
 		{
 			Situation<T> newSituation;
 			List<Situation<T>> results;
@@ -38,7 +39,7 @@ namespace FSMLib.Rules
 			{
 				foreach (ShiftOnTerminal<T> action in situation.AutomatonTable.States[situation.StateIndex].TerminalActions)
 				{
-					if (!action.Match(Value)) continue;
+					if (!action.Input.Match(Input)) continue;
 					newSituation = new Situation<T>() { AutomatonTable = situation.AutomatonTable, StateIndex = action.TargetStateIndex };
 					results.Add(newSituation);
 				}

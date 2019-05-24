@@ -7,6 +7,7 @@ using FSMLib.Predicates;
 using FSMLib.SegmentFactories;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest
 {
@@ -120,9 +121,9 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, state.Nodes.Count);
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.AreEqual('a', ((TerminalNode<char>)state.Nodes[0]).Value);
-			Assert.AreEqual('b', ((TerminalNode<char>)state.Nodes[1]).Value);
-			Assert.AreEqual('c', ((TerminalNode<char>)state.Nodes[2]).Value);
+			Assert.AreEqual('a',((TerminalInput<char>)((TerminalNode<char>)state.Nodes[0]).Input).Value );
+			Assert.AreEqual('b', ((TerminalInput<char>)((TerminalNode<char>)state.Nodes[1]).Input).Value);
+			Assert.AreEqual('c', ((TerminalInput<char>)((TerminalNode<char>)state.Nodes[2]).Input).Value);
 
 		}
 		[TestMethod]
@@ -248,17 +249,18 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			automaton.Feed('c');
-			Assert.AreEqual(3, automaton.StackCount);
 			Assert.IsTrue(automaton.CanAccept());
+
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
+			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+
+			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+
 			node = automaton.Accept();
-			Assert.AreEqual(6, node.Nodes.Count);
 		}
 
 

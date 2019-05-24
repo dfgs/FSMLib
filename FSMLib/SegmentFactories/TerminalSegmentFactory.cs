@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using FSMLib.Predicates;
+using FSMLib.Inputs;
 
 namespace FSMLib.SegmentFactories
 {
@@ -28,7 +29,7 @@ namespace FSMLib.SegmentFactories
 			state = Context.CreateState();
 			action = new ShiftOnTerminal<T>();
 			action.TargetStateIndex = Context.GetStateIndex(state);
-			action.Value = Predicate.Value;
+			action.Input = new TerminalInput<T>() { Value = Predicate.Value };
 
 			Context.Connect(state.AsEnumerable(), OutActions);
 

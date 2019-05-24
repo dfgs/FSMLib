@@ -1,4 +1,4 @@
-﻿using FSMLib.Table.Actions;
+﻿using FSMLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

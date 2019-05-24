@@ -1,10 +1,11 @@
 ﻿using FSMLib.Table;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Inputs;
 
 namespace FSMLib.Tables
 {
@@ -13,8 +14,8 @@ namespace FSMLib.Tables
 		private AutomatonTable<T> automatonTable;
 		private int stateIndex;
 
-		private Stack<BaseNode<T>> nodeStack;
-		private Stack<int> stateIndexStack;
+		private AutomatonStack<BaseNode<T>> nodeStack;
+		private AutomatonStack<int> stateIndexStack;
 
 
 		public int StackCount
@@ -26,8 +27,8 @@ namespace FSMLib.Tables
 		{
 			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
 			this.automatonTable = AutomatonTable;
-			nodeStack = new Stack<BaseNode<T>>();
-			stateIndexStack = new Stack<int>();
+			nodeStack = new AutomatonStack<BaseNode<T>>();
+			stateIndexStack = new AutomatonStack<int>();
 			stateIndex = 0;
 		}
 
@@ -47,7 +48,7 @@ namespace FSMLib.Tables
 			state = automatonTable.States[stateIndex];
 			foreach (ShiftOnTerminal<T> action in state.TerminalActions)
 			{
-				if (action.Match(Node.Value))
+				if (action.Input.Match(Node.Input))
 				{
 					stateIndexStack.Push(stateIndex);
 					nodeStack.Push(Node);
@@ -65,7 +66,7 @@ namespace FSMLib.Tables
 			state = automatonTable.States[stateIndex];
 			foreach (ShiftOnNonTerminal<T> action in state.NonTerminalActions)
 			{
-				if (action.Match(Node.Name))
+				if (action.Name==Node.Name)
 				{
 					stateIndexStack.Push(stateIndex);
 					nodeStack.Push(Node);
@@ -92,29 +93,44 @@ namespace FSMLib.Tables
 
 			return reducedNode;
 		}
+
+
+		private int GetFirstIndexOnStack(int[] PossibleTargets)
+		{
+			for(int t=stateIndexStack.Count-1;t>=0;t--)
+			{
+				if (PossibleTargets.Contains(stateIndexStack[t])) return stateIndexStack[t];
+			}
+			return 0;
+		}
+
+
 		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
 		{
 			State<T> state;
-			ReductionTarget<T> target;
+			
+			int targetIndex;
+			int[] possibleTargets;
 
 			state = automatonTable.States[stateIndex];
 
 			foreach (Reduce<T> action in state.ReductionActions)
 			{
-				target = action.Targets.FirstOrDefault(item =>  Node.Value.Equals(item.Value));
-				if (target == null) continue;
-
-				return Reduce(action.Name, target.TargetStateIndex);
+				possibleTargets = action.Targets.Where(item =>  Node.Input.Match(item.Input)).Select(item=>item.TargetStateIndex).ToArray();
+				if (possibleTargets.Length==0) continue;
+				targetIndex = GetFirstIndexOnStack(possibleTargets);
+				return Reduce(action.Name,targetIndex);
 			}
 			return null;
 		}
 
-		public void Feed(T Input)
+
+		public void Feed(BaseTerminalInput<T> Input)
 		{
 			TerminalNode<T> inputNode;
 			NonTerminalNode<T> nonTerminalNode;
 
-			inputNode = new TerminalNode<T>() { Value=Input };
+			inputNode = new TerminalNode<T>() { Input=Input };
 
 			while (true)
 			{
@@ -125,15 +141,10 @@ namespace FSMLib.Tables
 			}		
 
 		}
-
-
-		/*private bool CanReduce()
+		public void Feed(T Input)
 		{
-			State<T> state;
-
-			state = automatonTable.States[stateIndex];
-			return state.ReductionActions.Count > 0;
-		}*/
+			Feed(new TerminalInput<T>() { Value = Input });
+		}
 
 
 

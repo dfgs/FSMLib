@@ -1,5 +1,5 @@
 ﻿using System;
-using FSMLib.Table.Actions;
+using FSMLib.Actions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest.AutomatonTables.Actions
