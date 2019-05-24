@@ -24,16 +24,13 @@ namespace FSMLib.Graphs
 		}
 
 		
-		private void AddReductionTransitionsToRootNode(Node<T> node, IEnumerable<NonTerminalTransition<T>> Transitions, IGraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
+		private void DevelopRuleDependencies(Node<T> node, IEnumerable<NonTerminalTransition<T>> Transitions, IGraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
-			T[] nextInputs;
 			string[] reductionDependencies;
 			Segment<T> dependentSegment;
 
 			foreach (NonTerminalTransition<T> nonTerminalTransition in Transitions)
 			{
-				nextInputs = context.GetFirstTerminalsAfterTransition(Rules, nonTerminalTransition).ToArray();
-
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalTransition.Name).ToArray();
 				foreach(string reductionDepency in reductionDependencies)
 				{
@@ -42,7 +39,21 @@ namespace FSMLib.Graphs
 						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseTransition<T>>());
 						context.Connect(node.AsEnumerable(), dependentSegment.Inputs);
 					}
+				}
+			}
+		}
+		private void CompleteReductionTargets(Node<T> node, IEnumerable<NonTerminalTransition<T>> Transitions, IGraphFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
+		{
+			T[] nextInputs;
+			string[] reductionDependencies;
 
+			foreach (NonTerminalTransition<T> nonTerminalTransition in Transitions)
+			{
+				nextInputs = context.GetFirstTerminalsAfterTransition(node, nonTerminalTransition.Name).ToArray();
+
+				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalTransition.Name).ToArray();
+				foreach (string reductionDepency in reductionDependencies)
+				{
 					foreach (ReductionTransition<T> reductionTransition in context.GetReductionTransitions(reductionDepency))
 					{
 						foreach (T value in nextInputs)
@@ -54,7 +65,6 @@ namespace FSMLib.Graphs
 				}
 			}
 		}
-
 		public Graph<T> BuildGraph(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			Graph<T> graph;
@@ -104,11 +114,17 @@ namespace FSMLib.Graphs
 				context.Connect(root.AsEnumerable(), segment.Inputs);
 			}
 
-			// develop and add reduction transition to root nodes
+			// develop rule dependencies
 			foreach (Node<T> node in graph.Nodes)
 			{
 				if (node == root) continue;
-				AddReductionTransitionsToRootNode(node, node.NonTerminalTransitions.ToArray(), context, rules, axiom);
+				DevelopRuleDependencies(node, node.NonTerminalTransitions.ToArray(), context, rules, axiom);
+			}//*/
+			 // add reduction transition to root nodes
+			foreach (Node<T> node in graph.Nodes)
+			{
+				if (node == root) continue;
+				CompleteReductionTargets(node, node.NonTerminalTransitions.ToArray(), context, rules, axiom);
 			}//*/
 
 

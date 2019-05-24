@@ -68,6 +68,11 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
+		public IEnumerable<char> GetFirstTerminalsAfterTransition(Node<char> Node, string Name)
+		{
+			throw new NotImplementedException();
+		}
+
 		/*IEnumerable<Segment<char>> IGraphFactoryContext<char>.GetDeveloppedSegmentsForRule(IEnumerable<Rule<char>> Rules, string Name)
 		{
 			throw new NotImplementedException();

@@ -114,25 +114,23 @@ namespace FSMLib.Graphs
 		}
 
 
-		public IEnumerable<T> GetFirstTerminalsAfterTransition(IEnumerable<Rule<T>> Rules, NonTerminalTransition<T> NonTerminalTransition)
+		public IEnumerable<T> GetFirstTerminalsAfterTransition(Node<T> Node, string Name)
 		{
-			Node<T> node;
+			Node<T> nextNode;
 			List<T> items;
 
 			items = new List<T>();
 
-			node = GetTargetNode(NonTerminalTransition.TargetNodeIndex);
-			foreach(TerminalTransition<T> transition in node.TerminalTransitions)
+
+			foreach(NonTerminalTransition<T> transition in Node.NonTerminalTransitions.Where(item=>item.Name==Name))
 			{
-				if (!items.Contains(transition.Value)) items.Add(transition.Value);
-			}
-			foreach(NonTerminalTransition<T> nonTerminalTransition in node.NonTerminalTransitions)
-			{
-				foreach(T item in GetFirstTerminalsForRule(Rules,nonTerminalTransition.Name))
+				nextNode = GetTargetNode(transition.TargetNodeIndex);
+				foreach (TerminalTransition<T> terminalTransition in nextNode.TerminalTransitions)
 				{
-					if (!items.Contains(item)) items.Add(item);
+					if (!items.Contains(terminalTransition.Value)) items.Add(terminalTransition.Value);
 				}
 			}
+			
 
 			return items;
 		}

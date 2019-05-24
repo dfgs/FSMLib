@@ -455,33 +455,12 @@ namespace FSMLib.UnitTest.Graphs
 			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
 			context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>());
 
-			items = context.GetFirstTerminalsAfterTransition(rules, graph.Nodes[2].NonTerminalTransitions[0]).ToArray();
+			items = context.GetFirstTerminalsAfterTransition(graph.Nodes[2], "B").ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual('c', items[0]);
 		}
 
-		[TestMethod]
-		public void ShouldGetNestedFirstTerminalsAfterTransition()
-		{
-			Rule<char>[] rules;
-			Graph<char> graph;
-			GraphFactoryContext<char> context;
-			char[] items;
-
-			rules = new Rule<char>[2];
-			rules[0] = RuleHelper.BuildRule("A=a{B}{C}");
-			rules[1] = RuleHelper.BuildRule("C=abc");
-
-
-			graph = new Graph<char>();
-			context = new GraphFactoryContext<char>(new SegmentFactoryProvider<char>(), graph);
-			context.BuildSegment(rules[0], Enumerable.Empty<BaseTransition<char>>());
-			context.BuildSegment(rules[1], Enumerable.Empty<BaseTransition<char>>());
-
-			items = context.GetFirstTerminalsAfterTransition(rules, graph.Nodes[2].NonTerminalTransitions[0]).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual('a', items[0]);
-		}
+		
 
 
 		public void ShouldGetNodeWithReductionRule()
