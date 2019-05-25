@@ -60,7 +60,6 @@
     <Compile Include="Table\AutomatonTableFactoryContext.cs" />
     <Compile Include="Table\IAutomatonTableFactoryContext.cs" />
     <Compile Include="Table\State.cs" />
-    <Compile Include="Actions\Accept.cs" />
     <Compile Include="Actions\ReductionTarget.cs" />
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Table\Segment.cs" />

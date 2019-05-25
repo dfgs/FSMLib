@@ -35,17 +35,17 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(automatonTable);
-			Assert.AreEqual(5, automatonTable.States.Count);
+			Assert.AreEqual(6, automatonTable.States.Count);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
-			Assert.AreEqual(1, parser.ActionCount);
+			Assert.AreEqual(2, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(1, parser.ActionCount);
+			Assert.AreEqual(0, parser.ActionCount);
 			
 		}
 		[TestMethod]
@@ -63,22 +63,22 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = factory.BuildAutomatonTable(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(automatonTable);
-			Assert.AreEqual(8, automatonTable.States.Count);
+			Assert.AreEqual(9, automatonTable.States.Count);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
 			// axiom branch
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(1, parser.ActionCount);
+			Assert.AreEqual(0, parser.ActionCount);
 
 			// not axiom branch
 			parser.Reset();
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a',1));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
@@ -102,11 +102,11 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(automatonTable);
-			Assert.AreEqual(5, automatonTable.States.Count);
+			Assert.AreEqual(6, automatonTable.States.Count);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
-			Assert.AreEqual(3, parser.ActionCount);
+			Assert.AreEqual(4, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			parser.Reset();
 			Assert.IsTrue(parser.Parse('b'));
@@ -133,7 +133,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
 			Assert.IsNotNull(automatonTable);
-			Assert.AreEqual(5, automatonTable.States.Count);
+			Assert.AreEqual(6, automatonTable.States.Count);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
@@ -143,7 +143,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 		}
 		[TestMethod]
@@ -197,6 +197,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> baseAutomatonTable;
 			AutomatonTable<char> automatonTable;
+			AutomatonTableParser<char> parser;
 
 			baseAutomatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc", "B=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
@@ -205,14 +206,18 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			automatonTable = factory.BuildDeterministicAutomatonTable(baseAutomatonTable);
 			Assert.IsNotNull(automatonTable);
-			Assert.AreEqual(5, automatonTable.States.Count);
-			Assert.AreEqual(1, automatonTable.States[0].TerminalActions.Count);
-			Assert.AreEqual(1, automatonTable.States[1].TerminalActions.Count);
-			Assert.AreEqual(1, automatonTable.States[2].TerminalActions.Count);
-			Assert.AreEqual(1, automatonTable.States[3].TerminalActions.Count);
-			Assert.IsTrue( automatonTable.States[0].TerminalActions[0].Input.Match('a'));
-			Assert.IsTrue( automatonTable.States[1].TerminalActions[0].Input.Match('b'));
-			Assert.IsTrue( automatonTable.States[2].TerminalActions[0].Input.Match('c'));
+			Assert.AreEqual(6, automatonTable.States.Count);
+
+			parser = new AutomatonTableParser<char>(automatonTable);
+
+
+			Assert.AreEqual(2, parser.ActionCount);
+			parser.Parse('a');
+			Assert.AreEqual(1, parser.ActionCount);
+			parser.Parse('b');
+			Assert.AreEqual(1, parser.ActionCount);
+			parser.Parse('c');
+			Assert.AreEqual(0, parser.ActionCount);
 
 			for (int t = 0; t < 3; t++) Assert.AreEqual(0, automatonTable.States[t].ReductionActions.Count);
 

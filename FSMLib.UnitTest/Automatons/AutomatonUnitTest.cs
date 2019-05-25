@@ -100,15 +100,15 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			Assert.IsFalse(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 		}
 		[TestMethod]
 		public void ShouldAccept()
 		{
 			Automaton<char> automaton;
-			NonTerminalNode<char> state;
+			NonTerminalNode<char> node;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
@@ -119,26 +119,24 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsFalse(automaton.CanAccept());
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
-			state = automaton.Accept();
-			Assert.AreEqual("A", state.Name);
+			node=automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 
 
-			Assert.AreEqual(4, state.Nodes.Count);
-			Assert.AreEqual(0, automaton.StackCount);
+			Assert.AreEqual(3, node.Nodes.Count);
+			Assert.AreEqual(2, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.IsTrue(((TerminalNode<char>)state.Nodes[0]).Input.Match('a'));
-			Assert.IsTrue(((TerminalNode<char>)state.Nodes[1]).Input.Match('b'));
-			Assert.IsTrue(((TerminalNode<char>)state.Nodes[2]).Input.Match('c'));
+			Assert.IsTrue(((TerminalNode<char>)node.Nodes[0]).Input.Match('a'));
+			Assert.IsTrue(((TerminalNode<char>)node.Nodes[1]).Input.Match('b'));
+			Assert.IsTrue(((TerminalNode<char>)node.Nodes[2]).Input.Match('c'));
 
 		}
 		[TestMethod]
 		public void MayNotAccept()
 		{
 			Automaton<char> automaton;
-			NonTerminalNode<char> state;
+			NonTerminalNode<char> node;
 			AutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
@@ -154,14 +152,11 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
-			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
-
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
-			state = automaton.Accept();
-			Assert.AreEqual("A", state.Name);
-			Assert.AreEqual(4, state.Nodes.Count);
+			node = automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+			Assert.AreEqual("A", node.Name);
+			Assert.AreEqual(3, node.Nodes.Count);
 		}
 
 
@@ -185,11 +180,31 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 			automaton.Feed('e');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+		}
+
+		[TestMethod]
+		public void ShouldFeedAndRecursiveReduce()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+
+			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=ab{B}d", "B={C}", "C={D}","D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+
 			Assert.IsFalse(automaton.CanAccept());
 
-			automaton.Feed(new EOSInput<char>());
+			automaton.Feed('d');
 			Assert.IsTrue(automaton.CanAccept());
-
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 		}
 
 		[TestMethod]
@@ -210,10 +225,10 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 			automaton.Feed('a');
-			Assert.IsFalse(automaton.CanAccept());
-
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 
 
 		}
@@ -231,9 +246,9 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsFalse(automaton.CanAccept());
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 
 
 		}
@@ -253,18 +268,16 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
-
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.AreEqual(7, node.Nodes.Count);
+			Assert.IsFalse(automaton.CanAccept());
+			Assert.AreEqual(6, node.Nodes.Count);
 		}
 
 		[TestMethod]
@@ -280,18 +293,20 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsTrue(automaton.CanAccept());
 
 			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
-
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
 
 			node = automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+
 		}
 
 		[TestMethod]
@@ -307,12 +322,11 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
-
-			automaton.Feed(new EOSInput<char>());
 			Assert.IsTrue(automaton.CanAccept());
 
 			node = automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+
 		}
 
 		[TestMethod]
@@ -328,24 +342,36 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.CanFeed('a'));
 			automaton.Feed('a');
 			Assert.IsFalse(automaton.CanFeed('a'));
-			Assert.IsFalse(automaton.CanFeed(new EOSInput<char>()));
 			Assert.IsTrue(automaton.CanFeed('b'));
 			automaton.Feed('b');
 
-			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
 			Assert.IsTrue(automaton.CanFeed('c'));
 			automaton.Feed('c');
 
-			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
 			Assert.IsTrue(automaton.CanFeed('c'));
 			automaton.Feed('c');
 
-			Assert.IsTrue(automaton.CanFeed(new EOSInput<char>()));
 			Assert.IsTrue(automaton.CanFeed('c'));
 			automaton.Feed('c');
 
-			automaton.Feed(new EOSInput<char>());
+		}
+		[TestMethod]
+		public void ShouldRecursiveAccept()
+		{
+			Automaton<char> automaton;
+			AutomatonTable<char> automatonTable;
+
+			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=ab{B}", "B={C}", "C={D}", "D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automaton = new Automaton<char>(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+
 			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 		}
 
 

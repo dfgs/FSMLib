@@ -31,11 +31,11 @@ namespace FSMLib.Table
 			set;
 		}
 
-		public List<Accept<T>> AcceptActions
+		/*public List<Accept<T>> AcceptActions
 		{
 			get;
 			set;
-		}
+		}*/
 
 		
 
@@ -44,7 +44,7 @@ namespace FSMLib.Table
 			TerminalActions = new List<ShiftOnTerminal<T>>();
 			NonTerminalActions = new List<ShiftOnNonTerminal<T>>();
 			ReductionActions = new List<Reduce<T>>();
-			AcceptActions = new List<Accept<T>>();
+			//AcceptActions = new List<Accept<T>>();
 			//RootIDs = new List<int>();
 		}
 		/*public override string ToString()

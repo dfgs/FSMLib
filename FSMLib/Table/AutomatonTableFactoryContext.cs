@@ -76,9 +76,9 @@ namespace FSMLib.Table
 						case Reduce<T> tr:
 							if (state.ReductionActions.FirstOrDefault(item => item.Equals(tr)) == null) state.ReductionActions.Add(tr);
 							break;
-						case Accept<T> tr:
+						/*case Accept<T> tr:
 							if (state.AcceptActions.FirstOrDefault(item => item.Equals(tr)) == null) state.AcceptActions.Add(tr);
-							break;
+							break;*/
 
 						default:
 							throw (new NotImplementedException("Invalid action type"));
@@ -169,34 +169,7 @@ namespace FSMLib.Table
 			return items;
 		}
 
-		/*public IEnumerable<Segment<T>> GetDeveloppedSegmentsForRule(IEnumerable<Rule<T>> Rules, string Name)
-		{
-			Segment<T> segment;
-
-			if (openList.Contains(Name)) yield break;
-			openList.Add(Name);
-
-			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
-			{
-
-				segment = BuildSegment(rule, Enumerable.Empty<BaseAction<T>>());
-
-				yield return segment;
-				
-				foreach (NonTerminalAction<T> nonTerminalAction in segment.Inputs.OfType<NonTerminalAction<T>>())
-				{
-					foreach (Segment<T> nestedSegment in GetDeveloppedSegmentsForRule(Rules, nonTerminalAction.Name))
-					{
-						yield return nestedSegment;
-					}
-				}
-
-			}
-			openList.Remove(Name);
-
-
-		}//*/
-
+		
 		public IEnumerable<string> GetRuleReductionDependency(IEnumerable<Rule<T>> Rules, string Name)
 		{
 			Segment<T> segment;
@@ -207,12 +180,11 @@ namespace FSMLib.Table
 			if (openList.Contains(Name)) return items;
 			openList.Add(Name);
 
+			if (!items.Contains(Name)) items.Add(Name);
+
 			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
 			{
-
 				segment = BuildSegment(rule, Enumerable.Empty<BaseAction<T>>());
-
-				if (!items.Contains(rule.Name)) items.Add(rule.Name);
 
 				foreach (ShiftOnNonTerminal<T> nonTerminalAction in segment.Actions.OfType<ShiftOnNonTerminal<T>>())
 				{
@@ -229,7 +201,7 @@ namespace FSMLib.Table
 
 		public IEnumerable<Reduce<T>> GetReductionActions(string Name)
 		{
-			return automatonTable.States.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name);
+			return automatonTable.States.SelectMany(item => item.ReductionActions).Where(item=>item.Name==Name).Distinct();
 		}
 
 

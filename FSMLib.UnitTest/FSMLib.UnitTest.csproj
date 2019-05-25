@@ -52,12 +52,11 @@
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
-    <Compile Include="Table\Actions\ReduceUnitTest.cs" />
-    <Compile Include="Table\Actions\AcceptUnitTest.cs" />
+    <Compile Include="Actions\ReduceUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryContextUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
-    <Compile Include="Table\Actions\ShiftOnNonTerminalUnitTest.cs" />
-    <Compile Include="Table\Actions\ShiftOnTerminalUnitTest.cs" />
+    <Compile Include="Actions\ShiftOnNonTerminalUnitTest.cs" />
+    <Compile Include="Actions\ShiftOnTerminalUnitTest.cs" />
     <Compile Include="Table\AutomatonTableTupleUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />

@@ -293,7 +293,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			ShiftOnTerminal<char> shiftTerminal;
 			ShiftOnNonTerminal<char> shiftNonTerminal;
 			Reduce<char> reduce;
-			Accept<char> accept;
+			//Accept<char> accept;
 
 			AutomatonTableFactoryContext<char> context;
 
@@ -304,7 +304,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			shiftTerminal = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'a' }, TargetStateIndex = automatonTable.States.IndexOf(b) };
 			shiftNonTerminal = new ShiftOnNonTerminal<char>() { Name = "a", TargetStateIndex = automatonTable.States.IndexOf(b) };
 			reduce = new Reduce<char>() { Name = "A" };
-			accept = new Accept<char>();
+			//accept = new Accept<char>();
 
 			context = new AutomatonTableFactoryContext<char>(new SegmentFactoryProvider<char>(), automatonTable);
 
@@ -323,10 +323,10 @@ namespace FSMLib.UnitTest.AutomatonTables
 			context.Connect(a.AsEnumerable(), reduce.AsEnumerable());
 			Assert.AreEqual(1, a.ReductionActions.Count);
 
-			context.Connect(a.AsEnumerable(), accept.AsEnumerable());
+			/*context.Connect(a.AsEnumerable(), accept.AsEnumerable());
 			Assert.AreEqual(1, a.AcceptActions.Count);
 			context.Connect(a.AsEnumerable(), accept.AsEnumerable());
-			Assert.AreEqual(1, a.AcceptActions.Count);
+			Assert.AreEqual(1, a.AcceptActions.Count);*/
 
 
 

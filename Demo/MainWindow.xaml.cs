@@ -45,6 +45,7 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A=ab{B}", "B={C}", "C={D}", "D=c");
 			CreateView("A=ab{C}*", "C=c");
 			CreateView("A=a{S}a", "S={S}b", "S=c");
 			CreateView("A=a{BCD}e", "BCD=b{C}d", "C=c");
@@ -98,6 +99,8 @@ namespace Demo
 
 				if (state.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
+
+				//if (state.AcceptActions.Count > 0) n.Attr.Color = Microsoft.Glee.Drawing.Color.Blue;
 			}
 			foreach (State<T> state in Model.States)
 			{

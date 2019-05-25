@@ -124,7 +124,7 @@ namespace FSMLib.Tables
 			return null;
 		}
 
-		public bool CanFeed(BaseTerminalInput<T> Input)
+		public bool CanFeed(T Input)
 		{
 			State<T> state;
 
@@ -138,18 +138,14 @@ namespace FSMLib.Tables
 		}
 
 
-		public bool CanFeed(T Input)
-		{
-			return CanFeed(new TerminalInput<T>() { Value = Input });
-		}
 
 
-		public void Feed(BaseTerminalInput<T> Input)
+		private void Feed(BaseTerminalInput<T> Input)
 		{
 			TerminalNode<T> inputNode;
 			NonTerminalNode<T> nonTerminalNode;
 
-			inputNode = new TerminalNode<T>() { Input=Input };
+			inputNode = new TerminalNode<T>() { Input = Input };
 
 			while (true)
 			{
@@ -157,37 +153,45 @@ namespace FSMLib.Tables
 
 				nonTerminalNode = Reduce(inputNode);
 				if ((nonTerminalNode == null) || (!Feed(nonTerminalNode))) throw new AutomatonException<T>(Input, nodeStack);
-			}		
+			}
 
 		}
-		public void Feed(T Input)
+
+		public void Feed(T Value)
 		{
-			Feed(new TerminalInput<T>() { Value = Input });
+			TerminalInput<T> input;
+
+			input = new TerminalInput<T>() { Value = Value };
+			Feed(input);
 		}
+		
 
 
 
 		public bool CanAccept()
 		{
 			State<T> state;
-			Accept<T> axiom;
+			//Accept<T> axiom;
+			ReductionTarget<T> target;
 
 			state = automatonTable.States[stateIndex];
-			axiom = state.AcceptActions.FirstOrDefault();
+			//axiom = state.AcceptActions.FirstOrDefault();
+			target = state.ReductionActions.SelectMany(item => item.Targets).FirstOrDefault(item => item.Input is EOSInput<T>);
 
-			return axiom != null;
+			return target != null;
 		}
 
 		public NonTerminalNode<T> Accept()
 		{
-			State<T> state;
-			Accept<T> axiom;
+			NonTerminalNode<T> nonTerminalNode;
 
-			state = automatonTable.States[stateIndex];
-			axiom = state.AcceptActions.FirstOrDefault();
+			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
-			if (axiom==null) throw new InvalidOperationException("Automaton cannot accept in current state");
-			return Reduce( axiom.Name,0 );
+			Feed(new EOSInput<T>());
+
+			nonTerminalNode = nodeStack.OfType<NonTerminalNode<T>>().FirstOrDefault();
+
+			return nonTerminalNode;
 		}
 
 

@@ -17,8 +17,8 @@ namespace FSMLib.Tables
 
 		void Reset();
 
-		bool CanFeed(BaseTerminalInput<T> Input);
-		void Feed(BaseTerminalInput<T> Input);
+		bool CanFeed(T Value);
+		void Feed(T Value);
 
 		bool CanAccept();
 

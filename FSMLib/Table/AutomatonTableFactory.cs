@@ -51,10 +51,13 @@ namespace FSMLib.Table
 
 			index = context.GetStateIndex(state);
 
+			// enumerate all non terminal transitions in node
 			foreach (ShiftOnNonTerminal<T> nonTerminalAction in Actions)
 			{
-				nextInputs = context.GetFirstTerminalInputsAfterAction( nonTerminalAction).ToArray();
+				// get all terminals following this non terminal transition
+				nextInputs = context.GetFirstTerminalInputsAfterAction( nonTerminalAction).Concat(state.ReductionActions.SelectMany(item=>item.Targets.Select(item2=>item2.Input))).ToArray();
 
+				// get all rules that can reduce to this transition
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach (string reductionDepency in reductionDependencies)
 				{
@@ -64,6 +67,7 @@ namespace FSMLib.Table
 						{
 							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = input });
 						}
+						//reductionAction.Targets.AddRange(state.ReductionActions.SelectMany(item=>item.Targets));
 						//reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = new EOSInput<T>() });
 					}
 
@@ -73,7 +77,7 @@ namespace FSMLib.Table
 		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			AutomatonTable<T> automatonTable;
-			State<T> root,acceptState;
+			State<T> root,axiomState, lastState;
 			Segment<T> segment;
 			AutomatonTableFactoryContext<T> context;
 			Rule<T> axiom;
@@ -84,7 +88,7 @@ namespace FSMLib.Table
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
 
-	
+
 
 			automatonTable = new AutomatonTable<T>();
 			automatonTable.Alphabet.AddRange(Alphabet);
@@ -93,11 +97,17 @@ namespace FSMLib.Table
 
 			rules = Rules.ToArray();// mandatory in order to fix cache issue when using enumeration
 			axiom = rules.First();
-			
+
 			context = new AutomatonTableFactoryContext<T>(segmentFactoryProvider, automatonTable);
 			root = context.CreateState();
-			acceptState = context.CreateState();
-			acceptState.AcceptActions.Add(new Accept<T>() { Name = axiom.Name });
+			root.NonTerminalActions.Add(new ShiftOnNonTerminal<T>() { Name = axiom.Name, TargetStateIndex = 1 });
+
+			axiomState = context.CreateState();
+			axiomState.TerminalActions.Add(new ShiftOnTerminal<T>() { Input=new EOSInput<T>(), TargetStateIndex = 2 });
+
+			lastState = context.CreateState();
+			//acceptState.AcceptActions.Add(new Accept<T>() { Name = axiom.Name });
+
 
 
 			// build all segments from rules
@@ -108,7 +118,7 @@ namespace FSMLib.Table
 				{ 
 					actions = new BaseAction<T>[]
 					{
-						new ShiftOnTerminal<T>() { Input=new EOSInput<T>(), TargetStateIndex=1},
+						//new Accept<T>() { Name = axiom.Name },
 						new Reduce<T>() { Name = rule.Name }
 					};
 				}
@@ -133,7 +143,7 @@ namespace FSMLib.Table
 			 // add reduction action to root states
 			foreach (State<T> state in automatonTable.States)
 			{
-				if (state == root) continue;
+				//if (state == root) continue;
 				CompleteReductionTargets(state, state.NonTerminalActions.ToArray(), context, rules, axiom);
 			}//*/
 
@@ -154,7 +164,7 @@ namespace FSMLib.Table
 				nextTuple.Situations = NextSituations;
 
 				nextTuple.State.ReductionActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].ReductionActions));
-				nextTuple.State.AcceptActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].AcceptActions));
+				//nextTuple.State.AcceptActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].AcceptActions));
 
 				SituationMapping.Add(nextTuple);
 				OpenList.Push(nextTuple);
