@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using FSMLib.Inputs;
+using FSMLib.Rules;
 
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Or<T>:BasePredicate<T>
+	public class Or<T>: ExtendedPredicate<T>
 	{
 	
 		[XmlArray]
@@ -23,29 +25,25 @@ namespace FSMLib.Predicates
 			Items = new List<BasePredicate<T>>();
 		}
 
-		public override IEnumerable<BasePredicate<T>> Enumerate()
+		
+		
+
+
+		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
-			return Items.SelectMany(item => item.Enumerate());
+			if (CurrentPredicate == this)
+			{
+				if (Items.Count == 1) return $"◦{Items[0].ToString(CurrentPredicate)}";
+				return $"◦({string.Join("|", Items.Select(item => item.ToString(CurrentPredicate)))})";
+			}
+			else
+			{
+				if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
+				return $"({string.Join("|", Items.Select(item => item.ToString(CurrentPredicate)))})";
+			}
 		}
 
-		/*public override string ToParenthesisString(RulePredicate<T> Current)
-		{
-			if (Items.Count == 1) return Items[0].ToParenthesisString(Current);
-			return $"({string.Join("|", Items.Select(item => item.ToParenthesisString(Current)))})";
-		}
-		public override string ToString(RulePredicate<T> Current)
-		{
-			return string.Join("|", Items.Select(item => item.ToParenthesisString(Current)));
-		}*/
-		public override string ToParenthesisString()
-		{
-			if (Items.Count == 1) return Items[0].ToParenthesisString();
-			return $"({string.Join("|", Items.Select(item => item.ToParenthesisString()))})";
-		}
-		public override string ToString()
-		{
-			return string.Join("|", Items.Select(item => item.ToParenthesisString()));
-		}
+
 		public static implicit operator Or<T>(BasePredicate<T>[] Values)
 		{
 			Or<T> predicate;

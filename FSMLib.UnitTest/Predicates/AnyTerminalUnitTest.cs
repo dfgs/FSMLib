@@ -1,4 +1,6 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
+using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -13,33 +15,34 @@ namespace FSMLib.UnitTest.Predicates
 			AnyTerminal<char> predicate;
 
 			predicate = new AnyTerminal<char>();
+
 			Assert.AreEqual(".", predicate.ToString());
-		
 		}
-		
 		[TestMethod]
-		public void ShouldConvertToParenthesisStringWithoutBulletItem()
+		public void ShouldConvertToStringWithBullet()
 		{
 			AnyTerminal<char> predicate;
 
 			predicate = new AnyTerminal<char>();
-			Assert.AreEqual(".", predicate.ToParenthesisString());
+
+			Assert.AreEqual("•.", predicate.ToString(predicate));
 		}
 
 		[TestMethod]
-		public void ShouldEnumerate()
+		public void ShouldGetInput()
 		{
 			AnyTerminal<char> predicate;
-			BasePredicate<char>[] items;
+			AnyTerminalInput<char> input;
 
 			predicate = new AnyTerminal<char>();
-			items = predicate.Enumerate().ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(predicate, items[0]);
-
+			input = predicate.GetInput() as AnyTerminalInput<char>;
+			Assert.IsNotNull(input);
 		}
 
 		
+
+		
+
 
 
 	}

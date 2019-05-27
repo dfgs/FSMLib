@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using FSMLib.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class NonTerminal<T>:BasePredicate<T>
+	public class NonTerminal<T>:InputPredicate<T>
 	{
 
 		public string Name
@@ -16,19 +18,19 @@ namespace FSMLib.Predicates
 			set;
 		}
 
-		public override IEnumerable<BasePredicate<T>> Enumerate()
-		{
-			yield return this;
-		}
+
+
 
 		
-		public override string ToParenthesisString()
+		public override IInput<T> GetInput()
 		{
-			return $"{{{Name}}}";
+			return new NonTerminalInput<T>() { Name = this.Name };
 		}
-		public override string ToString()
+
+		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
-			return $"{{{Name}}}";
+			if (CurrentPredicate == this) return $"•{{{Name}}}";
+			else return $"{{{Name}}}";
 		}
 
 

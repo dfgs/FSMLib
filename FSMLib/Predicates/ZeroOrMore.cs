@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using FSMLib.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class ZeroOrMore<T> : BasePredicate<T>
+	public class ZeroOrMore<T> : ExtendedPredicate<T>
 	{
 
 		public BasePredicate<T> Item
@@ -21,21 +23,15 @@ namespace FSMLib.Predicates
 		{
 		}
 
-		public override IEnumerable<BasePredicate<T>> Enumerate()
-		{
-			if (Item == null) yield break;
-			foreach (BasePredicate<T> item in Item.Enumerate()) yield return item;
-		}
-
 		
-		public override string ToParenthesisString()
-		{
-			return $"{Item.ToParenthesisString()}*";
-		}
 
-		public override string ToString()
+	
+
+
+		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
-			return $"{Item.ToParenthesisString()}*";
+			if (CurrentPredicate == this) return $"◦{Item.ToString(CurrentPredicate)}*";
+			else return $"{Item.ToString(CurrentPredicate)}*";
 		}
 
 

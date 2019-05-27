@@ -25,12 +25,12 @@ namespace FSMLib.Table
 		}
 
 		
-		private void DevelopRuleDependencies(State<T> state, IEnumerable<ShiftOnNonTerminal<T>> Actions, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
+		private void DevelopRuleDependencies(State<T> state, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules)
 		{
 			string[] reductionDependencies;
 			Segment<T> dependentSegment;
 
-			foreach (ShiftOnNonTerminal<T> nonTerminalAction in Actions)
+			foreach (ShiftOnNonTerminal<T> nonTerminalAction in state.NonTerminalActions.ToArray())
 			{
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach(string reductionDepency in reductionDependencies)
@@ -43,10 +43,12 @@ namespace FSMLib.Table
 				}
 			}
 		}
+
 		private void CompleteReductionTargets(State<T> state, IEnumerable<ShiftOnNonTerminal<T>> Actions, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
 		{
 			BaseTerminalInput<T>[] nextInputs;
 			string[] reductionDependencies;
+			Segment<T> dependentSegment;
 			int index;
 
 			index = context.GetStateIndex(state);
@@ -61,16 +63,17 @@ namespace FSMLib.Table
 				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
 				foreach (string reductionDepency in reductionDependencies)
 				{
-					foreach (Reduce<T> reductionAction in context.GetReductionActions(reductionDepency))
+					foreach (Rule<T> dependentRule in Rules.Where(item => item.Name == reductionDepency))
 					{
-						foreach (BaseTerminalInput<T> input in nextInputs)
+						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseAction<T>>());
+						foreach(Reduce<T> reductionAction in dependentSegment.Outputs.SelectMany(item=>item.ReductionActions))
 						{
-							reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = input });
+							foreach (BaseTerminalInput<T> input in nextInputs)
+							{
+								reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex=index,Input=input } );
+							}
 						}
-						//reductionAction.Targets.AddRange(state.ReductionActions.SelectMany(item=>item.Targets));
-						//reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex = index, Input = new EOSInput<T>() });
 					}
-
 				}
 			}
 		}
@@ -138,7 +141,7 @@ namespace FSMLib.Table
 			foreach (State<T> state in automatonTable.States)
 			{
 				if (state == root) continue;
-				DevelopRuleDependencies(state, state.NonTerminalActions.ToArray(), context, rules, axiom);
+				DevelopRuleDependencies(state, context, rules);
 			}//*/
 			 // add reduction action to root states
 			foreach (State<T> state in automatonTable.States)

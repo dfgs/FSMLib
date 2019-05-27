@@ -1,4 +1,6 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
+using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -13,40 +15,36 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal<char> predicate;
 
 			predicate = new NonTerminal<char>() { Name = "A" };
+
 			Assert.AreEqual("{A}", predicate.ToString());
-			predicate = new NonTerminal<char>() { Name = "B" };
-			Assert.AreEqual("{B}", predicate.ToString());
-			predicate = new NonTerminal<char>() { Name = "C" };
-			Assert.AreEqual("{C}", predicate.ToString());
 		}
-		
 		[TestMethod]
-		public void ShouldConvertToParenthesisStringWithoutBulletItem()
+		public void ShouldConvertToStringWithBullet()
 		{
 			NonTerminal<char> predicate;
 
 			predicate = new NonTerminal<char>() { Name = "A" };
-			Assert.AreEqual("{A}", predicate.ToParenthesisString());
-			predicate = new NonTerminal<char>() { Name = "B" };
-			Assert.AreEqual("{B}", predicate.ToParenthesisString());
-			predicate = new NonTerminal<char>() { Name = "C" };
-			Assert.AreEqual("{C}", predicate.ToParenthesisString());
+
+			Assert.AreEqual("•{A}", predicate.ToString(predicate));
 		}
 
 		[TestMethod]
-		public void ShouldEnumerate()
+		public void ShouldGetInput()
 		{
 			NonTerminal<char> predicate;
-			BasePredicate<char>[] items;
+			NonTerminalInput<char> input;
 
-			predicate = new NonTerminal<char>() { Name = "A" };
-			items = predicate.Enumerate().ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(predicate, items[0]);
-
+			predicate = new NonTerminal<char>() { Name="A" } ;
+			input = predicate.GetInput() as NonTerminalInput<char>;
+			Assert.IsNotNull(input);
+			Assert.AreEqual("A", input.Name);
 		}
 
-		
+	
+
+
+
+
 
 
 	}

@@ -1,4 +1,6 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
+using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -13,37 +15,17 @@ namespace FSMLib.UnitTest.Predicates
 			Terminal<char> predicate;
 
 			predicate = new Terminal<char>() { Value = 'a' };
+
 			Assert.AreEqual("a", predicate.ToString());
-			predicate = new Terminal<char>() { Value = 'b' };
-			Assert.AreEqual("b", predicate.ToString());
-			predicate = new Terminal<char>() { Value = 'c' };
-			Assert.AreEqual("c", predicate.ToString());
 		}
-		
 		[TestMethod]
-		public void ShouldConvertToParenthesisStringWithoutBulletItem()
+		public void ShouldConvertToStringWithBullet()
 		{
 			Terminal<char> predicate;
 
 			predicate = new Terminal<char>() { Value = 'a' };
-			Assert.AreEqual("a", predicate.ToParenthesisString());
-			predicate = new Terminal<char>() { Value = 'b' };
-			Assert.AreEqual("b", predicate.ToParenthesisString());
-			predicate = new Terminal<char>() { Value = 'c' };
-			Assert.AreEqual("c", predicate.ToParenthesisString());
-		}
 
-		[TestMethod]
-		public void ShouldEnumerate()
-		{
-			Terminal<char> predicate;
-			BasePredicate<char>[] items;
-
-			predicate = new Terminal<char>() { Value = 'a' };
-			items = predicate.Enumerate().ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(predicate, items[0]);
-
+			Assert.AreEqual("•a", predicate.ToString(predicate));
 		}
 
 		[TestMethod]
@@ -56,7 +38,19 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual('a', predicate.Value);
 
 		}
+		[TestMethod]
+		public void ShouldGetInput()
+		{
+			Terminal<char> predicate;
+			TerminalInput<char> input;
 
+			predicate = new Terminal<char>() { Value = 'a' };
+			input = predicate.GetInput() as TerminalInput<char>;
+			Assert.IsNotNull(input);
+			Assert.AreEqual('a', input.Value);
+		}
+
+		
 
 	}
 }

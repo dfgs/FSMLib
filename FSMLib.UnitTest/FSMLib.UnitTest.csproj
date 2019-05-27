@@ -53,6 +53,8 @@
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
+    <Compile Include="Rules\Situation2UnitTest.cs" />
+    <Compile Include="Situations\SituationGraphUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryContextUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
     <Compile Include="Actions\ShiftOnNonTerminalUnitTest.cs" />

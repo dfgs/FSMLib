@@ -1,4 +1,6 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
+using FSMLib.Rules;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -10,19 +12,12 @@ namespace FSMLib.UnitTest.Mocks
 	[ExcludeFromCodeCoverage]
 	public class MockedPredicate<T> : BasePredicate<T>
 	{
-		public override IEnumerable<BasePredicate<T>> Enumerate()
+		
+
+		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public override string ToParenthesisString()
-		{
-			throw new System.NotImplementedException();
-		}
-
-		public override string ToString()
-		{
-			throw new System.NotImplementedException();
-		}
 	}
 }

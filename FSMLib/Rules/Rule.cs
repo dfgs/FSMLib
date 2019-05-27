@@ -25,5 +25,10 @@ namespace FSMLib.Rules
 			return Predicate.ToString();
 		}
 
+		public string ToString(BasePredicate<T> CurrentPredicate)
+		{
+			return Predicate.ToString(CurrentPredicate);
+		}
+
 	}
 }

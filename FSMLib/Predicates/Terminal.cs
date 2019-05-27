@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using FSMLib.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Terminal<T>:BasePredicate<T>
+	public class Terminal<T>: InputPredicate<T>
 	{
 
 		public T Value
@@ -16,23 +18,22 @@ namespace FSMLib.Predicates
 			set;
 		}
 
-		public override IEnumerable<BasePredicate<T>> Enumerate()
+		public override IInput<T> GetInput()
 		{
-			yield return this;
-		}
-
-		
-		public override string ToParenthesisString()
-		{
-			return Value.ToString();
-		}
-		public override string ToString()
-		{
-			return Value.ToString();
+			return new TerminalInput<T>() { Value = Value };
 		}
 
 
 		
+		public override string ToString(BasePredicate<T> CurrentPredicate)
+		{
+			if (CurrentPredicate == this) return $"•{Value}";
+			else return Value.ToString();
+		}
+
+
+
+
 		public static implicit operator Terminal<T>(T Value)
 		{
 			return new Terminal<T>() { Value=Value};

@@ -8,31 +8,25 @@ using FSMLib.Rules;
 
 namespace FSMLib.Predicates
 {
-	[Serializable]
-	public class AnyTerminal<T>: InputPredicate<T>
+	public class ReducePredicate<T>:InputPredicate<T>
 	{
+		public ReducePredicate()
+		{
+
+		}
+
+
+
 		public override IInput<T> GetInput()
 		{
-			return new AnyTerminalInput<T>();
+			return null;
 		}
 
-
-
-
 		
-
 		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate == this) return "•.";
-			else return ".";
+			if (CurrentPredicate == this) return "•";
+			return "";
 		}
-
-		
-
-
-
-
-
-
 	}
 }

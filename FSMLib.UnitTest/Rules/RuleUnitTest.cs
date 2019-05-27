@@ -28,9 +28,31 @@ namespace FSMLib.UnitTest
 			rule = new Rule<char>();
 			rule.Predicate = predicate;
 
-			Assert.AreEqual(predicate.ToString(), rule.ToString());
+			Assert.AreEqual("(abcd)", rule.ToString());
 		}
 
+		[TestMethod]
+		public void ShouldBeHumanReadableWithBullter()
+		{
+			Rule<char> rule;
+			Sequence<char> predicate;
+			Terminal<char> item;
+
+			predicate = new Sequence<char>();
+			item = new Terminal<char>() { Value = 'a' };
+			predicate.Items.Add(item);
+			item = new Terminal<char>() { Value = 'b' };
+			predicate.Items.Add(item);
+			item = new Terminal<char>() { Value = 'c' };
+			predicate.Items.Add(item);
+			item = new Terminal<char>() { Value = 'd' };
+			predicate.Items.Add(item);
+
+			rule = new Rule<char>();
+			rule.Predicate = predicate;
+
+			Assert.AreEqual("(abc•d)", rule.ToString(item));
+		}
 
 	}
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using FSMLib.Rules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Sequence<T> : BasePredicate<T>
+	public class Sequence<T> : ExtendedPredicate<T>
 	{
 
 		[XmlArray]
@@ -23,20 +25,22 @@ namespace FSMLib.Predicates
 			Items = new List<BasePredicate<T>>();
 		}
 
-		public override IEnumerable<BasePredicate<T>> Enumerate()
-		{
-			return Items.SelectMany(item => item.Enumerate());
-		}
+		
 
 		
-		public override string ToParenthesisString()
+
+		public override string ToString(BasePredicate<T> CurrentPredicate)
 		{
-			if (Items.Count == 1) return Items[0].ToParenthesisString();
-			return $"({string.Join("", Items.Select(item => item.ToParenthesisString()))})";
-		}
-		public override string ToString()
-		{
-			return string.Join("", Items.Select(item => item.ToParenthesisString()));
+			if (CurrentPredicate == this)
+			{
+				if (Items.Count == 1) return $"◦{Items[0].ToString(CurrentPredicate)}";
+				return $"◦({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
+			}
+			else
+			{
+				if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
+				return $"({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
+			}
 		}
 
 	

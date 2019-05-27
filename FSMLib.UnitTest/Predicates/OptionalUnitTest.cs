@@ -1,4 +1,6 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
+using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -12,147 +14,52 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			Terminal<char> item;
+			Terminal<char> terminal;
 
-			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			sequence.Items.Add(item);
+			terminal = new Terminal<char>() { Value = 'a' };
+			predicate = new Optional<char>();
+			predicate.Item = terminal;
 
-			predicate = new Optional<char>() { Item = sequence };
 			Assert.AreEqual("a?", predicate.ToString());
 
+			sequence = new Sequence<char>();
+			sequence.Items.Add(new Terminal<char>() { Value = 'a' });
+			sequence.Items.Add(terminal);
+			sequence.Items.Add(new Terminal<char>() { Value = 'a' });
+			predicate = new Optional<char>();
+			predicate.Item = sequence;
+			Assert.AreEqual("(aaa)?", predicate.ToString());
 
-			item = new Terminal<char>() { Value = 'b' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'c' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'd' };
-			sequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = sequence };
-			Assert.AreEqual("(abcd)?", predicate.ToString());
-			predicate = new Optional<char>() { Item = item };
-			Assert.AreEqual("d?", predicate.ToString());
 		}
 		[TestMethod]
-		public void ShouldConvertNestedPredicateToString()
+		public void ShouldConvertToStringWithBullet()
 		{
 			Optional<char> predicate;
 			Sequence<char> sequence;
-			Or<char> or;
-			Terminal<char> item;
+			Terminal<char> terminal;
+
+			terminal = new Terminal<char>() { Value = 'a' };
+			predicate = new Optional<char>();
+			predicate.Item = terminal;
+
+			Assert.AreEqual("•a?", predicate.ToString(terminal));
+			Assert.AreEqual("◦a?", predicate.ToString(predicate));
 
 			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			sequence.Items.Add(item);
-
-			or = new Or<char>();
-			item = new Terminal<char>() { Value = 'b' };
-			or.Items.Add(item);
-			item = new Terminal<char>() { Value = 'c' };
-			or.Items.Add(item);
-
-			sequence.Items.Add(or);
-			item = new Terminal<char>() { Value = 'd' };
-			sequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = sequence };
-			Assert.AreEqual("(a(b|c)d)?", predicate.ToString());
+			sequence.Items.Add(new Terminal<char>() { Value = 'a' });
+			sequence.Items.Add(terminal);
+			sequence.Items.Add(new Terminal<char>() { Value = 'a' });
+			predicate = new Optional<char>();
+			predicate.Item = sequence;
+			Assert.AreEqual("(a•aa)?", predicate.ToString(terminal));
+			Assert.AreEqual("◦(aaa)?", predicate.ToString(predicate));
 		}
 
-		[TestMethod]
-		public void ShouldConvertComplexNestedPredicateToString()
-		{
-			Optional<char> predicate;
-			Sequence<char> parentSequence;
-			Sequence<char> sequence;
-			Or<char> or;
-			Terminal<char> item;
-
-			parentSequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			parentSequence.Items.Add(item);
-
-			or = new Or<char>();
-			item = new Terminal<char>() { Value = 'b' };
-			or.Items.Add(item);
-			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'c' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'd' };
-			sequence.Items.Add(item);
-			or.Items.Add(sequence);
-
-			parentSequence.Items.Add(or);
-			item = new Terminal<char>() { Value = 'e' };
-			parentSequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = parentSequence };
-			Assert.AreEqual("(a(b|(cd))e)?", predicate.ToString());
-		}
-
-
-		[TestMethod]
-		public void ShouldConvertToParenthesisStringWithoutBullet()
-		{
-			Optional<char> predicate;
-			Sequence<char> sequence;
-			Terminal<char> item;
-
-			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'b' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'c' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'd' };
-			sequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = sequence };
-			Assert.AreEqual("(abcd)?", predicate.ToParenthesisString());
-		}
-
-		[TestMethod]
-		public void ShouldNotConvertToParenthesisStringWithoutBullet()
-		{
-			Optional<char> predicate;
-			Sequence<char> sequence;
-			Terminal<char> item;
-
-			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			sequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = sequence };
-			Assert.AreEqual("a?", predicate.ToParenthesisString());
-		}
-
-		[TestMethod]
-		public void ShouldEnumerate()
-		{
-			Optional<char> predicate;
-			Sequence<char> sequence;
-			Terminal<char> item;
-			BasePredicate<char>[] items;
-
-			sequence = new Sequence<char>();
-			item = new Terminal<char>() { Value = 'a' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'b' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'c' };
-			sequence.Items.Add(item);
-			item = new Terminal<char>() { Value = 'd' };
-			sequence.Items.Add(item);
-
-			predicate = new Optional<char>() { Item = sequence };
-			items = predicate.Enumerate().ToArray();
-
-			Assert.AreEqual(4, items.Length);
-		}
 
 		
+
+		
+
 
 	}
 }
