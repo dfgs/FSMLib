@@ -35,10 +35,10 @@ namespace Demo
 			InitializeComponent();
 		}
 
-		public void SetAutomatonTables(Graph A, Graph B)
+		public void SetAutomatonTables(Graph A)
 		{
 			gViewer1.Graph = A;
-			gViewer2.Graph = B;
+			//gViewer2.Graph = B;
 		}
 
 		private void GViewer1_SelectionChanged(object sender, EventArgs e)

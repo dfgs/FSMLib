@@ -53,6 +53,7 @@
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
+    <Compile Include="Mocks\MockedSituationGraph.cs" />
     <Compile Include="Rules\Situation2UnitTest.cs" />
     <Compile Include="Situations\SituationGraphUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryContextUnitTest.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="SegmentFactories\OrSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\TerminalSegmentFactoryUnitTest.cs" />
     <Compile Include="SegmentFactories\SegmentFactoryProviderUnitTest.cs" />
-    <Compile Include="Rules\SituationProducerUnitTest.cs" />
+    <Compile Include="Situations\SituationProducerUnitTest.cs" />
     <Compile Include="CollectionProcessorUnitTest.cs" />
     <Compile Include="Rules\SituationUnitTest.cs" />
     <Compile Include="Automatons\AutomatonUnitTest.cs" />

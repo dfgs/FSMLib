@@ -29,18 +29,11 @@ namespace FSMLib.Predicates
 
 		
 
-		public override string ToString(BasePredicate<T> CurrentPredicate)
+		public override string ToString(InputPredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate == this)
-			{
-				if (Items.Count == 1) return $"◦{Items[0].ToString(CurrentPredicate)}";
-				return $"◦({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
-			}
-			else
-			{
-				if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
-				return $"({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
-			}
+			if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
+			return $"({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
+			
 		}
 
 	

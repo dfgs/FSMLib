@@ -25,10 +25,10 @@ namespace FSMLib.UnitTest
 			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
-			rule = new Rule<char>();
+			rule = new Rule<char>() {Name="A" };
 			rule.Predicate = predicate;
 
-			Assert.AreEqual("(abcd)", rule.ToString());
+			Assert.AreEqual("A=(abcd)", rule.ToString());
 		}
 
 		[TestMethod]
@@ -48,10 +48,10 @@ namespace FSMLib.UnitTest
 			item = new Terminal<char>() { Value = 'd' };
 			predicate.Items.Add(item);
 
-			rule = new Rule<char>();
+			rule = new Rule<char>() { Name = "A" };
 			rule.Predicate = predicate;
 
-			Assert.AreEqual("(abc•d)", rule.ToString(item));
+			Assert.AreEqual("A=(abc•d)", rule.ToString(item));
 		}
 
 	}

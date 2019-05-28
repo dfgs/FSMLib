@@ -10,7 +10,7 @@ namespace FSMLib.Table
 	public interface IAutomatonTableFactory<T>
 	{
 		AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet);
-		AutomatonTable<T> BuildDeterministicAutomatonTable(AutomatonTable<T> BaseAutomatonTable);
+		//AutomatonTable<T> BuildDeterministicAutomatonTable(AutomatonTable<T> BaseAutomatonTable);
 
 	}
 }

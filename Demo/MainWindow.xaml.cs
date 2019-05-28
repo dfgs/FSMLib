@@ -22,6 +22,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FSMLib.Situations;
 
 namespace Demo
 {
@@ -82,7 +83,7 @@ namespace Demo
 
 			view = new GraphView();
 			views.Add(view);
-			view.SetAutomatonTables(CreateGraph(Model), CreateGraph(automatonTableFactory.BuildDeterministicAutomatonTable(Model)) );
+			view.SetAutomatonTables(CreateGraph(Model) );
 		}
 		private static Graph CreateGraph<T>(AutomatonTable<T> Model)
 		{

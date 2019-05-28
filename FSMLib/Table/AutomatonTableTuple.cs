@@ -1,4 +1,5 @@
 ﻿using FSMLib.Rules;
+using FSMLib.Situations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace FSMLib.Table
 			get;
 			set;
 		}
-		public IEnumerable<Situation<T>> Situations
+		public IEnumerable<Situation2<T>> Situations
 		{
 			get;
 			set;
@@ -24,7 +25,7 @@ namespace FSMLib.Table
 		{
 
 		}
-		public AutomatonTableTuple(State<T> State, IEnumerable<Situation<T>> Situations)
+		public AutomatonTableTuple(State<T> State, IEnumerable<Situation2<T>> Situations)
 		{
 			if (State == null) throw new ArgumentNullException();
 			if (Situations == null) throw new ArgumentNullException();

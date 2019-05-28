@@ -1,4 +1,5 @@
 ﻿using FSMLib.Predicates;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace FSMLib.Situations
 	public interface ISituationGraph<T>
 	{
 
+
+		IEnumerable<InputPredicate<T>> GetRootInputPredicates(BasePredicate<T> RootPredicate);
 		IEnumerable<InputPredicate<T>> GetNextPredicates(InputPredicate<T> CurrentPredicate);
 		bool Contains(InputPredicate<T> Predicate);
 

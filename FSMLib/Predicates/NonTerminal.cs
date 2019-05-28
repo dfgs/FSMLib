@@ -27,7 +27,7 @@ namespace FSMLib.Predicates
 			return new NonTerminalInput<T>() { Name = this.Name };
 		}
 
-		public override string ToString(BasePredicate<T> CurrentPredicate)
+		public override string ToString(InputPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{{{Name}}}";
 			else return $"{{{Name}}}";

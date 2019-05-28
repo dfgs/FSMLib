@@ -166,7 +166,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -191,7 +191,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=ab{B}d", "B={C}", "C={D}","D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=ab{B}d", "B={C}", "C={D}","D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -214,7 +214,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 
 
-			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -238,7 +238,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -361,7 +361,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildDeterminiticAutomatonTable(new String[] { "A=ab{B}", "B={C}", "C={D}", "D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=ab{B}", "B={C}", "C={D}", "D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');

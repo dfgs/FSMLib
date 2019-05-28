@@ -1,4 +1,5 @@
 ﻿using FSMLib.Predicates;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +10,31 @@ namespace FSMLib.Situations
 {
 	public class SituationGraph<T>:ISituationGraph<T>
 	{
-		private List<SituationNode<T>> nodes;
-
+		private List<SituationNode<T>> inputPredicateNodes;
+		private List<SituationNode<T>> rootPredicateNodes;
+		
 
 		public SituationGraph(IEnumerable<BasePredicate<T>> Predicates)
 		{
-			SituationNode<T> reduceNode;
+			SituationNode<T> rootPredicateNode;
 			SituationEdge<T> reduceEdge;
+			SituationGraphSegment<T> segment;
 
 			if (Predicates == null) throw new ArgumentNullException("Predicates");
-			this.nodes = new List<SituationNode<T>>();
+
+			this.inputPredicateNodes = new List<SituationNode<T>>();
+			this.rootPredicateNodes = new List<SituationNode<T>>();
 
 			foreach(BasePredicate<T> predicate in Predicates)
 			{
-				reduceNode = CreateNode(new ReducePredicate<T>());
 				reduceEdge = new SituationEdge<T>();
-				reduceEdge.NextPredicate = reduceNode.Predicate;
+				reduceEdge.NextPredicate = null; // reduction
 
-				BuildPredicate(predicate, reduceEdge.AsEnumerable());
+				segment=BuildPredicate(predicate, reduceEdge.AsEnumerable());
+				rootPredicateNode = new SituationNode<T>();
+				rootPredicateNode.Predicate = predicate;
+				Connect(rootPredicateNode.AsEnumerable(), segment.InputEdges);
+				rootPredicateNodes.Add(rootPredicateNode);
 			}
 		}
 
@@ -34,7 +42,16 @@ namespace FSMLib.Situations
 		{
 			SituationNode<T> node;
 
-			node = nodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
+			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
+			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
+
+			return node.Edges.Select(item => item.NextPredicate);
+		}
+		public IEnumerable<InputPredicate<T>> GetRootInputPredicates(BasePredicate<T> RootPredicate)
+		{
+			SituationNode<T> node;
+
+			node = rootPredicateNodes.FirstOrDefault(item => item.Predicate == RootPredicate);
 			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
 
 			return node.Edges.Select(item => item.NextPredicate);
@@ -44,7 +61,7 @@ namespace FSMLib.Situations
 		{
 			SituationNode<T> node;
 
-			node = nodes.FirstOrDefault(item => item.Predicate == Predicate);
+			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == Predicate);
 			return (node != null);
 		}
 
@@ -54,7 +71,7 @@ namespace FSMLib.Situations
 
 			node = new SituationNode<T>();
 			node.Predicate = Predicate;
-			nodes.Add(node);
+			inputPredicateNodes.Add(node);
 
 			return node;
 		}
@@ -75,7 +92,18 @@ namespace FSMLib.Situations
 					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
 			}
 		}
+		private void Connect(IEnumerable<SituationNode<T>> Nodes,IEnumerable<SituationEdge<T>> Edges)
+		{
+			foreach (SituationNode<T> node in Nodes)
+			{
+				foreach (SituationEdge<T> edge in Edges)
+				{
+					if (edge.NextPredicate != null) node.Edges.Add(edge); 
+					// else mark as reduction
+				}
+			}
 
+		}
 		private SituationGraphSegment<T> BuildPredicate(InputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
@@ -83,7 +111,7 @@ namespace FSMLib.Situations
 			SituationGraphSegment<T> segment;
 
 			node = CreateNode(Predicate);
-			node.Edges.AddRange(Edges);
+			Connect(node.AsEnumerable(), Edges);
 
 			edge = new SituationEdge<T>();
 			edge.NextPredicate = Predicate;
@@ -152,12 +180,9 @@ namespace FSMLib.Situations
 			SituationGraphSegment<T> itemSegment,segment;
 
 			itemSegment = BuildPredicate(Predicate.Item, Edges);
+			Connect(itemSegment.OutputNodes,itemSegment.InputEdges);
 
-			foreach(SituationNode<T> node in itemSegment.OutputNodes)
-			{
-				node.Edges.AddRange(itemSegment.InputEdges);
-			}
-
+			
 			segment = new SituationGraphSegment<T>();
 			segment.InputEdges = itemSegment.InputEdges.Concat(Edges);
 			segment.OutputNodes = itemSegment.OutputNodes;
@@ -170,11 +195,8 @@ namespace FSMLib.Situations
 			SituationGraphSegment<T> itemSegment, segment;
 
 			itemSegment = BuildPredicate(Predicate.Item, Edges);
+			Connect(itemSegment.OutputNodes, itemSegment.InputEdges);
 
-			foreach (SituationNode<T> node in itemSegment.OutputNodes)
-			{
-				node.Edges.AddRange(itemSegment.InputEdges);
-			}
 
 			segment = new SituationGraphSegment<T>();
 			segment.InputEdges = itemSegment.InputEdges;

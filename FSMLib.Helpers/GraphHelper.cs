@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Situations;
 
 namespace FSMLib.Helpers
 {
@@ -24,18 +25,6 @@ namespace FSMLib.Helpers
 
 		}
 
-		public static AutomatonTable<char> BuildDeterminiticAutomatonTable(IEnumerable<string> Rules,IEnumerable<char> Alphabet)
-		{
-			AutomatonTableFactory<char> automatonTableFactory;
-			AutomatonTable<char> automatonTable,detAutomatonTable;
-
-			automatonTableFactory = new AutomatonTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
-
-			automatonTable=automatonTableFactory.BuildAutomatonTable( Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet );
-			detAutomatonTable = automatonTableFactory.BuildDeterministicAutomatonTable(automatonTable);
-
-			return detAutomatonTable;
-
-		}
+		
 	}
 }

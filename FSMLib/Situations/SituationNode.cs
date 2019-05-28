@@ -9,7 +9,7 @@ namespace FSMLib.Situations
 {
 	public class SituationNode<T>
 	{
-		public InputPredicate<T> Predicate
+		public BasePredicate<T> Predicate
 		{
 			get;
 			set;

@@ -22,12 +22,12 @@ namespace FSMLib.Rules
 
 		public override string ToString()
 		{
-			return Predicate.ToString();
+			return $"{Name}={Predicate.ToString()}";
 		}
 
-		public string ToString(BasePredicate<T> CurrentPredicate)
+		public string ToString(InputPredicate<T> CurrentPredicate)
 		{
-			return Predicate.ToString(CurrentPredicate);
+			return $"{Name}={Predicate.ToString(CurrentPredicate)}";
 		}
 
 	}

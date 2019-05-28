@@ -44,7 +44,6 @@ namespace FSMLib.UnitTest.Predicates
 			predicate.Item = terminal;
 
 			Assert.AreEqual("•a*", predicate.ToString(terminal));
-			Assert.AreEqual("◦a*", predicate.ToString(predicate));
 
 			sequence = new Sequence<char>();
 			sequence.Items.Add(new Terminal<char>() { Value = 'a' });
@@ -53,7 +52,6 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new ZeroOrMore<char>();
 			predicate.Item = sequence;
 			Assert.AreEqual("(a•aa)*", predicate.ToString(terminal));
-			Assert.AreEqual("◦(aaa)*", predicate.ToString(predicate));
 		}
 
 	

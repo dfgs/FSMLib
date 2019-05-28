@@ -27,10 +27,9 @@ namespace FSMLib.Predicates
 
 		
 
-		public override string ToString(BasePredicate<T> CurrentPredicate)
+		public override string ToString(InputPredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate == this) return $"◦{Item.ToString(CurrentPredicate)}?";
-			else return $"{Item.ToString(CurrentPredicate)}?";
+			return $"{Item.ToString(CurrentPredicate)}?";
 		}
 
 

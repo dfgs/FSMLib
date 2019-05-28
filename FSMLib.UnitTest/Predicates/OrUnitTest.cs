@@ -39,12 +39,10 @@ namespace FSMLib.UnitTest.Predicates
 			predicate.Items.Add(terminal);
 			predicate.Items.Add(new Terminal<char>() { Value = 'a' });
 			Assert.AreEqual("(a|•a|a)", predicate.ToString(terminal));
-			Assert.AreEqual("◦(a|a|a)", predicate.ToString(predicate));
 
 			predicate = new Or<char>();
 			predicate.Items.Add(terminal);
 			Assert.AreEqual("•a", predicate.ToString(terminal));
-			Assert.AreEqual("◦a", predicate.ToString(predicate));
 		}
 
 
