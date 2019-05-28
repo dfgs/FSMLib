@@ -14,5 +14,12 @@ namespace FSMLib.Situations
 			get;
 			set;
 		}
+		/*public string Reduction
+		{
+			get;
+			set;
+		}*/
+
+
 	}
 }

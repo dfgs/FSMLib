@@ -220,6 +220,33 @@ namespace FSMLib.UnitTest.Situations
 		}
 
 		[TestMethod]
+		public void ShouldKeepParentPredicateDuringGetNextSituations()
+		{
+			SituationProducer<char> producer;
+			Situation2<char> s1, s2, s3;
+			Situation2<char>[] nextSituations;
+			MockedSituationGraph situationGraph;
+			Rule<char> rule;
+			NonTerminal<char> parent;
+
+
+			situationGraph = new MockedSituationGraph();
+			rule = RuleHelper.BuildRule("A=a|a|a");
+
+			parent = new NonTerminal<char>();
+			s1 = new Situation2<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[0] as InputPredicate<char>,ParentPredicate=parent };
+			s2 = new Situation2<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[1] as InputPredicate<char>, ParentPredicate = parent };
+			s3 = new Situation2<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char>, ParentPredicate = parent };
+
+			producer = new SituationProducer<char>();
+			nextSituations = producer.GetNextSituations(situationGraph, new Situation2<char>[] { s1, s2, s3 }, new TerminalInput<char>() { Value = 'a' }).ToArray();
+
+			Assert.AreEqual(1, nextSituations.Length);
+			Assert.AreEqual(situationGraph.MockedPredicate, nextSituations[0].Predicate);
+			Assert.AreEqual(parent, nextSituations[0].ParentPredicate);
+		}
+
+		[TestMethod]
 		public void ShouldConnectOneToOne()
 		{
 			SituationProducer<char> producer;
@@ -374,7 +401,7 @@ namespace FSMLib.UnitTest.Situations
 			B = RuleHelper.BuildRule("B=a");
 
 			a = new Situation2<char>() { Rule=A,Predicate=A.Predicate as InputPredicate<char> };
-			graph = new SituationGraph<char>(new BasePredicate<char>[] { A.Predicate, B.Predicate });
+			graph = new SituationGraph<char>(new Rule<char>[] { A, B});
 
 			producer = new SituationProducer<char>();
 			items = producer.Develop(graph,a.AsEnumerable(), new Rule<char>[] { A, B }).ToArray();
@@ -398,7 +425,7 @@ namespace FSMLib.UnitTest.Situations
 			C = RuleHelper.BuildRule("C=a");
 
 			a = new Situation2<char>() { Rule = A, Predicate = A.Predicate as InputPredicate<char> };
-			graph = new SituationGraph<char>(new BasePredicate<char>[] { A.Predicate, B.Predicate,C.Predicate });
+			graph = new SituationGraph<char>(new Rule<char>[] { A, B,C});
 
 			producer = new SituationProducer<char>();
 			items = producer.Develop(graph, a.AsEnumerable(), new Rule<char>[] { A, B ,C}).ToArray();

@@ -21,6 +21,12 @@ namespace FSMLib.Situations
 			set;
 		}
 
+		/*public string Reduction
+		{
+			get;
+			set;
+		}*/
+
 		public SituationNode()
 		{
 			Edges = new List<SituationEdge<T>>();

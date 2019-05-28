@@ -7,18 +7,8 @@
 			xmlns:gv="clr-namespace:Microsoft.Glee.GraphViewerGdi;assembly=Microsoft.Glee.GraphViewerGDI"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-			<ColumnDefinition Width="5"/>
-			<ColumnDefinition Width="*"/>
-		</Grid.ColumnDefinitions>
-		<WindowsFormsHost Grid.Column="0">
-			<gv:GViewer x:Name="gViewer1" NavigationVisible="True" PanButtonPressed="True" SelectionChanged="GViewer1_SelectionChanged" />
-		</WindowsFormsHost>
-		<GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-		<WindowsFormsHost Grid.Column="2">
-			<gv:GViewer x:Name="gViewer2" NavigationVisible="True" PanButtonPressed="True" SelectionChanged="GViewer1_SelectionChanged" />
-		</WindowsFormsHost>
-	</Grid>
+	<WindowsFormsHost Grid.Column="0">
+		<gv:GViewer x:Name="gViewer1" NavigationVisible="True" PanButtonPressed="True" SelectionChanged="GViewer1_SelectionChanged" />
+	</WindowsFormsHost>
+
 </UserControl>

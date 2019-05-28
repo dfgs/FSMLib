@@ -14,25 +14,25 @@ namespace FSMLib.Situations
 		private List<SituationNode<T>> rootPredicateNodes;
 		
 
-		public SituationGraph(IEnumerable<BasePredicate<T>> Predicates)
+		public SituationGraph(IEnumerable<Rule<T>> Rules)
 		{
 			SituationNode<T> rootPredicateNode;
 			SituationEdge<T> reduceEdge;
 			SituationGraphSegment<T> segment;
 
-			if (Predicates == null) throw new ArgumentNullException("Predicates");
+			if (Rules == null) throw new ArgumentNullException("Rules");
 
 			this.inputPredicateNodes = new List<SituationNode<T>>();
 			this.rootPredicateNodes = new List<SituationNode<T>>();
 
-			foreach(BasePredicate<T> predicate in Predicates)
+			foreach(Rule<T> rule in Rules)
 			{
 				reduceEdge = new SituationEdge<T>();
-				reduceEdge.NextPredicate = null; // reduction
+				reduceEdge.NextPredicate = ReducePredicate<T>.Instance;
 
-				segment=BuildPredicate(predicate, reduceEdge.AsEnumerable());
+				segment=BuildPredicate(rule.Predicate, reduceEdge.AsEnumerable());
 				rootPredicateNode = new SituationNode<T>();
-				rootPredicateNode.Predicate = predicate;
+				rootPredicateNode.Predicate = rule.Predicate;
 				Connect(rootPredicateNode.AsEnumerable(), segment.InputEdges);
 				rootPredicateNodes.Add(rootPredicateNode);
 			}
@@ -64,6 +64,14 @@ namespace FSMLib.Situations
 			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == Predicate);
 			return (node != null);
 		}
+
+		/*public string GetReduction(InputPredicate<T> CurrentPredicate)
+		{
+			SituationNode<T> node;
+
+			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
+			return (node?.Reduction);
+		}*/
 
 		private SituationNode<T> CreateNode(InputPredicate<T> Predicate)
 		{
@@ -98,8 +106,9 @@ namespace FSMLib.Situations
 			{
 				foreach (SituationEdge<T> edge in Edges)
 				{
-					if (edge.NextPredicate != null) node.Edges.Add(edge); 
-					// else mark as reduction
+					/*if (edge.NextPredicate != null) node.Edges.Add(edge);
+					else node.Reduction = edge.Reduction;//*/
+					node.Edges.Add(edge);
 				}
 			}
 

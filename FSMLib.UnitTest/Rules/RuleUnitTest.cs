@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest
 		}
 
 		[TestMethod]
-		public void ShouldBeHumanReadableWithBullter()
+		public void ShouldBeHumanReadableWithBullet()
 		{
 			Rule<char> rule;
 			Sequence<char> predicate;
@@ -52,6 +52,8 @@ namespace FSMLib.UnitTest
 			rule.Predicate = predicate;
 
 			Assert.AreEqual("A=(abc•d)", rule.ToString(item));
+
+			Assert.AreEqual("A=(abcd)¤", rule.ToString(ReducePredicate<char>.Instance));
 		}
 
 	}

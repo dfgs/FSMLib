@@ -22,6 +22,12 @@ namespace FSMLib.Situations
 			set;
 		}
 
+		public NonTerminal<T> ParentPredicate
+		{
+			get;
+			set;
+		}
+
 		public bool Equals(Situation2<T> other)
 		{
 			return (Rule == other.Rule) && (Predicate == other.Predicate);

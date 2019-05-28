@@ -4,7 +4,7 @@ using FSMLib.Actions;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
-using FSMLib.SegmentFactories;
+
 using FSMLib.UnitTest.Mocks;
 using Microsoft.Glee.Drawing;
 using System;
@@ -40,12 +40,13 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			automatonTableFactory = new AutomatonTableFactory<char>( new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
 
 	
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A=a{B}{C}", "B={C}", "C=b");
 			CreateView("A=ab{B}", "B={C}", "C={D}", "D=c");
 			CreateView("A=ab{C}*", "C=c");
 			CreateView("A=a{S}a", "S={S}b", "S=c");

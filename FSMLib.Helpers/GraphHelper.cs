@@ -1,6 +1,6 @@
 ﻿using FSMLib.Table;
 using FSMLib.Rules;
-using FSMLib.SegmentFactories;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace FSMLib.Helpers
 			AutomatonTableFactory<char> automatonTableFactory;
 			AutomatonTable<char> automatonTable;
 
-			automatonTableFactory = new AutomatonTableFactory<char>(new SegmentFactoryProvider<char>(), new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>( new SituationProducer<char>());
 
 			automatonTable = automatonTableFactory.BuildAutomatonTable(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
 		

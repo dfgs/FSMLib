@@ -1,7 +1,6 @@
 ﻿using FSMLib.Actions;
 using FSMLib.Predicates;
 using FSMLib.Rules;
-using FSMLib.SegmentFactories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,73 +13,17 @@ namespace FSMLib.Table
 {
 	public class AutomatonTableFactory<T> : IAutomatonTableFactory<T>
 	{
-		private ISegmentFactoryProvider<T> segmentFactoryProvider;
 		private ISituationProducer<T> situationProducer;
 
-		public AutomatonTableFactory( ISegmentFactoryProvider<T> SegmentFactoryProvider, ISituationProducer<T> SituationProducer)
+		public AutomatonTableFactory(  ISituationProducer<T> SituationProducer)
 		{
-			if (SegmentFactoryProvider == null) throw new ArgumentNullException("SegmentFactoryProvider");
-			this.segmentFactoryProvider = SegmentFactoryProvider;
 			if (SituationProducer == null) throw new ArgumentNullException("SituationProducer");
 			this.situationProducer = SituationProducer;
 		}
 
-		
-		private void DevelopRuleDependencies(State<T> state, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules)
-		{
-			string[] reductionDependencies;
-			Segment<T> dependentSegment;
-
-			foreach (ShiftOnNonTerminal<T> nonTerminalAction in state.NonTerminalActions.ToArray())
-			{
-				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
-				foreach(string reductionDepency in reductionDependencies)
-				{
-					foreach (Rule<T> dependentRule in Rules.Where(item => item.Name == reductionDepency))
-					{
-						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseAction<T>>());
-						context.Connect(state.AsEnumerable(), dependentSegment.Actions);
-					}
-				}
-			}
-		}
-
-		private void CompleteReductionTargets(State<T> state, IEnumerable<ShiftOnNonTerminal<T>> Actions, IAutomatonTableFactoryContext<T> context, IEnumerable<Rule<T>> Rules, Rule<T> Axiom)
-		{
-			BaseTerminalInput<T>[] nextInputs;
-			string[] reductionDependencies;
-			Segment<T> dependentSegment;
-			int index;
-
-			index = context.GetStateIndex(state);
-
-			// enumerate all non terminal transitions in node
-			foreach (ShiftOnNonTerminal<T> nonTerminalAction in Actions)
-			{
-				// get all terminals following this non terminal transition
-				nextInputs = context.GetFirstTerminalInputsAfterAction( nonTerminalAction).Concat(state.ReductionActions.SelectMany(item=>item.Targets.Select(item2=>item2.Input))).ToArray();
-
-				// get all rules that can reduce to this transition
-				reductionDependencies = context.GetRuleReductionDependency(Rules, nonTerminalAction.Name).ToArray();
-				foreach (string reductionDepency in reductionDependencies)
-				{
-					foreach (Rule<T> dependentRule in Rules.Where(item => item.Name == reductionDepency))
-					{
-						dependentSegment = context.BuildSegment(dependentRule, Enumerable.Empty<BaseAction<T>>());
-						foreach(Reduce<T> reductionAction in dependentSegment.Outputs.SelectMany(item=>item.ReductionActions))
-						{
-							foreach (BaseTerminalInput<T> input in nextInputs)
-							{
-								reductionAction.Targets.Add(new ReductionTarget<T>() { TargetStateIndex=index,Input=input } );
-							}
-						}
-					}
-				}
-			}
-		}
 
 
-		private AutomatonTableTuple<T> GetNextTuple(AutomatonTable<T> Table, Stack<AutomatonTableTuple<T>> OpenList,List<AutomatonTableTuple<T>> SituationMapping, IEnumerable<Situation2<T>> NextSituations)
+		private AutomatonTableTuple<T> GetNextTuple(ISituationGraph<T> SituationGraph, AutomatonTable<T> Table, Stack<AutomatonTableTuple<T>> OpenList,List<AutomatonTableTuple<T>> SituationMapping, IEnumerable<Situation2<T>> NextSituations)
 		{
 			AutomatonTableTuple<T> nextTuple;
 
@@ -93,6 +36,10 @@ namespace FSMLib.Table
 
 				Table.States.Add(nextTuple.State);
 
+				foreach(Situation2<T> situation in NextSituations.Where(item=>item.Predicate==ReducePredicate<T>.Instance))
+				{
+					nextTuple.State.ReductionActions.Add(new Reduce<T>() { Name=situation.Rule.Name});
+				}
 				//nextTuple.State.ReductionActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].ReductionActions));
 				//nextTuple.State.AcceptActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].AcceptActions));
 
@@ -109,6 +56,7 @@ namespace FSMLib.Table
 			Sequence<T> sequence;
 			NonTerminal<T> nonTerminal;
 			SituationGraph<T> graph;
+			Rule<T>[] rules;
 
 			IEnumerable<Situation2<T>> nextSituations,developpedSituations;
 			AutomatonTable<T> automatonTable;
@@ -122,11 +70,14 @@ namespace FSMLib.Table
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
 
+			// needed to fix predicate dynamic creation due to enumeration
+			rules = Rules.ToArray();
+
 			automatonTable = new AutomatonTable<T>();
 			automatonTable.Alphabet.AddRange(Alphabet);
 
 
-			axiom = Rules.FirstOrDefault();
+			axiom = rules.FirstOrDefault();
 			if (axiom == null) return automatonTable;
 
 			nonTerminal = new NonTerminal<T>() { Name = axiom.Name };
@@ -137,13 +88,13 @@ namespace FSMLib.Table
 			acceptRule = new Rule<T>() {Name="Axiom" };
 			acceptRule.Predicate = sequence;
 
-			graph = new SituationGraph<T>( sequence.AsEnumerable().Concat(Rules.Select(item=>item.Predicate)) );
+			graph = new SituationGraph<T>( acceptRule.AsEnumerable().Concat(rules) );
 	
 			situationMapping = new List<AutomatonTableTuple<T>>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			developpedSituations = situationProducer.Develop(graph, new Situation2<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable(),Rules);
-			currentTuple = GetNextTuple(automatonTable, openList, situationMapping, developpedSituations);
+			developpedSituations = situationProducer.Develop(graph, new Situation2<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable(),rules);
+			currentTuple = GetNextTuple(graph, automatonTable, openList, situationMapping, developpedSituations) ;
 	
 			while (openList.Count>0)
 			{
@@ -151,9 +102,9 @@ namespace FSMLib.Table
 				foreach (BaseTerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
 				{
 					nextSituations = situationProducer.GetNextSituations(graph,currentTuple.Situations, input);
-					developpedSituations = situationProducer.Develop(graph,nextSituations, Rules);
+					developpedSituations = situationProducer.Develop(graph,nextSituations, rules);
 					// do we have the same situation list in automatonTable ?
-					nextTuple = GetNextTuple(automatonTable,openList,situationMapping,developpedSituations);
+					nextTuple = GetNextTuple(graph, automatonTable,openList,situationMapping,developpedSituations);
 					// if not we push this situation list in processing stack
 					action = new ShiftOnTerminal<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
@@ -161,9 +112,9 @@ namespace FSMLib.Table
 				foreach (string name in situationProducer.GetNextNonTerminals(currentTuple.Situations))
 				{
 					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, new NonTerminalInput<T>() {Name=name } );
-					developpedSituations = situationProducer.Develop(graph, nextSituations, Rules);
+					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
 					// do we have the same situation list in automatonTable ?
-					nextTuple = GetNextTuple(automatonTable, openList, situationMapping, developpedSituations);
+					nextTuple = GetNextTuple(graph, automatonTable, openList, situationMapping, developpedSituations);
 					// if not we push this situation list in processing stack
 					action = new ShiftOnNonTerminal<T>() { Name = name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());

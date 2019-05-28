@@ -45,7 +45,7 @@ namespace FSMLib.Situations
 				if (!situation.Predicate.GetInput().Match(Input)) continue;
 				foreach (InputPredicate<T> nextPredicate in SituationGraph.GetNextPredicates(situation.Predicate))
 				{
-					newSituation = new Situation2<T>() { Rule=situation.Rule,Predicate=nextPredicate };
+					newSituation = new Situation2<T>() { Rule=situation.Rule,Predicate=nextPredicate,ParentPredicate=situation.ParentPredicate };
 					results.Add(newSituation);
 				}
 				
@@ -105,7 +105,7 @@ namespace FSMLib.Situations
 					{
 						foreach (InputPredicate<T> developpedPredicate in SituationGraph.GetRootInputPredicates(rule.Predicate))
 						{
-							developpedSituation = new Situation2<T>() { Rule = rule, Predicate = developpedPredicate };
+							developpedSituation = new Situation2<T>() { Rule = rule, Predicate = developpedPredicate,ParentPredicate=nonTerminal };
 							if (results.FirstOrDefault(item => item.Equals(developpedSituation)) == null) results.Add(developpedSituation);
 						}
 					}

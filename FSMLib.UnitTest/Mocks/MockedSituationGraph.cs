@@ -33,5 +33,10 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+		public string GetReduction(InputPredicate<char> CurrentPredicate)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

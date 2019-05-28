@@ -4,7 +4,7 @@ using FSMLib.Table;
 
 using FSMLib.Helpers;
 using FSMLib.Predicates;
-using FSMLib.SegmentFactories;
+
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
