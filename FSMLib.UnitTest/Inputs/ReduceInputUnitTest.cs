@@ -12,9 +12,32 @@ namespace FSMLib.UnitTest.Inputs
 	[TestClass]
 	public class ReduceInputUnitTest
 	{
-		
+		[TestMethod]
+		public void ShoudEquals()
+		{
+			ReduceInput<char> a, b;
 
-		
+			a = new ReduceInput<char>();
+			b = new ReduceInput<char>();
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+		}
+
+		[TestMethod]
+		public void ShoudNotEquals()
+		{
+			ReduceInput<char> a;
+
+			a = new ReduceInput<char>();
+
+			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new AnyTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new EOSInput<char>()));
+		}
+
+
 		[TestMethod]
 		public void ShoudNotMatchItself()
 		{

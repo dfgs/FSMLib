@@ -17,43 +17,44 @@ namespace FSMLib.Situations
 
 		
 
-		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation2<T>> Situations)
+		/*public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
 			return Situations.Select(item => item.Predicate.GetInput()).OfType<NonTerminalInput<T>>().Select(item=>item.Name).DistinctEx();
-		}
-		public IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation2<T>> Situations)
+		}*/
+		public IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
-			return Situations.Select(item => item.Predicate.GetInput()).OfType<TerminalInput<T>>().DistinctEx();
+			return Situations.Select(item => item.Predicate.GetInput()).Where(item=>!(item is ReduceInput<T>)).DistinctEx();
 		}
 
 
 
-		public IEnumerable<Situation2<T>> GetNextSituations(ISituationGraph<T> SituationGraph, IEnumerable<Situation2<T>> Situations,IInput<T> Input)
+		public ISituationCollection<T> GetNextSituations(ISituationGraph<T> SituationGraph, IEnumerable<Situation<T>> Situations,IInput<T> Input)
 		{
-			Situation2<T> newSituation;
-			List<Situation2<T>> results;
+			Situation<T> newSituation;
+			List<Situation<T>> results;
+			SituationCollection<T> result;
 
 			if (SituationGraph == null) throw new ArgumentNullException("SituationGraph");
 			if (Situations == null) throw new ArgumentNullException("Situations");
 			if (Input == null) throw new ArgumentNullException("Input");
 
-			results = new List<Situation2<T>>();
-			foreach (Situation2<T> situation in Situations)
+			results = new List<Situation<T>>();
+			foreach (Situation<T> situation in Situations)
 			{
 				if (!situation.Predicate.GetInput().Match(Input)) continue;
 				foreach (InputPredicate<T> nextPredicate in SituationGraph.GetNextPredicates(situation.Predicate))
 				{
-					newSituation = new Situation2<T>() { Rule=situation.Rule,Predicate=nextPredicate,ParentPredicate=situation.ParentPredicate };
+					newSituation = new Situation<T>() { Rule=situation.Rule,Predicate=nextPredicate,ParentPredicate=situation.ParentPredicate };
 					results.Add(newSituation);
 				}
 				
 			}
 
-			return results.DistinctEx();
-			
-				
+			result = new SituationCollection<T>();
+			result.AddRange(results);
+			return result;
 		}
 		public void Connect(IEnumerable<State<T>> States, IEnumerable<BaseAction<T>> Actions)
 		{
@@ -88,13 +89,13 @@ namespace FSMLib.Situations
 			}
 		}
 
-		public IEnumerable<Situation2<T>> Develop(ISituationGraph<T> SituationGraph,IEnumerable<Situation2<T>> Situations, IEnumerable<Rule<T>> Rules)
+		public ISituationCollection<T> Develop(ISituationGraph<T> SituationGraph,IEnumerable<Situation<T>> Situations, IEnumerable<Rule<T>> Rules)
 		{
-			List<Situation2<T>> results;
+			SituationCollection<T> results;
 			int index;
-			Situation2<T> developpedSituation;
+			Situation<T> developpedSituation;
 
-			results = new List<Situation2<T>>();
+			results = new SituationCollection<T>();
 			results.AddRange(Situations);
 			index = 0;
 			while(index<results.Count)
@@ -105,8 +106,8 @@ namespace FSMLib.Situations
 					{
 						foreach (InputPredicate<T> developpedPredicate in SituationGraph.GetRootInputPredicates(rule.Predicate))
 						{
-							developpedSituation = new Situation2<T>() { Rule = rule, Predicate = developpedPredicate,ParentPredicate=nonTerminal };
-							if (results.FirstOrDefault(item => item.Equals(developpedSituation)) == null) results.Add(developpedSituation);
+							developpedSituation = new Situation<T>() { Rule = rule, Predicate = developpedPredicate,ParentPredicate=nonTerminal };
+							results.Add(developpedSituation);
 						}
 					}
 				}

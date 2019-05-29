@@ -15,7 +15,7 @@ namespace FSMLib.Table
 			get;
 			set;
 		}
-		public IEnumerable<Situation2<T>> Situations
+		public ISituationCollection<T> Situations
 		{
 			get;
 			set;
@@ -25,7 +25,7 @@ namespace FSMLib.Table
 		{
 
 		}
-		public AutomatonTableTuple(State<T> State, IEnumerable<Situation2<T>> Situations)
+		public AutomatonTableTuple(State<T> State, ISituationCollection<T> Situations)
 		{
 			if (State == null) throw new ArgumentNullException();
 			if (Situations == null) throw new ArgumentNullException();

@@ -44,7 +44,7 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(0, items.Length);
 		}
 
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldReturnTrueIfContainsItems()
 		{
 			List<int> a;
@@ -72,10 +72,10 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(CollectionProcessor.ContainsEx(a, 4));
 			Assert.IsFalse(CollectionProcessor.ContainsEx(a, -1));
 			Assert.IsFalse(CollectionProcessor.ContainsEx(null, 1));
-		}
+		}*/
 
 
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldReturnTrueIfCollectionsAreIdentical()
 		{
 			List<int> a,b;
@@ -117,7 +117,7 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(a, null));
 			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(null, a));
 
-		}
+		}*/
 
 		[TestMethod]
 		public void ShouldEnumerateSingleItem()

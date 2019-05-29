@@ -20,22 +20,22 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<Situation2<char>> Develop(ISituationGraph<char> SituationGraph, IEnumerable<Situation2<char>> Situations, IEnumerable<Rule<char>> Rules)
+		public ISituationCollection<char> Develop(ISituationGraph<char> SituationGraph, IEnumerable<Situation<char>> Situations, IEnumerable<Rule<char>> Rules)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation2<char>> Situations)
+		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<char>> Situations)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<Situation2<char>> GetNextSituations(ISituationGraph<char> SituationGraph, IEnumerable<Situation2<char>> Situations, IInput<char> Input)
+		public ISituationCollection<char> GetNextSituations(ISituationGraph<char> SituationGraph, IEnumerable<Situation<char>> Situations, IInput<char> Input)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<BaseTerminalInput<char>> GetNextTerminalInputs(IEnumerable<Situation2<char>> Situations)
+		public IEnumerable<BaseTerminalInput<char>> GetNextTerminalInputs(IEnumerable<Situation<char>> Situations)
 		{
 			throw new NotImplementedException();
 		}

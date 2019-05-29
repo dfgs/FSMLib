@@ -12,9 +12,34 @@ namespace FSMLib.UnitTest.Inputs
 	[TestClass]
 	public class NonTerminalInputUnitTest
 	{
-		
 
-		
+		[TestMethod]
+		public void ShoudEquals()
+		{
+			NonTerminalInput<char> a, b;
+
+			a = new NonTerminalInput<char>() { Name = "A" };
+			b = new NonTerminalInput<char>() { Name = "A" };
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+		}
+
+		[TestMethod]
+		public void ShoudNotEquals()
+		{
+			NonTerminalInput<char> a, b;
+
+			a = new NonTerminalInput<char>() { Name="A" };
+			b = new NonTerminalInput<char>() { Name = "B" };
+
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new AnyTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new EOSInput<char>()));
+			Assert.IsFalse(a.Equals(new ReduceInput<char>()));
+		}
+
 		[TestMethod]
 		public void ShoudMatch()
 		{
@@ -42,8 +67,17 @@ namespace FSMLib.UnitTest.Inputs
 			Assert.IsFalse(a.Match(c));
 
 		}
-		
-		
+
+		[TestMethod]
+		public void ShoudNotMatchT()
+		{
+			NonTerminalInput<char> a;
+
+			a = new NonTerminalInput<char>() { Name = "A" };
+
+			Assert.IsFalse(a.Match('a'));
+
+		}
 
 	}
 }

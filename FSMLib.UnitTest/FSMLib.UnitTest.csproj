@@ -57,7 +57,9 @@
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
     <Compile Include="Mocks\MockedSituationGraph.cs" />
-    <Compile Include="Rules\Situation2UnitTest.cs" />
+    <Compile Include="Situations\SituationCollectionUnitTest.cs" />
+    <Compile Include="Situations\SituationUnitTest.cs" />
+    <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
     <Compile Include="Situations\SituationGraphUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
     <Compile Include="Actions\ShiftOnNonTerminalUnitTest.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Situations\SituationProducerUnitTest.cs" />
     <Compile Include="CollectionProcessorUnitTest.cs" />
-    <Compile Include="Rules\SituationUnitTest.cs" />
     <Compile Include="Automatons\AutomatonUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>

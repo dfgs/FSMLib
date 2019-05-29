@@ -12,9 +12,33 @@ namespace FSMLib.UnitTest.Inputs
 	[TestClass]
 	public class EOSInputUnitTest
 	{
-		
 
-		
+
+		[TestMethod]
+		public void ShoudEquals()
+		{
+			EOSInput<char> a, b;
+
+			a = new EOSInput<char>();
+			b = new EOSInput<char>();
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+		}
+
+		[TestMethod]
+		public void ShoudNotEquals()
+		{
+			EOSInput<char> a;
+
+			a = new EOSInput<char>();
+
+			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new AnyTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new ReduceInput<char>()));
+		}
+
 		[TestMethod]
 		public void ShoudMatch()
 		{

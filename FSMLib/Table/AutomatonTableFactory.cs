@@ -23,32 +23,7 @@ namespace FSMLib.Table
 
 
 
-		private AutomatonTableTuple<T> GetNextTuple(ISituationGraph<T> SituationGraph, AutomatonTable<T> Table, Stack<AutomatonTableTuple<T>> OpenList,List<AutomatonTableTuple<T>> SituationMapping, IEnumerable<Situation2<T>> NextSituations)
-		{
-			AutomatonTableTuple<T> nextTuple;
-
-			nextTuple = SituationMapping.FirstOrDefault(item => item.Situations.IsIndenticalToEx(NextSituations));
-			if (nextTuple == null)
-			{
-				nextTuple = new AutomatonTableTuple<T>();
-				nextTuple.State = new State<T>();
-				nextTuple.Situations = NextSituations;
-
-				Table.States.Add(nextTuple.State);
-
-				foreach(Situation2<T> situation in NextSituations.Where(item=>item.Predicate==ReducePredicate<T>.Instance))
-				{
-					nextTuple.State.ReductionActions.Add(new Reduce<T>() { Name=situation.Rule.Name});
-				}
-				//nextTuple.State.ReductionActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].ReductionActions));
-				//nextTuple.State.AcceptActions.AddRange(NextSituations.SelectMany(item => item.AutomatonTable.States[item.StateIndex].AcceptActions));
-
-				SituationMapping.Add(nextTuple);
-				OpenList.Push(nextTuple);
-			}
-
-			return nextTuple;
-		}
+	
 
 		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
@@ -58,13 +33,14 @@ namespace FSMLib.Table
 			SituationGraph<T> graph;
 			Rule<T>[] rules;
 
-			IEnumerable<Situation2<T>> nextSituations,developpedSituations;
+			SituationDictionary<T> situationDictionary;
+			ISituationCollection<T> nextSituations,developpedSituations;
 			AutomatonTable<T> automatonTable;
-			List<AutomatonTableTuple<T>> situationMapping;
+			
 			AutomatonTableTuple<T> currentTuple,nextTuple;
 			Stack<AutomatonTableTuple<T>> openList;
 			Shift<T> action;
-			//ReductionTarget<T>[] targets;
+			
 
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
@@ -89,12 +65,19 @@ namespace FSMLib.Table
 			acceptRule.Predicate = sequence;
 
 			graph = new SituationGraph<T>( acceptRule.AsEnumerable().Concat(rules) );
-	
-			situationMapping = new List<AutomatonTableTuple<T>>();
+
+			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			developpedSituations = situationProducer.Develop(graph, new Situation2<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable(),rules);
-			currentTuple = GetNextTuple(graph, automatonTable, openList, situationMapping, developpedSituations) ;
+			developpedSituations = situationProducer.Develop(graph, new Situation<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable(),rules);
+			nextTuple = situationDictionary.GetTuple(developpedSituations);
+			if (nextTuple == null)
+			{
+				nextTuple = situationDictionary.CreateTuple(developpedSituations);
+				automatonTable.States.Add(nextTuple.State);
+				openList.Push(nextTuple);
+			}
+				
 	
 			while (openList.Count>0)
 			{
@@ -103,20 +86,14 @@ namespace FSMLib.Table
 				{
 					nextSituations = situationProducer.GetNextSituations(graph,currentTuple.Situations, input);
 					developpedSituations = situationProducer.Develop(graph,nextSituations, rules);
-					// do we have the same situation list in automatonTable ?
-					nextTuple = GetNextTuple(graph, automatonTable,openList,situationMapping,developpedSituations);
-					// if not we push this situation list in processing stack
+					nextTuple = situationDictionary.GetTuple(developpedSituations);
+					if (nextTuple == null)
+					{
+						nextTuple = situationDictionary.CreateTuple(developpedSituations);
+						automatonTable.States.Add(nextTuple.State);
+						openList.Push(nextTuple);
+					}
 					action = new ShiftOnTerminal<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
-					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
-				}
-				foreach (string name in situationProducer.GetNextNonTerminals(currentTuple.Situations))
-				{
-					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, new NonTerminalInput<T>() {Name=name } );
-					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
-					// do we have the same situation list in automatonTable ?
-					nextTuple = GetNextTuple(graph, automatonTable, openList, situationMapping, developpedSituations);
-					// if not we push this situation list in processing stack
-					action = new ShiftOnNonTerminal<T>() { Name = name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
 

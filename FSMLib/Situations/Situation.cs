@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Situations
 {
-	public class Situation2<T>:IEquatable<Situation2<T>>
+	public class Situation<T>:IEquatable<Situation<T>>
 	{
 		public Rule<T> Rule
 		{
@@ -28,7 +28,7 @@ namespace FSMLib.Situations
 			set;
 		}
 
-		public bool Equals(Situation2<T> other)
+		public bool Equals(Situation<T> other)
 		{
 			return (Rule == other.Rule) && (Predicate == other.Predicate);
 		}

@@ -18,7 +18,7 @@ namespace FSMLib.Predicates
 		{
 		}
 
-		public override IInput<T> GetInput()
+		public override BaseTerminalInput<T> GetInput()
 		{
 			return input;
 		}

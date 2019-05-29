@@ -10,7 +10,7 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public abstract class InputPredicate<T>: BasePredicate<T>
 	{
-		public abstract IInput<T> GetInput();
+		public abstract BaseTerminalInput<T> GetInput();
 
 	}
 }

@@ -12,9 +12,32 @@ namespace FSMLib.UnitTest.Inputs
 	[TestClass]
 	public class AnyTerminalInputUnitTest
 	{
-		
 
-		
+		[TestMethod]
+		public void ShoudEquals()
+		{
+			AnyTerminalInput<char> a, b;
+
+			a = new AnyTerminalInput<char>();
+			b = new AnyTerminalInput<char>();
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+		}
+
+		[TestMethod]
+		public void ShoudNotEquals()
+		{
+			AnyTerminalInput<char> a;
+
+			a = new AnyTerminalInput<char>();
+
+			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new EOSInput<char>()));
+			Assert.IsFalse(a.Equals(new ReduceInput<char>()));
+		}
+
 		[TestMethod]
 		public void ShoudMatch()
 		{

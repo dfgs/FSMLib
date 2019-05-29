@@ -13,7 +13,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		[TestMethod]
 		public void ShoudHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new AutomatonTableTuple<object>(null, Enumerable.Empty<Situation2<object>>() ));
+			Assert.ThrowsException<ArgumentNullException>((Func<object>)(() => new AutomatonTableTuple<object>(null, new SituationCollection<object>() )));
 			Assert.ThrowsException<ArgumentNullException>(() => new AutomatonTableTuple<object>(new State<object>(), null));
 		}
 	}

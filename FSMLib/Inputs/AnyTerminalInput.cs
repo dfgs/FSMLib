@@ -9,7 +9,10 @@ namespace FSMLib.Inputs
 	public class AnyTerminalInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
 	{
 
-
+		public override bool Equals(BaseTerminalInput<T> other)
+		{
+			return other is AnyTerminalInput<T>;
+		}
 
 		public override bool Match(IInput<T> Other)
 		{

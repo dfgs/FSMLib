@@ -24,7 +24,7 @@ namespace FSMLib
 			}
 		}
 
-		public static bool IsIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
+		/*public static bool IsIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
 			where T : IEquatable<T>
 		{
 			if (Items == null) return Other==null;
@@ -54,7 +54,7 @@ namespace FSMLib
 			}
 
 			return false;
-		}
+		}*/
 
 		public static IEnumerable<T> AsEnumerable<T>(this T Item)
 		{

@@ -3,7 +3,7 @@ using FSMLib.Predicates;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FSMLib.UnitTest
+namespace FSMLib.UnitTest.Rules
 {
 	[TestClass]
 	public class RuleUnitTest

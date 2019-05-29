@@ -11,7 +11,7 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public class AnyTerminal<T>: InputPredicate<T>
 	{
-		public override IInput<T> GetInput()
+		public override BaseTerminalInput<T> GetInput()
 		{
 			return new AnyTerminalInput<T>();
 		}

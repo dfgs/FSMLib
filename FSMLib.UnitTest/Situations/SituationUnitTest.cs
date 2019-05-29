@@ -6,22 +6,22 @@ using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
 
-namespace FSMLib.UnitTest
+namespace FSMLib.UnitTest.Situations
 {
 	[TestClass]
-	public class Situation2UnitTest
+	public class SituationUnitTest
 	{
 		[TestMethod]
 		public void ShouldBeEquals()
 		{
-			Situation2<char> a, b;
+			FSMLib.Situations.Situation<char> a, b;
 			Rule<char> rule;
 			InputPredicate<char> predicate;
 
 			rule = RuleHelper.BuildRule("A=abc");
 			predicate=(rule.Predicate as Sequence<char>).Items[0] as Terminal<char>;
-			a = new Situation2<char>() { Rule = rule, Predicate = predicate };
-			b = new Situation2<char>() { Rule = rule, Predicate = predicate };
+			a = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate };
+			b = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate };
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -29,15 +29,15 @@ namespace FSMLib.UnitTest
 		[TestMethod]
 		public void ShouldNotBeEquals()
 		{
-			Situation2<char> a, b;
+			FSMLib.Situations.Situation<char> a, b;
 			Rule<char> rule;
 			InputPredicate<char> predicate1,predicate2;
 
 			rule = RuleHelper.BuildRule("A=abc");
 			predicate1 = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char>;
 			predicate2 = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char>;
-			a = new Situation2<char>() { Rule = rule, Predicate = predicate1 };
-			b = new Situation2<char>() { Rule = rule, Predicate = predicate2 };
+			a = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate1 };
+			b = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate2 };
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(a));

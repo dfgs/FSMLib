@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class TerminalInput<T>:BaseTerminalInput<T>,IEquatable<TerminalInput<T>>//,IEquatable<BaseInput<T>>
+	public class TerminalInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
 	{
 		public T Value
 		{
@@ -16,18 +16,14 @@ namespace FSMLib.Inputs
 
 
 
-		public bool Equals(TerminalInput<T> other)
+		public override bool Equals(BaseTerminalInput<T> other)
 		{
-			if (other == null) return false;
-			if (other.Value == null) return this.Value == null;
-			return other.Value.Equals(this.Value);
+			if (!(other is TerminalInput<T> o)) return false;
+			if (o.Value == null) return this.Value == null;
+			return o.Value.Equals(this.Value);
 		}
 
-		/*public bool Equals(BaseInput<T> other)
-		{
-			if (other is TerminalInput<T> terminalInput) return Equals(terminalInput);
-			return false;
-		}*/
+		
 
 		public override bool Match(IInput<T> Other)
 		{

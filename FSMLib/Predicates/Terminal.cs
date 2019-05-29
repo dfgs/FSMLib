@@ -18,7 +18,7 @@ namespace FSMLib.Predicates
 			set;
 		}
 
-		public override IInput<T> GetInput()
+		public override BaseTerminalInput<T> GetInput()
 		{
 			return new TerminalInput<T>() { Value = Value };
 		}

@@ -10,6 +10,10 @@ namespace FSMLib.Inputs
 	{
 
 
+		public override bool Equals(BaseTerminalInput<T> other)
+		{
+			return other is ReduceInput<T>;
+		}
 
 		public override bool Match(IInput<T> Other)
 		{
