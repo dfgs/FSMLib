@@ -59,7 +59,7 @@ namespace FSMLib.Table
 			nonTerminal = new NonTerminal<T>() { Name = axiom.Name };
 			sequence = new Sequence<T>();
 			sequence.Items.Add(nonTerminal);
-			//sequence.Items.Add(new Terminal<T>() { Value=new  } );
+			sequence.Items.Add(new EOS<T>() );
 
 			acceptRule = new Rule<T>() {Name="Axiom" };
 			acceptRule.Predicate = sequence;
@@ -84,8 +84,8 @@ namespace FSMLib.Table
 				currentTuple = openList.Pop();
 				foreach (BaseTerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
 				{
-					nextSituations = situationProducer.GetNextSituations(graph,currentTuple.Situations, input);
-					developpedSituations = situationProducer.Develop(graph,nextSituations, rules);
+					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, input);
+					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
 					{
@@ -97,9 +97,24 @@ namespace FSMLib.Table
 					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
 
+				foreach (NonTerminalInput<T> input in situationProducer.GetNextNonTerminalInputs(currentTuple.Situations))
+				{
+					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, input);
+					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
+					nextTuple = situationDictionary.GetTuple(developpedSituations);
+					if (nextTuple == null)
+					{
+						nextTuple = situationDictionary.CreateTuple(developpedSituations);
+						automatonTable.States.Add(nextTuple.State);
+						openList.Push(nextTuple);
+					}
+					action = new ShiftOnNonTerminal<T>() { Name = input.Name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
+					situationProducer.Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
+				}
+
 			}
 
-			
+
 			return automatonTable;
 		}
 

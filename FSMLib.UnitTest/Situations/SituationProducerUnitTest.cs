@@ -106,7 +106,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			FSMLib.Situations.Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			BaseTerminalInput<char>[] distinctInputs;
+			NonTerminalInput<char>[] distinctInputs;
 			Rule<char> rule;
 
 			rule = RuleHelper.BuildRule("A={A}|{A}|{A}");
@@ -116,7 +116,7 @@ namespace FSMLib.UnitTest.Situations
 			s3 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char> };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
+			distinctInputs = producer.GetNextNonTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(1, distinctInputs.Length);
 			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char> { Name = "A" }));
@@ -127,7 +127,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			FSMLib.Situations.Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			BaseTerminalInput<char>[] distinctInputs;
+			NonTerminalInput<char>[] distinctInputs;
 			Rule<char> rule;
 
 			rule = RuleHelper.BuildRule("A={A}|{A}|{B}");
@@ -137,7 +137,7 @@ namespace FSMLib.UnitTest.Situations
 			s3 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char> };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
+			distinctInputs = producer.GetNextNonTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 
 			Assert.AreEqual(2, distinctInputs.Length);
 			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char> { Name = "A" }));
@@ -148,7 +148,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			FSMLib.Situations.Situation<char> s1, s2, s3;
 			SituationProducer<char> producer;
-			BaseTerminalInput<char>[] distinctInputs;
+			NonTerminalInput<char>[] distinctInputs;
 			Rule<char> rule;
 
 			rule = RuleHelper.BuildRule("A={A}|{B}|{C}");
@@ -158,7 +158,7 @@ namespace FSMLib.UnitTest.Situations
 			s3 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char> };
 
 			producer = new SituationProducer<char>();
-			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
+			distinctInputs = producer.GetNextNonTerminalInputs(new Situation<char>[] { s1, s2, s3 }).ToArray();
 			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char> { Name = "A" }));
 			Assert.IsTrue(distinctInputs[1].Match(new NonTerminalInput<char> { Name = "B" }));
 			Assert.IsTrue(distinctInputs[2].Match(new NonTerminalInput<char> { Name = "C" }));

@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Situations
 {
-	public abstract class SituationEdge<T>
+	public class ReductionEdge<T>:SituationEdge<T>
 	{
-		
+	
+
 
 	}
 }

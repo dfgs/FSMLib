@@ -22,7 +22,7 @@ namespace FSMLib.Predicates
 
 
 		
-		public override BaseTerminalInput<T> GetInput()
+		public override BaseInput<T> GetInput()
 		{
 			return new NonTerminalInput<T>() { Name = this.Name };
 		}

@@ -27,8 +27,7 @@ namespace FSMLib.Situations
 
 			foreach(Rule<T> rule in Rules)
 			{
-				reduceEdge = new SituationEdge<T>();
-				reduceEdge.NextPredicate = ReducePredicate<T>.Instance;
+				reduceEdge = new ReductionEdge<T>();
 
 				segment=BuildPredicate(rule.Predicate, reduceEdge.AsEnumerable());
 				rootPredicateNode = new SituationNode<T>();
@@ -45,7 +44,7 @@ namespace FSMLib.Situations
 			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
 			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
 
-			return node.Edges.Select(item => item.NextPredicate);
+			return node.Edges.OfType<ShiftEdge<T>>().Select(item => item.NextPredicate);
 		}
 		public IEnumerable<InputPredicate<T>> GetRootInputPredicates(BasePredicate<T> RootPredicate)
 		{
@@ -54,7 +53,7 @@ namespace FSMLib.Situations
 			node = rootPredicateNodes.FirstOrDefault(item => item.Predicate == RootPredicate);
 			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
 
-			return node.Edges.Select(item => item.NextPredicate);
+			return node.Edges.OfType<ShiftEdge<T>>().Select(item => item.NextPredicate);
 		}
 
 		public bool Contains(InputPredicate<T> Predicate)
@@ -63,6 +62,14 @@ namespace FSMLib.Situations
 
 			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == Predicate);
 			return (node != null);
+		}
+		public bool CanReduce(InputPredicate<T> CurrentPredicate)
+		{
+			SituationNode<T> node;
+
+			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
+			if (node == null) return false;
+			return node.Edges.OfType<ReductionEdge<T>>().Any();
 		}
 
 		/*public string GetReduction(InputPredicate<T> CurrentPredicate)
@@ -91,6 +98,7 @@ namespace FSMLib.Situations
 				case Terminal<T> predicate: return BuildPredicate(predicate,Edges);
 				case NonTerminal<T> predicate: return BuildPredicate(predicate, Edges);
 				case AnyTerminal<T> predicate: return BuildPredicate(predicate, Edges);
+				case EOS<T> predicate: return BuildPredicate(predicate, Edges);
 				case Sequence<T> predicate: return BuildPredicate(predicate, Edges);
 				case Or<T> predicate: return BuildPredicate(predicate, Edges);
 				case OneOrMore<T> predicate: return BuildPredicate(predicate, Edges);
@@ -106,8 +114,7 @@ namespace FSMLib.Situations
 			{
 				foreach (SituationEdge<T> edge in Edges)
 				{
-					/*if (edge.NextPredicate != null) node.Edges.Add(edge);
-					else node.Reduction = edge.Reduction;//*/
+					//if (edge.NextPredicate is ReducePredicate<T>) continue;
 					node.Edges.Add(edge);
 				}
 			}
@@ -116,13 +123,13 @@ namespace FSMLib.Situations
 		private SituationGraphSegment<T> BuildPredicate(InputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
-			SituationEdge<T> edge;
+			ShiftEdge<T> edge;
 			SituationGraphSegment<T> segment;
 
 			node = CreateNode(Predicate);
 			Connect(node.AsEnumerable(), Edges);
 
-			edge = new SituationEdge<T>();
+			edge = new ShiftEdge<T>();
 			edge.NextPredicate = Predicate;
 
 			segment = new SituationGraphSegment<T>();

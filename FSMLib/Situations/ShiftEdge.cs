@@ -7,9 +7,19 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Situations
 {
-	public abstract class SituationEdge<T>
+	public class ShiftEdge<T>:SituationEdge<T>
 	{
-		
+		public InputPredicate<T> NextPredicate
+		{
+			get;
+			set;
+		}
+		/*public string Reduction
+		{
+			get;
+			set;
+		}*/
+
 
 	}
 }

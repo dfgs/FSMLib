@@ -9,22 +9,20 @@ using FSMLib.Rules;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class AnyTerminal<T>: InputPredicate<T>
+	public class EOS<T>: InputPredicate<T>
 	{
 		public override BaseInput<T> GetInput()
 		{
-			return new AnyTerminalInput<T>();
+			return new EOSInput<T>();
 		}
-
-
 
 
 		
 
 		public override string ToString(InputPredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate == this) return "•.";
-			else return ".";
+			if (CurrentPredicate == this) return "•¤";
+			else return "¤";
 		}
 
 		

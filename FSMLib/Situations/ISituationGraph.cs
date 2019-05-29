@@ -16,5 +16,6 @@ namespace FSMLib.Situations
 		IEnumerable<InputPredicate<T>> GetNextPredicates(InputPredicate<T> CurrentPredicate);
 		bool Contains(InputPredicate<T> Predicate);
 
+		bool CanReduce(InputPredicate<T> CurrentPredicate);
 	}
 }

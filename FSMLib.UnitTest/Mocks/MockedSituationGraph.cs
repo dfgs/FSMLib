@@ -34,9 +34,11 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public string GetReduction(InputPredicate<char> CurrentPredicate)
+		
+
+		public bool CanReduce(InputPredicate<char> CurrentPredicate)
 		{
-			throw new NotImplementedException();
+			return true;
 		}
 	}
 }

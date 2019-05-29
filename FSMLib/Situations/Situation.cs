@@ -22,6 +22,12 @@ namespace FSMLib.Situations
 			set;
 		}
 
+		public bool CanReduce
+		{
+			get;
+			set;
+		}
+
 		public NonTerminal<T> ParentPredicate
 		{
 			get;

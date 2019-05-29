@@ -44,7 +44,6 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(0, parser.ActionCount);
 			
 		}
 		[TestMethod]
@@ -72,8 +71,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-			Assert.AreEqual(0, parser.ActionCount);
-
+	
 			
 
 		}

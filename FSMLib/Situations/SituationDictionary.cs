@@ -41,7 +41,7 @@ namespace FSMLib.Situations
 			tuple.State = new State<T>();
 			tuple.Situations = Situations;
 
-			reduceSituations = Situations.Where(item => item.Predicate == ReducePredicate<T>.Instance);
+			reduceSituations = Situations.Where(item => item.CanReduce);
 			foreach (Situation<T> reduceSituation in reduceSituations)
 			{
 				reduceAction = new Reduce<T>() { Name = reduceSituation.Rule.Name };

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class NonTerminalInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
+	public class NonTerminalInput<T>:BaseInput<T>,IEquatable<NonTerminalInput<T>>
 	{
 		public string Name
 		{
@@ -16,10 +16,10 @@ namespace FSMLib.Inputs
 
 
 
-		public override bool Equals(BaseTerminalInput<T> other)
+		public  bool Equals(NonTerminalInput<T> other)
 		{
-			if (!(other is NonTerminalInput<T> o)) return false;
-			return o.Name == Name;
+			if (other == null) return false;// (!(other is NonTerminalInput<T> o)) return false;
+			return other.Name == Name;
 		}
 
 		
@@ -34,10 +34,10 @@ namespace FSMLib.Inputs
 
 		
 
-		public override bool Match(T Value)
+		/*public override bool Match(T Value)
 		{
 			return false;
-		}
+		}*/
 
 		public override string ToString()
 		{

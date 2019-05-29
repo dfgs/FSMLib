@@ -17,15 +17,15 @@ namespace FSMLib.Situations
 
 		
 
-		/*public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations)
+		public IEnumerable<NonTerminalInput<T>> GetNextNonTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
-			return Situations.Select(item => item.Predicate.GetInput()).OfType<NonTerminalInput<T>>().Select(item=>item.Name).DistinctEx();
-		}*/
+			return Situations.Select(item => item.Predicate.GetInput()).OfType<NonTerminalInput<T>>().DistinctEx();
+		}
 		public IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
-			return Situations.Select(item => item.Predicate.GetInput()).Where(item=>!(item is ReduceInput<T>)).DistinctEx();
+			return Situations.Select(item => item.Predicate.GetInput()).OfType<BaseTerminalInput<T>>().DistinctEx();
 		}
 
 
@@ -47,6 +47,7 @@ namespace FSMLib.Situations
 				foreach (InputPredicate<T> nextPredicate in SituationGraph.GetNextPredicates(situation.Predicate))
 				{
 					newSituation = new Situation<T>() { Rule=situation.Rule,Predicate=nextPredicate,ParentPredicate=situation.ParentPredicate };
+					newSituation.CanReduce = SituationGraph.CanReduce(situation.Predicate);
 					results.Add(newSituation);
 				}
 				

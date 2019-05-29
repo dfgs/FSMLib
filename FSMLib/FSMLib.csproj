@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
-    <Compile Include="Inputs\ReduceInput.cs" />
     <Compile Include="Inputs\BaseInput.cs" />
     <Compile Include="Inputs\BaseTerminalInput.cs" />
     <Compile Include="Inputs\EOSInput.cs" />
@@ -51,15 +50,17 @@
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Inputs\AnyTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
-    <Compile Include="Predicates\ReducePredicate.cs" />
+    <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\ExtendedPredicate.cs" />
     <Compile Include="Predicates\InputPredicate.cs" />
     <Compile Include="Situations\ISituationCollection.cs" />
     <Compile Include="Situations\ISituationDictionary.cs" />
+    <Compile Include="Situations\ReductionEdge.cs" />
     <Compile Include="Situations\Situation.cs" />
     <Compile Include="Situations\ISituationGraph.cs" />
     <Compile Include="Situations\SituationCollection.cs" />
     <Compile Include="Situations\SituationDictionary.cs" />
+    <Compile Include="Situations\ShiftEdge.cs" />
     <Compile Include="Situations\SituationEdge.cs" />
     <Compile Include="Situations\SituationGraph.cs" />
     <Compile Include="Situations\SituationGraphSegment.cs" />

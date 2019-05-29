@@ -14,7 +14,8 @@ namespace FSMLib.Situations
 	public interface ISituationProducer<T>
 	{
 		IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations);
-		//IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<T>> Situations);
+		IEnumerable<NonTerminalInput<T>> GetNextNonTerminalInputs(IEnumerable<Situation<T>> Situations);
+
 		ISituationCollection<T> GetNextSituations(ISituationGraph<T> SituationGraph, IEnumerable<Situation<T>> Situations, IInput<T> Input);
 		void Connect(IEnumerable<State<T>> States, IEnumerable<BaseAction<T>> Actions);
 		ISituationCollection<T> Develop(ISituationGraph<T> SituationGraph,IEnumerable<Situation<T>> Situations,IEnumerable<Rule<T>> Rules);

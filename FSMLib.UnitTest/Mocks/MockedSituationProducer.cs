@@ -25,6 +25,11 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
+		public IEnumerable<NonTerminalInput<char>> GetNextNonTerminalInputs(IEnumerable<Situation<char>> Situations)
+		{
+			throw new NotImplementedException();
+		}
+
 		public IEnumerable<string> GetNextNonTerminals(IEnumerable<Situation<char>> Situations)
 		{
 			throw new NotImplementedException();

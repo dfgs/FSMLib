@@ -50,13 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
-    <Compile Include="Inputs\ReduceInputUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\AnyTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
     <Compile Include="Mocks\MockedSituationGraph.cs" />
+    <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Situations\SituationCollectionUnitTest.cs" />
     <Compile Include="Situations\SituationUnitTest.cs" />
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
