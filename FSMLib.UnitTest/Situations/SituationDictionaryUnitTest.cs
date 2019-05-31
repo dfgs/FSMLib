@@ -61,18 +61,18 @@ namespace FSMLib.UnitTest.Situations
 			dictionary = new SituationDictionary<char>();
 			result = dictionary.GetTuple(situations);
 			Assert.IsNull(result);
-			dictionary.CreateTuple(situations);
+			dictionary.CreateTuple(new State<char>(),situations);
 			result = dictionary.GetTuple(situations);
 			Assert.IsNotNull(result);
 
 		}
 
-		/*[TestMethod]
+		[TestMethod]
 
-		public void ShouldGetTupleForSingleSituation()
+		public void ShouldEnumerateTuples()
 		{
 			SituationDictionary<char> dictionary;
-			AutomatonTableTuple<char> result;
+			AutomatonTableTuple<char>[] result;
 			Rule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
@@ -82,17 +82,24 @@ namespace FSMLib.UnitTest.Situations
 			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
 			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
 
+			dictionary = new SituationDictionary<char>();
+
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
+			dictionary.CreateTuple(new State<char>(), situations);
 
-			dictionary = new SituationDictionary<char>();
-			result = dictionary.GetTuple(situations);
-			Assert.IsNull(result);
-			dictionary.CreateTuple(situations);
-			result = dictionary.GetTuple(situations);
-			Assert.IsNotNull(result);
+			situations = new SituationCollection<char>();
+			situations.Add(a); 
+			dictionary.CreateTuple(new State<char>(), situations);
 
-		}*/
+			situations = new SituationCollection<char>();
+			situations.Add(b);
+			dictionary.CreateTuple(new State<char>(), situations);
+
+			result = dictionary.ToArray();
+			Assert.AreEqual(3, result.Length);
+		}
+
 
 
 	}

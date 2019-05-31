@@ -40,8 +40,8 @@ namespace FSMLib.Table
 			AutomatonTableTuple<T> currentTuple,nextTuple;
 			Stack<AutomatonTableTuple<T>> openList;
 			Shift<T> action;
-			
 
+			State<T> state;
 
 			if (Rules == null) throw new System.ArgumentNullException("Rules");
 			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
@@ -73,8 +73,9 @@ namespace FSMLib.Table
 			nextTuple = situationDictionary.GetTuple(developpedSituations);
 			if (nextTuple == null)
 			{
-				nextTuple = situationDictionary.CreateTuple(developpedSituations);
-				automatonTable.States.Add(nextTuple.State);
+				state = new State<T>();
+				automatonTable.States.Add(state);
+				nextTuple = situationDictionary.CreateTuple(state,developpedSituations);
 				openList.Push(nextTuple);
 			}
 				
@@ -89,8 +90,9 @@ namespace FSMLib.Table
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
 					{
-						nextTuple = situationDictionary.CreateTuple(developpedSituations);
-						automatonTable.States.Add(nextTuple.State);
+						state = new State<T>();
+						automatonTable.States.Add(state);
+						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
 						openList.Push(nextTuple);
 					}
 					action = new ShiftOnTerminal<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
@@ -104,8 +106,9 @@ namespace FSMLib.Table
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
 					{
-						nextTuple = situationDictionary.CreateTuple(developpedSituations);
-						automatonTable.States.Add(nextTuple.State);
+						state = new State<T>();
+						automatonTable.States.Add(state);
+						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
 						openList.Push(nextTuple);
 					}
 					action = new ShiftOnNonTerminal<T>() { Name = input.Name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };

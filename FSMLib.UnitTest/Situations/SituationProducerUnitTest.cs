@@ -97,9 +97,25 @@ namespace FSMLib.UnitTest.Situations
 		
 		}
 
+		[TestMethod]
+		public void ShouldNotGetReduceInput()
+		{
+			FSMLib.Situations.Situation<char> s1;
+			SituationProducer<char> producer;
+			BaseTerminalInput<char>[] distinctInputs;
+			Rule<char> rule;
+
+			rule = RuleHelper.BuildRule("A=a|a|a");
+
+			s1 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = new ReducePredicate<char>() };
+
+			producer = new SituationProducer<char>();
+			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1 }).ToArray();
+
+			Assert.AreEqual(0, distinctInputs.Length);
+		}
 
 
-		
 
 		[TestMethod]
 		public void ShouldGetOneDistinctNonTerminal()

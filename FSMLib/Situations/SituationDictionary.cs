@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ using FSMLib.Table;
 
 namespace FSMLib.Situations
 {
-	public class SituationDictionary<T> : ISituationDictionary<T>
+	public class SituationDictionary<T> : ISituationDictionary<T>,IEnumerable<AutomatonTableTuple<T>>
 	{
 		private List<AutomatonTableTuple<T>> tupleCollections;
 
@@ -31,14 +32,14 @@ namespace FSMLib.Situations
 		}*/
 
 
-		public AutomatonTableTuple<T> CreateTuple(ISituationCollection<T> Situations)
+		public AutomatonTableTuple<T> CreateTuple(State<T> State, ISituationCollection<T> Situations)
 		{
 			AutomatonTableTuple<T> tuple;
 			IEnumerable<Situation<T>> reduceSituations;
 			Reduce<T> reduceAction;
 
 			tuple = new AutomatonTableTuple<T>();
-			tuple.State = new State<T>();
+			tuple.State = State;
 			tuple.Situations = Situations;
 
 			reduceSituations = Situations.Where(item => item.CanReduce);
@@ -54,8 +55,14 @@ namespace FSMLib.Situations
 			return tuple;
 		}
 
+		public IEnumerator<AutomatonTableTuple<T>> GetEnumerator()
+		{
+			return tupleCollections.GetEnumerator();
+		}
 
-
-
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return tupleCollections.GetEnumerator();
+		}
 	}
 }

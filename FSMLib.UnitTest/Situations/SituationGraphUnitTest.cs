@@ -102,7 +102,7 @@ namespace FSMLib.UnitTest.Situations
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			items = graph.GetNextPredicates(predicate).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(graph.CanReduce(predicate));
 
 			predicate = new NonTerminal<char>() { Name = "A" };
@@ -110,7 +110,7 @@ namespace FSMLib.UnitTest.Situations
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			items = graph.GetNextPredicates(predicate).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(graph.CanReduce(predicate));
 
 			predicate = new AnyTerminal<char>();
@@ -118,7 +118,7 @@ namespace FSMLib.UnitTest.Situations
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			items = graph.GetNextPredicates(predicate).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(graph.CanReduce(predicate));
 		}
 
@@ -155,7 +155,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(c, items[0]);
 
 			items = graph.GetNextPredicates(c).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 
 			Assert.IsFalse(graph.CanReduce(a));
 			Assert.IsFalse(graph.CanReduce(b));
@@ -189,13 +189,13 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(graph.Contains(c));
 
 			items = graph.GetNextPredicates(a).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 
 			items = graph.GetNextPredicates(b).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 
 			items = graph.GetNextPredicates(c).ToArray();
-			Assert.AreEqual(0, items.Length);
+			Assert.AreEqual(1, items.Length);
 
 			Assert.IsTrue(graph.CanReduce(a));
 			Assert.IsTrue(graph.CanReduce(b));

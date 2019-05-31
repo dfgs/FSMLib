@@ -10,7 +10,7 @@ namespace FSMLib.Situations
 	public interface ISituationDictionary<T>
 	{
 		AutomatonTableTuple<T> GetTuple(ISituationCollection<T> Situations);
-		AutomatonTableTuple<T> CreateTuple(ISituationCollection<T> Situations);
+		AutomatonTableTuple<T> CreateTuple(State<T> State, ISituationCollection<T> Situations);
 		//AutomatonTableTuple<T> GetTuple(Situation<T> Situation);
 
 

@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class EOSInput<T>: BaseTerminalInput<T>
+	public class ReduceInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
 	{
-
 
 		public override bool Equals(BaseTerminalInput<T> other)
 		{
-			return other is EOSInput<T>;
+			return other is ReduceInput<T>;
 		}
+
 		public override bool Match(IInput<T> Other)
 		{
-			if (Other == null) return false;
-			return Other is EOSInput<T>;
+			return false;
 		}
 
 		public override bool Match(T Value)
@@ -27,7 +26,9 @@ namespace FSMLib.Inputs
 
 		public override string ToString()
 		{
-			return "¤";
+			return "←";
 		}
+
+		
 	}
 }

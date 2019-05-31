@@ -10,17 +10,16 @@ namespace FSMLib.UnitTest.Inputs
 	/// Description résumée pour TerminalInputUnitTest
 	/// </summary>
 	[TestClass]
-	public class EOSInputUnitTest
+	public class ReduceInputUnitTest
 	{
-
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			EOSInput<char> a, b;
+			ReduceInput<char> a, b;
 
-			a = new EOSInput<char>();
-			b = new EOSInput<char>();
+			a = new ReduceInput<char>();
+			b = new ReduceInput<char>();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -29,52 +28,42 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			EOSInput<char> a;
+			ReduceInput<char> a;
 
-			a = new EOSInput<char>();
+			a = new ReduceInput<char>();
 
 			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
 			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new EOSInput<char>()));
 			Assert.IsFalse(a.Equals(new AnyTerminalInput<char>()));
-			Assert.IsFalse(a.Equals(new ReduceInput<char>()));
 		}
 
-		[TestMethod]
-		public void ShoudMatch()
-		{
-			EOSInput<char> a,b;
-
-			a = new EOSInput<char>();
-			b = new EOSInput<char>();
-			Assert.IsTrue(a.Match(b));
-			Assert.IsTrue(b.Match(a));
-
-		}
+		
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			EOSInput<char> a;
-			TerminalInput<char> b;
+			ReduceInput<char> a;
+			EOSInput<char> c;
+			ReduceInput<char> d;
 
-			a = new EOSInput<char>();
-			b = new TerminalInput<char>() { Value = 'a' };
+			a = new ReduceInput<char>();
+			c = new EOSInput<char>();
+			d = new ReduceInput<char>();
 
-
+			Assert.IsFalse(a.Match(c));
+			Assert.IsFalse(a.Match(d));
 			Assert.IsFalse(a.Match(null));
-			Assert.IsFalse(a.Match(b));
-
 		}
 		[TestMethod]
 		public void ShoudNotMatchT()
 		{
-			EOSInput<char> a;
+			ReduceInput<char> a;
 
-			a = new EOSInput<char>();
-
+			a = new ReduceInput<char>();
 			Assert.IsFalse(a.Match('a'));
 
 		}
-
+		
 
 
 	}
