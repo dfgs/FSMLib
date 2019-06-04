@@ -20,6 +20,11 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
+		public void Connect(IEnumerable<State<char>> States, IEnumerable<Shift<char>> Actions)
+		{
+			throw new NotImplementedException();
+		}
+
 		public ISituationCollection<char> Develop(ISituationGraph<char> SituationGraph, IEnumerable<Situation<char>> Situations, IEnumerable<Rule<char>> Rules)
 		{
 			throw new NotImplementedException();

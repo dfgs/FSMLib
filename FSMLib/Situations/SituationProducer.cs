@@ -16,7 +16,7 @@ namespace FSMLib.Situations
 	
 
 		
-
+		
 		public IEnumerable<NonTerminalInput<T>> GetNextNonTerminalInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
@@ -27,12 +27,11 @@ namespace FSMLib.Situations
 			if (Situations == null) throw new ArgumentNullException("Situations");
 			return Situations.Select(item => item.Predicate.GetInput()).OfType<BaseTerminalInput<T>>().Where(item=>!(item is ReduceInput<T> )).DistinctEx();
 		}
-
+		//*/
 
 
 		public ISituationCollection<T> GetNextSituations(ISituationGraph<T> SituationGraph, IEnumerable<Situation<T>> Situations,IInput<T> Input)
 		{
-			Situation<T> newSituation;
 			List<Situation<T>> results;
 			SituationCollection<T> result;
 
@@ -44,11 +43,9 @@ namespace FSMLib.Situations
 			foreach (Situation<T> situation in Situations)
 			{
 				if (!situation.Predicate.GetInput().Match(Input)) continue;
-				foreach (InputPredicate<T> nextPredicate in SituationGraph.GetNextPredicates(situation.Predicate))
+				foreach (Situation<T> nextSituation in SituationGraph.GetNextSituations(situation))
 				{
-					newSituation = new Situation<T>() { Rule=situation.Rule,Predicate=nextPredicate,ParentPredicate=situation.ParentPredicate };
-					newSituation.CanReduce = SituationGraph.CanReduce(nextPredicate);
-					results.Add(newSituation);
+					results.Add(nextSituation);
 				}
 				
 			}
@@ -57,7 +54,7 @@ namespace FSMLib.Situations
 			result.AddRange(results);
 			return result;
 		}
-		public void Connect(IEnumerable<State<T>> States, IEnumerable<BaseAction<T>> Actions)
+		public void Connect(IEnumerable<State<T>> States, IEnumerable<Shift<T>> Actions)
 		{
 
 			if (States == null) throw new ArgumentNullException("States");
@@ -65,7 +62,7 @@ namespace FSMLib.Situations
 
 			foreach (State<T> state in States)
 			{
-				foreach (BaseAction<T> action in Actions)
+				foreach (Shift<T> action in Actions)
 				{
 					switch (action)
 					{
@@ -75,22 +72,19 @@ namespace FSMLib.Situations
 						case ShiftOnNonTerminal<T> tr:
 							if (state.NonTerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.NonTerminalActions.Add(tr);
 							break;
-						case Reduce<T> tr:
-							if (state.ReductionActions.FirstOrDefault(item => item.Equals(tr)) == null) state.ReductionActions.Add(tr);
-							break;
-						/*case Accept<T> tr:
-							if (state.AcceptActions.FirstOrDefault(item => item.Equals(tr)) == null) state.AcceptActions.Add(tr);
-							break;*/
-
 						default:
 							throw (new NotImplementedException("Invalid action type"));
 					}
-
 				}
 			}
 		}
 
-		public ISituationCollection<T> Develop(ISituationGraph<T> SituationGraph,IEnumerable<Situation<T>> Situations, IEnumerable<Rule<T>> Rules)
+
+		
+
+
+
+		/*public ISituationCollection<T> Develop(ISituationGraph<T> SituationGraph,IEnumerable<Situation<T>> Situations, IEnumerable<Rule<T>> Rules)
 		{
 			SituationCollection<T> results;
 			int index;
@@ -103,12 +97,20 @@ namespace FSMLib.Situations
 			{
 				if ((results[index].Predicate is NonTerminal<T> nonTerminal))
 				{
+					foreach (InputPredicate<T> developpedPredicate in SituationGraph.Develop(Rules, nonTerminal.Name))
+					{
+
+					}
+
 					foreach (Rule<T> rule in Rules.Where(item => item.Name == nonTerminal.Name))
 					{
-						foreach (InputPredicate<T> developpedPredicate in SituationGraph.GetRootInputPredicates(rule.Predicate))
+						foreach (InputPredicate<T> developpedPredicate in SituationGraph.GetRuleInputPredicates(rule.Name))
 						{
-							developpedSituation = new Situation<T>() { Rule = rule, Predicate = developpedPredicate,ParentPredicate=nonTerminal };
-							results.Add(developpedSituation);
+							foreach(BaseTerminalInput<T> nextInput in SituationGraph.GetInputsAfterPredicate(nonTerminal))
+							{
+								developpedSituation = new Situation<T>() { Rule = rule, Predicate = developpedPredicate, Input = nextInput};
+								results.Add(developpedSituation);
+							}
 						}
 					}
 				}
@@ -117,7 +119,7 @@ namespace FSMLib.Situations
 			}
 
 			return results;
-		}
+		}*/
 		
 
 

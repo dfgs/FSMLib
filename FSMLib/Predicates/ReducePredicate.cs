@@ -9,12 +9,19 @@ namespace FSMLib.Predicates
 {
 	public class ReducePredicate<T> : InputPredicate<T>
 	{
+
+		public static ReducePredicate<T> Instance = new ReducePredicate<T>();
+
+		private static ReduceInput<T> input = new ReduceInput<T>();
 		public override BaseInput<T> GetInput()
 		{
-			return new ReduceInput<T>();
+			return input; ;
 		}
 
+		private ReducePredicate()
+		{
 
+		}
 
 		public override string ToString(InputPredicate<T> CurrentPredicate)
 		{

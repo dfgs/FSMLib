@@ -11,7 +11,6 @@ namespace FSMLib.Situations
 	{
 		AutomatonTableTuple<T> GetTuple(ISituationCollection<T> Situations);
 		AutomatonTableTuple<T> CreateTuple(State<T> State, ISituationCollection<T> Situations);
-		//AutomatonTableTuple<T> GetTuple(Situation<T> Situation);
 
 
 	}

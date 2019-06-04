@@ -24,11 +24,10 @@ namespace FSMLib.Situations
 
 		public bool CanReduce
 		{
-			get;
-			set;
+			get { return Predicate is ReducePredicate<T>; }
 		}
 
-		public NonTerminal<T> ParentPredicate
+		public BaseTerminalInput<T> Input
 		{
 			get;
 			set;
@@ -36,12 +35,15 @@ namespace FSMLib.Situations
 
 		public bool Equals(Situation<T> other)
 		{
-			return (Rule == other.Rule) && (Predicate == other.Predicate);
+			if (this == other) return true;
+			if ((Rule != other.Rule) || (Predicate != other.Predicate)) return false;
+			if ((Input == null) && (other.Input == null)) return true;
+			return Input.Equals(other.Input);
 		}
 
 		public override string ToString()
 		{
-			return Rule.ToString(Predicate) ;
+			return $"{Rule.ToString(Predicate)} ({Input})" ;
 		}
 
 		

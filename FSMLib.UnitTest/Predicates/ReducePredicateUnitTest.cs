@@ -14,7 +14,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			ReducePredicate<char> predicate;
 
-			predicate = new ReducePredicate<char>();
+			predicate = ReducePredicate<char>.Instance;
 
 			Assert.AreEqual("←", predicate.ToString());
 		}
@@ -23,7 +23,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			ReducePredicate<char> predicate;
 
-			predicate = new ReducePredicate<char>();
+			predicate = ReducePredicate<char>.Instance;
 
 			Assert.AreEqual("•←", predicate.ToString(predicate));
 		}
@@ -34,7 +34,7 @@ namespace FSMLib.UnitTest.Predicates
 			ReducePredicate<char> predicate;
 			ReduceInput<char> input;
 
-			predicate = new ReducePredicate<char>();
+			predicate = ReducePredicate<char>.Instance;
 			input = predicate.GetInput() as ReduceInput<char>;
 			Assert.IsNotNull(input);
 		}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public interface IInput<T>
+	public interface IInput<T>:IEquatable<IInput<T>>
 	{
 		bool Match(IInput<T> Other);
 	}

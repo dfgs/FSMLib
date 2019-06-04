@@ -19,5 +19,9 @@ namespace FSMLib.Situations
 		void Add(Situation<T> Situation);
 		void AddRange(IEnumerable<Situation<T>> Situations);
 		bool Contains(Situation<T> Situation);
+
+		IEnumerable<Situation<T>> GetReductionSituations();
+
+		//bool ContainsReductionTo(string Name);
 	}
 }

@@ -75,7 +75,6 @@
     <Compile Include="Table\AutomatonTableTuple.cs" />
     <Compile Include="Table\IAutomatonTableFactory.cs" />
     <Compile Include="Table\State.cs" />
-    <Compile Include="Actions\ReductionTarget.cs" />
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Table\Segment.cs" />
     <Compile Include="Actions\BaseAction.cs" />

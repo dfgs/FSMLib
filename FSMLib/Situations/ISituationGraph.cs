@@ -1,4 +1,5 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,12 @@ namespace FSMLib.Situations
 {
 	public interface ISituationGraph<T>
 	{
+		IEnumerable<BaseInput<T>> GetInputsAfterPredicate(BasePredicate<T> CurrentPredicate);
 
-		//string GetReduction(InputPredicate<T> CurrentPredicate);
-		IEnumerable<InputPredicate<T>> GetRootInputPredicates(BasePredicate<T> RootPredicate);
-		IEnumerable<InputPredicate<T>> GetNextPredicates(InputPredicate<T> CurrentPredicate);
-		bool Contains(InputPredicate<T> Predicate);
+		ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
 
-		bool CanReduce(InputPredicate<T> CurrentPredicate);
+		IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation);
+		bool Contains(BasePredicate<T> Predicate);
+
 	}
 }

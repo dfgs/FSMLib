@@ -116,7 +116,7 @@ namespace FSMLib.Tables
 
 			foreach (Reduce<T> action in state.ReductionActions)
 			{
-				possibleTargets = action.Targets.Where(item =>  Node.Input.Match(item.Input)).Select(item=>item.TargetStateIndex).ToArray();
+				possibleTargets = new int[] { };// action.Targets.Where(item =>  Node.Input.Match(item.Input)).Select(item=>item.TargetStateIndex).ToArray();
 				if (possibleTargets.Length==0) continue;
 				targetIndex = GetFirstIndexOnStack(possibleTargets);
 				return Reduce(action.Name,targetIndex);
@@ -132,7 +132,7 @@ namespace FSMLib.Tables
 			// check if we can shift
 			if (state.TerminalActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
 			// check if we can reduce and shift
-			if (state.ReductionActions.SelectMany(item => item.Targets).FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
+			if (state.ReductionActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
 
 			return false;
 		}
@@ -171,14 +171,14 @@ namespace FSMLib.Tables
 		public bool CanAccept()
 		{
 			State<T> state;
-			//Accept<T> axiom;
-			ReductionTarget<T> target;
+			Reduce<T> action;
 
 			state = automatonTable.States[stateIndex];
 			//axiom = state.AcceptActions.FirstOrDefault();
-			target = state.ReductionActions.SelectMany(item => item.Targets).FirstOrDefault(item => item.Input is EOSInput<T>);
 
-			return target != null;
+			action = state.ReductionActions.FirstOrDefault(item => item.Input is EOSInput<T>);
+
+			return action != null;
 		}
 
 		public NonTerminalNode<T> Accept()

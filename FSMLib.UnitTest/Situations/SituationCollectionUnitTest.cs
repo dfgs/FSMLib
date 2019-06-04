@@ -135,5 +135,36 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsFalse(situations2.Equals(situations1));
 		}
 
+		[TestMethod]
+
+		public void ShouldGetReductionSituations()
+		{
+			Rule<char> rule1,rule2;
+			Situation<char> a, b;
+			SituationCollection<char> situations;
+			Situation<char>[] reductions;
+
+			rule1 = RuleHelper.BuildRule("A=abc");
+			rule2 = RuleHelper.BuildRule("B=abc");
+			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
+			b = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a); situations.Add(b);
+			reductions =situations.GetReductionSituations().ToArray();
+			Assert.AreEqual(1, reductions.Length);
+
+
+			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
+			b = new Situation<char>() { Rule = rule2, Predicate = ReducePredicate<char>.Instance };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a); situations.Add(b);
+			reductions = situations.GetReductionSituations().ToArray();
+			Assert.AreEqual(2, reductions.Length);
+		}
+
+
+
 	}
 }

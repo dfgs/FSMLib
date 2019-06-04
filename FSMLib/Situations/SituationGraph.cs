@@ -1,4 +1,5 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -11,97 +12,189 @@ namespace FSMLib.Situations
 	public class SituationGraph<T>:ISituationGraph<T>
 	{
 		private List<SituationNode<T>> inputPredicateNodes;
-		private List<SituationNode<T>> rootPredicateNodes;
-		
+			
 
 		public SituationGraph(IEnumerable<Rule<T>> Rules)
 		{
 			SituationNode<T> rootPredicateNode;
 			SituationGraphSegment<T> segment;
 			Sequence<T> predicate;
+			Dictionary<Rule<T>, SituationGraphSegment<T>> segmentDictionary;
 
 			if (Rules == null) throw new ArgumentNullException("Rules");
 
 			this.inputPredicateNodes = new List<SituationNode<T>>();
-			this.rootPredicateNodes = new List<SituationNode<T>>();
+			segmentDictionary = new Dictionary<Rule<T>, SituationGraphSegment<T>>();
 
 			foreach(Rule<T> rule in Rules)
 			{
 				predicate = new Sequence<T>();
 				predicate.Items.Add(rule.Predicate);
-				predicate.Items.Add(new ReducePredicate<T>());
-				segment=BuildPredicate(predicate, Enumerable.Empty<SituationEdge<T>>() );
-				rootPredicateNode = new SituationNode<T>();
-				rootPredicateNode.Predicate = rule.Predicate;
+				predicate.Items.Add(ReducePredicate<T>.Instance);
+
+				segment =BuildPredicate(rule,predicate, Enumerable.Empty<SituationEdge<T>>() );
+				rootPredicateNode = CreateNode();
 				Connect(rootPredicateNode.AsEnumerable(), segment.InputEdges);
-				rootPredicateNodes.Add(rootPredicateNode);
+				segmentDictionary.Add(rule,segment);
+			}
+
+			foreach(SituationNode<T> node in inputPredicateNodes)
+			{
+				foreach(NonTerminal<T> nonTerminal in node.Edges.Select(item=>item.Predicate).OfType<NonTerminal<T>>().ToArray())
+				{
+					foreach(Rule<T> rule in Develop(Rules,segmentDictionary,nonTerminal.Name))
+					{
+						Connect(node.AsEnumerable(), GetRuleInputEdges(segmentDictionary, rule));
+					}
+				}
 			}
 		}
 
-		public IEnumerable<InputPredicate<T>> GetNextPredicates(InputPredicate<T> CurrentPredicate)
+		private IEnumerable<Rule<T>> Develop(IEnumerable<Rule<T>> Rules, Dictionary<Rule<T>, SituationGraphSegment<T>> SegmentDictionary, string Name)
+		{
+			Stack<Rule<T>> openList;
+			List<Rule<T>> closedList;
+			Rule<T> current;
+
+			closedList = new List<Rule<T>>();
+			openList = new Stack<Rule<T>>();
+			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
+			{
+				openList.Push(rule);
+			}
+
+			while (openList.Count > 0)
+			{
+				current = openList.Pop();
+				closedList.Add(current);
+				yield return current;
+
+				foreach (InputPredicate<T> predicate in GetRuleInputEdges(SegmentDictionary,current).Select(item=>item.Predicate))
+				{
+					if (predicate is NonTerminal<T> nonTerminal)
+					{
+						foreach (Rule<T> rule in Rules.Where(item => item.Name == nonTerminal.Name))
+						{
+							if (closedList.Contains(rule)) continue;
+							yield return rule;
+							openList.Push(rule);
+						}
+					}
+				}
+			}
+		}
+
+		private IEnumerable<SituationEdge<T>> GetRuleInputEdges(Dictionary<Rule<T>, SituationGraphSegment<T>> SegmentDictionary,Rule<T> Rule)
+		{
+			SituationGraphSegment<T> segment;
+
+			if (SegmentDictionary.TryGetValue(Rule, out segment)) return segment.InputEdges;
+			return Enumerable.Empty<SituationEdge<T>>();
+
+		}
+
+
+		public IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation)
+		{
+			SituationEdge<T> edge;
+
+			edge = inputPredicateNodes.SelectMany(item=>item.Edges).FirstOrDefault(item => (item.Predicate ==CurrentSituation.Predicate) && (item.Rule==CurrentSituation.Rule) );
+			if (edge == null) return Enumerable.Empty<Situation<T>>();
+
+			return edge.TargetNode.Edges.Select(item=> new Situation<T>() { Rule=item.Rule,Predicate=item.Predicate }  );
+		}
+
+		public IEnumerable<BaseInput<T>> GetInputsAfterPredicate(BasePredicate<T> CurrentPredicate)
+		{
+			SituationEdge<T> edge;
+			List<BaseInput<T>> items;
+
+			items = new List<BaseInput<T>>();
+
+			edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == CurrentPredicate);
+			if (edge != null)
+			{
+				foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
+				{
+					items.Add(nextEdge.Predicate.GetInput());
+				}
+			}
+
+			return items.DistinctEx(); ;
+		}
+
+		private SituationNode<T> GetSituationNode(Situation<T> Situation)
 		{
 			SituationNode<T> node;
 
-			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == CurrentPredicate);
-			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
-
-			return node.Edges.Select(item => item.NextPredicate);
-		}
-		public IEnumerable<InputPredicate<T>> GetRootInputPredicates(BasePredicate<T> RootPredicate)
-		{
-			SituationNode<T> node;
-
-			node = rootPredicateNodes.FirstOrDefault(item => item.Predicate == RootPredicate);
-			if (node == null) return Enumerable.Empty<InputPredicate<T>>();
-
-			return node.Edges.Select(item => item.NextPredicate);
-		}
-
-		public bool Contains(InputPredicate<T> Predicate)
-		{
-			SituationNode<T> node;
-
-			node = inputPredicateNodes.FirstOrDefault(item => item.Predicate == Predicate);
-			return (node != null);
-		}
-		public bool CanReduce(InputPredicate<T> CurrentPredicate)
-		{
-			return CurrentPredicate is ReducePredicate<T>;
-			
-		}
-
-		
-
-		private SituationNode<T> CreateNode(InputPredicate<T> Predicate)
-		{
-			SituationNode<T> node;
-
-			node = new SituationNode<T>();
-			node.Predicate = Predicate;
-			inputPredicateNodes.Add(node);
+			node = inputPredicateNodes.FirstOrDefault(n => n.Edges.FirstOrDefault(e => (e.Predicate == Situation.Predicate) && (e.Rule==Situation.Rule) ) != null);
 
 			return node;
 		}
 
-		private SituationGraphSegment<T> BuildPredicate(BasePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
 		{
-			switch (Predicate)
+			SituationCollection<T> developpedSituations;
+			SituationNode<T> node;
+			Situation<T> newSituation;
+
+			developpedSituations = new SituationCollection<T>();
+
+			foreach(Situation<T> situation in Situations)
 			{
-				case Terminal<T> predicate: return BuildPredicate(predicate,Edges);
-				case NonTerminal<T> predicate: return BuildPredicate(predicate, Edges);
-				case AnyTerminal<T> predicate: return BuildPredicate(predicate, Edges);
-				case EOS<T> predicate: return BuildPredicate(predicate, Edges);
-				case ReducePredicate<T> predicate: return BuildPredicate(predicate, Edges);
-				case Sequence<T> predicate: return BuildPredicate(predicate, Edges);
-				case Or<T> predicate: return BuildPredicate(predicate, Edges);
-				case OneOrMore<T> predicate: return BuildPredicate(predicate, Edges);
-				case ZeroOrMore<T> predicate: return BuildPredicate(predicate, Edges);
-				case Optional<T> predicate: return BuildPredicate(predicate, Edges);
-				default:
-					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
+				node = GetSituationNode(situation);
+				foreach(SituationEdge<T> edge in node.Edges)
+				{
+					newSituation = new Situation<T>() { Rule = edge.Rule, Input = situation.Input, Predicate = edge.Predicate };
+					developpedSituations.Add(newSituation);
+				}
 			}
+
+			return developpedSituations;
 		}
-		private void Connect(IEnumerable<SituationNode<T>> Nodes,IEnumerable<SituationEdge<T>> Edges)
+
+
+		
+
+
+		public bool Contains(BasePredicate<T> Predicate)
+		{
+			SituationEdge<T> egde;
+
+			egde = inputPredicateNodes.SelectMany(item=>item.Edges).FirstOrDefault(item => item.Predicate == Predicate);
+			return (egde != null);
+		}
+		
+
+
+
+
+
+
+
+
+		private SituationNode<T> CreateNode()
+		{
+			SituationNode<T> node;
+
+			node = new SituationNode<T>();
+			inputPredicateNodes.Add(node);
+
+			return node;
+		}
+		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node,Rule<T> Rule, InputPredicate<T> Predicate)
+		{
+			SituationEdge<T> edge;
+
+			edge = new SituationEdge<T>();
+			edge.Rule = Rule;
+			edge.Predicate = Predicate;
+			edge.TargetNode = Node;
+
+			return edge;
+		}
+
+		private void Connect(IEnumerable<SituationNode<T>> Nodes, IEnumerable<SituationEdge<T>> Edges)
 		{
 			foreach (SituationNode<T> node in Nodes)
 			{
@@ -113,17 +206,35 @@ namespace FSMLib.Situations
 			}
 
 		}
-		private SituationGraphSegment<T> BuildPredicate(InputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, BasePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		{
+			switch (Predicate)
+			{
+				case Terminal<T> predicate: return BuildPredicate(Rule, predicate,Edges);
+				case NonTerminal<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case AnyTerminal<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case EOS<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case ReducePredicate<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case Sequence<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case Or<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case OneOrMore<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case ZeroOrMore<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				case Optional<T> predicate: return BuildPredicate(Rule, predicate, Edges);
+				default:
+					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
+			}
+		}
+		
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule,InputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
 			SituationEdge<T> edge;
 			SituationGraphSegment<T> segment;
 
-			node = CreateNode(Predicate);
+			node = CreateNode();
 			Connect(node.AsEnumerable(), Edges);
 
-			edge = new SituationEdge<T>();
-			edge.NextPredicate = Predicate;
+			edge = CreateEdgeTo(node,Rule, Predicate);
 
 			segment = new SituationGraphSegment<T>();
 			segment.OutputNodes = node.AsEnumerable();
@@ -132,7 +243,7 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		private SituationGraphSegment<T> BuildPredicate(Sequence<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, Sequence<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			IEnumerable<SituationEdge<T>>  nextEdges;
 			SituationGraphSegment<T>[] segments;
@@ -142,7 +253,7 @@ namespace FSMLib.Situations
 			nextEdges = Edges;
 			for (int t = Predicate.Items.Count - 1; t >= 0; t--)
 			{
-				segments[t] = BuildPredicate(Predicate.Items[t], nextEdges);
+				segments[t] = BuildPredicate(Rule,Predicate.Items[t], nextEdges);
 				nextEdges = segments[t].InputEdges;
 			}
 
@@ -153,7 +264,7 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		private SituationGraphSegment<T> BuildPredicate(Or<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, Or<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T>[] segments;
 			SituationGraphSegment<T> segment;
@@ -161,7 +272,7 @@ namespace FSMLib.Situations
 			segments = new SituationGraphSegment<T>[Predicate.Items.Count];
 			for (int t = 0; t <Predicate.Items.Count; t++)
 			{
-				segments[t] = BuildPredicate(Predicate.Items[t], Edges);
+				segments[t] = BuildPredicate(Rule, Predicate.Items[t], Edges);
 			}
 
 			segment = new SituationGraphSegment<T>();
@@ -172,11 +283,11 @@ namespace FSMLib.Situations
 		}
 
 
-		private SituationGraphSegment<T> BuildPredicate(Optional<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, Optional<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment,segment;
 
-			itemSegment = BuildPredicate(Predicate.Item, Edges);
+			itemSegment = BuildPredicate(Rule, Predicate.Item, Edges);
 			segment = new SituationGraphSegment<T>();
 			segment.InputEdges = itemSegment.InputEdges.Concat(Edges);
 			segment.OutputNodes = itemSegment.OutputNodes;
@@ -184,11 +295,11 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		private SituationGraphSegment<T> BuildPredicate(ZeroOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, ZeroOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment,segment;
 
-			itemSegment = BuildPredicate(Predicate.Item, Edges);
+			itemSegment = BuildPredicate(Rule, Predicate.Item, Edges);
 			Connect(itemSegment.OutputNodes,itemSegment.InputEdges);
 
 			
@@ -199,11 +310,11 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		private SituationGraphSegment<T> BuildPredicate(OneOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		private SituationGraphSegment<T> BuildPredicate(Rule<T> Rule, OneOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
-			itemSegment = BuildPredicate(Predicate.Item, Edges);
+			itemSegment = BuildPredicate(Rule, Predicate.Item, Edges);
 			Connect(itemSegment.OutputNodes, itemSegment.InputEdges);
 
 

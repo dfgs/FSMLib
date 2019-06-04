@@ -9,7 +9,15 @@ namespace FSMLib.Inputs
 	public class ReduceInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
 	{
 
+		public override bool Equals(BaseInput<T> other)
+		{
+			return other is ReduceInput<T>;
+		}
 		public override bool Equals(BaseTerminalInput<T> other)
+		{
+			return other is ReduceInput<T>;
+		}
+		public override bool Equals(IInput<T> other)
 		{
 			return other is ReduceInput<T>;
 		}

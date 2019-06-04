@@ -9,23 +9,15 @@ namespace FSMLib.Situations
 {
 	public class SituationNode<T>
 	{
-		public BasePredicate<T> Predicate
-		{
-			get;
-			set;
-		}
 
+		
 		public List<SituationEdge<T>> Edges
 		{
 			get;
 			set;
 		}
 
-		/*public string Reduction
-		{
-			get;
-			set;
-		}*/
+		
 
 		public SituationNode()
 		{

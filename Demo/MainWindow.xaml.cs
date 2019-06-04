@@ -57,12 +57,8 @@ namespace Demo
 			CreateView("A=a{S}a", "S={S}b", "S=c");
 
 			CreateView("A=abcde");
-
-			CreateView(new ZeroOrMore<char>() { Item= new Terminal<char>() {Value='a' }  });
 			CreateView("A=a{S}a", "S=st");
-
-
-			CreateView("A=a{B}a", "B=b{A}b");
+			//CreateView("A=a{B}a", "B=b{A}b");//*/
 
 
 
@@ -97,7 +93,7 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.States.IndexOf(state).ToString());
 
-				n.UserData = string.Join("/", state.ReductionActions.Select(item=>$"{item.Name} {string.Join(",",item.Targets.Select(target=> target.TargetStateIndex+"/"+target.Input))}")); //:{item.TargetStateIndex}:{item.Value}
+				n.UserData = string.Join(" ", state.ReductionActions.Select(item=>$"{item.Name}:{item.Input}")); //:{item.TargetStateIndex}:{item.Value}
 
 				if (state.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;

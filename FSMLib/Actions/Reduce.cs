@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,9 +17,9 @@ namespace FSMLib.Actions
 			set;
 		}
 
-		
-		
-		public List<ReductionTarget<T>> Targets
+
+
+		public BaseTerminalInput<T> Input
 		{
 			get;
 			set;
@@ -26,7 +27,6 @@ namespace FSMLib.Actions
 
 		public Reduce()
 		{
-			Targets = new List<ReductionTarget<T>>();
 		}
 
 		public bool Equals(Reduce<T> other)

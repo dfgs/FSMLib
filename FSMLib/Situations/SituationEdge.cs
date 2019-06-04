@@ -1,4 +1,5 @@
 ﻿using FSMLib.Predicates;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,19 @@ namespace FSMLib.Situations
 {
 	public  class SituationEdge<T>
 	{
-		public InputPredicate<T> NextPredicate
+		public Rule<T> Rule
+		{
+			get;
+			set;
+		}
+
+		public InputPredicate<T> Predicate
+		{
+			get;
+			set;
+		}
+
+		public SituationNode<T> TargetNode
 		{
 			get;
 			set;

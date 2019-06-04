@@ -52,6 +52,16 @@ namespace FSMLib.Situations
 			return (items.FirstOrDefault(item => item.Equals(Situation)) != null);
 		}
 
+		public IEnumerable<Situation<T>> GetReductionSituations()
+		{
+			return items.Where(item => item.CanReduce).DistinctEx();
+		}
+		/*public bool ContainsReductionTo(string Name)
+		{
+			return items.FirstOrDefault(item => (item.Rule.Name == Name) && item.CanReduce) != null;
+
+		}*/
+
 		public IEnumerator<Situation<T>> GetEnumerator()
 		{
 			return items.GetEnumerator();
@@ -62,5 +72,6 @@ namespace FSMLib.Situations
 			return items.GetEnumerator();
 		}
 
+		
 	}
 }

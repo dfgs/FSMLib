@@ -22,7 +22,19 @@ namespace FSMLib.Table
 		}
 
 
+		private void AddReductions(State<T> State,ISituationCollection<T> Situations)
+		{
+			Reduce<T> reduce;
 
+			foreach(Situation<T> situation in Situations.GetReductionSituations())
+			{
+				reduce = new Reduce<T>();
+				reduce.Name = situation.Rule.Name;
+				reduce.Input = situation.Input;
+
+				State.ReductionActions.Add(reduce);
+			}
+		}
 	
 
 		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
@@ -69,16 +81,19 @@ namespace FSMLib.Table
 			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			developpedSituations = situationProducer.Develop(graph, new Situation<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable(),rules);
+			developpedSituations = graph.Develop( new Situation<T>() { Rule = acceptRule, Predicate = nonTerminal }.AsEnumerable());
+			developpedSituations.Add(new Situation<T>() { Rule = acceptRule, Predicate = nonTerminal });
 			nextTuple = situationDictionary.GetTuple(developpedSituations);
 			if (nextTuple == null)
 			{
 				state = new State<T>();
+				AddReductions(state, developpedSituations);
 				automatonTable.States.Add(state);
 				nextTuple = situationDictionary.CreateTuple(state,developpedSituations);
 				openList.Push(nextTuple);
 			}
 				
+			
 	
 			while (openList.Count>0)
 			{
@@ -86,11 +101,12 @@ namespace FSMLib.Table
 				foreach (BaseTerminalInput<T> input in situationProducer.GetNextTerminalInputs(currentTuple.Situations))
 				{
 					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, input);
-					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
+					developpedSituations = graph.Develop( nextSituations);
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
 					{
 						state = new State<T>();
+						AddReductions(state, developpedSituations);
 						automatonTable.States.Add(state);
 						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
 						openList.Push(nextTuple);
@@ -102,11 +118,12 @@ namespace FSMLib.Table
 				foreach (NonTerminalInput<T> input in situationProducer.GetNextNonTerminalInputs(currentTuple.Situations))
 				{
 					nextSituations = situationProducer.GetNextSituations(graph, currentTuple.Situations, input);
-					developpedSituations = situationProducer.Develop(graph, nextSituations, rules);
+					developpedSituations = graph.Develop(nextSituations);
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
 					{
 						state = new State<T>();
+						AddReductions(state, developpedSituations);
 						automatonTable.States.Add(state);
 						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
 						openList.Push(nextTuple);
@@ -116,6 +133,8 @@ namespace FSMLib.Table
 				}
 
 			}
+
+		
 
 
 			return automatonTable;

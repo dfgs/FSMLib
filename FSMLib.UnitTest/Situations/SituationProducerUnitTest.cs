@@ -107,7 +107,7 @@ namespace FSMLib.UnitTest.Situations
 
 			rule = RuleHelper.BuildRule("A=a|a|a");
 
-			s1 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = new ReducePredicate<char>() };
+			s1 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = ReducePredicate<char>.Instance };
 
 			producer = new SituationProducer<char>();
 			distinctInputs = producer.GetNextTerminalInputs(new Situation<char>[] { s1 }).ToArray();
@@ -178,7 +178,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(distinctInputs[0].Match(new NonTerminalInput<char> { Name = "A" }));
 			Assert.IsTrue(distinctInputs[1].Match(new NonTerminalInput<char> { Name = "B" }));
 			Assert.IsTrue(distinctInputs[2].Match(new NonTerminalInput<char> { Name = "C" }));
-		}
+		}//*/
 
 
 		[TestMethod]
@@ -235,23 +235,23 @@ namespace FSMLib.UnitTest.Situations
 			FSMLib.Situations.Situation<char>[] nextSituations;
 			MockedSituationGraph situationGraph;
 			Rule<char> rule;
-			NonTerminal<char> parent;
+			TerminalInput<char> input;
 
 
 			situationGraph = new MockedSituationGraph();
 			rule = RuleHelper.BuildRule("A=a|a|a");
 
-			parent = new NonTerminal<char>();
-			s1 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[0] as InputPredicate<char>, ParentPredicate = parent };
-			s2 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[1] as InputPredicate<char>, ParentPredicate = parent };
-			s3 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char>, ParentPredicate = parent };
+			input = new TerminalInput<char>();
+			s1 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[0] as InputPredicate<char>, Input = input };
+			s2 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[1] as InputPredicate<char>, Input = input };
+			s3 = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Or<char>).Items[2] as InputPredicate<char>, Input = input };
 
 			producer = new SituationProducer<char>();
 			nextSituations = producer.GetNextSituations(situationGraph, new Situation<char>[] { s1, s2, s3 }, new TerminalInput<char>() { Value = 'a' }).ToArray();
 
 			Assert.AreEqual(1, nextSituations.Length);
 			Assert.AreEqual(situationGraph.MockedPredicate, nextSituations[0].Predicate);
-			Assert.AreEqual(parent, nextSituations[0].ParentPredicate);
+			Assert.AreEqual(input, nextSituations[0].Input);
 		}
 
 		[TestMethod]
@@ -292,7 +292,7 @@ namespace FSMLib.UnitTest.Situations
 			action2 = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'b' }, TargetStateIndex = 2 };
 
 			producer = new SituationProducer<char>();
-			producer.Connect(a.AsEnumerable(), new BaseAction<char>[] { action1,action2} );
+			producer.Connect(a.AsEnumerable(), new Shift<char>[] { action1,action2} );
 
 
 			Assert.AreEqual(2, a.TerminalActions.Count);
@@ -343,7 +343,7 @@ namespace FSMLib.UnitTest.Situations
 			action2 = new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = 'b' }, TargetStateIndex = 3 };
 
 			producer = new SituationProducer<char>();
-			producer.Connect(new State<char>[] { a, b }, new BaseAction<char>[] { action1, action2 });
+			producer.Connect(new State<char>[] { a, b }, new Shift<char>[] { action1, action2 });
 
 			Assert.AreEqual(2, a.TerminalActions.Count);
 			Assert.AreEqual(2, b.TerminalActions.Count);
@@ -388,15 +388,11 @@ namespace FSMLib.UnitTest.Situations
 			producer.Connect(a.AsEnumerable(), shiftNonTerminal.AsEnumerable());
 			Assert.AreEqual(1, a.NonTerminalActions.Count);
 
-			producer.Connect(a.AsEnumerable(), reduce.AsEnumerable());
-			Assert.AreEqual(1, a.ReductionActions.Count);
-			producer.Connect(a.AsEnumerable(), reduce.AsEnumerable());
-			Assert.AreEqual(1, a.ReductionActions.Count);
 
 
 		}
 
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldDevelop()
 		{
 			SituationProducer<char> producer;
@@ -444,7 +440,10 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(B.Predicate, items[1].Predicate);
 			Assert.AreEqual(C, items[2].Rule);
 			Assert.AreEqual(C.Predicate, items[2].Predicate);
-		}
+		}*/
+
+	
+
 
 	}
 }

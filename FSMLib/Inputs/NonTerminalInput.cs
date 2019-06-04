@@ -14,7 +14,16 @@ namespace FSMLib.Inputs
 			set;
 		}
 
-
+		public override bool Equals(BaseInput<T> other)
+		{
+			if (other is NonTerminalInput<T> nonTerminal) return Equals(nonTerminal);
+			return false;
+		}
+		public override bool Equals(IInput<T> other)
+		{
+			if (other is NonTerminalInput<T> nonTerminal) return Equals(nonTerminal);
+			return false;
+		}
 
 		public  bool Equals(NonTerminalInput<T> other)
 		{
