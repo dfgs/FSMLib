@@ -346,14 +346,10 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(ReducePredicate<char>.Instance, items[0].Predicate);
 		}
 
+		
+
+
 		[TestMethod]
-		public void ShouldGetRootSituations()
-		{
-			Assert.Fail();
-		}
-
-
-		/*[TestMethod]
 		public void ShouldDevelopSituations()
 		{
 			SituationGraph<char> graph;
@@ -388,12 +384,15 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(4, situations.Count);
 			Assert.AreEqual(p1, situations[0].Predicate);
 			Assert.AreEqual(p3, situations[1].Predicate);
+			Assert.IsTrue(situations[1].Input.Match('d'));
 			Assert.AreEqual(p2, situations[2].Predicate);
+			Assert.IsTrue(situations[2].Input.Match('d'));
 			Assert.AreEqual(p4, situations[3].Predicate);
-			
-		}*/
+			Assert.IsTrue(situations[3].Input.Match('d'));
 
+		}
 
+		/*
 		[TestMethod]
 		public void ShouldGetInputsAfterPredicate()
 		{
@@ -421,12 +420,12 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			items = graph.GetInputsAfterPredicate(a).ToArray();
+			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
 			Assert.AreEqual(2, items.Length);
 			Assert.IsTrue(items[0].Match( new TerminalInput<char>() { Value = 'b' }));
 			Assert.IsTrue(items[1].Match(new TerminalInput<char>() { Value = 'c' }));
 
-			items = graph.GetInputsAfterPredicate(b).ToArray();
+			items = graph.GetTerminalInputsAfterPredicate(b).ToArray();
 			Assert.AreEqual(1, items.Length);
 
 
@@ -456,11 +455,11 @@ namespace FSMLib.UnitTest.Situations
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 
-			items = graph.GetInputsAfterPredicate(a).ToArray();
+			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Match(new TerminalInput<char>() { Value = 'b' }));
 
-			items = graph.GetInputsAfterPredicate(b).ToArray();
+			items = graph.GetTerminalInputsAfterPredicate(b).ToArray();
 			Assert.AreEqual(1, items.Length);
 
 	
@@ -491,15 +490,13 @@ namespace FSMLib.UnitTest.Situations
 
 			graph = new SituationGraph<char>(new Rule<char>[] { rule1,rule2,rule3} );
 
-			items = graph.GetInputsAfterPredicate(a).ToArray();
-			Assert.AreEqual(3, items.Length);
+			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
+			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Match(new NonTerminalInput<char>() { Name= "B" }));
-			Assert.IsTrue(items[1].Match(new NonTerminalInput<char>() { Name="C" }));
-			Assert.IsTrue(items[2].Match(new TerminalInput<char>() { Value = 'b' }));
 
 
 
-		}
+		}*/
 
 
 	}

@@ -37,7 +37,7 @@ namespace FSMLib.Situations
 		{
 			if (this == other) return true;
 			if ((Rule != other.Rule) || (Predicate != other.Predicate)) return false;
-			if ((Input == null) && (other.Input == null)) return true;
+			if (Input == null) return (other.Input == null);
 			return Input.Equals(other.Input);
 		}
 

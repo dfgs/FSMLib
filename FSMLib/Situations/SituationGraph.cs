@@ -13,20 +13,20 @@ namespace FSMLib.Situations
 	{
 		private List<SituationNode<T>> inputPredicateNodes;
 
-		private SituationNode<T> rootNode;
+		private Dictionary<Rule<T>, SituationNode<T>> ruleNodes;
 
 
 		public SituationGraph(IEnumerable<Rule<T>> Rules)
 		{
-			SituationNode<T> rootPredicateNode;
+			SituationNode<T> rootNode;
 			SituationGraphSegment<T> segment;
 			Sequence<T> predicate;
-			Dictionary<Rule<T>, SituationGraphSegment<T>> segmentDictionary;
 
 			if (Rules == null) throw new ArgumentNullException("Rules");
 
 			this.inputPredicateNodes = new List<SituationNode<T>>();
-			segmentDictionary = new Dictionary<Rule<T>, SituationGraphSegment<T>>();
+			ruleNodes = new Dictionary<Rule<T>, SituationNode<T>>();
+
 
 			foreach(Rule<T> rule in Rules)
 			{
@@ -35,30 +35,17 @@ namespace FSMLib.Situations
 				predicate.Items.Add(ReducePredicate<T>.Instance);
 
 				segment = BuildPredicate(rule,predicate, Enumerable.Empty<SituationEdge<T>>() );
-				rootPredicateNode = CreateNode();
-				Connect(rootPredicateNode.AsEnumerable(), segment.InputEdges);
-				segmentDictionary.Add(rule,segment);
-
-				if (rule == Rules.First()) rootNode = rootPredicateNode;
+				rootNode = CreateNode();
+				Connect(rootNode.AsEnumerable(), segment.InputEdges);
+				ruleNodes.Add(rule,rootNode);
 			}
 
-			
-
-			foreach(SituationNode<T> node in inputPredicateNodes)
-			{
-				foreach(NonTerminal<T> nonTerminal in node.Edges.Select(item=>item.Predicate).OfType<NonTerminal<T>>().ToArray())
-				{
-					foreach(Rule<T> rule in Develop(Rules,segmentDictionary,nonTerminal.Name))
-					{
-						Connect(node.AsEnumerable(), GetRuleInputEdges(segmentDictionary, rule));
-					}
-				}
-			}
+					
 
 
 		}
 
-		private IEnumerable<Rule<T>> Develop(IEnumerable<Rule<T>> Rules, Dictionary<Rule<T>, SituationGraphSegment<T>> SegmentDictionary, string Name)
+		private IEnumerable<Rule<T>> GetDeveloppedRules(string Name)
 		{
 			Stack<Rule<T>> openList;
 			List<Rule<T>> closedList;
@@ -66,7 +53,8 @@ namespace FSMLib.Situations
 
 			closedList = new List<Rule<T>>();
 			openList = new Stack<Rule<T>>();
-			foreach (Rule<T> rule in Rules.Where(item => item.Name == Name))
+
+			foreach (Rule<T> rule in ruleNodes.Keys.Where(item => item.Name == Name))
 			{
 				openList.Push(rule);
 			}
@@ -77,11 +65,11 @@ namespace FSMLib.Situations
 				closedList.Add(current);
 				yield return current;
 
-				foreach (InputPredicate<T> predicate in GetRuleInputEdges(SegmentDictionary,current).Select(item=>item.Predicate))
+				foreach (InputPredicate<T> predicate in GetRuleInputEdges(current).Select(item=>item.Predicate))
 				{
 					if (predicate is NonTerminal<T> nonTerminal)
 					{
-						foreach (Rule<T> rule in Rules.Where(item => item.Name == nonTerminal.Name))
+						foreach (Rule<T> rule in ruleNodes.Keys.Where(item => item.Name == nonTerminal.Name))
 						{
 							if (closedList.Contains(rule)) continue;
 							yield return rule;
@@ -92,22 +80,15 @@ namespace FSMLib.Situations
 			}
 		}
 
-		private IEnumerable<SituationEdge<T>> GetRuleInputEdges(Dictionary<Rule<T>, SituationGraphSegment<T>> SegmentDictionary,Rule<T> Rule)
+		private IEnumerable<SituationEdge<T>> GetRuleInputEdges(Rule<T> Rule)
 		{
-			SituationGraphSegment<T> segment;
+			SituationNode<T> node;
 
-			if (SegmentDictionary.TryGetValue(Rule, out segment)) return segment.InputEdges;
+			if (ruleNodes.TryGetValue(Rule, out node)) return node.Edges;
 			return Enumerable.Empty<SituationEdge<T>>();
 
 		}
-		public IEnumerable<Situation<T>> GetRootSituations()
-		{
-			if (rootNode == null) yield break;
-			foreach(SituationEdge<T> edge in rootNode.Edges)
-			{
-				yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate };
-			}
-		}
+		
 
 
 		public IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation)
@@ -117,22 +98,35 @@ namespace FSMLib.Situations
 			edge = inputPredicateNodes.SelectMany(item=>item.Edges).FirstOrDefault(item => (item.Predicate ==CurrentSituation.Predicate) && (item.Rule==CurrentSituation.Rule) );
 			if (edge == null) return Enumerable.Empty<Situation<T>>();
 
-			return edge.TargetNode.Edges.Select(item=> new Situation<T>() { Rule=item.Rule,Predicate=item.Predicate }  );
+			return edge.TargetNode.Edges.Select(item=> new Situation<T>() { Predicate= item.Predicate ,Rule=item.Rule, Input=CurrentSituation.Input} );
 		}
 
-		public IEnumerable<BaseInput<T>> GetInputsAfterPredicate(BasePredicate<T> CurrentPredicate)
+		private IEnumerable<BaseTerminalInput<T>> GetTerminalInputsAfterPredicate(BasePredicate<T> CurrentPredicate)
 		{
 			SituationEdge<T> edge;
-			List<BaseInput<T>> items;
+			List<BaseTerminalInput<T>> items;
+			BaseInput<T> input;
 
-			items = new List<BaseInput<T>>();
+			items = new List<BaseTerminalInput<T>>();
 
 			edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == CurrentPredicate);
 			if (edge != null)
 			{
 				foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
 				{
-					items.Add(nextEdge.Predicate.GetInput());
+					input = nextEdge.Predicate.GetInput();
+					if (input is BaseTerminalInput<T> terminalInput) items.Add(terminalInput);
+					else if (input is NonTerminalInput<T> nonTerminalInput)
+					{
+						foreach (Rule<T> rule in GetDeveloppedRules(nonTerminalInput.Name))
+						{
+							foreach(SituationEdge<T> developpedEdge in GetRuleInputEdges(rule))
+							{
+								input = developpedEdge.Predicate.GetInput();
+								if (input is BaseTerminalInput<T> terminalInput2) items.Add(terminalInput2);
+							}
+						}
+					}
 				}
 			}
 
@@ -148,11 +142,12 @@ namespace FSMLib.Situations
 			return node;
 		}
 
-		/*public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
+		public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
 		{
 			SituationCollection<T> developpedSituations;
 			SituationNode<T> node;
 			Situation<T> newSituation;
+			BaseTerminalInput<T>[] inputs;
 
 			developpedSituations = new SituationCollection<T>();
 
@@ -163,11 +158,31 @@ namespace FSMLib.Situations
 				{
 					newSituation = new Situation<T>() { Rule = edge.Rule, Input = situation.Input, Predicate = edge.Predicate };
 					developpedSituations.Add(newSituation);
+					if (edge.Predicate is NonTerminal<T> nonTerminal)
+					{
+						inputs = GetTerminalInputsAfterPredicate(nonTerminal).ToArray();
+
+						foreach(Rule<T> developpedRule in GetDeveloppedRules(nonTerminal.Name))
+						{
+							foreach(SituationEdge<T> developpedEdge in GetRuleInputEdges(developpedRule))
+							{
+								foreach (BaseTerminalInput<T> input in inputs)
+								{
+									newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
+									developpedSituations.Add(newSituation);
+								}
+								//newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = situation.Input, Predicate = developpedEdge.Predicate };
+								//developpedSituations.Add(newSituation);
+
+							}
+						}
+					}
+					
 				}
 			}
 
 			return developpedSituations;
-		}*/
+		}
 
 
 		

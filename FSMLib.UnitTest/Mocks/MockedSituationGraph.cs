@@ -53,11 +53,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		IEnumerable<BaseInput<char>> ISituationGraph<char>.GetInputsAfterPredicate(BasePredicate<char> CurrentPredicate)
-		{
-			throw new NotImplementedException();
-		}
-
+		
 		public IEnumerable<Situation<char>> GetNextSituations(Situation<char> CurrentSituation)
 		{
 			return null;// predicate.AsEnumerable();

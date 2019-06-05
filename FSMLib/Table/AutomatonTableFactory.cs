@@ -72,6 +72,21 @@ namespace FSMLib.Table
 			}
 		}
 	
+		private IEnumerable<Situation<T>> CreateNextSituations(ISituationGraph<T> Graph,BaseInput<T> Input,IEnumerable<Situation<T>> CurrentSituations)
+		{
+			IEnumerable<Situation<T>> matchingSituations;
+
+			matchingSituations = CurrentSituations.Where(item => item.Predicate.GetInput().Match(Input));
+
+			foreach(Situation<T> situation in matchingSituations)
+			{
+				foreach(Situation<T> nextSituation in Graph.GetNextSituations(situation))
+				{
+					yield return nextSituation;
+				}
+			}
+
+		}
 
 		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
@@ -118,8 +133,8 @@ namespace FSMLib.Table
 			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			developpedSituations = new SituationCollection<T>();
-			developpedSituations.AddRange( graph.GetRootSituations() );
+			nextSituations = new Situation<T>[] { new Situation<T>() { Rule=acceptRule, Predicate=nonTerminal } };
+			developpedSituations = graph.Develop(nextSituations);
 
 			nextTuple = situationDictionary.GetTuple(developpedSituations);
 			if (nextTuple == null)
@@ -138,9 +153,8 @@ namespace FSMLib.Table
 				currentTuple = openList.Pop();
 				foreach (BaseTerminalInput<T> input in GetNextTerminalInputs(currentTuple.Situations))
 				{
-					nextSituations = currentTuple.Situations.Where(item => item.Predicate.GetInput().Match(input)).SelectMany(item => graph.GetNextSituations(item));
-					developpedSituations = new SituationCollection<T>();
-					developpedSituations.AddRange(nextSituations);
+					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
+					developpedSituations = graph.Develop(nextSituations);
 
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
@@ -157,9 +171,8 @@ namespace FSMLib.Table
 
 				foreach (NonTerminalInput<T> input in GetNextNonTerminalInputs(currentTuple.Situations))
 				{
-					nextSituations = currentTuple.Situations.Where(item => item.Predicate.GetInput().Match(input)).SelectMany(item => graph.GetNextSituations(item));
-					developpedSituations = new SituationCollection<T>();
-					developpedSituations.AddRange(nextSituations);
+					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
+					developpedSituations = graph.Develop(nextSituations);
 
 					nextTuple = situationDictionary.GetTuple(developpedSituations);
 					if (nextTuple == null)
