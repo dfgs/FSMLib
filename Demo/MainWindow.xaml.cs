@@ -46,10 +46,10 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A=a{S}a", "S={S}b", "S=c");
 			CreateView("A=a{B}{C}", "B={C}", "C=b");
 			CreateView("A=ab{B}", "B={C}", "C={D}", "D=c");
 			CreateView("A=ab{C}*", "C=c");
-			CreateView("A=a{S}a", "S={S}b", "S=c");
 			CreateView("A=a{BCD}e", "BCD=b{C}d", "C=c");
 
 			CreateView("A=a{B}c", "B={C}", "C=b");

@@ -77,18 +77,20 @@ namespace FSMLib.Tables
 			return false;
 		}
 
-		private NonTerminalNode<T> Reduce(string Name,int TargetStateIndex)
+		private NonTerminalNode<T> Reduce(string Name)
 		{
 			BaseNode<T> baseNode;
 			NonTerminalNode<T> reducedNode;
 
 			reducedNode = new NonTerminalNode<T>() { Name = Name };
 
-			while (nodeStack.Count > 0 && (stateIndex != TargetStateIndex))
+			while (nodeStack.Count > 0)
 			{
 				stateIndex = stateIndexStack.Pop();
 				baseNode = nodeStack.Pop();
 				reducedNode.Nodes.Insert(0, baseNode);  // stack order is inverted compared to state childs
+
+				if (CanFeed(Name)) break;
 			}
 
 			return reducedNode;
@@ -109,17 +111,13 @@ namespace FSMLib.Tables
 		{
 			State<T> state;
 			
-			int targetIndex;
-			int[] possibleTargets;
 
 			state = automatonTable.States[stateIndex];
 
 			foreach (Reduce<T> action in state.ReductionActions)
 			{
-				possibleTargets = new int[] { };// action.Targets.Where(item =>  Node.Input.Match(item.Input)).Select(item=>item.TargetStateIndex).ToArray();
-				if (possibleTargets.Length==0) continue;
-				targetIndex = GetFirstIndexOnStack(possibleTargets);
-				return Reduce(action.Name,targetIndex);
+				if (!action.Input.Match(Node.Input)) continue;
+				return Reduce(action.Name);
 			}
 			return null;
 		}
@@ -136,7 +134,17 @@ namespace FSMLib.Tables
 
 			return false;
 		}
+		private bool CanFeed(string Name)
+		{
+			State<T> state;
 
+			state = automatonTable.States[stateIndex];
+			// check if we can shift
+			if (state.NonTerminalActions.FirstOrDefault(item => item.Name==Name) != null) return true;
+			
+
+			return false;
+		}
 
 
 

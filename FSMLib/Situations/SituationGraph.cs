@@ -101,30 +101,63 @@ namespace FSMLib.Situations
 			return edge.TargetNode.Edges.Select(item=> new Situation<T>() { Predicate= item.Predicate ,Rule=item.Rule, Input=CurrentSituation.Input} );
 		}
 
-		private IEnumerable<BaseTerminalInput<T>> GetTerminalInputsAfterPredicate(BasePredicate<T> CurrentPredicate)
+		private bool IsRuleLeftRecursive(Rule<T> Rule)
+		{
+			NonTerminal<T> nonTerminal;
+
+			nonTerminal=GetRuleInputEdges(Rule).Select(item => item.Predicate).OfType<NonTerminal<T>>().FirstOrDefault(item => item.Name == Rule.Name);
+			return (nonTerminal != null);
+		}
+		private IEnumerable<BaseTerminalInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal, BaseTerminalInput<T> Input)
 		{
 			SituationEdge<T> edge;
 			List<BaseTerminalInput<T>> items;
 			BaseInput<T> input;
+			Stack<SituationEdge<T>> openList;
+			IEnumerable<SituationEdge<T>> recursiveEdges;
 
 			items = new List<BaseTerminalInput<T>>();
 
-			edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == CurrentPredicate);
-			if (edge != null)
+			edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == NonTerminal);
+			if (edge == null) return items;
+
+			openList = new Stack<SituationEdge<T>>();
+
+			// add edges after non terminal
+			foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
 			{
-				foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
+				openList.Push(nextEdge);
+			}
+
+			// check left recursive rules
+			foreach (Rule<T> rule in GetDeveloppedRules(NonTerminal.Name))
+			{
+				recursiveEdges = GetRuleInputEdges(rule).Where(item => (item.Predicate is NonTerminal<T> nonTerminal) && (nonTerminal.Name == rule.Name));
+				foreach(SituationEdge<T> recursiveEdge in recursiveEdges)
 				{
-					input = nextEdge.Predicate.GetInput();
-					if (input is BaseTerminalInput<T> terminalInput) items.Add(terminalInput);
-					else if (input is NonTerminalInput<T> nonTerminalInput)
+					foreach (SituationEdge<T> nextEdge in recursiveEdge.TargetNode.Edges)
 					{
-						foreach (Rule<T> rule in GetDeveloppedRules(nonTerminalInput.Name))
+						openList.Push(nextEdge);
+					}
+				}
+
+				
+			}
+
+			// process stack
+			while (openList.Count>0)
+			{
+				edge = openList.Pop();
+				input = edge.Predicate.GetInput();
+				if (input is ReduceInput<T>) items.Add(Input);
+				else if (input is BaseTerminalInput<T> terminalInput) items.Add(terminalInput);
+				else if (input is NonTerminalInput<T> nonTerminalInput) 
+				{
+					foreach (Rule<T> rule in GetDeveloppedRules(nonTerminalInput.Name))
+					{
+						foreach(SituationEdge<T> developpedEdge in GetRuleInputEdges(rule))
 						{
-							foreach(SituationEdge<T> developpedEdge in GetRuleInputEdges(rule))
-							{
-								input = developpedEdge.Predicate.GetInput();
-								if (input is BaseTerminalInput<T> terminalInput2) items.Add(terminalInput2);
-							}
+							openList.Push(developpedEdge);
 						}
 					}
 				}
@@ -160,19 +193,20 @@ namespace FSMLib.Situations
 					developpedSituations.Add(newSituation);
 					if (edge.Predicate is NonTerminal<T> nonTerminal)
 					{
-						inputs = GetTerminalInputsAfterPredicate(nonTerminal).ToArray();
+						inputs = GetTerminalInputsAfterPredicate(nonTerminal,situation.Input).ToArray();
 
 						foreach(Rule<T> developpedRule in GetDeveloppedRules(nonTerminal.Name))
 						{
-							foreach(SituationEdge<T> developpedEdge in GetRuleInputEdges(developpedRule))
+
+							foreach (SituationEdge<T> developpedEdge in GetRuleInputEdges(developpedRule))
 							{
 								foreach (BaseTerminalInput<T> input in inputs)
 								{
 									newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
 									developpedSituations.Add(newSituation);
 								}
-								//newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = situation.Input, Predicate = developpedEdge.Predicate };
-								//developpedSituations.Add(newSituation);
+
+								
 
 							}
 						}
