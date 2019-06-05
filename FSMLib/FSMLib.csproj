@@ -91,10 +91,8 @@
     <Compile Include="Predicates\Sequence.cs" />
     <Compile Include="Predicates\Terminal.cs" />
     <Compile Include="Predicates\BasePredicate.cs" />
-    <Compile Include="Situations\ISituationProducer.cs" />
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Situations\SituationProducer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

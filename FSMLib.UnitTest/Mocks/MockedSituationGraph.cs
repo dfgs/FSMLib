@@ -82,5 +82,10 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+		public IEnumerable<Situation<char>> GetRootSituations()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

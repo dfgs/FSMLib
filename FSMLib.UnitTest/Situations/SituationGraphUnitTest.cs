@@ -347,6 +347,13 @@ namespace FSMLib.UnitTest.Situations
 		}
 
 		[TestMethod]
+		public void ShouldGetRootSituations()
+		{
+			Assert.Fail();
+		}
+
+
+		/*[TestMethod]
 		public void ShouldDevelopSituations()
 		{
 			SituationGraph<char> graph;
@@ -383,8 +390,8 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(p3, situations[1].Predicate);
 			Assert.AreEqual(p2, situations[2].Predicate);
 			Assert.AreEqual(p4, situations[3].Predicate);
-
-		}
+			
+		}*/
 
 
 		[TestMethod]

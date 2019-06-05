@@ -13,7 +13,8 @@ namespace FSMLib.Situations
 	{
 		IEnumerable<BaseInput<T>> GetInputsAfterPredicate(BasePredicate<T> CurrentPredicate);
 
-		ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
+		//ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
+		IEnumerable<Situation<T>> GetRootSituations();
 
 		IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation);
 		bool Contains(BasePredicate<T> Predicate);

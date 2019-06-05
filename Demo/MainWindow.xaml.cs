@@ -40,7 +40,7 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			automatonTableFactory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
+			automatonTableFactory = new AutomatonTableFactory<char>(  );
 
 	
 			views = new ObservableCollection<GraphView>();

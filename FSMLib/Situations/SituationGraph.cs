@@ -12,7 +12,9 @@ namespace FSMLib.Situations
 	public class SituationGraph<T>:ISituationGraph<T>
 	{
 		private List<SituationNode<T>> inputPredicateNodes;
-			
+
+		private SituationNode<T> rootNode;
+
 
 		public SituationGraph(IEnumerable<Rule<T>> Rules)
 		{
@@ -32,11 +34,15 @@ namespace FSMLib.Situations
 				predicate.Items.Add(rule.Predicate);
 				predicate.Items.Add(ReducePredicate<T>.Instance);
 
-				segment =BuildPredicate(rule,predicate, Enumerable.Empty<SituationEdge<T>>() );
+				segment = BuildPredicate(rule,predicate, Enumerable.Empty<SituationEdge<T>>() );
 				rootPredicateNode = CreateNode();
 				Connect(rootPredicateNode.AsEnumerable(), segment.InputEdges);
 				segmentDictionary.Add(rule,segment);
+
+				if (rule == Rules.First()) rootNode = rootPredicateNode;
 			}
+
+			
 
 			foreach(SituationNode<T> node in inputPredicateNodes)
 			{
@@ -48,6 +54,8 @@ namespace FSMLib.Situations
 					}
 				}
 			}
+
+
 		}
 
 		private IEnumerable<Rule<T>> Develop(IEnumerable<Rule<T>> Rules, Dictionary<Rule<T>, SituationGraphSegment<T>> SegmentDictionary, string Name)
@@ -92,6 +100,14 @@ namespace FSMLib.Situations
 			return Enumerable.Empty<SituationEdge<T>>();
 
 		}
+		public IEnumerable<Situation<T>> GetRootSituations()
+		{
+			if (rootNode == null) yield break;
+			foreach(SituationEdge<T> edge in rootNode.Edges)
+			{
+				yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate };
+			}
+		}
 
 
 		public IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation)
@@ -132,7 +148,7 @@ namespace FSMLib.Situations
 			return node;
 		}
 
-		public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
+		/*public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
 		{
 			SituationCollection<T> developpedSituations;
 			SituationNode<T> node;
@@ -151,7 +167,7 @@ namespace FSMLib.Situations
 			}
 
 			return developpedSituations;
-		}
+		}*/
 
 
 		

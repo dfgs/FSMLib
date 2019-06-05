@@ -14,11 +14,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 	[TestClass]
 	public class AutomatonTableFactoryUnitTest
 	{
-		[TestMethod]
-		public void ShouldHaveValidConstructor()
-		{
-			Assert.ThrowsException<ArgumentNullException>(() => new AutomatonTableFactory<char>(null));
-		}
+		
 		
 
 		[TestMethod]
@@ -29,7 +25,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char> rule;
 			AutomatonTableParser<char> parser;
 
-			factory = new AutomatonTableFactory<char>( new SituationProducer<char>() ) ;
+			factory = new AutomatonTableFactory<char>(  ) ;
 
 			rule = RuleHelper.BuildRule("A=abc");
 
@@ -54,7 +50,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char> rule1,rule2;
 			AutomatonTableParser<char> parser;
 
-			factory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
+			factory = new AutomatonTableFactory<char>(  );
 
 			rule1 = RuleHelper.BuildRule("A=abc");
 			rule2 = RuleHelper.BuildRule("B=abc");
@@ -84,7 +80,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Rule<char> rule;
 			AutomatonTableParser<char> parser;
 
-			factory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
+			factory = new AutomatonTableFactory<char>( );
 
 			rule = RuleHelper.BuildRule("A=a|b|c");
 
@@ -112,7 +108,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Sequence<char> predicate;
 			AutomatonTableParser<char> parser;
 
-			factory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
+			factory = new AutomatonTableFactory<char>( );
 
 			predicate = new char[] { 'a', 'b', 'c' };
 			rule = new Rule<char>() { Name="rule" };
@@ -137,7 +133,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		{
 			AutomatonTableFactory<char> factory;
 
-			factory = new AutomatonTableFactory<char>(  new SituationProducer<char>());
+			factory = new AutomatonTableFactory<char>(  );
 
 			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildAutomatonTable(null,new char[] { 'a', 'b', 'c' }));
 		}
@@ -150,7 +146,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			
 			rule = new Rule<char>() { Name = "rule" };
 	
-			factory = new AutomatonTableFactory<char>( new SituationProducer<char>());
+			factory = new AutomatonTableFactory<char>( );
 
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildAutomatonTable(rule.AsEnumerable(), null));
 		}

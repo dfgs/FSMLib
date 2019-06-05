@@ -72,6 +72,11 @@ namespace FSMLib.Situations
 			return items.GetEnumerator();
 		}
 
-		
+
+		public override string ToString()
+		{
+			return string.Join("   -   ", items);
+		}
+
 	}
 }
