@@ -61,6 +61,7 @@ namespace FSMLib.Table
 			Rule<T> axiom,acceptRule;
 			Sequence<T> sequence;
 			NonTerminal<T> nonTerminal;
+			SituationGraphFactory<T> situationGraphFactory;
 			SituationGraph<T> graph;
 			Rule<T>[] rules;
 
@@ -94,7 +95,8 @@ namespace FSMLib.Table
 			acceptRule = new Rule<T>() {Name="Axiom" };
 			acceptRule.Predicate = sequence;
 
-			graph = new SituationGraph<T>( acceptRule.AsEnumerable().Concat(rules) );
+			situationGraphFactory = new SituationGraphFactory<T>();
+			graph = situationGraphFactory.BuildSituationGraph( acceptRule.AsEnumerable().Concat(rules) );
 
 			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();

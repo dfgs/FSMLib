@@ -59,6 +59,7 @@
     <Compile Include="Predicates\ReducePredicateUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Situations\SituationCollectionUnitTest.cs" />
+    <Compile Include="Situations\SituationGraphFactoryUnitTest.cs" />
     <Compile Include="Situations\SituationUnitTest.cs" />
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
     <Compile Include="Situations\SituationGraphUnitTest.cs" />

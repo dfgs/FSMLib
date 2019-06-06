@@ -16,206 +16,28 @@ namespace FSMLib.UnitTest.Situations
 	{
 		
 
-		[TestMethod]
-		public void ShouldHaveValidConstructor()
-		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SituationGraph<char>(null));
-		}
+		
 
 		[TestMethod]
 		public void ShouldContains()
 		{
 			Terminal<char> predicate;
 			SituationGraph<char> graph;
-			Rule<char> rule;
+			SituationNode<char> node;
+			SituationEdge<char> edge;
 
 			predicate = new Terminal<char>() { Value = 'a' };
-			rule = new Rule<char>() { Name = "A",Predicate=predicate};
-			graph = new SituationGraph<char>(rule.AsEnumerable());
 
+			node = new SituationNode<char>();
+			edge = new SituationEdge<char>();
+			edge.Predicate = predicate;
+			node.Edges.Add(edge);
+
+			graph = new SituationGraph<char>();
+			graph.Nodes.Add(node);
+			
 			Assert.IsTrue(graph.Contains(predicate));
 			Assert.IsFalse(graph.Contains(new AnyTerminal<char>()));
-		}
-
-		[TestMethod]
-		public void ShouldBuildInputPredicate()
-		{
-			SituationPredicate<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			predicate = new Terminal<char>() { Value = 'a' };
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate};
-
-			predicate = new NonTerminal<char>() { Name = "A" };
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
-			
-
-			predicate = new AnyTerminal<char>();
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
-			
-		}
-
-		[TestMethod]
-		public void ShouldBuildSequencePredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(c);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
-
-			
-		}
-
-
-		[TestMethod]
-		public void ShouldBuildOrPredicate()
-		{
-			Terminal<char> a, b, c;
-			Or<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Or<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(c);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			
-		}
-
-
-		[TestMethod]
-		public void ShouldBuildOptionalPredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(new Optional<char>() { Item=b  } );
-			predicate.Items.Add(c);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
-
-			
-
-		}
-
-		[TestMethod]
-		public void ShouldBuildZeroOrMorePredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(new ZeroOrMore<char>() { Item = b });
-			predicate.Items.Add(c);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
-
-			
-		}
-
-		[TestMethod]
-		public void ShouldBuildOneOrMorePredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
-			Rule<char> rule;
-			Situation<char> situation;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(new OneOrMore<char>() { Item = b });
-			predicate.Items.Add(c);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
-
-			
 		}
 
 		[TestMethod]
@@ -223,6 +45,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			Rule<char> rule;
@@ -238,7 +61,8 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
+			situationGraphFactory = new SituationGraphFactory<char>();
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
@@ -266,6 +90,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldDevelopSituations()
 		{
+			SituationGraphFactory<char> situationGraphFactory; 
 			SituationGraph<char> graph;
 			Rule<char> rule1, rule2, rule3,rule4;
 			Situation<char> situation;
@@ -288,7 +113,8 @@ namespace FSMLib.UnitTest.Situations
 			rule3 = new Rule<char>() { Name = "B", Predicate = p3 };
 			rule4 = new Rule<char>() { Name = "C", Predicate = p4 };
 
-			graph = new SituationGraph<char>(new Rule<char>[] { rule1, rule2, rule3,rule4 });
+			situationGraphFactory = new SituationGraphFactory<char>();
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2, rule3, rule4 });
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p1 };
 
@@ -305,112 +131,6 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(situations[3].Input.Match('d'));
 
 		}
-
-		/*
-		[TestMethod]
-		public void ShouldGetInputsAfterPredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			Or<char> or;
-			SituationGraph<char> graph;
-			Rule<char> rule;
-			BaseInput<char>[] items;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'c' };
-			or = new Or<char>();
-			or.Items.Add(b);
-			or.Items.Add(c);
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(or);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(a));
-			Assert.IsTrue(graph.Contains(b));
-			Assert.IsTrue(graph.Contains(c));
-
-			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.IsTrue(items[0].Match( new TerminalInput<char>() { Value = 'b' }));
-			Assert.IsTrue(items[1].Match(new TerminalInput<char>() { Value = 'c' }));
-
-			items = graph.GetTerminalInputsAfterPredicate(b).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-
-		}
-
-		[TestMethod]
-		public void ShouldGetDistinctsInputsAfterPredicate()
-		{
-			Terminal<char> a, b, c;
-			Sequence<char> predicate;
-			Or<char> or;
-			SituationGraph<char> graph;
-			Rule<char> rule;
-			BaseInput<char>[] items;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new Terminal<char>() { Value = 'b' };
-			c = new Terminal<char>() { Value = 'b' };
-			or = new Or<char>();
-			or.Items.Add(b);
-			or.Items.Add(c);
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(or);
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());
-
-			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.IsTrue(items[0].Match(new TerminalInput<char>() { Value = 'b' }));
-
-			items = graph.GetTerminalInputsAfterPredicate(b).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-	
-		}
-
-		[TestMethod]
-		public void ShouldGetDistinctsInputsAfterPredicate2()
-		{
-			Terminal<char> a, c;
-			Sequence<char> predicate;
-			NonTerminal<char> b;
-			SituationGraph<char> graph;
-			Rule<char> rule1,rule2,rule3;
-			BaseInput<char>[] items;
-
-			a = new Terminal<char>() { Value = 'a' };
-			b = new NonTerminal<char>() { Name="B" };
-			c = new Terminal<char>() { Value = 'c' };
-
-			predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(c);
-
-			rule1 = new Rule<char>() { Name = "A", Predicate = predicate };
-			rule2 = new Rule<char>() { Name = "B", Predicate = new NonTerminal<char>() { Name = "C" } };
-			rule3 = new Rule<char>() { Name = "C", Predicate = new Terminal<char>() { Value = 'b' } };
-
-			graph = new SituationGraph<char>(new Rule<char>[] { rule1,rule2,rule3} );
-
-			items = graph.GetTerminalInputsAfterPredicate(a).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.IsTrue(items[0].Match(new NonTerminalInput<char>() { Name= "B" }));
-
-
-
-		}*/
 
 
 	}
