@@ -11,7 +11,7 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public class AnyTerminal<T>: SituationPredicate<T>
 	{
-		public override IEnumerable<BaseInput<T>> GetInputs()
+		public override IEnumerable<IInput<T>> GetInputs()
 		{
 			yield return new AnyTerminalInput<T>();
 		}

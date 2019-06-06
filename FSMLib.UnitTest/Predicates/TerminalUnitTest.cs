@@ -42,7 +42,7 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			Terminal<char> predicate;
-			BaseInput<char>[] inputs;
+			IInput<char>[] inputs;
 
 			predicate = new Terminal<char>() { Value = 'a' };
 			inputs = predicate.GetInputs().ToArray();

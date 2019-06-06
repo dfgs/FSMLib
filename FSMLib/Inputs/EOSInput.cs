@@ -10,14 +10,8 @@ namespace FSMLib.Inputs
 	{
 
 
-		public override bool Equals(BaseInput<T> other)
-		{
-			return other is EOSInput<T>;
-		}
-		public override bool Equals(BaseTerminalInput<T> other)
-		{
-			return other is EOSInput<T>;
-		}
+		
+		
 		public override bool Equals(IInput<T> other)
 		{
 			return other is EOSInput<T>;

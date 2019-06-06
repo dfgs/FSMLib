@@ -43,7 +43,7 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldNotGetInput()
 		{
 			ReducePredicate<char> predicate;
-			BaseInput<char>[] inputs;
+			IInput<char>[] inputs;
 
 			predicate = ReducePredicate<char>.Instance;
 			inputs = predicate.GetInputs().ToArray();

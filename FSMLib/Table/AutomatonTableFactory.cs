@@ -13,7 +13,6 @@ namespace FSMLib.Table
 {
 	public class AutomatonTableFactory<T> : IAutomatonTableFactory<T>
 	{
-		//private ISituationProducer<T> situationProducer;
 
 		public AutomatonTableFactory( )
 		{
@@ -29,24 +28,14 @@ namespace FSMLib.Table
 			{
 				foreach (Shift<T> action in Actions)
 				{
-					if (state.ShiftActions.FirstOrDefault(item => item.Equals(action)) == null) state.ShiftActions.Add(action);
-					/*switch (action)
-				{
-					case ShiftOnTerminal<T> tr:
-						if (state.TerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.TerminalActions.Add(tr);
-						break;
-					case ShiftOnNonTerminal<T> tr:
-						if (state.NonTerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.NonTerminalActions.Add(tr);
-						break;
-					default:
-						throw (new NotImplementedException("Invalid action type"));
-				}*/
+					//if (state.ShiftActions.FirstOrDefault(item => item.Equals(action)) == null)
+					state.ShiftActions.Add(action);
 				}
 			}
 		}
 
 	
-		private IEnumerable<BaseInput<T>> GetNextInputs(IEnumerable<Situation<T>> Situations)
+		private IEnumerable<IInput<T>> GetNextInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
 			return Situations.SelectMany(item => item.Predicate.GetInputs()).DistinctEx();
@@ -165,45 +154,9 @@ namespace FSMLib.Table
 					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
 				}
-				/*foreach (BaseTerminalInput<T> input in GetNextTerminalInputs(currentTuple.Situations))
-				{
-					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
-					developpedSituations = graph.Develop(nextSituations);
-
-					nextTuple = situationDictionary.GetTuple(developpedSituations);
-					if (nextTuple == null)
-					{
-						state = new State<T>();
-						AddReductions(state, developpedSituations);
-						automatonTable.States.Add(state);
-						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
-						openList.Push(nextTuple);
-					}
-					action = new ShiftOnTerminal<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
-					Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
-				}
-
-				foreach (NonTerminalInput<T> input in GetNextNonTerminalInputs(currentTuple.Situations))
-				{
-					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
-					developpedSituations = graph.Develop(nextSituations);
-
-					nextTuple = situationDictionary.GetTuple(developpedSituations);
-					if (nextTuple == null)
-					{
-						state = new State<T>();
-						AddReductions(state, developpedSituations);
-						automatonTable.States.Add(state);
-						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
-						openList.Push(nextTuple);
-					}
-					action = new ShiftOnNonTerminal<T>() { Name = input.Name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
-					Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
-				}//*/
+				
 
 			}
-
-		
 
 
 			return automatonTable;

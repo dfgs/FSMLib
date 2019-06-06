@@ -102,15 +102,15 @@ namespace FSMLib.Situations
 		}
 
 		
-		private IEnumerable<BaseTerminalInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal, BaseTerminalInput<T> Input)
+		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal, BaseTerminalInput<T> Input)
 		{
 			SituationEdge<T> edge;
-			List<BaseTerminalInput<T>> items;
+			List<IInput<T>> items;
 			//BaseInput<T> input;
 			Stack<SituationEdge<T>> openList;
 			IEnumerable<SituationEdge<T>> recursiveEdges;
 
-			items = new List<BaseTerminalInput<T>>();
+			items = new List<IInput<T>>();
 
 			edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == NonTerminal);
 			if (edge == null) return items;
@@ -178,7 +178,7 @@ namespace FSMLib.Situations
 			SituationCollection<T> developpedSituations;
 			SituationNode<T> node;
 			Situation<T> newSituation;
-			BaseTerminalInput<T>[] inputs;
+			IInput<T>[] inputs;
 
 			developpedSituations = new SituationCollection<T>();
 
@@ -203,8 +203,6 @@ namespace FSMLib.Situations
 									newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
 									developpedSituations.Add(newSituation);
 								}
-
-								
 
 							}
 						}

@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			EOS<char> predicate;
-			BaseInput<char>[] inputs;
+			IInput<char>[] inputs;
 
 			predicate = new EOS<char>();
 			inputs = predicate.GetInputs().ToArray();

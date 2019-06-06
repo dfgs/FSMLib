@@ -10,7 +10,7 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public abstract class SituationPredicate<T>: BasePredicate<T>,ISituationPredicate<T>
 	{
-		public abstract IEnumerable<BaseInput<T>> GetInputs();
+		public abstract IEnumerable<IInput<T>> GetInputs();
 
 	}
 }

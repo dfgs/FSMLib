@@ -13,7 +13,7 @@ namespace FSMLib.Predicates
 		public static ReducePredicate<T> Instance = new ReducePredicate<T>();
 
 		//private static ReduceInput<T> input = new ReduceInput<T>();
-		public override IEnumerable<BaseInput<T>> GetInputs()
+		public override IEnumerable<IInput<T>> GetInputs()
 		{
 			yield break;
 		}

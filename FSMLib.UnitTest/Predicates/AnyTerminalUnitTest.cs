@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			AnyTerminal<char> predicate;
-			BaseInput<char>[] inputs;
+			IInput<char>[] inputs;
 
 			predicate = new AnyTerminal<char>();
 			inputs = predicate.GetInputs().ToArray();
