@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class NonTerminal<T>:InputPredicate<T>
+	public class NonTerminal<T>:SituationPredicate<T>
 	{
 
 		public string Name
@@ -22,12 +22,12 @@ namespace FSMLib.Predicates
 
 
 		
-		public override BaseInput<T> GetInput()
+		public override IEnumerable<BaseInput<T>> GetInputs()
 		{
-			return new NonTerminalInput<T>() { Name = this.Name };
+			yield return new NonTerminalInput<T>() { Name = this.Name };
 		}
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{{{Name}}}";
 			else return $"{{{Name}}}";

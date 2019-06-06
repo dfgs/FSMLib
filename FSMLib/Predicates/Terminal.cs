@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Terminal<T>: InputPredicate<T>
+	public class Terminal<T>: SituationPredicate<T>
 	{
 
 		public T Value
@@ -18,14 +18,14 @@ namespace FSMLib.Predicates
 			set;
 		}
 
-		public override BaseInput<T> GetInput()
+		public override IEnumerable<BaseInput<T>> GetInputs()
 		{
-			return new TerminalInput<T>() { Value = Value };
+			yield return new TerminalInput<T>() { Value = Value };
 		}
 
 
 		
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{Value}";
 			else return Value.ToString();

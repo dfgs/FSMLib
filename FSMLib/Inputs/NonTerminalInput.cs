@@ -43,10 +43,10 @@ namespace FSMLib.Inputs
 
 		
 
-		/*public override bool Match(T Value)
+		public override bool Match(T Value)
 		{
 			return false;
-		}*/
+		}
 
 		public override string ToString()
 		{

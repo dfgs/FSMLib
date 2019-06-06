@@ -9,6 +9,12 @@ namespace FSMLib.Tables
 {
 	public abstract class BaseNode<T>
 	{
+		public BaseInput<T> Input
+		{
+			get;
+			set;
+		}
+
 		public abstract IEnumerable<BaseTerminalInput<T>> EnumerateInputs();
 	}
 }

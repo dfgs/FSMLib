@@ -29,30 +29,27 @@ namespace FSMLib.Table
 			{
 				foreach (Shift<T> action in Actions)
 				{
-					switch (action)
-					{
-						case ShiftOnTerminal<T> tr:
-							if (state.TerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.TerminalActions.Add(tr);
-							break;
-						case ShiftOnNonTerminal<T> tr:
-							if (state.NonTerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.NonTerminalActions.Add(tr);
-							break;
-						default:
-							throw (new NotImplementedException("Invalid action type"));
-					}
+					if (state.ShiftActions.FirstOrDefault(item => item.Equals(action)) == null) state.ShiftActions.Add(action);
+					/*switch (action)
+				{
+					case ShiftOnTerminal<T> tr:
+						if (state.TerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.TerminalActions.Add(tr);
+						break;
+					case ShiftOnNonTerminal<T> tr:
+						if (state.NonTerminalActions.FirstOrDefault(item => item.Equals(tr)) == null) state.NonTerminalActions.Add(tr);
+						break;
+					default:
+						throw (new NotImplementedException("Invalid action type"));
+				}*/
 				}
 			}
 		}
 
-		public IEnumerable<NonTerminalInput<T>> GetNextNonTerminalInputs(IEnumerable<Situation<T>> Situations)
+	
+		private IEnumerable<BaseInput<T>> GetNextInputs(IEnumerable<Situation<T>> Situations)
 		{
 			if (Situations == null) throw new ArgumentNullException("Situations");
-			return Situations.Select(item => item.Predicate.GetInput()).OfType<NonTerminalInput<T>>().DistinctEx();
-		}
-		public IEnumerable<BaseTerminalInput<T>> GetNextTerminalInputs(IEnumerable<Situation<T>> Situations)
-		{
-			if (Situations == null) throw new ArgumentNullException("Situations");
-			return Situations.Select(item => item.Predicate.GetInput()).OfType<BaseTerminalInput<T>>().Where(item => !(item is ReduceInput<T>)).DistinctEx();
+			return Situations.SelectMany(item => item.Predicate.GetInputs()).DistinctEx();
 		}
 
 		private void AddReductions(State<T> State,ISituationCollection<T> Situations)
@@ -76,7 +73,7 @@ namespace FSMLib.Table
 		{
 			IEnumerable<Situation<T>> matchingSituations;
 
-			matchingSituations = CurrentSituations.Where(item => item.Predicate.GetInput().Match(Input));
+			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInputs().FirstOrDefault( i=> i.Match(Input))!=null);
 
 			foreach(Situation<T> situation in matchingSituations)
 			{
@@ -151,7 +148,24 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach (BaseTerminalInput<T> input in GetNextTerminalInputs(currentTuple.Situations))
+				foreach (BaseInput<T> input in GetNextInputs(currentTuple.Situations))
+				{
+					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
+					developpedSituations = graph.Develop(nextSituations);
+
+					nextTuple = situationDictionary.GetTuple(developpedSituations);
+					if (nextTuple == null)
+					{
+						state = new State<T>();
+						AddReductions(state, developpedSituations);
+						automatonTable.States.Add(state);
+						nextTuple = situationDictionary.CreateTuple(state, developpedSituations);
+						openList.Push(nextTuple);
+					}
+					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
+					Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
+				}
+				/*foreach (BaseTerminalInput<T> input in GetNextTerminalInputs(currentTuple.Situations))
 				{
 					nextSituations = CreateNextSituations(graph, input, currentTuple.Situations);
 					developpedSituations = graph.Develop(nextSituations);
@@ -185,7 +199,7 @@ namespace FSMLib.Table
 					}
 					action = new ShiftOnNonTerminal<T>() { Name = input.Name, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					Connect(currentTuple.State.AsEnumerable(), action.AsEnumerable());
-				}
+				}//*/
 
 			}
 

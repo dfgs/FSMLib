@@ -28,7 +28,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("•←", predicate.ToString(predicate));
 		}
 
-		[TestMethod]
+		/*[TestMethod]
 		public void ShouldGetInput()
 		{
 			ReducePredicate<char> predicate;
@@ -37,9 +37,18 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = ReducePredicate<char>.Instance;
 			input = predicate.GetInput() as ReduceInput<char>;
 			Assert.IsNotNull(input);
+		}*/
+
+		[TestMethod]
+		public void ShouldNotGetInput()
+		{
+			ReducePredicate<char> predicate;
+			BaseInput<char>[] inputs;
+
+			predicate = ReducePredicate<char>.Instance;
+			inputs = predicate.GetInputs().ToArray();
+			Assert.AreEqual(0, inputs.Length);
 		}
-
-
 
 
 

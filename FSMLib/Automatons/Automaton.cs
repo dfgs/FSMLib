@@ -41,12 +41,12 @@ namespace FSMLib.Tables
 
 		
 
-		private bool Feed(TerminalNode<T> Node)
+		private bool Feed(BaseNode<T> Node)
 		{
 			State<T> state;
 
 			state = automatonTable.States[stateIndex];
-			foreach (ShiftOnTerminal<T> action in state.TerminalActions)
+			foreach (Shift<T> action in state.ShiftActions)
 			{
 				if (action.Input.Match(Node.Input))
 				{
@@ -59,30 +59,14 @@ namespace FSMLib.Tables
 			return false;
 		}
 
-		private bool Feed(NonTerminalNode<T> Node)
-		{
-			State<T> state;
-
-			state = automatonTable.States[stateIndex];
-			foreach (ShiftOnNonTerminal<T> action in state.NonTerminalActions)
-			{
-				if (action.Name==Node.Name)
-				{
-					stateIndexStack.Push(stateIndex);
-					nodeStack.Push(Node);
-					stateIndex = action.TargetStateIndex;
-					return true;
-				}
-			}
-			return false;
-		}
+		
 
 		private NonTerminalNode<T> Reduce(string Name)
 		{
 			BaseNode<T> baseNode;
 			NonTerminalNode<T> reducedNode;
 
-			reducedNode = new NonTerminalNode<T>() { Name = Name };
+			reducedNode = new NonTerminalNode<T>() { Input=new NonTerminalInput<T>() { Name=Name } };
 
 			while (nodeStack.Count > 0)
 			{
@@ -122,28 +106,26 @@ namespace FSMLib.Tables
 			return null;
 		}
 
-		public bool CanFeed(T Input)
+		private bool CanFeed(BaseInput<T> Input)
 		{
 			State<T> state;
 
 			state = automatonTable.States[stateIndex];
 			// check if we can shift
-			if (state.TerminalActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
+			if (state.ShiftActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
 			// check if we can reduce and shift
 			if (state.ReductionActions.FirstOrDefault(item => item.Input.Match(Input)) != null) return true;
 
 			return false;
 		}
+
+		public bool CanFeed(T Input)
+		{
+			return CanFeed(new TerminalInput<T>() { Value = Input });
+		}
 		private bool CanFeed(string Name)
 		{
-			State<T> state;
-
-			state = automatonTable.States[stateIndex];
-			// check if we can shift
-			if (state.NonTerminalActions.FirstOrDefault(item => item.Name==Name) != null) return true;
-			
-
-			return false;
+			return CanFeed(new NonTerminalInput<T>() { Name= Name});
 		}
 
 

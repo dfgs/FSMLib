@@ -9,11 +9,11 @@ using FSMLib.Rules;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class AnyTerminal<T>: InputPredicate<T>
+	public class AnyTerminal<T>: SituationPredicate<T>
 	{
-		public override BaseInput<T> GetInput()
+		public override IEnumerable<BaseInput<T>> GetInputs()
 		{
-			return new AnyTerminalInput<T>();
+			yield return new AnyTerminalInput<T>();
 		}
 
 
@@ -21,7 +21,7 @@ namespace FSMLib.Predicates
 
 		
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return "•.";
 			else return ".";

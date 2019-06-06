@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
-    <Compile Include="Inputs\ReduceInputUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\AnyTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
@@ -64,8 +63,6 @@
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
     <Compile Include="Situations\SituationGraphUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
-    <Compile Include="Actions\ShiftOnNonTerminalUnitTest.cs" />
-    <Compile Include="Actions\ShiftOnTerminalUnitTest.cs" />
     <Compile Include="Table\AutomatonTableTupleUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />

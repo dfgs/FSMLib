@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Predicates
 {
-	[Serializable]
-	public abstract class InputPredicate<T>: BasePredicate<T>
+	public interface ISituationPredicate<T>:IPredicate<T>
 	{
-		public abstract BaseInput<T> GetInput();
-
+		IEnumerable<BaseInput<T>> GetInputs();
 	}
 }

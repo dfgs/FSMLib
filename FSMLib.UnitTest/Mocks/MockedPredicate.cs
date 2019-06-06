@@ -14,7 +14,7 @@ namespace FSMLib.UnitTest.Mocks
 	{
 		
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			throw new System.NotImplementedException();
 		}

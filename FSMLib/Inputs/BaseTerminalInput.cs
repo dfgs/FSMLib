@@ -10,6 +10,5 @@ namespace FSMLib.Inputs
 	{
 		public abstract bool Equals(BaseTerminalInput<T> other);
 
-		public abstract bool Match(T Value);
 	}
 }

@@ -42,15 +42,14 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			Terminal<char> predicate;
-			TerminalInput<char> input;
+			BaseInput<char>[] inputs;
 
 			predicate = new Terminal<char>() { Value = 'a' };
-			input = predicate.GetInput() as TerminalInput<char>;
-			Assert.IsNotNull(input);
-			Assert.AreEqual('a', input.Value);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.AreEqual(1, inputs.Length);
+			Assert.AreEqual('a', ((TerminalInput<char>)inputs[0]).Value);
 		}
 
-		
 
 	}
 }

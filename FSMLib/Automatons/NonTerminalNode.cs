@@ -9,11 +9,7 @@ namespace FSMLib.Tables
 {
 	public class NonTerminalNode<T> : BaseNode<T>
 	{
-		public string Name
-		{
-			get;
-			set;
-		}
+		
 
 		public List<BaseNode<T>> Nodes
 		{

@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
-    <Compile Include="Inputs\ReduceInput.cs" />
     <Compile Include="Inputs\BaseInput.cs" />
     <Compile Include="Inputs\BaseTerminalInput.cs" />
     <Compile Include="Inputs\EOSInput.cs" />
@@ -53,7 +52,9 @@
     <Compile Include="Inputs\TerminalInput.cs" />
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\ExtendedPredicate.cs" />
-    <Compile Include="Predicates\InputPredicate.cs" />
+    <Compile Include="Predicates\SituationPredicate.cs" />
+    <Compile Include="Predicates\IPredicate.cs" />
+    <Compile Include="Predicates\ISituationPredicate.cs" />
     <Compile Include="Predicates\ReducePredicate.cs" />
     <Compile Include="Situations\ISituationCollection.cs" />
     <Compile Include="Situations\ISituationDictionary.cs" />
@@ -78,9 +79,7 @@
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Table\Segment.cs" />
     <Compile Include="Actions\BaseAction.cs" />
-    <Compile Include="Actions\ShiftOnNonTerminal.cs" />
     <Compile Include="Actions\Shift.cs" />
-    <Compile Include="Actions\ShiftOnTerminal.cs" />
     <Compile Include="Automatons\IAutomaton.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />

@@ -25,7 +25,7 @@ namespace FSMLib.Rules
 			return $"{Name}={Predicate.ToString()}";
 		}
 
-		public string ToString(InputPredicate<T> CurrentPredicate)
+		public string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate is ReducePredicate<T>) return $"{Name}={Predicate.ToString()}•";
 			return $"{Name}={Predicate.ToString(CurrentPredicate)}";

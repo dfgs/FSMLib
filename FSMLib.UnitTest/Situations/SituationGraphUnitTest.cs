@@ -40,7 +40,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildInputPredicate()
 		{
-			InputPredicate<char> predicate;
+			SituationPredicate<char> predicate;
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			Rule<char> rule;

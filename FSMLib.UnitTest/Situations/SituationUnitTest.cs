@@ -16,7 +16,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			FSMLib.Situations.Situation<char> a, b;
 			Rule<char> rule;
-			InputPredicate<char> predicate;
+			SituationPredicate<char> predicate;
 
 			rule = RuleHelper.BuildRule("A=abc");
 			predicate=(rule.Predicate as Sequence<char>).Items[0] as Terminal<char>;
@@ -31,7 +31,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			FSMLib.Situations.Situation<char> a, b;
 			Rule<char> rule;
-			InputPredicate<char> predicate1,predicate2;
+			SituationPredicate<char> predicate1,predicate2;
 
 			rule = RuleHelper.BuildRule("A=abc");
 			predicate1 = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char>;

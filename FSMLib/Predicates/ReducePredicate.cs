@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Predicates
 {
-	public class ReducePredicate<T> : InputPredicate<T>
+	public class ReducePredicate<T> : SituationPredicate<T>
 	{
 
 		public static ReducePredicate<T> Instance = new ReducePredicate<T>();
 
-		private static ReduceInput<T> input = new ReduceInput<T>();
-		public override BaseInput<T> GetInput()
+		//private static ReduceInput<T> input = new ReduceInput<T>();
+		public override IEnumerable<BaseInput<T>> GetInputs()
 		{
-			return input; ;
+			yield break;
 		}
 
 		private ReducePredicate()
@@ -23,7 +23,7 @@ namespace FSMLib.Predicates
 
 		}
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return "•←";
 			else return "←";

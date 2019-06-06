@@ -9,15 +9,11 @@ namespace FSMLib.Tables
 {
 	public class TerminalNode<T>:BaseNode<T>
 	{
-		public BaseTerminalInput<T> Input
-		{
-			get;
-			set;
-		}
+		
 
 		public override IEnumerable<BaseTerminalInput<T>> EnumerateInputs()
 		{
-			yield return Input;
+			yield return Input as BaseTerminalInput<T>;
 		}
 
 

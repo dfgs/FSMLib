@@ -29,7 +29,7 @@ namespace FSMLib.Predicates
 		
 
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
 			return $"({string.Join("|", Items.Select(item => item.ToString(CurrentPredicate)))})";

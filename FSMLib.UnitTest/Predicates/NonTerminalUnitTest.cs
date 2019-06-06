@@ -32,12 +32,12 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			NonTerminal<char> predicate;
-			NonTerminalInput<char> input;
+			BaseInput<char>[] inputs;
 
 			predicate = new NonTerminal<char>() { Name="A" } ;
-			input = predicate.GetInput() as NonTerminalInput<char>;
-			Assert.IsNotNull(input);
-			Assert.AreEqual("A", input.Name);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.AreEqual(1,inputs.Length);
+			Assert.AreEqual("A", ((NonTerminalInput<char>)inputs[0]).Name);
 		}
 
 	

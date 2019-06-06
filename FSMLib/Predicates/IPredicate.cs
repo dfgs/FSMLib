@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Inputs
+namespace FSMLib.Predicates
 {
-	public interface IInput<T>:IEquatable<IInput<T>>
+	public interface IPredicate<T>
 	{
-		bool Match(IInput<T> Other);
-		bool Match(T Value);
+		string ToString(ISituationPredicate<T> CurrentPredicate);
 	}
 }

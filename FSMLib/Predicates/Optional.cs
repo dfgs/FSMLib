@@ -27,7 +27,7 @@ namespace FSMLib.Predicates
 
 		
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			return $"{Item.ToString(CurrentPredicate)}?";
 		}

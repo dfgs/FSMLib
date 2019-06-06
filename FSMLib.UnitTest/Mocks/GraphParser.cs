@@ -19,7 +19,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		public int ActionCount
 		{
-			get { return automatonTable.States[stateIndex].TerminalActions.Count+ automatonTable.States[stateIndex].NonTerminalActions.Count; }
+			get { return automatonTable.States[stateIndex].ShiftActions.Count; }
 		}
 
 		
@@ -35,7 +35,7 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			int index = 0;
 
-			foreach(ShiftOnTerminal<T> action in automatonTable.States[stateIndex].TerminalActions)
+			foreach(Shift<T> action in automatonTable.States[stateIndex].ShiftActions)
 			{
 				if (action.Input.Match(new TerminalInput<T>() { Value = Input }))
 				{

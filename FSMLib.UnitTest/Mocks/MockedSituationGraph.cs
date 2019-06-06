@@ -11,8 +11,8 @@ namespace FSMLib.UnitTest.Mocks
 {
 	public class MockedSituationGraph : ISituationGraph<char>
 	{
-		private static InputPredicate<char> predicate=new AnyTerminal<char>();
-		public InputPredicate<char> MockedPredicate
+		private static SituationPredicate<char> predicate=new AnyTerminal<char>();
+		public SituationPredicate<char> MockedPredicate
 		{
 			get => predicate;
 		}
@@ -20,20 +20,20 @@ namespace FSMLib.UnitTest.Mocks
 		public MockedSituationGraph()
 		{
 		}
-		public bool Contains(InputPredicate<char> Predicate)
+		public bool Contains(SituationPredicate<char> Predicate)
 		{
 			return true;
 		}
 
 		
-		public IEnumerable<InputPredicate<char>> GetRuleInputPredicates(BasePredicate<char> RootPredicate)
+		public IEnumerable<SituationPredicate<char>> GetRuleInputPredicates(BasePredicate<char> RootPredicate)
 		{
 			throw new NotImplementedException();
 		}
 
 		
 
-		public bool CanReduce(InputPredicate<char> CurrentPredicate)
+		public bool CanReduce(SituationPredicate<char> CurrentPredicate)
 		{
 			return true;
 		}
@@ -43,12 +43,12 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<InputPredicate<char>> GetRuleInputPredicates(string Name)
+		public IEnumerable<SituationPredicate<char>> GetRuleInputPredicates(string Name)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<BaseInput<char>> GetInputsAfterPredicate(InputPredicate<char> CurrentPredicate)
+		public IEnumerable<BaseInput<char>> GetInputsAfterPredicate(SituationPredicate<char> CurrentPredicate)
 		{
 			throw new NotImplementedException();
 		}

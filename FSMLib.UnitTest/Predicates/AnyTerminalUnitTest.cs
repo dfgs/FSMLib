@@ -32,16 +32,17 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			AnyTerminal<char> predicate;
-			AnyTerminalInput<char> input;
+			BaseInput<char>[] inputs;
 
 			predicate = new AnyTerminal<char>();
-			input = predicate.GetInput() as AnyTerminalInput<char>;
-			Assert.IsNotNull(input);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.AreEqual(1, inputs.Length);
+			Assert.IsInstanceOfType(inputs[0], typeof(AnyTerminalInput<char>));
 		}
 
-		
 
-		
+
+
 
 
 

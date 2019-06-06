@@ -22,7 +22,7 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].TerminalActions.Add(new ShiftOnTerminal<char>() { Input = new TerminalInput<char>() { Value = Values[t] }, TargetStateIndex = t+1 });
+				States[t].ShiftActions.Add(new Shift<char>() { Input = new TerminalInput<char>() { Value = Values[t] }, TargetStateIndex = t+1 });
 			}
 
 		}
@@ -33,7 +33,7 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].NonTerminalActions.Add(new ShiftOnNonTerminal<char>() { Name = Values[t], TargetStateIndex = t + 1 });
+				States[t].ShiftActions.Add(new Shift<char>() { Input = new NonTerminalInput<char>() { Name= Values[t] } , TargetStateIndex = t + 1 });
 			}
 		}
 

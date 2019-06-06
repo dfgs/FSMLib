@@ -9,17 +9,17 @@ using FSMLib.Rules;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class EOS<T>: InputPredicate<T>
+	public class EOS<T>: SituationPredicate<T>
 	{
-		public override BaseInput<T> GetInput()
+		public override IEnumerable<BaseInput<T>> GetInputs()
 		{
-			return new EOSInput<T>();
+			yield return new EOSInput<T>();
 		}
 
 
 		
 
-		public override string ToString(InputPredicate<T> CurrentPredicate)
+		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return "•¤";
 			else return "¤";

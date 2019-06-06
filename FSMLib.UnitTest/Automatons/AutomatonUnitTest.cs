@@ -155,7 +155,8 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
 			Assert.IsFalse(automaton.CanAccept());
-			Assert.AreEqual("A", node.Name);
+			
+			Assert.AreEqual("A", ((NonTerminalInput<char>)node.Input).Name);
 			Assert.AreEqual(3, node.Nodes.Count);
 		}
 
