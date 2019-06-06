@@ -51,27 +51,20 @@ namespace FSMLib.UnitTest.Situations
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			situation = new Situation<char>() { Rule = rule, Predicate = predicate};
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-			//Assert.IsTrue(graph.CanReduce(predicate));
 
 			predicate = new NonTerminal<char>() { Name = "A" };
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-			//Assert.IsTrue(graph.CanReduce(predicate));
+			
 
 			predicate = new AnyTerminal<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-			//Assert.IsTrue(graph.CanReduce(predicate));
+			
 		}
 
 		[TestMethod]
@@ -101,21 +94,7 @@ namespace FSMLib.UnitTest.Situations
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(b, items[0].Predicate);
-
-			items = graph.GetNextSituations(items[0]).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(c, items[0].Predicate);
-
-			items = graph.GetNextSituations(items[0]).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-			//Assert.IsFalse(graph.CanReduce(a));
-			//Assert.IsFalse(graph.CanReduce(b));
-			//Assert.IsTrue(graph.CanReduce(c));
-
+			
 		}
 
 
@@ -144,21 +123,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-			situation = new Situation<char>() { Rule = rule, Predicate = c };
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-
-			//Assert.IsTrue(graph.CanReduce(a));
-			//Assert.IsTrue(graph.CanReduce(b));
-			//Assert.IsTrue(graph.CanReduce(c));
+			
 		}
 
 
@@ -189,22 +154,7 @@ namespace FSMLib.UnitTest.Situations
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual(b, items[0].Predicate);
-			Assert.AreEqual(c,items[1].Predicate);
-
-			/*predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(new Optional<char>() { Item = c });
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());*/
-
-			//Assert.IsFalse(graph.CanReduce(a));
-			//Assert.IsTrue(graph.CanReduce(b));
-			//Assert.IsTrue(graph.CanReduce(c));
+			
 
 		}
 
@@ -235,28 +185,7 @@ namespace FSMLib.UnitTest.Situations
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual(b, items[0].Predicate);
-			Assert.AreEqual(c, items[1].Predicate);
-
-			items = graph.GetNextSituations(items[0]).ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual(c, items[0].Predicate);
-			Assert.AreEqual(b, items[1].Predicate);
-
-
-			/*predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(new ZeroOrMore<char>() { Item = c });
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());*/
-
-			//Assert.IsFalse(graph.CanReduce(a));
-			//Assert.IsTrue(graph.CanReduce(b));
-			//Assert.IsTrue(graph.CanReduce(c));
+			
 		}
 
 		[TestMethod]
@@ -286,31 +215,11 @@ namespace FSMLib.UnitTest.Situations
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
-			items = graph.GetNextSituations(situation).ToArray();
-			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(b,items[0].Predicate);
-
-			items = graph.GetNextSituations(items[0]).ToArray();
-			Assert.AreEqual(2, items.Length);
-			Assert.AreEqual(c, items[0].Predicate);
-			Assert.AreEqual(b, items[1].Predicate);
-
-
-			/*predicate = new Sequence<char>();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(new OneOrMore<char>() { Item = c });
-
-			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = new SituationGraph<char>(rule.AsEnumerable());*/
-
-			//Assert.IsFalse(graph.CanReduce(a));
-			//Assert.IsFalse(graph.CanReduce(b));
-			//Assert.IsTrue(graph.CanReduce(c));
+			
 		}
 
 		[TestMethod]
-		public void ShouldGetNextPredicates()
+		public void ShouldCreateNextSituations()
 		{
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
@@ -332,16 +241,21 @@ namespace FSMLib.UnitTest.Situations
 			graph = new SituationGraph<char>(rule.AsEnumerable());
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
+			Assert.AreEqual(0, items.Length);
 
-			items = graph.GetNextSituations(situation).ToArray();
+			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			items = graph.CreateNextSituations(situation.AsEnumerable(),new TerminalInput<char>() {Value='a' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
-			items = graph.GetNextSituations(items[0]).ToArray();
+			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
-			items = graph.GetNextSituations(items[0]).ToArray();
+			situation = new Situation<char>() { Rule = rule, Predicate = c };
+			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'c' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(ReducePredicate<char>.Instance, items[0].Predicate);
 		}

@@ -8,6 +8,7 @@ using System.Linq;
 using FSMLib.Rules;
 using FSMLib.Table;
 using FSMLib.Helpers;
+using FSMLib.Inputs;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -164,6 +165,79 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(2, reductions.Length);
 		}
 
+		[TestMethod]
+
+		public void ShouldGetDistinctOneNextInputs()
+		{
+			Rule<char> rule;
+			Situation<char> a, b, c;
+			SituationCollection<char> situations;
+			IInput<char>[] inputs;
+
+			rule = RuleHelper.BuildRule("A=abc");
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a);
+			situations.Add(b);
+			situations.Add(c);
+
+			inputs = situations.GetNextInputs().ToArray();
+			Assert.AreEqual(1, inputs.Length);
+			Assert.IsTrue(inputs[0].Match('a'));
+		}
+
+		[TestMethod]
+
+		public void ShouldGetDistinctTwoNextInputs()
+		{
+			Rule<char> rule;
+			Situation<char> a, b, c;
+			SituationCollection<char> situations;
+			IInput<char>[] inputs;
+
+			rule = RuleHelper.BuildRule("A=abc");
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a);
+			situations.Add(b);
+			situations.Add(c);
+
+			inputs = situations.GetNextInputs().ToArray();
+			Assert.AreEqual(2, inputs.Length);
+			Assert.IsTrue(inputs[0].Match('a'));
+			Assert.IsTrue(inputs[1].Match('b'));
+		}
+
+
+		public void ShouldGetDistinctThreeNextInputs()
+		{
+			Rule<char> rule;
+			Situation<char> a, b, c;
+			SituationCollection<char> situations;
+			IInput<char>[] inputs;
+
+			rule = RuleHelper.BuildRule("A=abc");
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[2] as Terminal<char> };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a);
+			situations.Add(b);
+			situations.Add(c);
+
+			inputs = situations.GetNextInputs().ToArray();
+			Assert.AreEqual(3, inputs.Length);
+			Assert.IsTrue(inputs[0].Match('a'));
+			Assert.IsTrue(inputs[1].Match('b'));
+			Assert.IsTrue(inputs[2].Match('c'));
+		}
 
 
 	}

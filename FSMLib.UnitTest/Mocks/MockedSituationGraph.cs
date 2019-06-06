@@ -53,11 +53,11 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		
-		public IEnumerable<Situation<char>> GetNextSituations(Situation<char> CurrentSituation)
+		public IEnumerable<Situation<char>> CreateNextSituations(IEnumerable<Situation<char>> CurrentSituations, IInput<char> Input)
 		{
-			return null;// predicate.AsEnumerable();
+			return Enumerable.Empty<Situation<char>>();
 		}
+		
 
 		public bool Contains(BasePredicate<char> Predicate)
 		{
@@ -83,5 +83,7 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			throw new NotImplementedException();
 		}
+
+		
 	}
 }

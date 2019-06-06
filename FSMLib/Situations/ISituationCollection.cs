@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace FSMLib.Situations
 		bool Contains(Situation<T> Situation);
 
 		IEnumerable<Situation<T>> GetReductionSituations();
+
+		IEnumerable<IInput<T>> GetNextInputs();
 
 		//bool ContainsReductionTo(string Name);
 	}

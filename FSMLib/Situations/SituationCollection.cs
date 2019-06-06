@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,11 +57,11 @@ namespace FSMLib.Situations
 		{
 			return items.Where(item => item.CanReduce).DistinctEx();
 		}
-		/*public bool ContainsReductionTo(string Name)
+		public IEnumerable<IInput<T>> GetNextInputs()
 		{
-			return items.FirstOrDefault(item => (item.Rule.Name == Name) && item.CanReduce) != null;
-
-		}*/
+			return items.SelectMany(item => item.Predicate.GetInputs()).DistinctEx();
+		}
+		
 
 		public IEnumerator<Situation<T>> GetEnumerator()
 		{

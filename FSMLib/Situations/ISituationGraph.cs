@@ -15,7 +15,8 @@ namespace FSMLib.Situations
 
 		ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
 
-		IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation);
+		IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IInput<T> Input);
+		
 		bool Contains(BasePredicate<T> Predicate);
 
 	}

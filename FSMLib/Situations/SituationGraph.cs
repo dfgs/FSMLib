@@ -91,17 +91,32 @@ namespace FSMLib.Situations
 		
 
 
-		public IEnumerable<Situation<T>> GetNextSituations(Situation<T> CurrentSituation)
+
+		public IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IInput<T> Input)
 		{
+			IEnumerable<Situation<T>> matchingSituations,nextSituations;
 			SituationEdge<T> edge;
 
-			edge = inputPredicateNodes.SelectMany(item=>item.Edges).FirstOrDefault(item => (item.Predicate ==CurrentSituation.Predicate) && (item.Rule==CurrentSituation.Rule) );
-			if (edge == null) return Enumerable.Empty<Situation<T>>();
 
-			return edge.TargetNode.Edges.Select(item=> new Situation<T>() { Predicate= item.Predicate ,Rule=item.Rule, Input=CurrentSituation.Input} );
+			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInputs().FirstOrDefault(i => i.Match(Input)) != null);
+
+
+			foreach (Situation<T> situation in matchingSituations)
+			{
+				edge = inputPredicateNodes.SelectMany(item => item.Edges).FirstOrDefault(item => (item.Predicate == situation.Predicate) && (item.Rule == situation.Rule));
+				if (edge == null) continue;
+
+				nextSituations= edge.TargetNode.Edges.Select(item => new Situation<T>() { Predicate = item.Predicate, Rule = item.Rule, Input = situation.Input });
+
+				foreach (Situation<T> nextSituation in nextSituations)
+				{
+					yield return nextSituation;
+				}
+			}
+
 		}
 
-		
+
 		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal, BaseTerminalInput<T> Input)
 		{
 			SituationEdge<T> edge;
