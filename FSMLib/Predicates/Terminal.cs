@@ -22,9 +22,8 @@ namespace FSMLib.Predicates
 		{
 			yield return new TerminalInput<T>() { Value = Value };
 		}
-
-
 		
+
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{Value}";

@@ -59,6 +59,7 @@
     <Compile Include="Situations\ISituationCollection.cs" />
     <Compile Include="Situations\ISituationDictionary.cs" />
     <Compile Include="Situations\ISituationGraphFactory.cs" />
+    <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\Situation.cs" />
     <Compile Include="Situations\ISituationGraph.cs" />
     <Compile Include="Situations\SituationCollection.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Situations\SituationGraph.cs" />
     <Compile Include="Situations\SituationGraphFactory.cs" />
     <Compile Include="Situations\SituationGraphSegment.cs" />
+    <Compile Include="Situations\SituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\SituationNode.cs" />
     <Compile Include="Table\AutomatonStack.cs" />
     <Compile Include="Automatons\NonTerminalNode.cs" />

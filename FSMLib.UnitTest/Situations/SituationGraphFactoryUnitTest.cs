@@ -12,11 +12,17 @@ namespace FSMLib.UnitTest.Situations
 	public class SituationGraphFactoryUnitTest
 	{
 		[TestMethod]
+		public void ShouldHaveValidConstructor()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new SituationGraphFactory<char>(null));
+		}
+
+		[TestMethod]
 		public void ShouldNotBuildSituationGraph()
 		{
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			Assert.ThrowsException<ArgumentNullException>(() => situationGraphFactory.BuildSituationGraph(null));
 		}
 
@@ -32,7 +38,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			predicate = new Terminal<char>() { Value = 'a' };
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
@@ -66,7 +72,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -100,7 +106,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -132,7 +138,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -166,7 +172,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -199,7 +205,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>();
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };

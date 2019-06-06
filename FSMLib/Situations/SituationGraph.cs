@@ -79,7 +79,7 @@ namespace FSMLib.Situations
 			SituationEdge<T> edge;
 
 
-			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInputs().FirstOrDefault(i => i.Match(Input)) != null);
+			matchingSituations = CurrentSituations.Where(s => s.Predicate.Match(Input));
 
 
 			foreach (Situation<T> situation in matchingSituations)

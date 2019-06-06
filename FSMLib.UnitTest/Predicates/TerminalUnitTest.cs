@@ -49,7 +49,18 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual(1, inputs.Length);
 			Assert.AreEqual('a', ((TerminalInput<char>)inputs[0]).Value);
 		}
+		[TestMethod]
+		public void ShouldMatch()
+		{
+			Terminal<char> predicate;
+			
 
+			predicate = new Terminal<char>() { Value = 'a' };
+
+			Assert.IsTrue(predicate.Match('a'));
+			Assert.IsFalse(predicate.Match('b'));
+
+		}
 
 	}
 }

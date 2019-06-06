@@ -10,5 +10,8 @@ namespace FSMLib.Predicates
 	public interface ISituationPredicate<T>:IPredicate<T>
 	{
 		IEnumerable<IInput<T>> GetInputs();
+		bool Match(T Input);
+		bool Match(IInput<T> Input);
+
 	}
 }

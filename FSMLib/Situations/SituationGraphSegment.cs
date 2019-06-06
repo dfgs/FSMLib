@@ -8,6 +8,8 @@ namespace FSMLib.Situations
 {
 	public class SituationGraphSegment<T>
 	{
+		
+
 		public IEnumerable<SituationEdge<T>> InputEdges
 		{
 			get;
@@ -20,5 +22,9 @@ namespace FSMLib.Situations
 			set;
 		}
 
+		public SituationGraphSegment()
+		{
+			
+		}
 	}
 }

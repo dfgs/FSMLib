@@ -95,7 +95,7 @@ namespace FSMLib.Table
 			acceptRule = new Rule<T>() {Name="Axiom" };
 			acceptRule.Predicate = sequence;
 
-			situationGraphFactory = new SituationGraphFactory<T>();
+			situationGraphFactory = new SituationGraphFactory<T>(new SituationGraphSegmentFactory<T>());
 			graph = situationGraphFactory.BuildSituationGraph( acceptRule.AsEnumerable().Concat(rules) );
 
 			situationDictionary = new SituationDictionary<T>();
