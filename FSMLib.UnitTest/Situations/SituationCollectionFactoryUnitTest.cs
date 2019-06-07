@@ -45,7 +45,7 @@ namespace FSMLib.UnitTest.Situations
 			rule1 = new Rule<char>() { Name = "A", Predicate = predicate, IsAxiom = true };
 			rule2 = new Rule<char>() { Name = "A", Predicate = predicate, IsAxiom = false };
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1,rule2});
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1,rule2}, Enumerable.Empty<char>());
 
 			factory = new SituationCollectionFactory<char>(graph);
 
@@ -79,7 +79,7 @@ namespace FSMLib.UnitTest.Situations
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
@@ -133,7 +133,7 @@ namespace FSMLib.UnitTest.Situations
 			rule4 = new Rule<char>() { Name = "C", Predicate = p4 };
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2, rule3, rule4 });
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2, rule3, rule4 }, Enumerable.Empty<char>());
 			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p1 };

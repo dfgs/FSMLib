@@ -46,6 +46,9 @@ namespace FSMLib.Table
 
 		public void Add(Reduce<T> Action)
 		{
+			// check reduction conflict
+			if (reduceActions.ContainsKey(Action.GetHashCode())) return;
+
 			reduceActions.Add(Action.GetHashCode(), Action);
 		}
 

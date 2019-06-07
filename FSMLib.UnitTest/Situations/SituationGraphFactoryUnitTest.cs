@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
+using System.Linq;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -23,10 +24,11 @@ namespace FSMLib.UnitTest.Situations
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			Assert.ThrowsException<ArgumentNullException>(() => situationGraphFactory.BuildSituationGraph(null));
+			Assert.ThrowsException<ArgumentNullException>(() => situationGraphFactory.BuildSituationGraph(null,Enumerable.Empty<char>())) ;
+			Assert.ThrowsException<ArgumentNullException>(() => situationGraphFactory.BuildSituationGraph(new Rule<char>[] { }, null));
 		}
 
-		
+
 
 		[TestMethod]
 		public void ShouldBuildInputPredicate()
@@ -34,32 +36,44 @@ namespace FSMLib.UnitTest.Situations
 			SituationPredicate<char> predicate;
 			SituationGraph<char> graph;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 			predicate = new Terminal<char>() { Value = 'a' };
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate};
 
 			predicate = new NonTerminal<char>() { Name = "A" };
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
 
 
 			predicate = new AnyTerminal<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
-			Assert.IsTrue(graph.Contains(predicate));
-			situation = new Situation<char>() { Rule = rule, Predicate = predicate };
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
+			Assert.IsFalse(graph.Contains(predicate));
 
 		}
+		[TestMethod]
+		public void ShouldBuildAnyTerminalPredicate()
+		{
+			SituationPredicate<char> predicate;
+			SituationGraph<char> graph;
+			Rule<char> rule;
+			SituationGraphFactory<char> situationGraphFactory;
 
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+
+
+			predicate = new AnyTerminal<char>();
+			rule = new Rule<char>() { Name = "A", Predicate = predicate };
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
+			Assert.AreEqual(3,graph.Nodes.Count);
+
+		}
 		[TestMethod]
 		public void ShouldBuildSequencePredicate()
 		{
@@ -67,7 +81,6 @@ namespace FSMLib.UnitTest.Situations
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
@@ -82,12 +95,11 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(a));
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
 
 		}
@@ -114,7 +126,7 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(a));
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
@@ -130,7 +142,6 @@ namespace FSMLib.UnitTest.Situations
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
@@ -145,12 +156,11 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(a));
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
 
 
@@ -163,7 +173,6 @@ namespace FSMLib.UnitTest.Situations
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
@@ -178,12 +187,11 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(a));
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
 
 		}
@@ -195,7 +203,6 @@ namespace FSMLib.UnitTest.Situations
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
@@ -210,12 +217,11 @@ namespace FSMLib.UnitTest.Situations
 			predicate.Items.Add(c);
 
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable(), Enumerable.Empty<char>());
 			Assert.IsTrue(graph.Contains(a));
 			Assert.IsTrue(graph.Contains(b));
 			Assert.IsTrue(graph.Contains(c));
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
 
 
 		}

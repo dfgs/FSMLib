@@ -17,7 +17,7 @@ namespace FSMLib.Situations
 			if (SituationGraphSegmentFactory == null) throw new ArgumentNullException("SituationGraphSegmentFactory");
 			this.situationGraphSegmentFactory = SituationGraphSegmentFactory;
 		}
-		public SituationGraph<T> BuildSituationGraph(IEnumerable<Rule<T>> Rules)
+		public SituationGraph<T> BuildSituationGraph(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
 		{
 			SituationNode<T> rootNode;
 			SituationGraphSegment<T> segment;
@@ -25,6 +25,7 @@ namespace FSMLib.Situations
 			SituationGraph<T> graph;
 
 			if (Rules == null) throw new ArgumentNullException("Rules");
+			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 
 			graph = new SituationGraph<T>();
 			
@@ -34,7 +35,7 @@ namespace FSMLib.Situations
 				predicate.Items.Add(rule.Predicate);
 				predicate.Items.Add(ReducePredicate<T>.Instance);
 
-				segment = situationGraphSegmentFactory.BuildSegment(graph.Nodes,rule, predicate, Enumerable.Empty<SituationEdge<T>>());
+				segment = situationGraphSegmentFactory.BuildSegment(graph.Nodes,rule,  Alphabet, predicate, Enumerable.Empty<SituationEdge<T>>());
 				rootNode = CreateNode(graph);
 				rootNode.Rule = rule;
 				rootNode.Edges.AddRange(segment.InputEdges);

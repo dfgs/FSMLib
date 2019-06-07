@@ -36,8 +36,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			predicate = new AnyTerminal<char>();
 			inputs = predicate.GetInputs().ToArray();
-			Assert.AreEqual(1, inputs.Length);
-			Assert.IsInstanceOfType(inputs[0], typeof(AnyTerminalInput<char>));
+			Assert.AreEqual(0, inputs.Length);
 		}
 
 

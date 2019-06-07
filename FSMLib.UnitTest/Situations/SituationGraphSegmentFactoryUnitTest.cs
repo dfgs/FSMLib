@@ -28,7 +28,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=a");
-			segment=factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
+			segment=factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -52,7 +52,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=abc");
-			segment = factory.BuildSegment(nodes, rule, rule.Predicate , capEdge.AsEnumerable());
+			segment = factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -80,7 +80,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=a|b|c");
-			segment = factory.BuildSegment(nodes, rule, rule.Predicate , capEdge.AsEnumerable());
+			segment = factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(3, segment.InputEdges.Count());
 			Assert.AreEqual(3, segment.OutputNodes.Count());
@@ -113,7 +113,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=a?");
-			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
+			segment = factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -136,7 +136,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=a*");
-			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
+			segment = factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -159,7 +159,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = RuleHelper.BuildRule("A=a+");
-			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
+			segment = factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -187,10 +187,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new Terminal<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as Terminal<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as Terminal<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 
 		[TestMethod]
@@ -208,10 +209,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new Sequence<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as Sequence<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as Sequence<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 		[TestMethod]
 		public void ShouldNotBuildOrSegment()
@@ -228,10 +230,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new Or<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as Or<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as Or<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 		[TestMethod]
 		public void ShouldNotBuildOptionalSegment()
@@ -248,10 +251,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new Optional<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as Optional<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as Optional<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 		[TestMethod]
 		public void ShouldNotBuildZeroOrMoreSegment()
@@ -268,10 +272,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new ZeroOrMore<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as ZeroOrMore<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as ZeroOrMore<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 		[TestMethod]
 		public void ShouldNotBuildOneOrMoreSegment()
@@ -288,10 +293,11 @@ namespace FSMLib.UnitTest.Situations
 
 			predicate = new OneOrMore<char>();
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null as OneOrMore<char>, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, predicate, null));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as OneOrMore<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 
 

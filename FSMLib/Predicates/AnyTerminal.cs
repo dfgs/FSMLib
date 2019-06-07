@@ -11,15 +11,12 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public class AnyTerminal<T>: SituationPredicate<T>
 	{
+
 		public override IEnumerable<IInput<T>> GetInputs()
 		{
-			yield return new AnyTerminalInput<T>();
+			yield break;
 		}
 
-
-
-
-		
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{

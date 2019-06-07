@@ -40,7 +40,7 @@ namespace FSMLib.Helpers
 			}
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			return situationGraphFactory.BuildSituationGraph( acceptRules.Concat(rules) );
+			return situationGraphFactory.BuildSituationGraph( acceptRules.Concat(rules),Alphabet );
 		}
 
 

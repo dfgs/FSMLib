@@ -48,7 +48,6 @@
     <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\IInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
-    <Compile Include="Inputs\AnyTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\ExtendedPredicate.cs" />

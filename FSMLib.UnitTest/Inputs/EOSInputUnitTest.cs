@@ -35,8 +35,6 @@ namespace FSMLib.UnitTest.Inputs
 
 			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
 			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
-			Assert.IsFalse(a.Equals(new AnyTerminalInput<char>()));
-			//Assert.IsFalse(a.Equals(new ReduceInput<char>()));
 		}
 
 		[TestMethod]

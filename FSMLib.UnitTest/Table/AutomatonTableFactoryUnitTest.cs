@@ -67,8 +67,42 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.IsTrue(parser.Parse('b'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
-	
-			
+		}
+
+		[TestMethod]
+		public void ShouldBuildAutomatonTableFromTwoSequencesUsingAnyTerminal()
+		{
+			AutomatonTableFactory<char> factory;
+			AutomatonTable<char> automatonTable;
+			Rule<char> rule1, rule2;
+			AutomatonTableParser<char> parser;
+
+			factory = new AutomatonTableFactory<char>();
+
+			rule1 = RuleHelper.BuildRule("A=a.c");
+			rule2 = RuleHelper.BuildRule("B=abc");
+
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new Rule<char>[] { rule1, rule2 }, new char[] { 'a', 'b', 'c' }));
+			Assert.IsNotNull(automatonTable);
+
+			parser = new AutomatonTableParser<char>(automatonTable);
+
+
+			Assert.AreEqual(2, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(3, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('c'));
+
+			parser.Reset();
+
+			Assert.AreEqual(2, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(3, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('c'));
+			Assert.AreEqual(1, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('c'));
 
 		}
 
@@ -128,13 +162,38 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 		}
-		
-	
 
 
-	
 
-	
+		[TestMethod]
+		public void ShouldManageReductionConflict()
+		{
+			AutomatonTableFactory<char> factory;
+			AutomatonTable<char> automatonTable;
+			Rule<char> rule1, rule2;
+			AutomatonTableParser<char> parser;
+
+			factory = new AutomatonTableFactory<char>();
+
+			rule1 = RuleHelper.BuildRule("A=abc");
+			rule2 = RuleHelper.BuildRule("A=abc");
+
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new Rule<char>[] { rule1, rule2 }, new char[] { 'a', 'b', 'c' }));
+			Assert.IsNotNull(automatonTable);
+
+			parser = new AutomatonTableParser<char>(automatonTable);
+
+
+			Assert.AreEqual(2, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('a'));
+			Assert.AreEqual(1, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('b'));
+			Assert.AreEqual(1, parser.ActionCount);
+			Assert.IsTrue(parser.Parse('c'));
+		}
+
+
+
 
 
 	}

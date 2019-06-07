@@ -52,7 +52,6 @@
     <Compile Include="Actions\ShiftUnitTest.cs" />
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
-    <Compile Include="Inputs\AnyTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
