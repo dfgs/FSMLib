@@ -35,13 +35,13 @@ namespace FSMLib.Table
 			}
 		}
 	
-		private AutomatonTableTuple<T> DevelopSituationsAndCreateTupleIfNotExists(AutomatonTable<T> AutomatonTable, ISituationGraph<T> Graph, Stack<AutomatonTableTuple<T>> OpenList, ISituationDictionary<T> SituationDictionary, IEnumerable<Situation<T>> Situations)
+		private AutomatonTableTuple<T> DevelopSituationsAndCreateTupleIfNotExists(AutomatonTable<T> AutomatonTable, ISituationCollectionFactory<T> SituationCollectionFactory, Stack<AutomatonTableTuple<T>> OpenList, ISituationDictionary<T> SituationDictionary, IEnumerable<Situation<T>> Situations)
 		{
 			AutomatonTableTuple<T>  nextTuple;
 			State<T> state;
 			ISituationCollection<T> developpedSituations;
 
-			developpedSituations = Graph.Develop(Situations);
+			developpedSituations = SituationCollectionFactory.Develop(Situations);
 			nextTuple = SituationDictionary.GetTuple(developpedSituations);
 			if (nextTuple == null)
 			{
@@ -56,7 +56,7 @@ namespace FSMLib.Table
 		}
 		
 
-		public AutomatonTable<T> BuildAutomatonTable(ISituationGraph<T> SituationGraph)
+		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory)
 		{
 
 			SituationDictionary<T> situationDictionary;
@@ -68,7 +68,7 @@ namespace FSMLib.Table
 			Shift<T> action;
 
 
-			if (SituationGraph == null) throw new System.ArgumentNullException("SituationGraph");
+			if (SituationCollectionFactory == null) throw new System.ArgumentNullException("SituationCollectionFactory");
 
 			
 			automatonTable = new AutomatonTable<T>();
@@ -77,16 +77,16 @@ namespace FSMLib.Table
 			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			nextSituations = SituationGraph.CreateAxiomSituations();
-			nextTuple = DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationGraph, openList, situationDictionary, nextSituations);
+			nextSituations = SituationCollectionFactory.CreateAxiomSituations();
+			nextTuple = DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
 
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
 				foreach (BaseInput<T> input in currentTuple.Situations.GetNextInputs())
 				{
-					nextSituations = SituationGraph.CreateNextSituations(currentTuple.Situations, input);
-					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationGraph, openList, situationDictionary, nextSituations);
+					nextSituations = SituationCollectionFactory.CreateNextSituations(currentTuple.Situations, input);
+					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
 
 					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					currentTuple.State.ShiftActions.Add(action);

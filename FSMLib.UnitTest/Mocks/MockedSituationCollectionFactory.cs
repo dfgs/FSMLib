@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.UnitTest.Mocks
 {
-	public class MockedSituationGraph : ISituationGraph<char>
+	public class MockedSituationCollectionFactory : ISituationCollectionFactory<char>
 	{
 		private static SituationPredicate<char> predicate=new AnyTerminal<char>();
 		public SituationPredicate<char> MockedPredicate
@@ -20,7 +20,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		
 
-		public MockedSituationGraph()
+		public MockedSituationCollectionFactory()
 		{
 		}
 		public bool Contains(SituationPredicate<char> Predicate)

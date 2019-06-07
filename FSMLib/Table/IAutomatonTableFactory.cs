@@ -10,7 +10,7 @@ namespace FSMLib.Table
 {
 	public interface IAutomatonTableFactory<T>
 	{
-		AutomatonTable<T> BuildAutomatonTable(ISituationGraph<T> SituationGraph);
+		AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory);
 
 	}
 }

@@ -16,10 +16,11 @@ namespace FSMLib.Helpers
 		{
 			AutomatonTableFactory<char> automatonTableFactory;
 			AutomatonTable<char> automatonTable;
+			SituationCollectionFactory<char> situationCollectionFactory;
 
 			automatonTableFactory = new AutomatonTableFactory<char>( );
-
-			automatonTable = automatonTableFactory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet));
+			situationCollectionFactory = new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet));
+			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory);
 		
 			return automatonTable;
 

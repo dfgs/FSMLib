@@ -62,8 +62,8 @@
     <Compile Include="Situations\ISituationGraphFactory.cs" />
     <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\Situation.cs" />
-    <Compile Include="Situations\ISituationGraph.cs" />
     <Compile Include="Situations\SituationCollection.cs" />
+    <Compile Include="Situations\SituationCollectionFactory.cs" />
     <Compile Include="Situations\SituationDictionary.cs" />
     <Compile Include="Situations\SituationEdge.cs" />
     <Compile Include="Situations\SituationGraph.cs" />

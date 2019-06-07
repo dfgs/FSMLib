@@ -12,33 +12,15 @@ namespace FSMLib.UnitTest.Situations
 {
 	
 	[TestClass]
-	public class SituationGraphUnitTest
+	public class SituationCollectionFactoryUnitTest
 	{
-		
-
-		
-
 		[TestMethod]
-		public void ShouldContains()
+		public void ShouldHaveValidConstructor()
 		{
-			Terminal<char> predicate;
-			SituationGraph<char> graph;
-			SituationNode<char> node;
-			SituationEdge<char> edge;
-
-			predicate = new Terminal<char>() { Value = 'a' };
-
-			node = new SituationNode<char>();
-			edge = new SituationEdge<char>();
-			edge.Predicate = predicate;
-			node.Edges.Add(edge);
-
-			graph = new SituationGraph<char>();
-			graph.Nodes.Add(node);
-			
-			Assert.IsTrue(graph.Contains(predicate));
-			Assert.IsFalse(graph.Contains(new AnyTerminal<char>()));
+			Assert.ThrowsException<ArgumentNullException>(() => new SituationCollectionFactory<char>(null));
 		}
+
+
 
 		[TestMethod]
 		public void ShouldCreateAxiomSituations()
@@ -49,6 +31,7 @@ namespace FSMLib.UnitTest.Situations
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			Rule<char> rule1,rule2;
+			SituationCollectionFactory<char> factory;
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -64,7 +47,9 @@ namespace FSMLib.UnitTest.Situations
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1,rule2});
 
-			items = graph.CreateAxiomSituations().ToArray();
+			factory = new SituationCollectionFactory<char>(graph);
+
+			items = factory.CreateAxiomSituations().ToArray();
 			Assert.AreEqual(1,items.Length);
 			Assert.AreEqual(rule1, items[0].Rule);
 			Assert.AreEqual(a, items[0].Predicate);
@@ -81,6 +66,7 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
+			SituationCollectionFactory<char> factory;
 
 			a = new Terminal<char>() { Value = 'a' };
 			b = new Terminal<char>() { Value = 'b' };
@@ -94,23 +80,24 @@ namespace FSMLib.UnitTest.Situations
 			rule = new Rule<char>() { Name = "A", Predicate = predicate };
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
 			Assert.AreEqual(0, items.Length);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = graph.CreateNextSituations(situation.AsEnumerable(),new TerminalInput<char>() {Value='a' }).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(),new TerminalInput<char>() {Value='a' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'b' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = c };
-			items = graph.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'c' }).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'c' }).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(ReducePredicate<char>.Instance, items[0].Predicate);
 		}
@@ -129,6 +116,7 @@ namespace FSMLib.UnitTest.Situations
 			NonTerminal<char> p1, p2;
 			Terminal<char> p3, p4;
 			Sequence<char> sequence;
+			SituationCollectionFactory<char> factory;
 
 			p1 = new NonTerminal<char>() { Name = "B" };
 			p2 = new NonTerminal<char>() { Name = "C" };
@@ -146,10 +134,11 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2, rule3, rule4 });
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p1 };
 
-			situations = graph.Develop(situation.AsEnumerable());
+			situations = factory.Develop(situation.AsEnumerable());
 
 
 			Assert.AreEqual(4, situations.Count);

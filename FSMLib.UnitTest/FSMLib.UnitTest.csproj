@@ -55,7 +55,7 @@
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
-    <Compile Include="Mocks\MockedSituationGraph.cs" />
+    <Compile Include="Mocks\MockedSituationCollectionFactory.cs" />
     <Compile Include="Predicates\ReducePredicateUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Situations\SituationCollectionUnitTest.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Situations\SituationGraphSegmentFactoryUnitTest.cs" />
     <Compile Include="Situations\SituationUnitTest.cs" />
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
-    <Compile Include="Situations\SituationGraphUnitTest.cs" />
+    <Compile Include="Situations\SituationCollectionFactoryUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
     <Compile Include="Table\AutomatonTableTupleUnitTest.cs" />
     <Compile Include="Mocks\GraphParser.cs" />
