@@ -68,11 +68,11 @@ namespace Demo
 			Rule<char> rule;
 
 			rule = new Rule<char>() { Predicate = Predicate };
-			CreateView(automatonTableFactory.BuildAutomatonTable(rule.AsEnumerable(), alphabet));
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(rule.AsEnumerable(), alphabet)));
 		}
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(automatonTableFactory.BuildAutomatonTable(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet));
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet)));
 		}
 		private void CreateView(AutomatonTable<char> Model)
 		{

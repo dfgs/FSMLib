@@ -17,12 +17,12 @@ namespace FSMLib.Situations
 			set;
 		}
 
-		//private Dictionary<Rule<T>, SituationNode<T>> ruleNodes;
-
+		
+		
 
 		public SituationGraph()
 		{
-			Nodes = new List<SituationNode<T>>();
+			Nodes = new List<SituationNode<T>>();	
 		}
 
 		private IEnumerable<Rule<T>> GetDeveloppedRules(string Name)
@@ -69,9 +69,20 @@ namespace FSMLib.Situations
 			return Enumerable.Empty<SituationEdge<T>>();
 
 		}
-		
 
 
+		public IEnumerable<Situation<T>> CreateAxiomSituations()
+		{
+			foreach(SituationNode<T> node in Nodes)
+			{
+				if (!(node.Rule?.IsAxiom??false)) continue;
+				foreach(SituationEdge<T> edge in node.Edges)
+				{
+					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate };
+				}
+
+			}
+		}
 
 		public IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IInput<T> Input)
 		{

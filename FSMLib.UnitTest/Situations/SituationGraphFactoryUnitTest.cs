@@ -27,13 +27,12 @@ namespace FSMLib.UnitTest.Situations
 		}
 
 		
-		
+
 		[TestMethod]
 		public void ShouldBuildInputPredicate()
 		{
 			SituationPredicate<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
@@ -67,7 +66,6 @@ namespace FSMLib.UnitTest.Situations
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
@@ -101,9 +99,7 @@ namespace FSMLib.UnitTest.Situations
 			Terminal<char> a, b, c;
 			Or<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
-			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
@@ -133,7 +129,6 @@ namespace FSMLib.UnitTest.Situations
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
@@ -167,7 +162,6 @@ namespace FSMLib.UnitTest.Situations
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;
@@ -200,7 +194,6 @@ namespace FSMLib.UnitTest.Situations
 			Terminal<char> a, b, c;
 			Sequence<char> predicate;
 			SituationGraph<char> graph;
-			Situation<char>[] items;
 			Rule<char> rule;
 			Situation<char> situation;
 			SituationGraphFactory<char> situationGraphFactory;

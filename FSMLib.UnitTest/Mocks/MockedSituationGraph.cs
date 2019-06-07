@@ -1,5 +1,6 @@
 ﻿using FSMLib.Inputs;
 using FSMLib.Predicates;
+using FSMLib.Rules;
 using FSMLib.Situations;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace FSMLib.UnitTest.Mocks
 		{
 			get => predicate;
 		}
+
+		
 
 		public MockedSituationGraph()
 		{
@@ -84,6 +87,9 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		
+		public IEnumerable<Situation<char>> CreateAxiomSituations()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

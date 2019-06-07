@@ -14,6 +14,12 @@ namespace FSMLib.Rules
 			get;
 			set;
 		}
+
+		public bool IsAxiom
+		{
+			get;
+			set;
+		}
 		public BasePredicate<T> Predicate
 		{
 			get;

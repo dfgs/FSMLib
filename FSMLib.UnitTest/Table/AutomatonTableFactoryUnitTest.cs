@@ -29,7 +29,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			rule = RuleHelper.BuildRule("A=abc");
 
-			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(), new char[] { 'a', 'b', 'c' });
+			automatonTable = factory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph( rule.AsEnumerable(), new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
@@ -55,7 +55,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			rule1 = RuleHelper.BuildRule("A=abc");
 			rule2 = RuleHelper.BuildRule("B=abc");
 
-			automatonTable = factory.BuildAutomatonTable(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' });
+			automatonTable = factory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
@@ -84,7 +84,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			rule = RuleHelper.BuildRule("A=a|b|c");
 
-			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
+			automatonTable = factory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 	
 			parser = new AutomatonTableParser<char>(automatonTable);
@@ -114,7 +114,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			rule = new Rule<char>() { Name="rule" };
 			rule.Predicate = new ZeroOrMore<char>() { Item = predicate };
 
-			automatonTable = factory.BuildAutomatonTable(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' });
+			automatonTable = factory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 	
 			parser = new AutomatonTableParser<char>(automatonTable);
@@ -128,28 +128,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 		}
-		[TestMethod]
-		public void ShouldNotBuildAutomatonTableWhenNullRulesAreProvided()
-		{
-			AutomatonTableFactory<char> factory;
-
-			factory = new AutomatonTableFactory<char>(  );
-
-			Assert.ThrowsException<ArgumentNullException>(()=> factory.BuildAutomatonTable(null,new char[] { 'a', 'b', 'c' }));
-		}
-		[TestMethod]
-		public void ShouldNotBuildAutomatonTableWhenNullAlphabetIsProvided()
-		{
-			Rule<char> rule;
-			AutomatonTableFactory<char> factory;
-
-			
-			rule = new Rule<char>() { Name = "rule" };
-	
-			factory = new AutomatonTableFactory<char>( );
-
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildAutomatonTable(rule.AsEnumerable(), null));
-		}
+		
 	
 
 

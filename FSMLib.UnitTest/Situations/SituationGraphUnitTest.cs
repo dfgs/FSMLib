@@ -41,6 +41,37 @@ namespace FSMLib.UnitTest.Situations
 		}
 
 		[TestMethod]
+		public void ShouldCreateAxiomSituations()
+		{
+			Terminal<char> a, b, c;
+			Sequence<char> predicate;
+			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraph<char> graph;
+			Situation<char>[] items;
+			Rule<char> rule1,rule2;
+
+			a = new Terminal<char>() { Value = 'a' };
+			b = new Terminal<char>() { Value = 'b' };
+			c = new Terminal<char>() { Value = 'c' };
+
+			predicate = new Sequence<char>();
+			predicate.Items.Add(a);
+			predicate.Items.Add(b);
+			predicate.Items.Add(c);
+
+			rule1 = new Rule<char>() { Name = "A", Predicate = predicate, IsAxiom = true };
+			rule2 = new Rule<char>() { Name = "A", Predicate = predicate, IsAxiom = false };
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1,rule2});
+
+			items = graph.CreateAxiomSituations().ToArray();
+			Assert.AreEqual(1,items.Length);
+			Assert.AreEqual(rule1, items[0].Rule);
+			Assert.AreEqual(a, items[0].Predicate);
+		}
+
+
+		[TestMethod]
 		public void ShouldCreateNextSituations()
 		{
 			Terminal<char> a, b, c;

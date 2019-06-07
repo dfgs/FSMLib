@@ -35,7 +35,7 @@ namespace FSMLib.Table
 			}
 		}
 	
-		private AutomatonTableTuple<T> DevelopSituationsAndCreateTupleIfNotExists(AutomatonTable<T> AutomatonTable, SituationGraph<T> Graph, Stack<AutomatonTableTuple<T>> OpenList, ISituationDictionary<T> SituationDictionary, IEnumerable<Situation<T>> Situations)
+		private AutomatonTableTuple<T> DevelopSituationsAndCreateTupleIfNotExists(AutomatonTable<T> AutomatonTable, ISituationGraph<T> Graph, Stack<AutomatonTableTuple<T>> OpenList, ISituationDictionary<T> SituationDictionary, IEnumerable<Situation<T>> Situations)
 		{
 			AutomatonTableTuple<T>  nextTuple;
 			State<T> state;
@@ -56,14 +56,8 @@ namespace FSMLib.Table
 		}
 		
 
-		public AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet)
+		public AutomatonTable<T> BuildAutomatonTable(ISituationGraph<T> SituationGraph)
 		{
-			Rule<T> axiom,acceptRule;
-			Sequence<T> sequence;
-			NonTerminal<T> nonTerminal;
-			SituationGraphFactory<T> situationGraphFactory;
-			SituationGraph<T> graph;
-			Rule<T>[] rules;
 
 			SituationDictionary<T> situationDictionary;
 			IEnumerable<Situation<T>> nextSituations;
@@ -74,43 +68,25 @@ namespace FSMLib.Table
 			Shift<T> action;
 
 
-			if (Rules == null) throw new System.ArgumentNullException("Rules");
-			if (Alphabet == null) throw new System.ArgumentNullException("Alphabet");
+			if (SituationGraph == null) throw new System.ArgumentNullException("SituationGraph");
 
-			// needed to fix predicate dynamic creation due to enumeration
-			rules = Rules.ToArray();
-
+			
 			automatonTable = new AutomatonTable<T>();
-			automatonTable.Alphabet.AddRange(Alphabet);
-
-
-			axiom = rules.FirstOrDefault();
-			if (axiom == null) return automatonTable;
-
-			nonTerminal = new NonTerminal<T>() { Name = axiom.Name };
-			sequence = new Sequence<T>();
-			sequence.Items.Add(nonTerminal);
-			sequence.Items.Add(new EOS<T>() );
-
-			acceptRule = new Rule<T>() {Name="Axiom" };
-			acceptRule.Predicate = sequence;
-
-			situationGraphFactory = new SituationGraphFactory<T>(new SituationGraphSegmentFactory<T>());
-			graph = situationGraphFactory.BuildSituationGraph( acceptRule.AsEnumerable().Concat(rules) );
+			
 
 			situationDictionary = new SituationDictionary<T>();
 			openList = new Stack<AutomatonTableTuple<T>>();
 
-			nextSituations = new Situation<T>[] { new Situation<T>() { Rule=acceptRule, Predicate=nonTerminal } };
-			nextTuple = DevelopSituationsAndCreateTupleIfNotExists(automatonTable, graph, openList, situationDictionary, nextSituations);
+			nextSituations = SituationGraph.CreateAxiomSituations();
+			nextTuple = DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationGraph, openList, situationDictionary, nextSituations);
 
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
 				foreach (BaseInput<T> input in currentTuple.Situations.GetNextInputs())
 				{
-					nextSituations = graph.CreateNextSituations(currentTuple.Situations, input);
-					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, graph, openList, situationDictionary, nextSituations);
+					nextSituations = SituationGraph.CreateNextSituations(currentTuple.Situations, input);
+					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationGraph, openList, situationDictionary, nextSituations);
 
 					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
 					currentTuple.State.ShiftActions.Add(action);

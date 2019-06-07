@@ -19,7 +19,7 @@ namespace FSMLib.Helpers
 
 			automatonTableFactory = new AutomatonTableFactory<char>( );
 
-			automatonTable = automatonTableFactory.BuildAutomatonTable(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet);
+			automatonTable = automatonTableFactory.BuildAutomatonTable(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray(), Alphabet));
 		
 			return automatonTable;
 

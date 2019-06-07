@@ -1,4 +1,5 @@
 ﻿using FSMLib.Rules;
+using FSMLib.Situations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace FSMLib.Table
 {
 	public interface IAutomatonTableFactory<T>
 	{
-		AutomatonTable<T> BuildAutomatonTable(IEnumerable<Rule<T>> Rules, IEnumerable<T> Alphabet);
+		AutomatonTable<T> BuildAutomatonTable(ISituationGraph<T> SituationGraph);
 
 	}
 }
