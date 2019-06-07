@@ -55,7 +55,7 @@ namespace FSMLib.Situations
 
 		public IEnumerable<Situation<T>> GetReductionSituations()
 		{
-			return items.Where(item => item.CanReduce).DistinctEx();
+			return items.Where(item => item.CanReduce && (item.Input!=null)).DistinctEx();
 		}
 		public IEnumerable<IInput<T>> GetNextInputs()
 		{

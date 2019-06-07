@@ -134,7 +134,7 @@ namespace FSMLib.Situations
 				edge = openList.Pop();
 				if (edge.Predicate is ReducePredicate<T>) items.Add(new EOSInput<T>());
 
-				foreach (BaseInput<T> input in edge.Predicate.GetInputs())
+				foreach (IInput<T> input in edge.Predicate.GetInputs())
 				{
 
 					if (input is BaseTerminalInput<T> terminalInput)

@@ -8,7 +8,7 @@ namespace FSMLib.Inputs
 {
 	public class EOSInput<T>: BaseTerminalInput<T>
 	{
-
+		private static int hashCode = "EOSInput".GetHashCode();
 
 		
 		
@@ -31,5 +31,10 @@ namespace FSMLib.Inputs
 		{
 			return "¤";
 		}
+		public override int GetHashCode()
+		{
+			return hashCode;
+		}
+
 	}
 }

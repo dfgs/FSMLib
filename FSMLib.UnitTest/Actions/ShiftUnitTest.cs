@@ -8,25 +8,7 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 	[TestClass]
 	public class ShiftUnitTest
 	{
-		
-
-		/*[TestMethod]
-		public void ShouldMatch()
-		{
-			Shift<char> Action;
-
-			Action = new Shift<char>() { Input = 'a' };
-			Assert.AreEqual('a',Action.Input.Value);
-		}
-
-		[TestMethod]
-		public void ShouldNotMatch()
-		{
-			Shift<char> Action;
-
-			Action = new Shift<char>() { Input = 'a' };
-			Assert.IsFalse(Action.Match('b'));
-		}*/
+			
 
 		[TestMethod]
 		public void ShouldEquals()
@@ -62,6 +44,16 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 			Assert.IsFalse(d.Equals(a));
 		}
 
+		[TestMethod]
+		public void ShouldGetHashCode()
+		{
+			Shift<char> a;
+			TerminalInput<char> input;
 
+			input = new TerminalInput<char>() { Value = 'a' };
+			a = new Shift<char>() { Input = input };
+			Assert.AreEqual(input.GetHashCode(), a.GetHashCode());
+
+		}
 	}
 }

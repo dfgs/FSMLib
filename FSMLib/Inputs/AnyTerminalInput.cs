@@ -9,7 +9,7 @@ namespace FSMLib.Inputs
 	public class AnyTerminalInput<T>:BaseTerminalInput<T>//,IEquatable<BaseInput<T>>
 	{
 
-
+		
 		
 		public override bool Equals(IInput<T> other)
 		{
@@ -34,6 +34,10 @@ namespace FSMLib.Inputs
 			return ".";
 		}
 
-		
+		public override int GetHashCode()
+		{
+			return -1;
+		}
+
 	}
 }

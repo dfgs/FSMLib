@@ -14,16 +14,11 @@ namespace FSMLib.Table
 			set;
 		}
 
-		/*public List<T> Alphabet
-		{
-			get;
-			set;
-		}*/
+		
 
 		public AutomatonTable()
 		{
 			States = new List<State<T>>();
-			//Alphabet = new List<T>();
 		}
 
 		

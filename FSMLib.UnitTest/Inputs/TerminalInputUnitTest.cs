@@ -87,7 +87,16 @@ namespace FSMLib.UnitTest.Inputs
 			Assert.IsFalse(a.Match('b'));
 
 		}
+		[TestMethod]
+		public void ShoudGetHashCode()
+		{
+			TerminalInput<char> a;
 
+			a = new TerminalInput<char>() { Value = 'a' };
+
+			Assert.AreEqual('a'.GetHashCode(),a.GetHashCode());
+
+		}
 
 	}
 }

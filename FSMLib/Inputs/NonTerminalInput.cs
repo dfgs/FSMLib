@@ -46,6 +46,9 @@ namespace FSMLib.Inputs
 			return $"{{{Name}}}";
 		}
 
-		
+		public override int GetHashCode()
+		{
+			return Name.GetHashCode();
+		}
 	}
 }

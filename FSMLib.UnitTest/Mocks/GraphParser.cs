@@ -19,7 +19,7 @@ namespace FSMLib.UnitTest.Mocks
 
 		public int ActionCount
 		{
-			get { return automatonTable.States[stateIndex].ShiftActions.Count; }
+			get { return automatonTable.States[stateIndex].ShiftActionCount; }
 		}
 
 		
@@ -31,23 +31,18 @@ namespace FSMLib.UnitTest.Mocks
 
 		
 
-		public bool Parse(T Input, int MatchIndex = 0)
+		public bool Parse(T Input)
 		{
-			int index = 0;
+			Shift<T> action;
+			IInput<T> terminalInput;
 
-			foreach(Shift<T> action in automatonTable.States[stateIndex].ShiftActions)
-			{
-				if (action.Input.Match(new TerminalInput<T>() { Value = Input }))
-				{
-					if (index == MatchIndex)
-					{
-						stateIndex = action.TargetStateIndex;
-						return true;
-					}
-					index++;
-				}
-			}
-			return false;
+			terminalInput = new TerminalInput<T>() { Value = Input };
+			action = automatonTable.States[stateIndex].GetShift(terminalInput);
+			if (action == null) return false;
+
+			stateIndex = action.TargetStateIndex;
+			return true;
+
 		}
 
 		public void Reset()

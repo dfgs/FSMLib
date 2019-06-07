@@ -9,7 +9,7 @@ namespace FSMLib.Tables
 {
 	public abstract class BaseNode<T>
 	{
-		public BaseInput<T> Input
+		public IInput<T> Input
 		{
 			get;
 			set;

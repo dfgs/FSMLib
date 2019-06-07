@@ -144,6 +144,37 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> a, b;
 			SituationCollection<char> situations;
 			Situation<char>[] reductions;
+			TerminalInput<char> input;
+
+			input = new TerminalInput<char>();
+
+			rule1 = RuleHelper.BuildRule("A=abc");
+			rule2 = RuleHelper.BuildRule("B=abc");
+			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance,Input=input };
+			b = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance, Input = input };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a); situations.Add(b);
+			reductions =situations.GetReductionSituations().ToArray();
+			Assert.AreEqual(1, reductions.Length);
+
+
+			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance, Input = input };
+			b = new Situation<char>() { Rule = rule2, Predicate = ReducePredicate<char>.Instance, Input = input };
+
+			situations = new SituationCollection<char>();
+			situations.Add(a); situations.Add(b);
+			reductions = situations.GetReductionSituations().ToArray();
+			Assert.AreEqual(2, reductions.Length);
+		}
+
+		[TestMethod]
+		public void ShouldNotGetReductionSituationsWhenInputIsNull()
+		{
+			Rule<char> rule1, rule2;
+			Situation<char> a, b;
+			SituationCollection<char> situations;
+			Situation<char>[] reductions;
 
 			rule1 = RuleHelper.BuildRule("A=abc");
 			rule2 = RuleHelper.BuildRule("B=abc");
@@ -152,8 +183,8 @@ namespace FSMLib.UnitTest.Situations
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
-			reductions =situations.GetReductionSituations().ToArray();
-			Assert.AreEqual(1, reductions.Length);
+			reductions = situations.GetReductionSituations().ToArray();
+			Assert.AreEqual(0, reductions.Length);
 
 
 			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
@@ -162,7 +193,7 @@ namespace FSMLib.UnitTest.Situations
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
 			reductions = situations.GetReductionSituations().ToArray();
-			Assert.AreEqual(2, reductions.Length);
+			Assert.AreEqual(0, reductions.Length);
 		}
 
 		[TestMethod]

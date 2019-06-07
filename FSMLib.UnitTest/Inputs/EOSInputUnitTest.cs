@@ -75,7 +75,17 @@ namespace FSMLib.UnitTest.Inputs
 
 		}
 
+		[TestMethod]
+		public void ShoudGetHashCode()
+		{
+			EOSInput<char> a,b;
 
+			a = new EOSInput<char>();
+			b = new EOSInput<char>();
+
+			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
+
+		}
 
 	}
 }

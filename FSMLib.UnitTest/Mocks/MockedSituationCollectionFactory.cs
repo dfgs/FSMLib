@@ -51,7 +51,7 @@ namespace FSMLib.UnitTest.Mocks
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<BaseInput<char>> GetInputsAfterPredicate(SituationPredicate<char> CurrentPredicate)
+		public IEnumerable<IInput<char>> GetInputsAfterPredicate(SituationPredicate<char> CurrentPredicate)
 		{
 			throw new NotImplementedException();
 		}

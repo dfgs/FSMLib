@@ -1,4 +1,5 @@
 ﻿using FSMLib.Actions;
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,46 +10,60 @@ namespace FSMLib.Table
 {
 	public class State<T>
 	{
-		/*public string Name
+
+		private Dictionary<int,Shift<T>> shiftActions;
+		public IEnumerable<Shift<T>> ShiftActions
 		{
-			get;
-			set;
-		}*/
-		/*public List<ShiftOnTerminal<T>> TerminalActions
-		{
-			get;
-			set;
-		}
-		public List<ShiftOnNonTerminal<T>> NonTerminalActions
-		{
-			get;
-			set;
-		}*/
-		public List<Shift<T>> ShiftActions
-		{
-			get;
-			set;
+			get { return shiftActions.Values; }
 		}
 
-		public List<Reduce<T>> ReductionActions
+		private Dictionary<int,Reduce<T>> reduceActions;
+		public IEnumerable<Reduce<T>> ReduceActions
 		{
-			get;
-			set;
+			get { return reduceActions.Values; }
 		}
 
-		
+		public int ShiftActionCount
+		{
+			get { return shiftActions.Count; }
+		}
 
-		
+		public int ReduceActionCount
+		{
+			get { return reduceActions.Count; }
+		}
 
 		public State()
 		{
-			//TerminalActions = new List<ShiftOnTerminal<T>>();
-			//NonTerminalActions = new List<ShiftOnNonTerminal<T>>();
-			ShiftActions = new List<Shift<T>>();
-			ReductionActions = new List<Reduce<T>>();
-			
+			shiftActions = new Dictionary<int, Shift<T>>();
+			reduceActions = new Dictionary<int, Reduce<T>>();
 		}
 		
+		public void Add(Shift<T> Action)
+		{
+			shiftActions.Add(Action.GetHashCode(), Action) ;
+		}
+
+		public void Add(Reduce<T> Action)
+		{
+			reduceActions.Add(Action.GetHashCode(), Action);
+		}
+
+		public Shift<T> GetShift(IInput<T> Input)
+		{
+			Shift<T> action;
+			shiftActions.TryGetValue(Input.GetHashCode(), out action);
+			return action;
+		}
+
+		public Reduce<T> GetReduce(IInput<T> Input)
+		{
+			Reduce<T> action;
+			reduceActions.TryGetValue(Input.GetHashCode(), out action);
+			return action;
+		}
+
+
 
 	}
 }

@@ -31,7 +31,7 @@ namespace FSMLib.Table
 				reduce.Name = situation.Rule.Name;
 				reduce.Input = situation.Input;
 
-				State.ReductionActions.Add(reduce);
+				State.Add(reduce);
 			}
 		}
 	
@@ -83,13 +83,13 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach (BaseInput<T> input in currentTuple.Situations.GetNextInputs())
+				foreach (IInput<T> input in currentTuple.Situations.GetNextInputs())
 				{
 					nextSituations = SituationCollectionFactory.CreateNextSituations(currentTuple.Situations, input);
 					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
 
 					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };
-					currentTuple.State.ShiftActions.Add(action);
+					currentTuple.State.Add(action);
 				}
 
 			}

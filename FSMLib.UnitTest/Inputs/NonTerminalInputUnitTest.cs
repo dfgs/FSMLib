@@ -79,5 +79,16 @@ namespace FSMLib.UnitTest.Inputs
 
 		}
 
+		[TestMethod]
+		public void ShoudGetHashCode()
+		{
+			NonTerminalInput<char> a;
+
+			a = new NonTerminalInput<char>() { Name = "A" };
+
+			Assert.AreEqual("A".GetHashCode(), a.GetHashCode());
+
+		}
+
 	}
 }

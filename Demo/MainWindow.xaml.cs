@@ -93,9 +93,9 @@ namespace Demo
 			{
 				n=graph.AddNode(Model.States.IndexOf(state).ToString());
 
-				n.UserData = string.Join(" ", state.ReductionActions.Select(item=>$"{item.Name}:{item.Input}")); //:{item.TargetStateIndex}:{item.Value}
+				n.UserData = string.Join(" ", state.ReduceActions.Select(item=>$"{item.Name}:{item.Input}")); //:{item.TargetStateIndex}:{item.Value}
 
-				if (state.ReductionActions.Count>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
+				if (state.ReduceActions.Count()>0) n.Attr.Shape = Microsoft.Glee.Drawing.Shape.DoubleCircle;
 				else n.Attr.Shape = Microsoft.Glee.Drawing.Shape.Circle;
 
 				//if (state.AcceptActions.Count > 0) n.Attr.Color = Microsoft.Glee.Drawing.Color.Blue;

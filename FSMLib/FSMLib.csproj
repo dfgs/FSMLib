@@ -82,7 +82,6 @@
     <Compile Include="Table\IAutomatonTableFactory.cs" />
     <Compile Include="Table\State.cs" />
     <Compile Include="Actions\Reduce.cs" />
-    <Compile Include="Table\Segment.cs" />
     <Compile Include="Actions\BaseAction.cs" />
     <Compile Include="Actions\Shift.cs" />
     <Compile Include="Automatons\IAutomaton.cs" />
