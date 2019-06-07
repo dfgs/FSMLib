@@ -57,6 +57,7 @@
     <Compile Include="Predicates\ISituationPredicate.cs" />
     <Compile Include="Predicates\ReducePredicate.cs" />
     <Compile Include="Situations\ISituationCollection.cs" />
+    <Compile Include="Situations\ISituationCollectionFactory.cs" />
     <Compile Include="Situations\ISituationDictionary.cs" />
     <Compile Include="Situations\ISituationGraphFactory.cs" />
     <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />

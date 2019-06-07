@@ -30,8 +30,6 @@ namespace FSMLib.Situations
 			
 			foreach (Rule<T> rule in Rules)
 			{
-				
-
 				predicate = new Sequence<T>();
 				predicate.Items.Add(rule.Predicate);
 				predicate.Items.Add(ReducePredicate<T>.Instance);
@@ -40,7 +38,6 @@ namespace FSMLib.Situations
 				rootNode = CreateNode(graph);
 				rootNode.Rule = rule;
 				rootNode.Edges.AddRange(segment.InputEdges);
-				
 			}
 
 			
