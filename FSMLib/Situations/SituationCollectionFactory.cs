@@ -165,7 +165,7 @@ namespace FSMLib.Situations
 				if ((node.Rule == null) || (!node.Rule.IsAxiom)) continue;
 				foreach (SituationEdge<T> edge in node.Edges)
 				{
-					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate };
+					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate,Input=new EOSInput<T>() };
 				}
 
 			}

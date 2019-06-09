@@ -137,29 +137,89 @@ namespace FSMLib.Helpers.UnitTest
 
 
 		[TestMethod]
-		public void ShouldParseRule()
+		public void ShouldParseNonAxiomRule()
 		{
 			Rule<char> result;
 
-			result = RuleGrammar.Rule.Parse("A=a");
+			result = RuleGrammar.NonAxiomRule.Parse("A=a");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Terminal<char>));
 			Assert.AreEqual("A", result.Name);
-			result = RuleGrammar.Rule.Parse("A=a?");
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.NonAxiomRule.Parse("A=a?");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Optional<char>));
 			Assert.AreEqual("A", result.Name);
-			result = RuleGrammar.Rule.Parse("A=abcd");
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.NonAxiomRule.Parse("A=abcd");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
 			Assert.AreEqual("A", result.Name);
-			result = RuleGrammar.Rule.Parse("A = abcd");
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.NonAxiomRule.Parse("A = abcd");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
 			Assert.AreEqual("A", result.Name);
-			result = RuleGrammar.Rule.Parse("ABC = abcd");
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.NonAxiomRule.Parse("ABC = abcd");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.IsFalse(result.IsAxiom);
 			Assert.AreEqual("ABC", result.Name);
 
 
 		}
+		[TestMethod]
+		public void ShouldParseAxiomRule()
+		{
+			Rule<char> result;
 
+			result = RuleGrammar.AxiomRule.Parse("A*=a");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Terminal<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.AxiomRule.Parse("A*=a?");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Optional<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.AxiomRule.Parse("A*=abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.AxiomRule.Parse("A* = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.AxiomRule.Parse("ABC* = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("ABC", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+
+
+		}
+		[TestMethod]
+		public void ShouldParseRule()
+		{
+			Rule<char> result;
+
+			result = RuleGrammar.Rule.Parse("A*=a");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Terminal<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("A=a?");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Optional<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("A*=abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("A = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsFalse(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("ABC* = abcd");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("ABC", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+
+
+		}
 		[TestMethod]
 		public void ShouldParseOr()
 		{

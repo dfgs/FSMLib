@@ -95,12 +95,23 @@ namespace FSMLib.Helpers
 			select (Sequence<char>)predicates.ToArray();
 
 
-		public static readonly Parser<Rule<char>> Rule =
+
+		public static readonly Parser<Rule<char>> NonAxiomRule =
 			from name in Parse.Letter.Many().Text().Token()
 			from _ in Parse.Char('=')
 			from predicate in RuleSinglePredicate.Or(RuleSequencePredicate)
-			select new Rule<char>() { Name=name, Predicate = predicate };
+			select new Rule<char>() { Name = name, Predicate = predicate, IsAxiom =false };
 
-		
+		public static readonly Parser<Rule<char>> AxiomRule =
+			from name in Parse.Letter.Many().Text().Token()
+			from _ in Parse.Char('*')
+			from __ in Parse.WhiteSpace.Many()
+			from ___ in Parse.Char('=')
+			from predicate in RuleSinglePredicate.Or(RuleSequencePredicate)
+			select new Rule<char>() { Name = name, Predicate = predicate,IsAxiom=true };
+
+		public static readonly Parser<Rule<char>> Rule =
+			AxiomRule.Or(NonAxiomRule);
+
 	}
 }

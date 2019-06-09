@@ -26,7 +26,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 	
@@ -43,7 +43,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -62,7 +62,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -91,7 +91,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 			Assert.IsFalse(automaton.CanAccept());
@@ -111,7 +111,7 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> node;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -125,7 +125,7 @@ namespace FSMLib.UnitTest
 
 
 			Assert.AreEqual(3, node.Nodes.Count);
-			Assert.AreEqual(2, automaton.StackCount);
+			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
 			Assert.IsTrue(((TerminalNode<char>)node.Nodes[0]).Input.Match('a'));
 			Assert.IsTrue(((TerminalNode<char>)node.Nodes[1]).Input.Match('b'));
@@ -139,7 +139,7 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> node;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -167,7 +167,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable( new String[] { "A=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable( new String[] { "A*=a{BCD}e", "BCD=b{C}d", "C=c" },new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -192,7 +192,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=ab{B}d", "B={C}", "C={D}","D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=ab{B}d", "B={C}", "C={D}","D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -215,7 +215,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -239,7 +239,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{B}c", "B={C}", "C=b" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');
@@ -261,7 +261,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc*" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc*" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -288,7 +288,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*" ,"C=c"}, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*" ,"C=c"}, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -317,7 +317,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -336,7 +336,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*", "C=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
 
@@ -362,7 +362,7 @@ namespace FSMLib.UnitTest
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A=ab{B}", "B={C}", "C={D}", "D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=ab{B}", "B={C}", "C={D}", "D=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
 			automaton.Feed('a');

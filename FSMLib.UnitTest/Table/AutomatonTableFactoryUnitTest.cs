@@ -27,14 +27,14 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>(  ) ;
 
-			rule = RuleHelper.BuildRule("A=abc");
+			rule = RuleHelper.BuildRule("A*=abc");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory( rule.AsEnumerable(), new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser<char>(automatonTable);
 
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
@@ -52,8 +52,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>(  );
 
-			rule1 = RuleHelper.BuildRule("A=abc");
-			rule2 = RuleHelper.BuildRule("B=abc");
+			rule1 = RuleHelper.BuildRule("A*=abc");
+			rule2 = RuleHelper.BuildRule("B*=abc");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new Rule<char>[] { rule1,rule2 },new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
@@ -61,7 +61,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser<char>(automatonTable);
 
 			
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
@@ -79,8 +79,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>();
 
-			rule1 = RuleHelper.BuildRule("A=a.c");
-			rule2 = RuleHelper.BuildRule("B=abc");
+			rule1 = RuleHelper.BuildRule("A*=a.c");
+			rule2 = RuleHelper.BuildRule("B*=abc");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new Rule<char>[] { rule1, rule2 }, new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
@@ -88,7 +88,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser<char>(automatonTable);
 
 
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
@@ -97,7 +97,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			parser.Reset();
 
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('c'));
@@ -116,14 +116,14 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>( );
 
-			rule = RuleHelper.BuildRule("A=a|b|c");
+			rule = RuleHelper.BuildRule("A*=a|b|c");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
 	
 			parser = new AutomatonTableParser<char>(automatonTable);
 
-			Assert.AreEqual(4, parser.ActionCount);
+			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			parser.Reset();
 			Assert.IsTrue(parser.Parse('b'));
@@ -145,7 +145,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			factory = new AutomatonTableFactory<char>( );
 
 			predicate = new char[] { 'a', 'b', 'c' };
-			rule = new Rule<char>() { Name="rule" };
+			rule = new Rule<char>() { Name="rule",IsAxiom=true };
 			rule.Predicate = new ZeroOrMore<char>() { Item = predicate };
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable(),new char[] { 'a', 'b', 'c' }));
@@ -153,7 +153,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 	
 			parser = new AutomatonTableParser<char>(automatonTable);
 
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));
@@ -175,8 +175,8 @@ namespace FSMLib.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>();
 
-			rule1 = RuleHelper.BuildRule("A=abc");
-			rule2 = RuleHelper.BuildRule("A=abc");
+			rule1 = RuleHelper.BuildRule("A*=abc");
+			rule2 = RuleHelper.BuildRule("A*=abc");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new Rule<char>[] { rule1, rule2 }, new char[] { 'a', 'b', 'c' }));
 			Assert.IsNotNull(automatonTable);
@@ -184,7 +184,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser<char>(automatonTable);
 
 
-			Assert.AreEqual(2, parser.ActionCount);
+			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('b'));

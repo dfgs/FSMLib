@@ -159,12 +159,21 @@ namespace FSMLib.Tables
 		public NonTerminalNode<T> Accept()
 		{
 			NonTerminalNode<T> nonTerminalNode;
+			TerminalNode<T> eosNode;
+			EOSInput<T> eosInput;
 
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
-			Feed(new EOSInput<T>());
+			eosInput= new EOSInput<T>(); 
+			eosNode = new TerminalNode<T>();
+			eosNode.Input = eosInput;
 
-			nonTerminalNode = nodeStack.OfType<NonTerminalNode<T>>().FirstOrDefault();
+			while (true)
+			{
+				nonTerminalNode = Reduce(eosNode);
+				if (nodeStack.Count == 0) break;
+				if ((nonTerminalNode == null) || (!Feed(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
+			}
 
 			return nonTerminalNode;
 		}
