@@ -150,17 +150,17 @@ namespace FSMLib.UnitTest.Situations
 
 			rule1 = RuleHelper.BuildRule("A=abc");
 			rule2 = RuleHelper.BuildRule("B=abc");
-			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance,Input=input };
-			b = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance, Input = input };
+			a = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>(), Input=input };
+			b = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>(), Input = input };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
 			reductions =situations.GetReductionSituations().ToArray();
-			Assert.AreEqual(1, reductions.Length);
+			Assert.AreEqual(2, reductions.Length);
 
 
-			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance, Input = input };
-			b = new Situation<char>() { Rule = rule2, Predicate = ReducePredicate<char>.Instance, Input = input };
+			a = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>(), Input = input };
+			b = new Situation<char>() { Rule = rule2, Predicate = new ReducePredicate<char>(), Input = input };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -178,8 +178,8 @@ namespace FSMLib.UnitTest.Situations
 
 			rule1 = RuleHelper.BuildRule("A=abc");
 			rule2 = RuleHelper.BuildRule("B=abc");
-			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
-			b = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
+			a = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>() };
+			b = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>() };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -187,8 +187,8 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(0, reductions.Length);
 
 
-			a = new Situation<char>() { Rule = rule1, Predicate = ReducePredicate<char>.Instance };
-			b = new Situation<char>() { Rule = rule2, Predicate = ReducePredicate<char>.Instance };
+			a = new Situation<char>() { Rule = rule1, Predicate = new ReducePredicate<char>() };
+			b = new Situation<char>() { Rule = rule2, Predicate = new ReducePredicate<char>() };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);

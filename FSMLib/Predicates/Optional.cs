@@ -33,6 +33,12 @@ namespace FSMLib.Predicates
 		}
 
 
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is Optional<T> o)) return false;
+			if (Item == null) return o.Item == null;
+			return Item.Equals(o.Item);
+		}
 
 
 

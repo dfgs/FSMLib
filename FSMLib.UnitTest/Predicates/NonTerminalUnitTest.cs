@@ -40,8 +40,37 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("A", ((NonTerminalInput<char>)inputs[0]).Name);
 		}
 
-	
 
+		[TestMethod]
+		public void ShouldEquals()
+		{
+			NonTerminal<char> a, b;
+
+
+			a = new NonTerminal<char>() { Name="A" };
+			b = new NonTerminal<char>() { Name = "A" };
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+
+		}
+
+		[TestMethod]
+		public void ShouldNotEquals()
+		{
+			NonTerminal<char> a, b;
+
+
+			a = new NonTerminal<char>() { Name = "A" };
+			b = new NonTerminal<char>() { Name = "B" };
+
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(b.Equals(null));
+			Assert.IsFalse(b.Equals(new AnyTerminal<char>()));
+			Assert.IsFalse(b.Equals(new EOS<char>()));
+
+
+		}
 
 
 

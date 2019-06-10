@@ -54,9 +54,42 @@ namespace FSMLib.UnitTest.Predicates
 		}
 
 
-		
 
-		
+		[TestMethod]
+		public void ShouldEquals()
+		{
+			Optional<char> a, b;
+
+
+			a = new Optional<char>();
+			a.Item = (Terminal<char>)'a';
+			b = new Optional<char>();
+			b.Item = (Terminal<char>)'a';
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+
+		}
+
+		[TestMethod]
+		public void ShouldNotEquals()
+		{
+			Optional<char> a, b;
+
+
+			a = new Optional<char>();
+			a.Item = (Terminal<char>)'a';
+			b = new Optional<char>();
+			b.Item = (Terminal<char>)'b';
+
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(a.Equals(null));
+			Assert.IsFalse(a.Equals(new AnyTerminal<char>()));
+			Assert.IsFalse(a.Equals(new EOS<char>()));
+
+
+		}
+
 
 
 	}

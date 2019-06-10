@@ -24,7 +24,10 @@ namespace FSMLib.Predicates
 			else return ".";
 		}
 
-		
+		public override bool Equals(IPredicate<T> other)
+		{
+			return other is AnyTerminal<T>;
+		}
 
 
 

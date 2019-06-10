@@ -67,8 +67,49 @@ namespace FSMLib.UnitTest.Predicates
 
 		}
 
+		[TestMethod]
+		public void ShouldEquals()
+		{
+			Sequence<char> a, b;
 
-		
+
+			a = new Sequence<char>();
+			a.Items.Add((Terminal<char>)'a');
+			a.Items.Add((Terminal<char>)'b');
+			a.Items.Add((Terminal<char>)'c');
+			b = new Sequence<char>();
+			b.Items.Add((Terminal<char>)'a');
+			b.Items.Add((Terminal<char>)'b');
+			b.Items.Add((Terminal<char>)'c');
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+
+		}
+
+		[TestMethod]
+		public void ShouldNotEquals()
+		{
+			Sequence<char> a, b;
+
+
+			a = new Sequence<char>();
+			a.Items.Add((Terminal<char>)'a');
+			a.Items.Add((Terminal<char>)'b');
+			a.Items.Add((Terminal<char>)'c');
+			b = new Sequence<char>();
+			b.Items.Add((Terminal<char>)'a');
+			b.Items.Add((Terminal<char>)'c');
+			b.Items.Add((Terminal<char>)'b');
+
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(a.Equals(null));
+			Assert.IsFalse(a.Equals(new AnyTerminal<char>()));
+			Assert.IsFalse(a.Equals(new EOS<char>()));
+
+
+		}
+
 
 
 	}

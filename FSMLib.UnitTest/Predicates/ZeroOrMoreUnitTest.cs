@@ -54,7 +54,41 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("(a•aa)*", predicate.ToString(terminal));
 		}
 
-	
+		[TestMethod]
+		public void ShouldEquals()
+		{
+			ZeroOrMore<char> a, b;
+
+
+			a = new ZeroOrMore<char>();
+			a.Item = (Terminal<char>)'a';
+			b = new ZeroOrMore<char>();
+			b.Item = (Terminal<char>)'a';
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+
+		}
+
+		[TestMethod]
+		public void ShouldNotEquals()
+		{
+			ZeroOrMore<char> a, b;
+
+
+			a = new ZeroOrMore<char>();
+			a.Item = (Terminal<char>)'a';
+			b = new ZeroOrMore<char>();
+			b.Item = (Terminal<char>)'b';
+
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(a.Equals(null));
+			Assert.IsFalse(a.Equals(new AnyTerminal<char>()));
+			Assert.IsFalse(a.Equals(new EOS<char>()));
+
+
+		}
+
 
 	}
 }

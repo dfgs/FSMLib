@@ -10,7 +10,6 @@ namespace FSMLib.Predicates
 	public class ReducePredicate<T> : SituationPredicate<T>
 	{
 
-		public static ReducePredicate<T> Instance = new ReducePredicate<T>();
 
 		//private static ReduceInput<T> input = new ReduceInput<T>();
 		public override IEnumerable<IInput<T>> GetInputs()
@@ -18,7 +17,7 @@ namespace FSMLib.Predicates
 			yield break;
 		}
 
-		private ReducePredicate()
+		public ReducePredicate()
 		{
 
 		}
@@ -28,6 +27,12 @@ namespace FSMLib.Predicates
 			if (CurrentPredicate == this) return "•←";
 			else return "←";
 		}
+
+		public override bool Equals(IPredicate<T> other)
+		{
+			return other is ReducePredicate<T>;
+		}
+
 
 	}
 

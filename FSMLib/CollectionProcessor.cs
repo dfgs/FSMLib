@@ -24,7 +24,7 @@ namespace FSMLib
 			}
 		}
 
-		/*public static bool IsIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
+		public static bool IsIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
 			where T : IEquatable<T>
 		{
 			if (Items == null) return Other==null;
@@ -40,7 +40,24 @@ namespace FSMLib
 			return true;
 		}
 
+		public static bool IsStrictelyIndenticalToEx<T>(this IEnumerable<T> Items, IEnumerable<T> Other)
+			where T : IEquatable<T>
+		{
+			int count;
 
+			if (Items == null) return Other == null;
+			if (Other == null) return false;
+
+			count = Items.Count();
+			if (count != Other.Count()) return false;
+
+			for(int t=0;t<count;t++)
+			{
+				if (!Items.ElementAt(t).Equals(Other.ElementAt(t))) return false;
+			}
+
+			return true;
+		}
 		public static bool ContainsEx<T>(this IEnumerable<T> Items, T Item)
 			where T : IEquatable<T>
 		{
@@ -54,7 +71,7 @@ namespace FSMLib
 			}
 
 			return false;
-		}*/
+		}
 
 		public static IEnumerable<T> AsEnumerable<T>(this T Item)
 		{

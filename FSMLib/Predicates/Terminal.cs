@@ -38,7 +38,12 @@ namespace FSMLib.Predicates
 			return new Terminal<T>() { Value=Value};
 		}
 
-
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is Terminal<T> o) ) return false;
+			if (Value == null) return o.Value == null;
+			return Value.Equals(o.Value);
+		}
 
 
 	}

@@ -12,7 +12,10 @@ namespace FSMLib.UnitTest.Mocks
 	[ExcludeFromCodeCoverage]
 	public class MockedPredicate<T> : BasePredicate<T>
 	{
-		
+		public override bool Equals(IPredicate<T> other)
+		{
+			throw new System.NotImplementedException();
+		}
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{

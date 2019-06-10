@@ -99,7 +99,7 @@ namespace FSMLib.UnitTest.Situations
 			situation = new Situation<char>() { Rule = rule, Predicate = c };
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput<char>() { Value = 'c' }).ToArray();
 			Assert.AreEqual(1, items.Length);
-			Assert.AreEqual(ReducePredicate<char>.Instance, items[0].Predicate);
+			Assert.IsTrue(items[0].Predicate.Equals(new ReducePredicate<char>()));
 		}
 
 		

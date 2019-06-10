@@ -10,9 +10,9 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public abstract class BasePredicate<T>:IPredicate<T>
-	{ 
-		
+	public abstract class BasePredicate<T>:IPredicate<T>,IEquatable<BasePredicate<T>>
+	{
+
 		public override string ToString()
 		{
 			return ToString(null);
@@ -22,7 +22,11 @@ namespace FSMLib.Predicates
 
 		public abstract string ToString(ISituationPredicate<T> CurrentPredicate);
 
+		public abstract bool Equals(IPredicate<T> other);
 
-
+		public bool Equals(BasePredicate<T> other)
+		{
+			return Equals((IPredicate<T>)other);
+		}
 	}
 }

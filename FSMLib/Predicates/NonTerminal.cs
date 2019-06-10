@@ -34,7 +34,12 @@ namespace FSMLib.Predicates
 		}
 
 
-
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is NonTerminal<T> o)) return false;
+			if (Name == null) return o.Name == null;
+			return Name==o.Name;
+		}
 
 
 

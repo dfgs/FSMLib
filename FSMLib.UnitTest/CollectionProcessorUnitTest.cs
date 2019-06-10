@@ -44,7 +44,7 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(0, items.Length);
 		}
 
-		/*[TestMethod]
+		[TestMethod]
 		public void ShouldReturnTrueIfContainsItems()
 		{
 			List<int> a;
@@ -72,10 +72,10 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(CollectionProcessor.ContainsEx(a, 4));
 			Assert.IsFalse(CollectionProcessor.ContainsEx(a, -1));
 			Assert.IsFalse(CollectionProcessor.ContainsEx(null, 1));
-		}*/
+		}
 
 
-		/*[TestMethod]
+		[TestMethod]
 		public void ShouldReturnTrueIfCollectionsAreIdentical()
 		{
 			List<int> a,b;
@@ -117,7 +117,65 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(a, null));
 			Assert.IsFalse(CollectionProcessor.IsIndenticalToEx(null, a));
 
-		}*/
+		}
+
+		[TestMethod]
+		public void ShouldReturnTrueIfCollectionsAreStrictelyIdentical()
+		{
+			List<int> a, b;
+
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+			b = new List<int>();
+			b.Add(1);
+			b.Add(2);
+			b.Add(3);
+
+
+			Assert.IsTrue(CollectionProcessor.IsStrictelyIndenticalToEx(a, b));
+
+		}
+
+		[TestMethod]
+		public void ShouldReturnFalseIfCollectionsAreNotStrictelyIdentical()
+		{
+			List<int> a, b, c;
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+			b = new List<int>();
+			b.Add(3);
+			b.Add(1);
+			b.Add(2);
+
+
+			Assert.IsFalse(CollectionProcessor.IsStrictelyIndenticalToEx(a, b));
+
+			a = new List<int>();
+			a.Add(1);
+			a.Add(2);
+			a.Add(3);
+			b = new List<int>();
+			b.Add(4);
+			b.Add(1);
+			b.Add(2);
+			c = new List<int>();
+			c.Add(1);
+			c.Add(2);
+
+
+			Assert.IsFalse(CollectionProcessor.IsStrictelyIndenticalToEx(a, b));
+			Assert.IsFalse(CollectionProcessor.IsStrictelyIndenticalToEx(a, c));
+			Assert.IsFalse(CollectionProcessor.IsStrictelyIndenticalToEx(a, null));
+			Assert.IsFalse(CollectionProcessor.IsStrictelyIndenticalToEx(null, a));
+
+		}
+
 
 		[TestMethod]
 		public void ShouldEnumerateSingleItem()

@@ -49,7 +49,7 @@ namespace FSMLib.Situations
 		}
 
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, BasePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");

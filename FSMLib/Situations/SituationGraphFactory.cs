@@ -33,7 +33,7 @@ namespace FSMLib.Situations
 			{
 				predicate = new Sequence<T>();
 				predicate.Items.Add(rule.Predicate);
-				predicate.Items.Add(ReducePredicate<T>.Instance);
+				predicate.Items.Add(new ReducePredicate<T>());
 
 				segment = situationGraphSegmentFactory.BuildSegment(graph.Nodes,rule,  Alphabet, predicate, Enumerable.Empty<SituationEdge<T>>());
 				rootNode = CreateNode(graph);

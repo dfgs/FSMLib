@@ -36,7 +36,14 @@ namespace FSMLib.Predicates
 			
 		}
 
-	
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is Sequence<T> o)) return false;
+			if (Items == null) return o.Items == null;
+			return Items.IsStrictelyIndenticalToEx(o.Items);
+		}
+
+
 		public static implicit operator Sequence<T>(BasePredicate<T>[] Values)
 		{
 			Sequence<T> predicate;
@@ -57,6 +64,8 @@ namespace FSMLib.Predicates
 			}
 			return predicate;
 		}
+
+
 
 	}
 }

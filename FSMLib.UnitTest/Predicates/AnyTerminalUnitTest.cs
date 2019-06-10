@@ -42,6 +42,34 @@ namespace FSMLib.UnitTest.Predicates
 
 
 
+		[TestMethod]
+		public void ShouldEquals()
+		{
+			AnyTerminal<char> a, b;
+
+
+			a = new AnyTerminal<char>();
+			b = new AnyTerminal<char>();
+
+			Assert.IsTrue(a.Equals(b));
+			Assert.IsTrue(b.Equals(a));
+
+		}
+
+		[TestMethod]
+		public void ShouldNotEquals()
+		{
+			AnyTerminal<char> a;
+
+
+			a = new AnyTerminal<char>();
+
+			Assert.IsFalse(a.Equals(null));
+			Assert.IsFalse(a.Equals(new Terminal<char>()));
+			Assert.IsFalse(a.Equals(new EOS<char>()));
+
+
+		}
 
 
 

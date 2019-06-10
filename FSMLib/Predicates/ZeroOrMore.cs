@@ -33,8 +33,14 @@ namespace FSMLib.Predicates
 			return $"{Item.ToString(CurrentPredicate)}*";
 		}
 
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is ZeroOrMore<T> o)) return false;
+			if (Item == null) return o.Item == null;
+			return Item.Equals(o.Item);
+		}
 
-		
+
 
 	}
 }

@@ -36,6 +36,13 @@ namespace FSMLib.Predicates
 			
 		}
 
+		public override bool Equals(IPredicate<T> other)
+		{
+			if (!(other is Or<T> o)) return false;
+			if (Items == null) return o.Items == null;
+			return Items.IsStrictelyIndenticalToEx(o.Items);
+		}
+
 
 		public static implicit operator Or<T>(BasePredicate<T>[] Values)
 		{

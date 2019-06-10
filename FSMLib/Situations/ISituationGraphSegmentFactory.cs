@@ -11,7 +11,7 @@ namespace FSMLib.Situations
 	public interface ISituationGraphSegmentFactory<T>
 	{
 
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, BasePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, SituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Sequence<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Or<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
