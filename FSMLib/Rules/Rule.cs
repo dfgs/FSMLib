@@ -11,12 +11,14 @@ namespace FSMLib.Rules
 	[System.Serializable]
     public class Rule<T>:IEquatable<Rule<T>>
     {
+		[XmlAttribute]
 		public string Name
 		{
 			get;
 			set;
 		}
 
+		[XmlAttribute]
 		public bool IsAxiom
 		{
 			get;

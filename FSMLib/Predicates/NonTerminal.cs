@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FSMLib.Predicates
 {
 	[Serializable]
 	public class NonTerminal<T>:SituationPredicate<T>
 	{
-
+		[XmlAttribute]
 		public string Name
 		{
 			get;

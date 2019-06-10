@@ -67,43 +67,49 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsNotNull(result);
 		}
 		[TestMethod]
-		public void ShouldParseTerminalSequence()
+		public void ShouldParseSequence()
 		{
 			Sequence<char> result;
 
-			result = RuleGrammar.TerminalSequence.Parse("abcd");
+			result = RuleGrammar.Sequence.Parse("abcd");
 			Assert.AreEqual(4,result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 
-			result = RuleGrammar.TerminalSequence.Parse(@"ab\.d");
+			result = RuleGrammar.Sequence.Parse(@"ab\.d");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 
-			result = RuleGrammar.TerminalSequence.Parse(@"ab.d");
+			result = RuleGrammar.Sequence.Parse(@"ab.d");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 
-			result = RuleGrammar.TerminalSequence.Parse(@" b. "); // a space at begin and end
+			result = RuleGrammar.Sequence.Parse(@" b. "); // a space at begin and end
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 
-			result = RuleGrammar.TerminalSequence.Parse(@"ab?d");
+			result = RuleGrammar.Sequence.Parse(@"ab?d");
 			Assert.AreEqual(3, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Optional<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+
+			result = RuleGrammar.Sequence.Parse(@"a*b?d+");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(ZeroOrMore<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Optional<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(OneOrMore<char>));
 		}
 
 
@@ -115,6 +121,8 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal<char>));
 			result = RuleGrammar.OneOrMore.Parse(".+");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal<char>));
+			result = RuleGrammar.OneOrMore.Parse("{A}+");
+			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal<char>));
 		}
 		[TestMethod]
 		public void ShouldParseZeroOrMore()
@@ -124,6 +132,8 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal<char>));
 			result = RuleGrammar.ZeroOrMore.Parse(".*");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal<char>));
+			result = RuleGrammar.ZeroOrMore.Parse("{A}*");
+			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal<char>));
 		}
 		[TestMethod]
 		public void ShouldParseOptional()
@@ -133,6 +143,8 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal<char>));
 			result = RuleGrammar.Optional.Parse(".?");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal<char>));
+			result = RuleGrammar.Optional.Parse("{A}?");
+			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal<char>));
 		}
 
 
@@ -215,6 +227,10 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsFalse(result.IsAxiom);
 			result = RuleGrammar.Rule.Parse("ABC* = abcd");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
+			Assert.AreEqual("ABC", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("ABC* = a|b|c|d");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Or<char>));
 			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
 
