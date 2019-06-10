@@ -9,7 +9,11 @@ namespace FSMLib.Tables
 {
 	public class NonTerminalNode<T> : BaseNode<T>
 	{
-		
+		public NonTerminalInput<T> Input
+		{
+			get;
+			set;
+		}
 
 		public List<BaseNode<T>> Nodes
 		{

@@ -41,7 +41,7 @@ namespace FSMLib.Tables
 
 		
 
-		private bool Feed(BaseNode<T> Node)
+		private bool Shift(NonTerminalNode<T> Node)
 		{
 			State<T> state;
 			Shift<T> action;
@@ -56,7 +56,20 @@ namespace FSMLib.Tables
 			return true;
 		}
 
-		
+		private bool Shift(TerminalNode<T> Node)
+		{
+			State<T> state;
+			Shift<T> action;
+
+			state = automatonTable.States[stateIndex];
+			action = state.GetShift(Node.Input);
+			if (action == null) return false;
+
+			stateIndexStack.Push(stateIndex);
+			nodeStack.Push(Node);
+			stateIndex = action.TargetStateIndex;
+			return true;
+		}
 
 		private NonTerminalNode<T> Reduce(string Name)
 		{
@@ -124,10 +137,10 @@ namespace FSMLib.Tables
 
 			while (true)
 			{
-				if (Feed(inputNode)) return;
+				if (Shift(inputNode)) return;
 
 				nonTerminalNode = Reduce(inputNode);
-				if ((nonTerminalNode == null) || (!Feed(nonTerminalNode))) throw new AutomatonException<T>(Input, nodeStack);
+				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(Input, nodeStack);
 			}
 
 		}
@@ -172,7 +185,7 @@ namespace FSMLib.Tables
 			{
 				nonTerminalNode = Reduce(eosNode);
 				if (nodeStack.Count == 0) break;
-				if ((nonTerminalNode == null) || (!Feed(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
+				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
 			}
 
 			return nonTerminalNode;
