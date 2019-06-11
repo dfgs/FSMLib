@@ -11,8 +11,10 @@ namespace FSMLib.Helpers
 {
     public class RuleGrammar
     {
-		private static readonly Parser<char> OpenBracket = Parse.Char('{');
-		private static readonly Parser<char> CloseBracket = Parse.Char('}');
+		private static readonly Parser<char> OpenBrace = Parse.Char('{');
+		private static readonly Parser<char> CloseBrace = Parse.Char('}');
+		private static readonly Parser<char> OpenBracket = Parse.Char('[');
+		private static readonly Parser<char> CloseBracket = Parse.Char(']');
 		private static readonly Parser<char> BackSlash = Parse.Char('\\');
 		private static readonly Parser<char> Dot = Parse.Char('.');
 		private static readonly Parser<char> Plus = Parse.Char('+');
@@ -20,7 +22,7 @@ namespace FSMLib.Helpers
 		private static readonly Parser<char> QuestionMark = Parse.Char('?');
 		private static readonly Parser<char> Pipe = Parse.Char('|');
 
-		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe);
+		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(OpenBrace).Or(CloseBrace).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe);
 		private static Parser<char> NormalChar = Parse.AnyChar.Except(SpecialChar);
 
 		private static readonly Parser<char> EscapedChar =
@@ -34,10 +36,18 @@ namespace FSMLib.Helpers
 			select new Terminal<char>() {Value = value };
 
 		public static readonly Parser<NonTerminal<char>> NonTerminal =
-			from open in OpenBracket
-			from name in Parse.AnyChar.Except(CloseBracket).Many().Text().Token()
-			from close in CloseBracket
+			from open in OpenBrace
+			from name in Parse.AnyChar.Except(CloseBrace).Many().Text().Token()
+			from close in CloseBrace
 			select new NonTerminal<char>() { Name = name };
+
+		public static readonly Parser<TerminalRange<char>> TerminalRange =
+			from open in OpenBracket
+			from FirstItem in Parse.AnyChar
+			from _ in Parse.Char('-')
+			from LastItem in Parse.AnyChar
+			from close in CloseBracket
+			select new TerminalRange<char>() { FirstValue= FirstItem,LastValue=LastItem};
 
 		public static readonly Parser<AnyTerminal<char>> AnyTerminal =
 			from _ in Dot
@@ -46,7 +56,8 @@ namespace FSMLib.Helpers
 		private static readonly Parser<BasePredicate<char>> SmallestPredicate =
 			Terminal.Or<BasePredicate<char>>(Terminal)
 			.Or<BasePredicate<char>>(AnyTerminal)
-			.Or<BasePredicate<char>>(NonTerminal);
+			.Or<BasePredicate<char>>(NonTerminal)
+			.Or<BasePredicate<char>>(TerminalRange);
 			   
 
 		public static readonly Parser<OneOrMore<char>> OneOrMore =
@@ -65,7 +76,7 @@ namespace FSMLib.Helpers
 			select new Optional<char>() { Item = value };
 
 		public static readonly Parser<BasePredicate<char>> SinglePredicate =
-			Optional.Or<BasePredicate<char>>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal);
+			Optional.Or<BasePredicate<char>>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal).Or(TerminalRange);
 
 		public static readonly Parser<Sequence<char>> Sequence =
 			from firstItem in SinglePredicate

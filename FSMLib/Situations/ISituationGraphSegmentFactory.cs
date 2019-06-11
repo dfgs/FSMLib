@@ -13,6 +13,8 @@ namespace FSMLib.Situations
 
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, SituationInputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, AnyTerminal<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, TerminalRange<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Sequence<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Or<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Optional<T> Predicate, IEnumerable<SituationEdge<T>> Edges);

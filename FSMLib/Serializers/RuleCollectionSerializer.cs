@@ -12,7 +12,7 @@ namespace FSMLib.Serializers
 {
 	public class RuleCollectionSerializer<T> : IRuleCollectionSerializer<T>
 	{
-		private static Type[] extraTypes=new Type[] { typeof(Terminal<T>),typeof(AnyTerminal<T>), typeof(NonTerminal<T>), typeof(EOS<T>), typeof(OneOrMore<T>), typeof(ZeroOrMore<T>),typeof(OneOrMore<T>), typeof(Optional<T>), typeof(Or<T>), typeof(Sequence<T>) } ;
+		private static Type[] extraTypes=new Type[] { typeof(Terminal<T>),typeof(AnyTerminal<T>), typeof(NonTerminal<T>), typeof(EOS<T>), typeof(OneOrMore<T>), typeof(ZeroOrMore<T>),typeof(OneOrMore<T>), typeof(Optional<T>), typeof(Or<T>), typeof(Sequence<T>),typeof(TerminalRange<T>) } ;
 		public IEnumerable<Rule<T>> LoadStream(Stream Stream)
 		{
 			XmlSerializer serializer;

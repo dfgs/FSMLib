@@ -42,6 +42,10 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.AreEqual('{', result.Value);
 			result = RuleGrammar.Terminal.Parse(@"\}");
 			Assert.AreEqual('}', result.Value);
+			result = RuleGrammar.Terminal.Parse(@"\[");
+			Assert.AreEqual('[', result.Value);
+			result = RuleGrammar.Terminal.Parse(@"\]");
+			Assert.AreEqual(']', result.Value);
 			result = RuleGrammar.Terminal.Parse(@"\.");
 			Assert.AreEqual('.', result.Value);
 			result = RuleGrammar.Terminal.Parse(@"\*");
@@ -52,6 +56,8 @@ namespace FSMLib.Helpers.UnitTest
 		[TestMethod]
 		public void ShouldNotParseSpecialCharactersAsTerminal()
 		{
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("["));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("]"));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("{"));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("}"));
 			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(@"\"));
@@ -66,16 +72,36 @@ namespace FSMLib.Helpers.UnitTest
 			result = RuleGrammar.AnyTerminal.Parse(".");
 			Assert.IsNotNull(result);
 		}
+
+		[TestMethod]
+		public void ShouldParseTerminalRange()
+		{
+			TerminalRange<char> result;
+			result = RuleGrammar.TerminalRange.Parse("[a-z]");
+			Assert.AreEqual('a', result.FirstValue);
+			Assert.AreEqual('z', result.LastValue);
+			result = RuleGrammar.TerminalRange.Parse("[{-}]");
+			Assert.AreEqual('{', result.FirstValue);
+			Assert.AreEqual('}', result.LastValue);
+		}
+
 		[TestMethod]
 		public void ShouldParseSequence()
 		{
 			Sequence<char> result;
 
 			result = RuleGrammar.Sequence.Parse("abcd");
-			Assert.AreEqual(4,result.Items.Count);
+			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
+
+			result = RuleGrammar.Sequence.Parse("ab[c-d]d");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(TerminalRange<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal<char>));
 
 			result = RuleGrammar.Sequence.Parse(@"ab\.d");
@@ -217,7 +243,7 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Predicate, typeof(Optional<char>));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A*=abcd");
+			result = RuleGrammar.Rule.Parse("A*=ab[c-d]d");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
@@ -229,7 +255,7 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence<char>));
 			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("ABC* = a|b|c|d");
+			result = RuleGrammar.Rule.Parse("ABC* = a|b|[c-d]|d");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Or<char>));
 			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
@@ -275,11 +301,11 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[1], typeof(Sequence<char>));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
 
-			result = RuleGrammar.Or.Parse("a|{b}|c|{d}");
+			result = RuleGrammar.Or.Parse("a|{b}|[c-d]|{d}");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal<char>));
 			Assert.IsInstanceOfType(result.Items[1], typeof(NonTerminal<char>));
-			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal<char>));
+			Assert.IsInstanceOfType(result.Items[2], typeof(TerminalRange<char>));
 			Assert.IsInstanceOfType(result.Items[3], typeof(NonTerminal<char>));
 
 

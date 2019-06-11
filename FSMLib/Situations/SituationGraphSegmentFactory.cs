@@ -62,6 +62,7 @@ namespace FSMLib.Situations
 				case Terminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
 				case NonTerminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
 				case AnyTerminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
+				case TerminalRange<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
 				case EOS<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
 				case ReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
 				case Sequence<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
@@ -118,6 +119,42 @@ namespace FSMLib.Situations
 			{
 				edge = CreateEdgeTo(node, Rule, new Terminal<T>() { Value=item } );
 				edges.Add(edge);
+			}
+
+			segment = new SituationGraphSegment<T>();
+			segment.OutputNodes = node.AsEnumerable();
+			segment.InputEdges = edges;
+
+			return segment;
+		}
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, TerminalRange<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		{
+			SituationNode<T> node;
+			List<SituationEdge<T>> edges;
+			SituationEdge<T> edge;
+			SituationGraphSegment<T> segment;
+			Comparer<T> comparer;
+
+			if (Nodes == null) throw new ArgumentNullException("Nodes");
+			if (Rule == null) throw new ArgumentNullException("Rule");
+			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
+			if (Predicate == null) throw new ArgumentNullException("Predicate");
+			if (Edges == null) throw new ArgumentNullException("Edges");
+
+			comparer = Comparer<T>.Default;
+			if (comparer == null) throw new ArgumentNullException($"No default comparer found for type {typeof(T).Name}");
+
+			node = CreateNode(Nodes);
+			Connect(node.AsEnumerable(), Edges);
+			
+			edges = new List<SituationEdge<T>>();
+			foreach (T item in Alphabet)
+			{
+				if ((comparer.Compare(item, Predicate.FirstValue) >= 0) && (comparer.Compare(item, Predicate.LastValue) <= 0))
+				{
+					edge = CreateEdgeTo(node, Rule, new Terminal<T>() { Value = item });
+					edges.Add(edge);
+				}
 			}
 
 			segment = new SituationGraphSegment<T>();

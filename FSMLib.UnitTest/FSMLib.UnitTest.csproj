@@ -58,6 +58,7 @@
     <Compile Include="Mocks\MockedSituationCollectionFactory.cs" />
     <Compile Include="Predicates\ReducePredicateUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
+    <Compile Include="Predicates\TerminalRangeUnitTest.cs" />
     <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
     <Compile Include="Situations\SituationCollectionUnitTest.cs" />
     <Compile Include="Situations\SituationGraphFactoryUnitTest.cs" />

@@ -37,7 +37,54 @@ namespace FSMLib.UnitTest.Situations
 
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
-		
+		[TestMethod]
+		public void ShouldBuildAnySegment()
+		{
+			SituationGraphSegmentFactory<char> factory;
+			List<SituationNode<char>> nodes;
+			Rule<char> rule;
+			SituationEdge<char> capEdge;
+			SituationGraphSegment<char> segment;
+
+			capEdge = new SituationEdge<char>();
+			nodes = new List<SituationNode<char>>();
+			factory = new SituationGraphSegmentFactory<char>();
+
+			rule = RuleHelper.BuildRule("A=.");
+			segment = factory.BuildSegment(nodes, rule, new char[] {'a','b','c' }, rule.Predicate, capEdge.AsEnumerable());
+			Assert.AreEqual(1, nodes.Count);
+			Assert.AreEqual(3, segment.InputEdges.Count());
+			Assert.AreEqual(1, segment.OutputNodes.Count());
+			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(1).Predicate.Match('b'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(2).Predicate.Match('c'));
+			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
+		}
+		[TestMethod]
+		public void ShouldBuildTerminalRange()
+		{
+			SituationGraphSegmentFactory<char> factory;
+			List<SituationNode<char>> nodes;
+			Rule<char> rule;
+			SituationEdge<char> capEdge;
+			SituationGraphSegment<char> segment;
+
+			capEdge = new SituationEdge<char>();
+			nodes = new List<SituationNode<char>>();
+			factory = new SituationGraphSegmentFactory<char>();
+
+			rule = RuleHelper.BuildRule("A=[a-c]");
+			segment = factory.BuildSegment(nodes, rule, new char[] { 'a', 'b', 'c' }, rule.Predicate, capEdge.AsEnumerable());
+			Assert.AreEqual(1, nodes.Count);
+			Assert.AreEqual(3, segment.InputEdges.Count());
+			Assert.AreEqual(1, segment.OutputNodes.Count());
+			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(1).Predicate.Match('b'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(2).Predicate.Match('c'));
+			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
+		}
 		[TestMethod]
 		public void ShouldBuildSequenceSegment()
 		{
@@ -276,6 +323,49 @@ namespace FSMLib.UnitTest.Situations
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as ZeroOrMore<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
+		}
+
+		[TestMethod]
+		public void ShouldNotBuildAnyTerminalSegment()
+		{
+			SituationGraphSegmentFactory<char> factory;
+			List<SituationNode<char>> nodes;
+			Rule<char> rule;
+			SituationEdge<char> capEdge;
+			AnyTerminal<char> predicate;
+
+			capEdge = new SituationEdge<char>();
+			nodes = new List<SituationNode<char>>();
+			factory = new SituationGraphSegmentFactory<char>();
+
+			predicate = new AnyTerminal<char>();
+			rule = new Rule<char>() { Name = "A", Predicate = predicate };
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as AnyTerminal<char>, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
+		}
+		[TestMethod]
+		public void ShouldNotBuildTerminalRangeSegment()
+		{
+			SituationGraphSegmentFactory<char> factory;
+			List<SituationNode<char>> nodes;
+			Rule<char> rule;
+			SituationEdge<char> capEdge;
+			TerminalRange<char> predicate;
+
+			capEdge = new SituationEdge<char>();
+			nodes = new List<SituationNode<char>>();
+			factory = new SituationGraphSegmentFactory<char>();
+
+			predicate = new TerminalRange<char>();
+			rule = new Rule<char>() { Name = "A", Predicate = predicate };
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, Enumerable.Empty<char>(), predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, null, predicate, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), null as TerminalRange<char>, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule, Enumerable.Empty<char>(), predicate, null));
 		}
 		[TestMethod]

@@ -12,6 +12,7 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public class TerminalRange<T>: SituationPredicate<T>
 	{
+		private static Comparer<T> comparer = Comparer<T>.Default;
 
 		[XmlAttribute]
 		public T FirstValue
@@ -28,19 +29,21 @@ namespace FSMLib.Predicates
 
 		public override bool Match(T Input)
 		{
-			return false;
+			if (comparer == null) return false;
+
+			return ((comparer.Compare(Input,FirstValue) >= 0) && (comparer.Compare(Input, LastValue) <= 0));
 		}
 		public override bool Match(IInput<T> Input)
 		{
-			return false;
+			if (!(Input is TerminalInput<T> terminal)) return false;
+			return Match(terminal.Value);
 		}
 
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
-			return "toto";
-			//if (CurrentPredicate == this) return $"•{Value}";
-			//else return Value.ToString();
+			if (CurrentPredicate == this) return $"•[{FirstValue}-{LastValue}]";
+			else return $"[{FirstValue}-{LastValue}]";
 		}
 
 
