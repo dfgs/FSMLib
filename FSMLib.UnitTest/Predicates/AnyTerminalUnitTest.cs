@@ -29,16 +29,30 @@ namespace FSMLib.UnitTest.Predicates
 		}
 
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldMatch()
 		{
 			AnyTerminal<char> predicate;
-			IInput<char>[] inputs;
+
 
 			predicate = new AnyTerminal<char>();
-			inputs = predicate.GetInputs().ToArray();
-			Assert.AreEqual(0, inputs.Length);
+
+			Assert.IsTrue(predicate.Match(new TerminalInput<char>() { Value = 'a' }));
+			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
+
+		}
+		[TestMethod]
+		public void ShouldNotMatch()
+		{
+			AnyTerminal<char> predicate;
+
+
+			predicate = new AnyTerminal<char>();
+
+			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "B" }));
+
 		}
 
+		
 
 
 

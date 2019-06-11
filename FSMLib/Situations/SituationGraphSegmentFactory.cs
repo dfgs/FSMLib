@@ -25,7 +25,7 @@ namespace FSMLib.Situations
 
 			return node;
 		}
-		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, SituationPredicate<T> Predicate)
+		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, SituationInputPredicate<T> Predicate)
 		{
 			SituationEdge<T> edge;
 
@@ -74,7 +74,7 @@ namespace FSMLib.Situations
 			}
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, SituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, SituationInputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
 			SituationEdge<T> edge;

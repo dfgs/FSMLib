@@ -58,10 +58,23 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new Terminal<char>() { Value = 'a' };
 
 			Assert.IsTrue(predicate.Match('a'));
-			Assert.IsFalse(predicate.Match('b'));
+			Assert.IsTrue(predicate.Match(new TerminalInput<char>() {Value='a' }));
 
 		}
+		[TestMethod]
+		public void ShouldNotMatch()
+		{
+			Terminal<char> predicate;
 
+
+			predicate = new Terminal<char>() { Value = 'a' };
+
+			Assert.IsFalse(predicate.Match('b'));
+			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
+			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
+
+		}
 		[TestMethod]
 		public void ShouldEquals()
 		{

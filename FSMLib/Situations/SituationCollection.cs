@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.Predicates;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace FSMLib.Situations
 		}
 		public IEnumerable<IInput<T>> GetNextInputs()
 		{
-			return items.SelectMany(item => item.Predicate.GetInputs()).DistinctEx();
+			return items.Select(item => item.Predicate).OfType<SituationInputPredicate<T>>().SelectMany(item => item.GetInputs()).DistinctEx();
 		}
 		
 

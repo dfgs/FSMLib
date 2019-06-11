@@ -12,11 +12,15 @@ namespace FSMLib.Predicates
 	public class AnyTerminal<T>: SituationPredicate<T>
 	{
 
-		public override IEnumerable<IInput<T>> GetInputs()
+		public override bool Match(IInput<T> Input)
 		{
-			yield break;
+			return Input is BaseTerminalInput<T>;
 		}
 
+		public override bool Match(T Input)
+		{
+			return true;
+		}
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{

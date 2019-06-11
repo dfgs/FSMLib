@@ -9,7 +9,7 @@ using FSMLib.Rules;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class EOS<T>: SituationPredicate<T>
+	public class EOS<T>: SituationInputPredicate<T>
 	{
 		public override IEnumerable<IInput<T>> GetInputs()
 		{

@@ -40,6 +40,31 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("A", ((NonTerminalInput<char>)inputs[0]).Name);
 		}
 
+		[TestMethod]
+		public void ShouldMatch()
+		{
+			NonTerminal<char> predicate;
+
+
+			predicate = new NonTerminal<char>() { Name = "A" };
+
+			Assert.IsTrue(predicate.Match(new NonTerminalInput<char>() { Name = "A" }));
+
+		}
+		[TestMethod]
+		public void ShouldNotMatch()
+		{
+			NonTerminal<char> predicate;
+
+
+			predicate = new NonTerminal<char>() { Name = "A" };
+
+			Assert.IsFalse(predicate.Match('b'));
+			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "B" }));
+			Assert.IsFalse(predicate.Match(new EOSInput<char>()));
+
+		}
 
 		[TestMethod]
 		public void ShouldEquals()

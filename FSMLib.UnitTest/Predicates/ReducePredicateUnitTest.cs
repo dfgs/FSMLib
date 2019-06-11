@@ -28,17 +28,22 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("•←", predicate.ToString(predicate));
 		}
 
-		/*[TestMethod]
-		public void ShouldGetInput()
+		
+
+		[TestMethod]
+		public void ShouldNotMatch()
 		{
 			ReducePredicate<char> predicate;
-			ReduceInput<char> input;
 
-			predicate = ReducePredicate<char>.Instance;
-			input = predicate.GetInput() as ReduceInput<char>;
-			Assert.IsNotNull(input);
-		}*/
 
+			predicate = new ReducePredicate<char>();
+
+			Assert.IsFalse(predicate.Match('b'));
+			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
+			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
+
+		}
 		[TestMethod]
 		public void ShouldNotGetInput()
 		{

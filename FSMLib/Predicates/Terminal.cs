@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class Terminal<T>: SituationPredicate<T>
+	public class Terminal<T>: SituationInputPredicate<T>
 	{
 
 		[XmlAttribute]

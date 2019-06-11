@@ -51,10 +51,13 @@
     <Compile Include="Inputs\TerminalInput.cs" />
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\ExtendedPredicate.cs" />
+    <Compile Include="Predicates\ISituationInputPredicate.cs" />
+    <Compile Include="Predicates\SituationInputPredicate.cs" />
     <Compile Include="Predicates\SituationPredicate.cs" />
     <Compile Include="Predicates\IPredicate.cs" />
     <Compile Include="Predicates\ISituationPredicate.cs" />
     <Compile Include="Predicates\ReducePredicate.cs" />
+    <Compile Include="Predicates\TerminalRange.cs" />
     <Compile Include="Serializers\IRuleCollectionSerializer.cs" />
     <Compile Include="Serializers\RuleCollectionSerializer.cs" />
     <Compile Include="Situations\ISituationCollection.cs" />

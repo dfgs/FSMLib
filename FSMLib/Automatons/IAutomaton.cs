@@ -20,7 +20,7 @@ namespace FSMLib.Tables
 		bool CanFeed(T Value);
 		void Feed(T Value);
 
-		bool CanAccept();
+		string CanAccept();
 
 		NonTerminalNode<T> Accept();
 

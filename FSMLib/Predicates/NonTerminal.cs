@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Predicates
 {
 	[Serializable]
-	public class NonTerminal<T>:SituationPredicate<T>
+	public class NonTerminal<T>:SituationInputPredicate<T>
 	{
 		[XmlAttribute]
 		public string Name

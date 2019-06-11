@@ -29,6 +29,30 @@ namespace FSMLib.UnitTest.Predicates
 		}
 
 		[TestMethod]
+		public void ShouldMatch()
+		{
+			EOS<char> predicate;
+
+
+			predicate = new EOS<char>();
+
+			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
+
+		}
+		[TestMethod]
+		public void ShouldNotMatch()
+		{
+			EOS<char> predicate;
+
+
+			predicate = new EOS<char>();
+
+			Assert.IsFalse(predicate.Match('b'));
+			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
+
+		}
+		[TestMethod]
 		public void ShouldGetInput()
 		{
 			EOS<char> predicate;

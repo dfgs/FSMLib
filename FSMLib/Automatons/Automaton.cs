@@ -156,7 +156,7 @@ namespace FSMLib.Tables
 
 
 
-		public bool CanAccept()
+		public string CanAccept()
 		{
 			State<T> state;
 			Reduce<T> action;
@@ -166,7 +166,7 @@ namespace FSMLib.Tables
 
 			action = state.GetReduce(new EOSInput<T>()); 
 
-			return action != null;
+			return action?.Name;
 		}
 
 		public NonTerminalNode<T> Accept()
@@ -175,7 +175,7 @@ namespace FSMLib.Tables
 			TerminalNode<T> eosNode;
 			EOSInput<T> eosInput;
 
-			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
+			if (CanAccept()==null) throw new InvalidOperationException("Automaton cannot accept in current state");
 
 			eosInput= new EOSInput<T>(); 
 			eosNode = new TerminalNode<T>();

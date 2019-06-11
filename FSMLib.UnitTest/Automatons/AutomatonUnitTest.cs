@@ -94,15 +94,15 @@ namespace FSMLib.UnitTest
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 
 			automaton = new Automaton<char>(automatonTable);
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			automaton.Feed('a');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 		}
 		[TestMethod]
 		public void ShouldAccept()
@@ -119,9 +119,9 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			node=automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 
 			Assert.AreEqual(3, node.Nodes.Count);
@@ -143,18 +143,18 @@ namespace FSMLib.UnitTest
 
 			automaton = new Automaton<char>(automatonTable);
 
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(()=>automaton.Accept());
 			automaton.Feed('a');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			Assert.ThrowsException<InvalidOperationException>(() => automaton.Accept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			
 			Assert.AreEqual("A", ((NonTerminalInput<char>)node.Input).Name);
 			Assert.AreEqual(3, node.Nodes.Count);
@@ -175,15 +175,15 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 			automaton.Feed('d');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 			automaton.Feed('e');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 		}
 
 		[TestMethod]
@@ -200,12 +200,12 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 			automaton.Feed('d');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 		}
 
 		[TestMethod]
@@ -220,16 +220,16 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('c');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 	
 			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 			automaton.Feed('a');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 
 		}
@@ -247,9 +247,9 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 
 		}
@@ -269,15 +269,15 @@ namespace FSMLib.UnitTest
 			automaton.Feed('b');
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 			Assert.AreEqual(6, node.Nodes.Count);
 		}
 
@@ -294,19 +294,19 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Feed('c');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 
 			node = automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 		}
 
@@ -323,10 +323,10 @@ namespace FSMLib.UnitTest
 
 			automaton.Feed('a');
 			automaton.Feed('b');
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 
 			node = automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 
 		}
 
@@ -370,9 +370,9 @@ namespace FSMLib.UnitTest
 			automaton.Feed('c');
 			Assert.AreEqual(3, automaton.StackCount);
 
-			Assert.IsTrue(automaton.CanAccept());
+			Assert.IsNotNull(automaton.CanAccept());
 			automaton.Accept();
-			Assert.IsFalse(automaton.CanAccept());
+			Assert.IsNull(automaton.CanAccept());
 		}
 
 

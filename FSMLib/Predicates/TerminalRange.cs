@@ -1,26 +1,29 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FSMLib.Predicates
 {
-	public class ReducePredicate<T> : SituationInputPredicate<T>
+	[Serializable]
+	public class TerminalRange<T>: SituationPredicate<T>
 	{
 
-
-		//private static ReduceInput<T> input = new ReduceInput<T>();
-	
-
-		public ReducePredicate()
+		[XmlAttribute]
+		public T FirstValue
 		{
-
+			get;
+			set;
 		}
-		public override IEnumerable<IInput<T>> GetInputs()
+		[XmlAttribute]
+		public T LastValue
 		{
-			yield break;
+			get;
+			set;
 		}
 
 		public override bool Match(T Input)
@@ -32,20 +35,21 @@ namespace FSMLib.Predicates
 			return false;
 		}
 
+
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate == this) return "•←";
-			else return "←";
+			return "toto";
+			//if (CurrentPredicate == this) return $"•{Value}";
+			//else return Value.ToString();
 		}
+
 
 		public override bool Equals(IPredicate<T> other)
 		{
-			return other is ReducePredicate<T>;
+			if (!(other is TerminalRange<T> o) ) return false;
+			return FirstValue.Equals(o.FirstValue) && (LastValue.Equals(o.LastValue));
 		}
 
 
 	}
-
-
-
 }
