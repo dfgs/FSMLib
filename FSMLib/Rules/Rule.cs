@@ -35,13 +35,13 @@ namespace FSMLib.Rules
 
 		public override string ToString()
 		{
-			return $"{Name}={Predicate.ToString()}";
+			return $"{Name}{(IsAxiom ? "*" : "")}={Predicate.ToString()}";
 		}
 
 		public string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
-			if (CurrentPredicate is ReducePredicate<T>) return $"{Name}={Predicate.ToString()}•";
-			return $"{Name}={Predicate.ToString(CurrentPredicate)}";
+			if (CurrentPredicate is ReducePredicate<T>) return $"{Name}{(IsAxiom?"*":"")}={Predicate.ToString()}•";
+			return $"{Name}{(IsAxiom ? "*" : "")}={Predicate.ToString(CurrentPredicate)}";
 		}
 
 		public bool Equals(Rule<T> other)

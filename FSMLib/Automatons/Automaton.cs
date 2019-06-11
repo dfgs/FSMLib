@@ -156,7 +156,7 @@ namespace FSMLib.Tables
 
 
 
-		public string CanAccept()
+		public bool CanAccept()
 		{
 			State<T> state;
 			Reduce<T> action;
@@ -166,7 +166,7 @@ namespace FSMLib.Tables
 
 			action = state.GetReduce(new EOSInput<T>()); 
 
-			return action?.Name;
+			return action!=null;
 		}
 
 		public NonTerminalNode<T> Accept()
@@ -174,8 +174,10 @@ namespace FSMLib.Tables
 			NonTerminalNode<T> nonTerminalNode;
 			TerminalNode<T> eosNode;
 			EOSInput<T> eosInput;
+			State<T> state;
+			Reduce<T> action;
 
-			if (CanAccept()==null) throw new InvalidOperationException("Automaton cannot accept in current state");
+			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
 			eosInput= new EOSInput<T>(); 
 			eosNode = new TerminalNode<T>();
@@ -183,12 +185,17 @@ namespace FSMLib.Tables
 
 			while (true)
 			{
-				nonTerminalNode = Reduce(eosNode);
-				if (nodeStack.Count == 0) break;
+
+				state = automatonTable.States[stateIndex];
+				action = state.GetReduce(eosInput);
+				if (action == null) throw new AutomatonException<T>(eosInput, nodeStack);
+
+				nonTerminalNode=Reduce(action.Name);
+				if (action.IsAxiom) return nonTerminalNode;
+
 				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
 			}
 
-			return nonTerminalNode;
 		}
 
 

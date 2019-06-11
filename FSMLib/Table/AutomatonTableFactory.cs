@@ -30,7 +30,7 @@ namespace FSMLib.Table
 				reduce = new Reduce<T>();
 				reduce.Name = situation.Rule.Name;
 				reduce.Input = situation.Input;
-
+				reduce.IsAxiom = situation.Rule.IsAxiom;
 				State.Add(reduce);
 			}
 		}

@@ -10,14 +10,17 @@ namespace FSMLib.Actions
 	public class Reduce<T>:BaseAction<T>,IEquatable<Reduce<T>>
 	{
 
-		
 		public string Name
 		{
 			get;
 			set;
 		}
 
-
+		public bool IsAxiom
+		{
+			get;
+			set;
+		}
 
 		public BaseTerminalInput<T> Input
 		{
