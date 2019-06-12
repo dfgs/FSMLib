@@ -1,5 +1,6 @@
 ﻿using FSMLib.Inputs;
 using FSMLib.Predicates;
+using FSMLib.ProcessingQueues;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -28,38 +29,51 @@ namespace FSMLib.Situations
 
 		}
 
-		private IEnumerable<Rule<T>> GetDeveloppedRules(string RuleName)
+		/*private IEnumerable<Rule<T>> DevelopRule(string RuleName)
 		{
-			Stack<Rule<T>> openList;
-			List<Rule<T>> closedList;
-			Rule<T> current;
+			ProcessingQueue<string, Rule<T>> queue;
 
-			closedList = new List<Rule<T>>();
-			openList = new Stack<Rule<T>>();
+			queue = new ProcessingQueue<string, Rule<T>>();
+			queue.Add(RuleName);
 
-			foreach (SituationNode<T> rootNode in GetRootNodes(RuleName))
+			queue.Process((q, ruleName) =>
 			{
-				openList.Push(rootNode.Rule);
-			}
-
-			while (openList.Count > 0)
-			{
-				current = openList.Pop();
-				closedList.Add(current);
-				yield return current;
-
-				foreach (SituationPredicate<T> predicate in GetRuleInputEdges(current).Select(item => item.Predicate))
+				foreach (Rule<T> rule in GetRootNodes(ruleName).Select(item => item.Rule))
 				{
-					if (!(predicate is NonTerminal<T> nonTerminal)) continue;
-
-					foreach (Rule<T> rule in GetRootNodes(nonTerminal.Name).Select(item => item.Rule))
+					q.AddResult(rule);
+					foreach (SituationEdge<T> edge in GetRuleInputEdges(rule))
 					{
-						if (!closedList.Contains(rule)) openList.Push(rule);
+						if (!(edge.Predicate is NonTerminal<T> nonTerminal)) continue;
+						q.Add(nonTerminal.Name);
 					}
 				}
-			}
-		}
+			});
 
+			return queue.Results;
+			
+		}*/
+		private IEnumerable<SituationEdge<T>> DevelopRuleInputEdges(string RuleName)
+		{
+			ProcessingQueue<string, SituationEdge<T>> queue;
+
+			queue = new ProcessingQueue<string, SituationEdge<T>>();
+			queue.Add(RuleName);
+
+			queue.Process((q, ruleName) =>
+			{
+				foreach (Rule<T> rule in GetRootNodes(ruleName).Select(item => item.Rule))
+				{
+					foreach (SituationEdge <T> edge in GetRuleInputEdges(rule))
+					{
+						q.AddResult(edge);
+						if (!(edge.Predicate is NonTerminal<T> nonTerminal)) continue;
+						q.Add(nonTerminal.Name);
+					}
+				}
+			});
+
+			return queue.Results;
+		}
 		private IEnumerable<SituationEdge<T>> GetRuleInputEdges(Rule<T> Rule)
 		{
 			SituationNode<T> node;
@@ -67,17 +81,6 @@ namespace FSMLib.Situations
 			node = graph.Nodes.FirstOrDefault(item => item.Rule == Rule);
 			if (node == null) return Enumerable.Empty<SituationEdge<T>>();
 			return node.Edges;
-		}
-
-		private IEnumerable<SituationEdge<T>> GetDeveloppedRuleInputEdges(string RuleName)
-		{
-			foreach (Rule<T> rule in GetDeveloppedRules(RuleName))
-			{
-				foreach (SituationEdge<T> developpedEdge in GetRuleInputEdges(rule))
-				{
-					yield return developpedEdge;
-				}
-			}
 		}
 
 		private SituationEdge<T> GetEdge(ISituationPredicate<T> Predicate)
@@ -94,69 +97,67 @@ namespace FSMLib.Situations
 			return node;
 		}
 
-		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal, BaseTerminalInput<T> Input)
+		private IEnumerable<SituationEdge<T>> GetLoopedEdges(SituationNode<T> Node)
+		{
+			foreach(SituationEdge<T> edge in Node.Edges)
+			{
+				if (edge.TargetNode == Node) yield return edge;
+			}
+		}
+		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal)
 		{
 			SituationEdge<T> edge;
-			List<IInput<T>> items;
-			//BaseInput<T> input;
-			Stack<SituationEdge<T>> openList;
-			IEnumerable<SituationEdge<T>> recursiveEdges;
+			ProcessingQueue<SituationEdge<T>,BaseTerminalInput<T>> queue;
+			IInput<T> input;
 
-			items = new List<IInput<T>>();
+			queue = new ProcessingQueue<SituationEdge<T>, BaseTerminalInput<T>>();
 
-			edge = GetEdge(NonTerminal);// Nodes.SelectMany(item => item.Edges).FirstOrDefault(item => item.Predicate == NonTerminal);
-			if (edge == null) return items;
+			// add edges next to current non terminal
+			edge = GetEdge(NonTerminal);
+			queue.AddRange(edge.TargetNode.Edges);
 
-			openList = new Stack<SituationEdge<T>>();
-
-			// add edges after non terminal
-			foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
+			// search for left recursive rules referenced by non terminal
+			foreach(SituationEdge<T> developpedEdge in DevelopRuleInputEdges(NonTerminal.Name))
 			{
-				openList.Push(nextEdge);
-			}
-
-			// check left recursive rules
-			foreach (Rule<T> rule in GetDeveloppedRules(NonTerminal.Name))
-			{
-				recursiveEdges = GetRuleInputEdges(rule).Where(item => (item.Predicate is NonTerminal<T> nonTerminal) && (nonTerminal.Name == rule.Name));
-				foreach (SituationEdge<T> recursiveEdge in recursiveEdges)
+				// left recursive rule case
+				if ((developpedEdge.Predicate is NonTerminal<T> recursiveNonTerminal) && (recursiveNonTerminal.Name == NonTerminal.Name))
 				{
-					foreach (SituationEdge<T> nextEdge in recursiveEdge.TargetNode.Edges)
-					{
-						openList.Push(nextEdge);
-					}
+					queue.AddRange(developpedEdge.TargetNode.Edges);
 				}
 			}
-
-			// process stack
-			while (openList.Count > 0)
+			
+			// search for loops
+			foreach(SituationEdge<T> developpedEdge in DevelopRuleInputEdges(NonTerminal.Name))
 			{
-				edge = openList.Pop();
-				if (edge.Predicate is ReducePredicate<T>) items.Add(new EOSInput<T>());
-
-				foreach (IInput<T> input in edge.Predicate.GetInputs())
-				{
-
-					if (input is BaseTerminalInput<T> terminalInput)
-					{
-						items.Add(terminalInput);
-						continue;
-					}
-
-					if (input is NonTerminalInput<T> nonTerminalInput)
-					{
-						foreach (SituationEdge<T> developpedEdge in GetDeveloppedRuleInputEdges(nonTerminalInput.Name))
-						{
-							openList.Push(developpedEdge);
-						}
-
-					}
-
-				}
+				queue.AddRange(GetLoopedEdges(developpedEdge.TargetNode));
 			}
 
-			return items.DistinctEx(); ;
+			queue.Process((q, item) =>
+			{
+				input = item.Predicate.GetInput();
+				if (input is BaseTerminalInput<T> terminalInput) q.AddResult(terminalInput);
+				else if (item.Predicate is ReducePredicate<T>) q.AddResult(new EOSInput<T>());
+				else if (input is NonTerminalInput<T> nonTerminalInput)
+				{
+					q.AddRange(DevelopRuleInputEdges(nonTerminalInput.Name));
+				}
+			});
+
+			return queue.Results;
+
 		}
+		/*private bool IsReductionStuationAfterPredicate(NonTerminal<T> NonTerminal)
+		{
+			SituationEdge<T> edge;
+
+
+			edge = GetEdge(NonTerminal);
+			foreach(SituationEdge<T> nextEdge in  edge.TargetNode.Edges)
+			{
+				if (nextEdge.Predicate is ReducePredicate<T>) return true;
+			}
+			return false;
+		}*/
 
 		public IEnumerable<Situation<T>> CreateAxiomSituations()
 		{
@@ -165,7 +166,7 @@ namespace FSMLib.Situations
 				if ((node.Rule == null) || (!node.Rule.IsAxiom)) continue;
 				foreach (SituationEdge<T> edge in node.Edges)
 				{
-					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate,Input=new EOSInput<T>() };
+					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate, Input = new EOSInput<T>() };
 				}
 
 			}
@@ -183,7 +184,6 @@ namespace FSMLib.Situations
 			foreach (Situation<T> situation in matchingSituations)
 			{
 				edge = GetEdge(situation.Predicate);
-				if (edge == null) continue;
 
 				foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
 				{
@@ -194,43 +194,48 @@ namespace FSMLib.Situations
 
 		}
 
-	
-
 		public ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations)
 		{
 			SituationCollection<T> developpedSituations;
-			SituationNode<T> node;
 			Situation<T> newSituation;
 			IInput<T>[] inputs;
+			ProcessingQueue<Situation<T>, Situation<T>> processingQueue;
+			//bool isReductionSituationAfterPredicate;
+
+			processingQueue = new ProcessingQueue<Situation<T>, Situation<T>>();
+			processingQueue.AddRange(Situations);
+
+			processingQueue.Process((q, situation) =>
+			{
+				q.AddResult(situation);
+
+				if (!(situation.Predicate is NonTerminal<T> nonTerminal)) return;
+
+				//isReductionSituationAfterPredicate = IsReductionStuationAfterPredicate(nonTerminal);
+				inputs = GetTerminalInputsAfterPredicate(nonTerminal).ToArray();
+
+
+				foreach (SituationEdge<T> developpedEdge in DevelopRuleInputEdges(nonTerminal.Name))
+				{
+					// basic case
+					foreach (BaseTerminalInput<T> input in inputs)
+					{
+						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
+						q.AddResult(newSituation);
+					}
+					// reduction case
+					/*if (isReductionSituationAfterPredicate)
+					{
+						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = new EOSInput<T>(), Predicate = developpedEdge.Predicate };
+						q.AddResult(newSituation);
+					}*/
+					
+				}
+
+			});
 
 			developpedSituations = new SituationCollection<T>();
-
-			foreach (Situation<T> situation in Situations)
-			{
-				node = GetSituationNode(situation);
-				foreach (SituationEdge<T> edge in node.Edges)
-				{
-					newSituation = new Situation<T>() { Rule = edge.Rule, Input = situation.Input, Predicate = edge.Predicate };
-					developpedSituations.Add(newSituation);
-					if (edge.Predicate is NonTerminal<T> nonTerminal)
-					{
-						inputs = GetTerminalInputsAfterPredicate(nonTerminal, situation.Input).ToArray();
-
-						foreach (SituationEdge<T> developpedEdge in GetDeveloppedRuleInputEdges(nonTerminal.Name))
-						{
-							foreach (BaseTerminalInput<T> input in inputs)
-							{
-								newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
-								developpedSituations.Add(newSituation);
-							}
-
-						}
-
-					}
-
-				}
-			}
-
+			developpedSituations.AddRange(processingQueue.Results);
 			return developpedSituations;
 		}
 	}

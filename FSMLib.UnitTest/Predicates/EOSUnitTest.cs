@@ -56,12 +56,12 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			EOS<char> predicate;
-			IInput<char>[] inputs;
+			IInput<char> input;
 
 			predicate = new EOS<char>();
-			inputs = predicate.GetInputs().ToArray();
-			Assert.AreEqual(1, inputs.Length);
-			Assert.IsInstanceOfType(inputs[0], typeof(EOSInput<char>));
+			input = predicate.GetInput();
+			Assert.IsNotNull(input);
+			Assert.IsInstanceOfType(input, typeof(EOSInput<char>));
 		}
 
 

@@ -34,7 +34,7 @@ namespace Demo
 		private ObservableCollection<GraphView> views;
 		private AutomatonTableFactory<char> automatonTableFactory;
 
-		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't' };
+		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't', '*' };
 
 		public MainWindow()
 		{
@@ -46,12 +46,24 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView(
+				@"L=a",
+				@"N={L}+",
+				@"A*={N}");
+
+			CreateView(
+			@"L=[a-b]|[c-d]",
+				@"N={L}+",
+				@"A={L}+\*",
+				@"R*={N}|{A}");
+
+			CreateView("A*=ab{B}", "B={C}", "C={D}", "D=c");
+			CreateView("A*=a{S}a", "S={S}b", "S=c");
+
 			CreateView("A=abc", "B=def","E*={A}|{B}");
 			CreateView("A*=abc", "A*=a.c");
 			CreateView("A*=ab{C}*", "C=c");
-			CreateView("A*=a{S}a", "S={S}b", "S=c");
 			CreateView("A*=a{B}{C}", "B={C}", "C=b");
-			CreateView("A*=ab{B}", "B={C}", "C={D}", "D=c");
 			CreateView("A*=a{BCD}e", "BCD=b{C}d", "C=c");
 
 			CreateView("A*=a{B}c", "B={C}", "C=b");

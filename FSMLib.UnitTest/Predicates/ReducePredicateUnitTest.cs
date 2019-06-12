@@ -48,11 +48,11 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldNotGetInput()
 		{
 			ReducePredicate<char> predicate;
-			IInput<char>[] inputs;
+			IInput<char> input;
 
 			predicate = new ReducePredicate<char>();
-			inputs = predicate.GetInputs().ToArray();
-			Assert.AreEqual(0, inputs.Length);
+			input = predicate.GetInput();
+			Assert.IsNull(input);
 		}
 
 		[TestMethod]

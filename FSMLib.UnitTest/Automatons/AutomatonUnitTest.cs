@@ -235,7 +235,7 @@ namespace FSMLib.UnitTest
 		}
 
 		[TestMethod]
-		public void ShouldFeedAndCascadeReduce()
+		public void ShouldFeedAndReduceLeftRecursiveRules()
 		{
 			Automaton<char> automaton;
 			AutomatonTable<char> automatonTable;
@@ -244,16 +244,42 @@ namespace FSMLib.UnitTest
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{S}a", "S={S}b", "S=c" }, new char[] { 'a', 'b', 'c', 'd', 'e' });
 			automaton = new Automaton<char>(automatonTable);
 
+			// aca
+			automaton.Reset();
 			automaton.Feed('a');
 			automaton.Feed('c');
 			Assert.IsFalse(automaton.CanAccept());
-	
-			automaton.Feed('b');
-			Assert.IsFalse(automaton.CanAccept());
-
 			automaton.Feed('a');
 			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
 
+
+			// acba
+			automaton.Reset();
+			automaton.Feed('a');
+			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('a');
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+
+			// acbbba
+			automaton.Reset();
+			automaton.Feed('a');
+			automaton.Feed('c');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('b');
+			Assert.IsFalse(automaton.CanAccept());
+			automaton.Feed('a');
+			Assert.IsTrue(automaton.CanAccept());
 			automaton.Accept();
 			Assert.IsFalse(automaton.CanAccept());
 

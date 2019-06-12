@@ -60,7 +60,7 @@ namespace FSMLib.Situations
 		}
 		public IEnumerable<IInput<T>> GetNextInputs()
 		{
-			return items.Select(item => item.Predicate).SelectMany(item => item.GetInputs()).DistinctEx();
+			return items.Select(item => item.Predicate.GetInput()).Where(item=>item !=null).DistinctEx();
 		}
 		
 

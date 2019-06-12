@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Actions\ShiftUnitTest.cs" />
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
+    <Compile Include="ProcessingQueues\ProcessingQueueUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />

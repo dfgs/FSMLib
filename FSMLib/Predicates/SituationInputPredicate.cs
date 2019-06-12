@@ -10,16 +10,16 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public abstract class SituationInputPredicate<T>: SituationPredicate<T>,ISituationInputPredicate<T>
 	{
-		public abstract IEnumerable<IInput<T>> GetInputs();
+		public abstract IInput<T> GetInput();
 
 
 		public override bool Match(T Input)
 		{
-			return GetInputs().FirstOrDefault(item => item.Match(Input)) != null;
+			return GetInput().Match(Input);
 		}
 		public override bool Match(IInput<T> Input)
 		{
-			return GetInputs().FirstOrDefault(item => item.Match(Input)) != null;
+			return GetInput().Match(Input);
 		}
 	}
 }

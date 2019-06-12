@@ -143,15 +143,150 @@ namespace FSMLib.UnitTest.Situations
 
 			Assert.AreEqual(4, situations.Count);
 			Assert.AreEqual(p1, situations[0].Predicate);
-			Assert.AreEqual(p3, situations[1].Predicate);
+			Assert.AreEqual(p2, situations[1].Predicate);
 			Assert.IsTrue(situations[1].Input.Match('d'));
-			Assert.AreEqual(p2, situations[2].Predicate);
+			Assert.AreEqual(p3, situations[2].Predicate);
 			Assert.IsTrue(situations[2].Input.Match('d'));
 			Assert.AreEqual(p4, situations[3].Predicate);
 			Assert.IsTrue(situations[3].Input.Match('d'));
 
 		}
 
+		[TestMethod]
+		public void ShouldDevelopSituationEndingWithReductionOnNonTerminal()
+		{
+			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraph<char> graph;
+			Rule<char> rule1, rule2;
+			Situation<char> situation;
+			ISituationCollection<char> situations;
+			Terminal<char> p1;
+			NonTerminal<char> p2;
+			Terminal<char>  p3;
+			Sequence<char> sequence;
+			SituationCollectionFactory<char> factory;
+
+			p1 = new Terminal<char>() { Value = 'a' };
+			p2 = new NonTerminal<char>() { Name = "B" };
+			p3 = new Terminal<char>() { Value = 'b' };
+
+			sequence = new Sequence<char>();
+			sequence.Items.Add(p1);
+			sequence.Items.Add(p2);
+
+			rule1 = new Rule<char>() { Name = "A", Predicate = sequence };
+			rule2 = new Rule<char>() { Name = "B", Predicate = p3 };
+
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2 }, Enumerable.Empty<char>());
+			factory = new SituationCollectionFactory<char>(graph);
+
+			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
+			situations = factory.Develop(situation.AsEnumerable());
+
+			Assert.AreEqual(2, situations.Count);
+			Assert.AreEqual(p3, situations[1].Predicate);
+
+
+		}
+
+		[TestMethod]
+		public void ShouldDevelopSituationWithLeftRecursiveReduction()
+		{
+			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraph<char> graph;
+			Rule<char> rule1, rule2,rule3;
+			Situation<char> situation;
+			ISituationCollection<char> situations;
+			Terminal<char> p1;
+			NonTerminal<char> p2;
+			Terminal<char> p3;
+			Terminal<char> p4;
+			Sequence<char> sequence;
+			SituationCollectionFactory<char> factory;
+
+			//A*=•{S}a
+			//S=•{S}b 
+			//S=•c
+
+			p1 = new Terminal<char>() { Value = 'a' };
+			p2 = new NonTerminal<char>() { Name = "S" };
+			p3 = new Terminal<char>() { Value = 'b' };
+			p4 = new Terminal<char>() { Value = 'c' };
+
+			sequence = new Sequence<char>();
+			sequence.Items.Add(p2);
+			sequence.Items.Add(p1);
+			rule1 = new Rule<char>() { Name = "A", Predicate = sequence };
+
+			sequence = new Sequence<char>();
+			sequence.Items.Add(p2);
+			sequence.Items.Add(p3);
+			rule2 = new Rule<char>() { Name = "S", Predicate = sequence };
+
+			rule3 = new Rule<char>() { Name = "S", Predicate = p4 };
+
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2,rule3 }, Enumerable.Empty<char>());
+			factory = new SituationCollectionFactory<char>(graph);
+
+			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
+			situations = factory.Develop(situation.AsEnumerable());
+
+			Assert.AreEqual(5, situations.Count);
+			Assert.IsTrue(situations[1].Input.Match('a'));
+			Assert.IsTrue(situations[2].Input.Match('b'));
+			Assert.IsTrue(situations[3].Input.Match('a'));
+			Assert.IsTrue(situations[4].Input.Match('b'));
+
+
+
+		}
+
+		[TestMethod]
+		public void ShouldDevelopSituationWithLoopReduction()
+		{
+			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraph<char> graph;
+			Rule<char> rule1, rule2, rule3;
+			Situation<char> situation;
+			ISituationCollection<char> situations;
+			Terminal<char> p1;
+			NonTerminal<char> p2;
+			NonTerminal<char> p3;
+			SituationCollectionFactory<char> factory;
+			OneOrMore<char> oneOrMore;
+
+			//"L=a"
+			//"N={L}+"
+			//"A*={N}"
+
+			p1 = new Terminal<char>() { Value = 'a' };
+			p2 = new NonTerminal<char>() { Name = "L" };
+			p3 = new NonTerminal<char>() { Name = "N" };
+
+			rule1 = new Rule<char>() { Name = "L", Predicate = p1 };
+
+			oneOrMore = new OneOrMore<char>();
+			oneOrMore.Item = p2;
+			rule2 = new Rule<char>() { Name = "N", Predicate = oneOrMore};
+
+			rule3 = new Rule<char>() { Name = "A", Predicate = p3 };
+
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(new Rule<char>[] { rule1, rule2, rule3 }, Enumerable.Empty<char>());
+			factory = new SituationCollectionFactory<char>(graph);
+
+			situation = new Situation<char>() { Rule = rule3, Predicate = p3 };
+			situations = factory.Develop(situation.AsEnumerable());
+
+			Assert.AreEqual(5, situations.Count);
+			Assert.IsTrue(situations[2].Input.Match('a'));
+			Assert.IsTrue(situations[4].Input.Match('a'));
+
+
+
+		}
 
 	}
 }

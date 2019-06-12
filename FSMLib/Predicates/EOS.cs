@@ -11,9 +11,9 @@ namespace FSMLib.Predicates
 	[Serializable]
 	public class EOS<T>: SituationInputPredicate<T>
 	{
-		public override IEnumerable<IInput<T>> GetInputs()
+		public override IInput<T> GetInput()
 		{
-			yield return new EOSInput<T>();
+			return new EOSInput<T>();
 		}
 
 

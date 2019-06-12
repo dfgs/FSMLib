@@ -23,9 +23,9 @@ namespace FSMLib.Predicates
 
 
 		
-		public override IEnumerable<IInput<T>> GetInputs()
+		public override IInput<T> GetInput()
 		{
-			yield return new NonTerminalInput<T>() { Name = this.Name };
+			return new NonTerminalInput<T>() { Name = this.Name };
 		}
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)

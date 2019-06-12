@@ -18,10 +18,10 @@ namespace FSMLib.Predicates
 
 		}
 
-		
-		public override IEnumerable<IInput<T>> GetInputs()
+
+		public override IInput<T> GetInput()
 		{
-			yield break;
+			return null;
 		}
 
 		public override bool Match(T Input)
