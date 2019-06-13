@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FSMLib.Situations;
+using FSMLib.LexicalAnalysis.Rules;
 
 namespace Demo
 {
@@ -34,7 +35,7 @@ namespace Demo
 		private ObservableCollection<GraphView> views;
 		private AutomatonTableFactory<char> automatonTableFactory;
 
-		private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't', '*' };
+		//private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't', '*' };
 
 		public MainWindow()
 		{
@@ -46,10 +47,11 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView("A*=abc", "B*=a.c");
+
 			CreateView(
-				@"L=a",
-				@"N={L}+",
-				@"A*={N}");
+				@"A*=[a-c]e",
+				@"B*=[b-d]e");
 
 			CreateView(
 			@"L=[a-b]|[c-d]",
@@ -61,7 +63,6 @@ namespace Demo
 			CreateView("A*=a{S}a", "S={S}b", "S=c");
 
 			CreateView("A=abc", "B=def","E*={A}|{B}");
-			CreateView("A*=abc", "A*=a.c");
 			CreateView("A*=ab{C}*", "C=c");
 			CreateView("A*=a{B}{C}", "B={C}", "C=b");
 			CreateView("A*=a{BCD}e", "BCD=b{C}d", "C=c");
@@ -79,14 +80,14 @@ namespace Demo
 		}
 		private void CreateView(BasePredicate<char> Predicate)
 		{
-			Rule<char> rule;
+			LexicalRule rule;
 
-			rule = new Rule<char>() { Predicate = Predicate };
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable(), alphabet)));
+			rule = new LexicalRule() { Predicate = Predicate };
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255));
 		}
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ,alphabet)));
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), (char)0, (char)255));
 		}
 		private void CreateView(AutomatonTable<char> Model)
 		{

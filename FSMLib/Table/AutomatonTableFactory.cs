@@ -14,7 +14,7 @@ namespace FSMLib.Table
 	public class AutomatonTableFactory<T> : IAutomatonTableFactory<T>
 	{
 
-		public AutomatonTableFactory( )
+		public AutomatonTableFactory()
 		{
 		}
 
@@ -56,17 +56,17 @@ namespace FSMLib.Table
 		}
 		
 
-		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory)
+		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory, T AlphabetFirstValue, T AlphabetLastValue)
 		{
 
 			SituationDictionary<T> situationDictionary;
 			IEnumerable<Situation<T>> nextSituations;
 			AutomatonTable<T> automatonTable;
-			
+			IEnumerable<IActionInput<T>> nextInputs;
 			AutomatonTableTuple<T> currentTuple,nextTuple;
 			Stack<AutomatonTableTuple<T>> openList;
 			Shift<T> action;
-
+			
 
 			if (SituationCollectionFactory == null) throw new System.ArgumentNullException("SituationCollectionFactory");
 
@@ -79,13 +79,17 @@ namespace FSMLib.Table
 
 			nextSituations = SituationCollectionFactory.CreateAxiomSituations();
 			nextTuple = DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
-
+			
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				foreach (IInput<T> input in currentTuple.Situations.GetNextInputs())
+				nextInputs = currentTuple.Situations.GetNextInputs(AlphabetFirstValue,AlphabetLastValue);
+
+
+				foreach (IActionInput<T> input in nextInputs)
 				{
 					nextSituations = SituationCollectionFactory.CreateNextSituations(currentTuple.Situations, input);
+
 					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
 
 					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.States.IndexOf(nextTuple.State) };

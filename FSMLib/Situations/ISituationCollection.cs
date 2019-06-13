@@ -23,8 +23,7 @@ namespace FSMLib.Situations
 
 		IEnumerable<Situation<T>> GetReductionSituations();
 
-		IEnumerable<IInput<T>> GetNextInputs();
+		IEnumerable<IActionInput<T>> GetNextInputs(T AlphabetFirstValue,T AlphabetLastValue);
 
-		//bool ContainsReductionTo(string Name);
 	}
 }

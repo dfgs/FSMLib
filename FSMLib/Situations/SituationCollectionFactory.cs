@@ -29,29 +29,7 @@ namespace FSMLib.Situations
 
 		}
 
-		/*private IEnumerable<Rule<T>> DevelopRule(string RuleName)
-		{
-			ProcessingQueue<string, Rule<T>> queue;
-
-			queue = new ProcessingQueue<string, Rule<T>>();
-			queue.Add(RuleName);
-
-			queue.Process((q, ruleName) =>
-			{
-				foreach (Rule<T> rule in GetRootNodes(ruleName).Select(item => item.Rule))
-				{
-					q.AddResult(rule);
-					foreach (SituationEdge<T> edge in GetRuleInputEdges(rule))
-					{
-						if (!(edge.Predicate is NonTerminal<T> nonTerminal)) continue;
-						q.Add(nonTerminal.Name);
-					}
-				}
-			});
-
-			return queue.Results;
-			
-		}*/
+		
 		private IEnumerable<SituationEdge<T>> DevelopRuleInputEdges(string RuleName)
 		{
 			ProcessingQueue<string, SituationEdge<T>> queue;
@@ -66,7 +44,7 @@ namespace FSMLib.Situations
 					foreach (SituationEdge <T> edge in GetRuleInputEdges(rule))
 					{
 						q.AddResult(edge);
-						if (!(edge.Predicate is NonTerminal<T> nonTerminal)) continue;
+						if (!(edge.Predicate is NonTerminalPredicate<T> nonTerminal)) continue;
 						q.Add(nonTerminal.Name);
 					}
 				}
@@ -104,7 +82,7 @@ namespace FSMLib.Situations
 				if (edge.TargetNode == Node) yield return edge;
 			}
 		}
-		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminal<T> NonTerminal)
+		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(NonTerminalPredicate<T> NonTerminal)
 		{
 			SituationEdge<T> edge;
 			ProcessingQueue<SituationEdge<T>,BaseTerminalInput<T>> queue;
@@ -120,7 +98,7 @@ namespace FSMLib.Situations
 			foreach(SituationEdge<T> developpedEdge in DevelopRuleInputEdges(NonTerminal.Name))
 			{
 				// left recursive rule case
-				if ((developpedEdge.Predicate is NonTerminal<T> recursiveNonTerminal) && (recursiveNonTerminal.Name == NonTerminal.Name))
+				if ((developpedEdge.Predicate is NonTerminalPredicate<T> recursiveNonTerminal) && (recursiveNonTerminal.Name == NonTerminal.Name))
 				{
 					queue.AddRange(developpedEdge.TargetNode.Edges);
 				}
@@ -146,18 +124,7 @@ namespace FSMLib.Situations
 			return queue.Results;
 
 		}
-		/*private bool IsReductionStuationAfterPredicate(NonTerminal<T> NonTerminal)
-		{
-			SituationEdge<T> edge;
-
-
-			edge = GetEdge(NonTerminal);
-			foreach(SituationEdge<T> nextEdge in  edge.TargetNode.Edges)
-			{
-				if (nextEdge.Predicate is ReducePredicate<T>) return true;
-			}
-			return false;
-		}*/
+		
 
 		public IEnumerable<Situation<T>> CreateAxiomSituations()
 		{
@@ -172,7 +139,7 @@ namespace FSMLib.Situations
 			}
 		}
 
-		public IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IInput<T> Input)
+		public IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IActionInput<T> Input)
 		{
 			IEnumerable<Situation<T>> matchingSituations;
 			SituationEdge<T> edge;
@@ -209,7 +176,7 @@ namespace FSMLib.Situations
 			{
 				q.AddResult(situation);
 
-				if (!(situation.Predicate is NonTerminal<T> nonTerminal)) return;
+				if (!(situation.Predicate is NonTerminalPredicate<T> nonTerminal)) return;
 
 				//isReductionSituationAfterPredicate = IsReductionStuationAfterPredicate(nonTerminal);
 				inputs = GetTerminalInputsAfterPredicate(nonTerminal).ToArray();
@@ -223,12 +190,7 @@ namespace FSMLib.Situations
 						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
 						q.AddResult(newSituation);
 					}
-					// reduction case
-					/*if (isReductionSituationAfterPredicate)
-					{
-						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = new EOSInput<T>(), Predicate = developpedEdge.Predicate };
-						q.AddResult(newSituation);
-					}*/
+					
 					
 				}
 
@@ -238,5 +200,11 @@ namespace FSMLib.Situations
 			developpedSituations.AddRange(processingQueue.Results);
 			return developpedSituations;
 		}
+
+
+		
+
+
+
 	}
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Predicates
 {
-	public class ReducePredicate<T> : SituationInputPredicate<T>
+	public class ReducePredicate<T> : SituationPredicate<T>
 	{
 
 
@@ -24,14 +24,7 @@ namespace FSMLib.Predicates
 			return null;
 		}
 
-		public override bool Match(T Input)
-		{
-			return false;
-		}
-		public override bool Match(IInput<T> Input)
-		{
-			return false;
-		}
+		
 
 		public override string ToString(ISituationPredicate<T> CurrentPredicate)
 		{

@@ -14,7 +14,7 @@ namespace FSMLib.Helpers
 {
 	public static class SituationGraphHelper
 	{
-		public static SituationGraph<char> BuildSituationGraph(IEnumerable<Rule<char>> Rules,IEnumerable<char> Alphabet)
+		public static SituationGraph<char> BuildSituationGraph(IEnumerable<Rule<char>> Rules)
 		{
 			SituationGraphFactory<char> situationGraphFactory;
 			Rule<char>[] rules;
@@ -22,7 +22,7 @@ namespace FSMLib.Helpers
 			rules = Rules.ToArray();
 			
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			return situationGraphFactory.BuildSituationGraph( rules,Alphabet );
+			return situationGraphFactory.BuildSituationGraph( rules );
 		}
 
 

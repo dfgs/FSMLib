@@ -22,7 +22,7 @@ namespace FSMLib.Actions
 			set;
 		}
 
-		public BaseTerminalInput<T> Input
+		public ITerminalInput<T> Input
 		{
 			get;
 			set;

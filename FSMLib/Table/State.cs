@@ -52,14 +52,14 @@ namespace FSMLib.Table
 			reduceActions.Add(Action.GetHashCode(), Action);
 		}
 
-		public Shift<T> GetShift(IInput<T> Input)
+		public Shift<T> GetShift(IActionInput<T> Input)
 		{
 			Shift<T> action;
 			shiftActions.TryGetValue(Input.GetHashCode(), out action);
 			return action;
 		}
 
-		public Reduce<T> GetReduce(IInput<T> Input)
+		public Reduce<T> GetReduce(IActionInput<T> Input)
 		{
 			Reduce<T> action;
 			reduceActions.TryGetValue(Input.GetHashCode(), out action);

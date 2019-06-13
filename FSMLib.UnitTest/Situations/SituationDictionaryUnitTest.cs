@@ -29,8 +29,8 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);situations.Add(b);
@@ -52,8 +52,8 @@ namespace FSMLib.UnitTest.Situations
 
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -79,8 +79,8 @@ namespace FSMLib.UnitTest.Situations
 
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
 
 			dictionary = new SituationDictionary<char>();
 

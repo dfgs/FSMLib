@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class NonTerminalInput<T>:BaseInput<T>
+	public class NonTerminalInput<T>:BaseInput<T>, IActionInput<T>
 	{
 		public string Name
 		{

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class EOSInput<T>: BaseTerminalInput<T>
+	public class EOSInput<T>: BaseTerminalInput<T>, IActionInput<T>
 	{
 		private static int hashCode = "EOSInput".GetHashCode();
 

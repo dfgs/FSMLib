@@ -9,7 +9,7 @@ namespace FSMLib.Actions
 {
 	public  class Shift<T>:BaseAction<T>, IEquatable<Shift<T>>
 	{
-		public IInput<T> Input
+		public IActionInput<T> Input
 		{
 			get;
 			set;

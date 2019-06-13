@@ -14,7 +14,8 @@ namespace FSMLib.Situations
 
 		ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
 
-		IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IInput<T> Input);
+		IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IActionInput<T> Input);
+
 
 	}
 }

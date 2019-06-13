@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 namespace FSMLib.Rules
 {
 	[System.Serializable]
-    public class Rule<T>:IEquatable<Rule<T>>
+    public abstract class Rule<T>:IEquatable<Rule<T>>
     {
 		[XmlAttribute]
 		public string Name

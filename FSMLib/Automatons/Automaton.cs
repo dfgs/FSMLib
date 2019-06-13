@@ -104,7 +104,7 @@ namespace FSMLib.Tables
 			return Reduce(action.Name);
 		}
 
-		private bool CanFeed(IInput<T> Input)
+		private bool CanFeed(IActionInput<T> Input)
 		{
 			State<T> state;
 
@@ -128,7 +128,7 @@ namespace FSMLib.Tables
 
 
 
-		private void Feed(BaseTerminalInput<T> Input)
+		private void Feed(TerminalInput<T> Input)
 		{
 			TerminalNode<T> inputNode;
 			NonTerminalNode<T> nonTerminalNode;
@@ -172,7 +172,6 @@ namespace FSMLib.Tables
 		public NonTerminalNode<T> Accept()
 		{
 			NonTerminalNode<T> nonTerminalNode;
-			TerminalNode<T> eosNode;
 			EOSInput<T> eosInput;
 			State<T> state;
 			Reduce<T> action;
@@ -180,8 +179,6 @@ namespace FSMLib.Tables
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
 			eosInput= new EOSInput<T>(); 
-			eosNode = new TerminalNode<T>();
-			eosNode.Input = eosInput;
 
 			while (true)
 			{

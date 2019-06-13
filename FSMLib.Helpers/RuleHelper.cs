@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sprache;
+using FSMLib.LexicalAnalysis.Rules;
 
 namespace FSMLib.Helpers
 {
 	public static class RuleHelper
 	{
-		public static Rule<char> BuildRule(string Pattern)
+		public static LexicalRule BuildRule(string Pattern)
 		{
 			return RuleGrammar.Rule.Parse(Pattern);
 		}

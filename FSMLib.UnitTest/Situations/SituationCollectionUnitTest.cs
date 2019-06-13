@@ -28,8 +28,8 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			Assert.AreEqual(0, situations.Count);
@@ -48,9 +48,9 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			Assert.AreEqual(0, situations.Count);
@@ -71,9 +71,9 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[2] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[2] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);
@@ -92,9 +92,9 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations1,situations2;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[2] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[2] as TerminalPredicate<char> };
 
 			situations1 = new SituationCollection<char>();
 			situations1.Add(a);
@@ -119,9 +119,9 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations1, situations2;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[2] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[2] as TerminalPredicate<char> };
 
 			situations1 = new SituationCollection<char>();
 			situations1.Add(a);
@@ -206,16 +206,16 @@ namespace FSMLib.UnitTest.Situations
 			IInput<char>[] inputs;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs().ToArray();
+			inputs = situations.GetNextInputs( (char)0, (char)255).ToArray();
 			Assert.AreEqual(1, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 		}
@@ -230,16 +230,16 @@ namespace FSMLib.UnitTest.Situations
 			IInput<char>[] inputs;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs().ToArray();
+			inputs = situations.GetNextInputs((char)0, (char)255).ToArray();
 			Assert.AreEqual(2, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 			Assert.IsTrue(inputs[1].Match('b'));
@@ -254,16 +254,16 @@ namespace FSMLib.UnitTest.Situations
 			IInput<char>[] inputs;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[0] as Terminal<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[1] as Terminal<char> };
-			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence<char>).Items[2] as Terminal<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			c = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[2] as TerminalPredicate<char> };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs().ToArray();
+			inputs = situations.GetNextInputs((char)0, (char)255).ToArray();
 			Assert.AreEqual(3, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 			Assert.IsTrue(inputs[1].Match('b'));

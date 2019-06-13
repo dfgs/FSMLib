@@ -16,7 +16,7 @@ namespace FSMLib.Situations
 			set;
 		}
 
-		public SituationInputPredicate<T> Predicate
+		public SituationPredicate<T> Predicate
 		{
 			get;
 			set;

@@ -14,9 +14,9 @@ namespace FSMLib.Helpers
 {
 	public static class SituationCollectionFactoryHelper
 	{
-		public static SituationCollectionFactory<char> BuildSituationCollectionFactory(IEnumerable<Rule<char>> Rules,IEnumerable<char> Alphabet)
+		public static SituationCollectionFactory<char> BuildSituationCollectionFactory(IEnumerable<Rule<char>> Rules)
 		{
-			return new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules, Alphabet));
+			return new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules));
 		}
 
 

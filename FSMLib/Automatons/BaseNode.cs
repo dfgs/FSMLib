@@ -11,6 +11,6 @@ namespace FSMLib.Tables
 	{
 		
 
-		public abstract IEnumerable<BaseTerminalInput<T>> EnumerateInputs();
+		public abstract IEnumerable<TerminalInput<T>> EnumerateInputs();
 	}
 }

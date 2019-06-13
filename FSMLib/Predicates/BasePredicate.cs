@@ -18,7 +18,7 @@ namespace FSMLib.Predicates
 			return ToString(null);
 		}
 
-
+		
 
 		public abstract string ToString(ISituationPredicate<T> CurrentPredicate);
 

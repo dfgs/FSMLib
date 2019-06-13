@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class TerminalInput<T>:BaseTerminalInput<T>
+	public class TerminalInput<T>:BaseTerminalInput<T>, IActionInput<T>
 	{
 		public T Value
 		{

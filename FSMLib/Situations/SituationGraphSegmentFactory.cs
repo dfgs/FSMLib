@@ -25,7 +25,7 @@ namespace FSMLib.Situations
 
 			return node;
 		}
-		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, SituationInputPredicate<T> Predicate)
+		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, SituationPredicate<T> Predicate)
 		{
 			SituationEdge<T> edge;
 
@@ -49,7 +49,7 @@ namespace FSMLib.Situations
 		}
 
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
@@ -59,23 +59,23 @@ namespace FSMLib.Situations
 
 			switch (Predicate)
 			{
-				case Terminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case NonTerminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case AnyTerminal<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case TerminalRange<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case EOS<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case ReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case Sequence<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case Or<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case OneOrMore<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case ZeroOrMore<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
-				case Optional<T> predicate: return BuildSegment(Nodes, Rule, Alphabet, predicate, Edges);
+				case TerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case NonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case AnyTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case TerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case EOSPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case ReducePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case SequencePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case OrPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case OneOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case ZeroOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case OptionalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				default:
 					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
 			}
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, SituationInputPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
 			SituationEdge<T> edge;
@@ -83,7 +83,6 @@ namespace FSMLib.Situations
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
@@ -98,72 +97,7 @@ namespace FSMLib.Situations
 
 			return segment;
 		}
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, AnyTerminal<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
-		{
-			SituationNode<T> node;
-			List<SituationEdge<T>> edges;
-			SituationEdge<T> edge;
-			SituationGraphSegment<T> segment;
-
-			if (Nodes == null) throw new ArgumentNullException("Nodes");
-			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
-			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (Edges == null) throw new ArgumentNullException("Edges");
-
-			node = CreateNode(Nodes);
-			Connect(node.AsEnumerable(), Edges);
-
-			edges = new List<SituationEdge<T>>();
-			foreach (T item in Alphabet)
-			{
-				edge = CreateEdgeTo(node, Rule, new Terminal<T>() { Value=item } );
-				edges.Add(edge);
-			}
-
-			segment = new SituationGraphSegment<T>();
-			segment.OutputNodes = node.AsEnumerable();
-			segment.InputEdges = edges;
-
-			return segment;
-		}
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, TerminalRange<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
-		{
-			SituationNode<T> node;
-			List<SituationEdge<T>> edges;
-			SituationEdge<T> edge;
-			SituationGraphSegment<T> segment;
-			Comparer<T> comparer;
-
-			if (Nodes == null) throw new ArgumentNullException("Nodes");
-			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
-			if (Predicate == null) throw new ArgumentNullException("Predicate");
-			if (Edges == null) throw new ArgumentNullException("Edges");
-
-			comparer = Comparer<T>.Default;
-			if (comparer == null) throw new ArgumentNullException($"No default comparer found for type {typeof(T).Name}");
-
-			node = CreateNode(Nodes);
-			Connect(node.AsEnumerable(), Edges);
-			
-			edges = new List<SituationEdge<T>>();
-			foreach (T item in Alphabet)
-			{
-				if ((comparer.Compare(item, Predicate.FirstValue) >= 0) && (comparer.Compare(item, Predicate.LastValue) <= 0))
-				{
-					edge = CreateEdgeTo(node, Rule, new Terminal<T>() { Value = item });
-					edges.Add(edge);
-				}
-			}
-
-			segment = new SituationGraphSegment<T>();
-			segment.OutputNodes = node.AsEnumerable();
-			segment.InputEdges = edges;
-
-			return segment;
-		}
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Sequence<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			IEnumerable<SituationEdge<T>> nextEdges;
 			SituationGraphSegment<T>[] segments;
@@ -171,7 +105,6 @@ namespace FSMLib.Situations
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
@@ -179,7 +112,7 @@ namespace FSMLib.Situations
 			nextEdges = Edges;
 			for (int t = Predicate.Items.Count - 1; t >= 0; t--)
 			{
-				segments[t] = BuildSegment(Nodes, Rule, Alphabet, Predicate.Items[t], nextEdges);
+				segments[t] = BuildSegment(Nodes, Rule,  Predicate.Items[t], nextEdges);
 				nextEdges = segments[t].InputEdges;
 			}
 
@@ -190,21 +123,20 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Or<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T>[] segments;
 			SituationGraphSegment<T> segment;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
 			segments = new SituationGraphSegment<T>[Predicate.Items.Count];
 			for (int t = 0; t < Predicate.Items.Count; t++)
 			{
-				segments[t] = BuildSegment(Nodes, Rule, Alphabet, Predicate.Items[t], Edges);
+				segments[t] = BuildSegment(Nodes, Rule,  Predicate.Items[t], Edges);
 			}
 
 			segment = new SituationGraphSegment<T>();
@@ -214,17 +146,16 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, Optional<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
-			itemSegment = BuildSegment(Nodes, Rule, Alphabet, Predicate.Item, Edges);
+			itemSegment = BuildSegment(Nodes, Rule,  Predicate.Item, Edges);
 			segment = new SituationGraphSegment<T>();
 			segment.InputEdges = itemSegment.InputEdges.Concat(Edges);
 			segment.OutputNodes = itemSegment.OutputNodes;
@@ -232,17 +163,16 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, ZeroOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  ZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
-			itemSegment = BuildSegment(Nodes, Rule, Alphabet, Predicate.Item, Edges);
+			itemSegment = BuildSegment(Nodes, Rule,  Predicate.Item, Edges);
 			Connect(itemSegment.OutputNodes, itemSegment.InputEdges);
 
 
@@ -253,17 +183,16 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IEnumerable<T> Alphabet, OneOrMore<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
-			if (Alphabet == null) throw new ArgumentNullException("Alphabet");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
-			itemSegment = BuildSegment(Nodes, Rule, Alphabet, Predicate.Item, Edges);
+			itemSegment = BuildSegment(Nodes, Rule,  Predicate.Item, Edges);
 			Connect(itemSegment.OutputNodes, itemSegment.InputEdges);
 
 

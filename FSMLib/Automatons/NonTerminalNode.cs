@@ -26,9 +26,9 @@ namespace FSMLib.Tables
 			this.Nodes = new List<BaseNode<T>>();
 		}
 
-		public override IEnumerable<BaseTerminalInput<T>> EnumerateInputs()
+		public override IEnumerable<TerminalInput<T>> EnumerateInputs()
 		{
-			if (Nodes == null) return Enumerable.Empty<BaseTerminalInput<T>>();
+			if (Nodes == null) return Enumerable.Empty<TerminalInput<T>>();
 			return Nodes.SelectMany((item) => item.EnumerateInputs());
 		}
 

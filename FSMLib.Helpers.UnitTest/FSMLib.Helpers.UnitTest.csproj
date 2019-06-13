@@ -64,6 +64,10 @@
       <Project>{b04991a3-f18d-44ae-9f1b-e136a8891e5b}</Project>
       <Name>FSMLib.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj">
+      <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>
+      <Name>FSMLib.LexicalAnalysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
       <Name>FSMLib</Name>
