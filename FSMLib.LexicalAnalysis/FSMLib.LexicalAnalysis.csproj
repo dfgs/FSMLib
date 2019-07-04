@@ -43,9 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Predicates\AnyLetter.cs" />
+    <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\Letter.cs" />
     <Compile Include="Predicates\LettersRange.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />
+    <Compile Include="Predicates\Reduce.cs" />
     <Compile Include="Predicates\ZeroOrMore.cs" />
     <Compile Include="Predicates\OneOrMore.cs" />
     <Compile Include="Predicates\Sequence.cs" />

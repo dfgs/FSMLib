@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Predicates
 {
-	public interface ISituationPredicate<T>:IPredicate<T>
+	public interface IOptionalPredicate<T> : IPredicate<T>
 	{
-		IInput<T> GetInput();
-		bool Match(T Input);
-		bool Match(IInput<T> Input);
+
+		IPredicate<T> Item
+		{
+			get;
+		}
+
+
 
 	}
 }

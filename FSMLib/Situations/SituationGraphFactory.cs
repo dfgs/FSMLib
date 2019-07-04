@@ -21,7 +21,7 @@ namespace FSMLib.Situations
 		{
 			SituationNode<T> rootNode;
 			SituationGraphSegment<T> segment;
-			SequencePredicate<T> predicate;
+			ISequencePredicate<T> predicate;
 			SituationGraph<T> graph;
 
 			if (Rules == null) throw new ArgumentNullException("Rules");

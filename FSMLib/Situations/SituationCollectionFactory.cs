@@ -144,7 +144,7 @@ namespace FSMLib.Situations
 			IEnumerable<Situation<T>> matchingSituations;
 			SituationEdge<T> edge;
 			Situation<T> nextSituation;
-
+		
 
 			matchingSituations = CurrentSituations.Where(s => s.Predicate.Match(Input));
 

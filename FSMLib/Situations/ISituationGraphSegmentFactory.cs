@@ -12,12 +12,12 @@ namespace FSMLib.Situations
 	{
 
 		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  ZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, ISituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, ISequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IOrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IOptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule, IOneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
 		
 
 	}

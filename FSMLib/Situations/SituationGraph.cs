@@ -23,7 +23,7 @@ namespace FSMLib.Situations
 			Nodes = new List<SituationNode<T>>();	
 		}
 
-		public bool Contains(SituationPredicate<T> Predicate)
+		public bool Contains(ISituationPredicate<T> Predicate)
 		{
 			SituationEdge<T> egde;
 

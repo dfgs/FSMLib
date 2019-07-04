@@ -25,7 +25,7 @@ namespace FSMLib.Situations
 
 			return node;
 		}
-		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, SituationPredicate<T> Predicate)
+		private SituationEdge<T> CreateEdgeTo(SituationNode<T> Node, Rule<T> Rule, ISituationPredicate<T> Predicate)
 		{
 			SituationEdge<T> edge;
 
@@ -59,23 +59,23 @@ namespace FSMLib.Situations
 
 			switch (Predicate)
 			{
-				case TerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case NonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case IReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
+				case ISituationPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				/*case NonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				case AnyTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case TerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case EOSPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case ReducePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case SequencePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case OrPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case OneOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case ZeroOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case OptionalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case TerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);*/
+				case IEOSPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case ISequencePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case IOrPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case IOneOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case IZeroOrMorePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				case IOptionalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				default:
 					throw new System.NotImplementedException($"Invalid predicate type {Predicate.GetType()}");
 			}
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  ISituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationNode<T> node;
 			SituationEdge<T> edge;
@@ -97,46 +97,50 @@ namespace FSMLib.Situations
 
 			return segment;
 		}
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  SequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  ISequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			IEnumerable<SituationEdge<T>> nextEdges;
 			SituationGraphSegment<T>[] segments;
 			SituationGraphSegment<T> segment;
+			IPredicate<T>[] items;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
-			segments = new SituationGraphSegment<T>[Predicate.Items.Count];
+			items = Predicate.Items.ToArray();
+			segments = new SituationGraphSegment<T>[items.Length];
 			nextEdges = Edges;
-			for (int t = Predicate.Items.Count - 1; t >= 0; t--)
+			for (int t = items.Length - 1; t >= 0; t--)
 			{
-				segments[t] = BuildSegment(Nodes, Rule,  Predicate.Items[t], nextEdges);
+				segments[t] = BuildSegment(Nodes, Rule,  items[t], nextEdges);
 				nextEdges = segments[t].InputEdges;
 			}
 
 			segment = new SituationGraphSegment<T>();
 			segment.InputEdges = segments[0].InputEdges;
-			segment.OutputNodes = segments[Predicate.Items.Count - 1].OutputNodes;
+			segment.OutputNodes = segments[items.Length - 1].OutputNodes;
 
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IOrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T>[] segments;
 			SituationGraphSegment<T> segment;
+			IPredicate<T>[] items;
 
 			if (Nodes == null) throw new ArgumentNullException("Nodes");
 			if (Rule == null) throw new ArgumentNullException("Rule");
 			if (Predicate == null) throw new ArgumentNullException("Predicate");
 			if (Edges == null) throw new ArgumentNullException("Edges");
 
-			segments = new SituationGraphSegment<T>[Predicate.Items.Count];
-			for (int t = 0; t < Predicate.Items.Count; t++)
+			items = Predicate.Items.ToArray();
+			segments = new SituationGraphSegment<T>[items.Length];
+			for (int t = 0; t < items.Length; t++)
 			{
-				segments[t] = BuildSegment(Nodes, Rule,  Predicate.Items[t], Edges);
+				segments[t] = BuildSegment(Nodes, Rule,  items[t], Edges);
 			}
 
 			segment = new SituationGraphSegment<T>();
@@ -146,7 +150,7 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IOptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
@@ -163,7 +167,7 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  ZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
@@ -183,7 +187,7 @@ namespace FSMLib.Situations
 			return segment;
 		}
 
-		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  OneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
+		public SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, Rule<T> Rule,  IOneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges)
 		{
 			SituationGraphSegment<T> itemSegment, segment;
 
