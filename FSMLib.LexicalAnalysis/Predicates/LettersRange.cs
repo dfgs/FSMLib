@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Predicates;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class LettersRange: ISituationPredicate<char>
+	public class LettersRange: LexicalPredicate, ISituationPredicate<char>
 	{
 		[XmlAttribute]
 		public char FirstValue
@@ -24,9 +25,19 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			set;
 		}
 
-		public  IInput<char> GetInput()
+
+		public LettersRange()
 		{
-			return new TerminalRangeInput<char>() { FirstValue = this.FirstValue, LastValue = this.LastValue };
+			this.FirstValue = (char)0; this.LastValue = (char)0;
+		}
+		public LettersRange(char FirstValue, char LastValue)
+		{
+			this.FirstValue = FirstValue; this.LastValue = LastValue;
+		}
+
+		public IInput<char> GetInput()
+		{
+			return new LettersRangeInput(this.FirstValue, this.LastValue );
 		}
 
 		public override string ToString()
@@ -34,14 +45,14 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return ToString(null);
 		}
 
-		public  string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•[{FirstValue}-{LastValue}]";
 			else return $"[{FirstValue}-{LastValue}]";
 		}
 
 
-		public  bool Equals(IPredicate<char> other)
+		public override  bool Equals(IPredicate<char> other)
 		{
 			if (!(other is LettersRange o)) return false;
 			return ((FirstValue==o.FirstValue) && (LastValue==o.LastValue));
@@ -54,7 +65,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public bool Match(IInput<char> Input)
 		{
-			if (!(Input is TerminalInput<char> o)) return false;
+			if (!(Input is LetterInput o)) return false;
 			return (o.Value >= FirstValue) && (o.Value <= LastValue);
 		}
 

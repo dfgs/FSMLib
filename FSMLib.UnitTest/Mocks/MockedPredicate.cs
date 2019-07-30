@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class MockedPredicate<T> : BasePredicate<T>
+	public class MockedPredicate<T> : IPredicate<T>
 	{
-		public override bool Equals(IPredicate<T> other)
+		public bool Equals(IPredicate<T> other)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		public override string ToString(ISituationPredicate<T> CurrentPredicate)
+		public string ToString(ISituationPredicate<T> CurrentPredicate)
 		{
 			throw new System.NotImplementedException();
 		}

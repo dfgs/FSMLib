@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -8,12 +9,12 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class AnyTerminalUnitTest
+	public class AnyLetterUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			AnyTerminalPredicate<char> predicate;
+			AnyLetter predicate;
 
 			predicate = new AnyLetter();
 
@@ -22,7 +23,7 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			AnyTerminalPredicate<char> predicate;
+			AnyLetter predicate;
 
 			predicate = new AnyLetter();
 
@@ -31,35 +32,36 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInput()
 		{
-			AnyTerminalPredicate<char> predicate;
+			AnyLetter predicate;
 			IInput<char> input;
 
 			predicate = new AnyLetter();
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.IsInstanceOfType(input, typeof(AnyTerminalInput<char>));
+			Assert.IsInstanceOfType(input, typeof(AnyLetterInput));
 		}
 		[TestMethod]
 		public void ShouldMatch()
 		{
-			AnyTerminalPredicate<char> predicate;
+			AnyLetter predicate;
 
 
 			predicate = new AnyLetter();
 
-			Assert.IsTrue(predicate.Match(new TerminalInput<char>() { Value = 'a' }));
-			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
+			Assert.IsTrue(predicate.Match('a'));
+			Assert.IsTrue(predicate.Match(new LetterInput('a')));
+			Assert.IsTrue(predicate.Match(new EOSInput()));
 
 		}
 		[TestMethod]
 		public void ShouldNotMatch()
 		{
-			AnyTerminalPredicate<char> predicate;
+			AnyLetter predicate;
 
 
 			predicate = new AnyLetter();
 
-			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "B" }));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput("B")));
 
 		}
 
@@ -70,7 +72,7 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			AnyTerminalPredicate<char> a, b;
+			AnyLetter a, b;
 
 
 			a = new AnyLetter();
@@ -84,14 +86,14 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			AnyTerminalPredicate<char> a;
+			AnyLetter a;
 
 
 			a = new AnyLetter();
 
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new Letter()));
-			Assert.IsFalse(a.Equals(new EOSPredicate<char>()));
+			Assert.IsFalse(a.Equals(new Letter('a')));
+			Assert.IsFalse(a.Equals(new EOS()));
 
 
 		}

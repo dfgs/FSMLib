@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
+using FSMLib.LexicalAnalysis.Predicates;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -15,11 +16,11 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldBeEquals()
 		{
 			FSMLib.Situations.Situation<char> a, b;
-			Rule<char> rule;
-			SituationPredicate<char> predicate;
+			IRule<char> rule;
+			ISituationPredicate<char> predicate;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			predicate=(rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char>;
+			predicate=(rule.Predicate as Sequence).Items[0] as Letter;
 			a = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate };
 			b = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate };
 
@@ -30,12 +31,12 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldNotBeEquals()
 		{
 			FSMLib.Situations.Situation<char> a, b;
-			Rule<char> rule;
-			SituationPredicate<char> predicate1,predicate2;
+			IRule<char> rule;
+			ISituationPredicate<char> predicate1,predicate2;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			predicate1 = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char>;
-			predicate2 = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char>;
+			predicate1 = (rule.Predicate as Sequence).Items[0] as Letter;
+			predicate2 = (rule.Predicate as Sequence).Items[1] as Letter;
 			a = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate1 };
 			b = new FSMLib.Situations.Situation<char>() { Rule = rule, Predicate = predicate2 };
 

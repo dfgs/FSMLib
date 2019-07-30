@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Situations;
+using FSMLib.LexicalAnalysis.Situations;
 
 namespace FSMLib.Helpers
 {
@@ -16,10 +17,10 @@ namespace FSMLib.Helpers
 		{
 			AutomatonTableFactory<char> automatonTableFactory;
 			AutomatonTable<char> automatonTable;
-			SituationCollectionFactory<char> situationCollectionFactory;
+			SituationCollectionFactory situationCollectionFactory;
 
 			automatonTableFactory = new AutomatonTableFactory<char>( );
-			situationCollectionFactory = new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray()));
+			situationCollectionFactory = new SituationCollectionFactory(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray()));
 			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory,(char)0,(char)255);
 		
 			return automatonTable;

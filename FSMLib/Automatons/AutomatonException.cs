@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Tables
+namespace FSMLib.Automatons
 {
 	public class AutomatonException<T>:Exception
 	{
-		public BaseTerminalInput<T> Input
+		public ITerminalInput<T> Input
 		{
 			get;
 			private set;
@@ -21,7 +21,7 @@ namespace FSMLib.Tables
 			get;
 			private set;
 		}
-		public AutomatonException(BaseTerminalInput<T> Input, IEnumerable<BaseNode<T>> Stack)
+		public AutomatonException(ITerminalInput<T> Input, IEnumerable<BaseNode<T>> Stack)
 		{
 			this.Input = Input;
 			this.Stack = Stack;

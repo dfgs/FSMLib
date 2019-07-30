@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.LexicalAnalysis.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
-	public class AutomatonTableParser<T>
+	public class AutomatonTableParser
 	{
-		private AutomatonTable<T> automatonTable;
+		private AutomatonTable<char> automatonTable;
 		private int stateIndex;
 
 
@@ -23,7 +24,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Mocks
 		}
 
 		
-		public AutomatonTableParser(AutomatonTable<T> AutomatonTable)
+		public AutomatonTableParser(AutomatonTable<char> AutomatonTable)
 		{
 			this.automatonTable = AutomatonTable;this.stateIndex = 0;
 
@@ -31,12 +32,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Mocks
 
 		
 
-		public bool Parse(T Input)
+		public bool Parse(char Input)
 		{
-			Shift<T> action;
-			IActionInput<T> terminalInput;
+			Shift<char> action;
+			IActionInput<char> terminalInput;
 
-			terminalInput = new TerminalInput<T>() { Value = Input };
+			terminalInput = new LetterInput( Input );
 			action = automatonTable.States[stateIndex].GetShift(terminalInput);
 			if (action == null) return false;
 

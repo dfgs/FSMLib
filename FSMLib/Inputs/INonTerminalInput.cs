@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public abstract class BaseTerminalInput<T>:BaseInput<T>,ITerminalInput<T>
+	public interface INonTerminalInput<T> : IActionInput<T>
 	{
-
+		string Name
+		{
+			get;
+		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.UnitTest.Inputs
 {
@@ -16,10 +17,10 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			TerminalInput<char> a, b;
+			LetterInput a, b;
 
-			a = new TerminalInput<char>() { Value = 'a' };
-			b = new TerminalInput<char>() { Value = 'a' };
+			a = new LetterInput('a' );
+			b = new LetterInput('a' );
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -28,24 +29,24 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			TerminalInput<char> a,b;
+			LetterInput a,b;
 
-			a = new TerminalInput<char>() { Value = 'a' };
-			b = new TerminalInput<char>() { Value = 'b' };
+			a = new LetterInput('a');
+			b = new LetterInput('b');
 
 			Assert.IsFalse(a.Equals(b));
-			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
-			Assert.IsFalse(a.Equals(new EOSInput<char>()));
+			Assert.IsFalse(a.Equals(new NonTerminalInput()));
+			Assert.IsFalse(a.Equals(new EOSInput()));
 		}
 
 
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			TerminalInput<char> a,b;
+			LetterInput a,b;
 
-			a = new TerminalInput<char>() { Value = 'a' };
-			b = new TerminalInput<char>() { Value = 'a' };
+			a = new LetterInput('a');
+			b = new LetterInput('a');
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
 
@@ -53,12 +54,12 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			TerminalInput<char> a, b;
-			EOSInput<char> c;
+			LetterInput a, b;
+			EOSInput c;
 
-			a = new TerminalInput<char>() { Value = 'a' };
-			b = new TerminalInput<char>() { Value = 'b' };
-			c = new EOSInput<char>();
+			a = new LetterInput('a');
+			b = new LetterInput('b');
+			c = new EOSInput();
 
 			Assert.IsFalse(a.Match(b));
 			Assert.IsFalse(b.Match(a));
@@ -69,18 +70,18 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudMatchT()
 		{
-			TerminalInput<char> a;
+			LetterInput a;
 
-			a = new TerminalInput<char>() { Value = 'a' };
+			a = new LetterInput('a');
 			Assert.IsTrue(a.Match('a'));
 
 		}
 		[TestMethod]
 		public void ShoudNotMatchT()
 		{
-			TerminalInput<char> a;
+			LetterInput a;
 	
-			a = new TerminalInput<char>() { Value = 'a' };
+			a = new LetterInput('a');
 
 			Assert.IsFalse(a.Match('b'));
 
@@ -88,9 +89,9 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			TerminalInput<char> a;
+			LetterInput a;
 
-			a = new TerminalInput<char>() { Value = 'a' };
+			a = new LetterInput('a');
 
 			Assert.AreEqual('a'.GetHashCode(),a.GetHashCode());
 

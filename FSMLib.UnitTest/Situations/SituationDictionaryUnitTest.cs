@@ -8,6 +8,7 @@ using System.Linq;
 using FSMLib.Rules;
 using FSMLib.Table;
 using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Predicates;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -24,13 +25,13 @@ namespace FSMLib.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			AutomatonTableTuple<char> result;
-			Rule<char> rule;
+			IRule<char> rule;
 			Situation<char> a,b;
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);situations.Add(b);
@@ -46,14 +47,14 @@ namespace FSMLib.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			AutomatonTableTuple<char> result;
-			Rule<char> rule;
+			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
 
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -73,14 +74,14 @@ namespace FSMLib.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			AutomatonTableTuple<char>[] result;
-			Rule<char> rule;
+			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
 
 
 			rule = RuleHelper.BuildRule("A=abc");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[0] as TerminalPredicate<char> };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as SequencePredicate<char>).Items[1] as TerminalPredicate<char> };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
 
 			dictionary = new SituationDictionary<char>();
 

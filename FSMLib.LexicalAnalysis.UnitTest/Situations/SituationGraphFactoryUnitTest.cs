@@ -8,6 +8,7 @@ using FSMLib.Situations;
 using System.Linq;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.LexicalAnalysis.Situations;
 
 namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 {
@@ -17,15 +18,15 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SituationGraphFactory<char>(null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SituationGraphFactory(null));
 		}
 
 		[TestMethod]
 		public void ShouldNotBuildSituationGraph()
 		{
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 			Assert.ThrowsException<ArgumentNullException>(() => situationGraphFactory.BuildSituationGraph(null)) ;
 		}
 
@@ -34,26 +35,26 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildInputPredicate()
 		{
-			SituationPredicate<char> predicate;
+			ISituationPredicate<char> predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			predicate = new Letter() { Value = 'a' };
-			rule = new LexicalRule() { Name = "A", Predicate = predicate };
+			predicate = new Letter('a');
+			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 
 			predicate = new NonTerminal() { Name = "A" };
-			rule = new LexicalRule() { Name = "A", Predicate = predicate };
+			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 
 
 			predicate = new AnyLetter();
-			rule = new LexicalRule() { Name = "A", Predicate = predicate };
+			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 
@@ -61,12 +62,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildAnyLetterPredicate()
 		{
-			SituationPredicate<char> predicate;
+			LexicalPredicate predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
 
 			predicate = new AnyLetter();
@@ -82,13 +83,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
-			c = new Letter() { Value = 'c' };
+			a = new Letter('a');
+			b = new Letter('b');
+			c = new Letter('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -113,13 +114,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Or predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
-			c = new Letter() { Value = 'c' };
+			a = new Letter('a');
+			b = new Letter('b');
+			c = new Letter('c');
 
 			predicate = new Or();
 			predicate.Items.Add(a);
@@ -143,13 +144,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
-			c = new Letter() { Value = 'c' };
+			a = new Letter('a');
+			b = new Letter('b');
+			c = new Letter('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -174,13 +175,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
-			c = new Letter() { Value = 'c' };
+			a = new Letter('a');
+			b = new Letter('b');
+			c = new Letter('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -204,13 +205,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
-			SituationGraphFactory<char> situationGraphFactory;
+			SituationGraphFactory situationGraphFactory;
 
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
-			c = new Letter() { Value = 'c' };
+			a = new Letter('a');
+			b = new Letter('b');
+			c = new Letter('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);

@@ -234,7 +234,7 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			predicate = new Letter();
+			predicate = new Letter('a');
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule,  predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
@@ -356,7 +356,7 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			predicate = new LettersRange();
+			predicate = new LettersRange('a','b');
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule,  predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));

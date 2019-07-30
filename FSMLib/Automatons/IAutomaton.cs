@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Tables
+namespace FSMLib.Automatons
 {
 	public interface IAutomaton<T>
 	{

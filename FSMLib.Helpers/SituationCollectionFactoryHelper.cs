@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using Sprache;
 using FSMLib.Situations;
 using FSMLib.Predicates;
+using FSMLib.LexicalAnalysis.Situations;
 
 namespace FSMLib.Helpers
 {
 	public static class SituationCollectionFactoryHelper
 	{
-		public static SituationCollectionFactory<char> BuildSituationCollectionFactory(IEnumerable<Rule<char>> Rules)
+		public static SituationCollectionFactory BuildSituationCollectionFactory(IEnumerable<IRule<char>> Rules)
 		{
-			return new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules));
+			return new SituationCollectionFactory(SituationGraphHelper.BuildSituationGraph(Rules));
 		}
 
 

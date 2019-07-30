@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Predicates;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class NonTerminal: ISituationPredicate<char>
+	public class NonTerminal: LexicalPredicate, INonTerminalPredicate<char>
 	{
 		[XmlAttribute]
 		public string Name
@@ -18,21 +19,31 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			set;
 		}
 
+		public NonTerminal()
+		{
 
+		}
+		public NonTerminal(string Name)
+		{
+			this.Name = Name;
+		}
 
 		public IInput<char> GetInput()
 		{
-			return new NonTerminalInput<char>() { Name = this.Name };
+			return new NonTerminalInput(Name);
 		}
-
-		public string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString()
+		{
+			return ToString(null);
+		}
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{{{Name}}}";
 			else return $"{{{Name}}}";
 		}
 
 
-		public bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
 			if (!(other is NonTerminal o)) return false;
 			if (Name == null) return o.Name == null;
@@ -45,7 +56,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 		public bool Match(IInput<char> Input)
 		{
-			if (!(Input is NonTerminalInput<char> o)) return false;
+			if (!(Input is NonTerminalInput o)) return false;
 			if (Name == null) return o.Name == null;
 			return Name == o.Name;
 		}

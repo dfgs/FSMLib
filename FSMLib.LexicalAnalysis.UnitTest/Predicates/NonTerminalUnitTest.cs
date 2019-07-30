@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -15,7 +16,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			NonTerminal predicate;
 
-			predicate = new NonTerminal() { Name = "A" };
+			predicate = new NonTerminal( "A" );
 
 			Assert.AreEqual("{A}", predicate.ToString());
 		}
@@ -38,7 +39,7 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new NonTerminal() { Name="A" } ;
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.AreEqual("A", ((NonTerminalInput<char>)input).Name);
+			Assert.AreEqual("A", ((NonTerminalInput)input).Name);
 		}
 
 		[TestMethod]
@@ -49,7 +50,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			predicate = new NonTerminal() { Name = "A" };
 
-			Assert.IsTrue(predicate.Match(new NonTerminalInput<char>() { Name = "A" }));
+			Assert.IsTrue(predicate.Match(new NonTerminalInput("A" )));
 
 		}
 		[TestMethod]
@@ -61,9 +62,9 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new NonTerminal() { Name = "A" };
 
 			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "B" }));
-			Assert.IsFalse(predicate.Match(new EOSInput<char>()));
+			Assert.IsFalse(predicate.Match(new LetterInput('b')));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput("B")));
+			Assert.IsFalse(predicate.Match(new EOSInput()));
 
 		}
 
@@ -93,7 +94,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
 			Assert.IsFalse(b.Equals(new AnyLetter()));
-			Assert.IsFalse(b.Equals(new EOSPredicate<char>()));
+			Assert.IsFalse(b.Equals(new EOS()));
 
 
 		}

@@ -1,5 +1,6 @@
 ﻿using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.Predicates;
 using Sprache;
 using System;
 using System.Collections.Generic;
@@ -33,13 +34,13 @@ namespace FSMLib.Helpers
 
 		public static readonly Parser<Letter> Terminal =
 			from value in NormalChar.Or(EscapedChar)
-			select new Letter() {Value = value };
+			select new Letter(value );
 
 		public static readonly Parser<NonTerminal> NonTerminal =
 			from open in OpenBrace
 			from name in Parse.AnyChar.Except(CloseBrace).Many().Text().Token()
 			from close in CloseBrace
-			select new NonTerminal() { Name = name };
+			select new NonTerminal(name);
 
 		public static readonly Parser<LettersRange> TerminalRange =
 			from open in OpenBracket
@@ -47,17 +48,17 @@ namespace FSMLib.Helpers
 			from _ in Parse.Char('-')
 			from LastItem in Parse.AnyChar
 			from close in CloseBracket
-			select new LettersRange() { FirstValue= FirstItem,LastValue=LastItem};
+			select new LettersRange(FirstItem,LastItem);
 
 		public static readonly Parser<AnyLetter> AnyTerminal =
 			from _ in Dot
 			select new AnyLetter();
 
-		private static readonly Parser<Predicates.BasePredicate<char>> SmallestPredicate =
-			Terminal.Or<Predicates.BasePredicate<char>>(Terminal)
-			.Or<Predicates.BasePredicate<char>>(AnyTerminal)
-			.Or<Predicates.BasePredicate<char>>(NonTerminal)
-			.Or<Predicates.BasePredicate<char>>(TerminalRange);
+		private static readonly Parser<LexicalPredicate> SmallestPredicate =
+			Terminal.Or<LexicalPredicate>(Terminal)
+			.Or<LexicalPredicate>(AnyTerminal)
+			.Or<LexicalPredicate>(NonTerminal)
+			.Or<LexicalPredicate>(TerminalRange);
 			   
 
 		public static readonly Parser<OneOrMore> OneOrMore =
@@ -75,23 +76,23 @@ namespace FSMLib.Helpers
 			from _ in QuestionMark
 			select new Optional() { Item = value };
 
-		public static readonly Parser<Predicates.BasePredicate<char>> SinglePredicate =
-			Optional.Or<Predicates.BasePredicate<char>>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal).Or(TerminalRange);
+		public static readonly Parser<LexicalPredicate> SinglePredicate =
+			Optional.Or<LexicalPredicate>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal).Or(TerminalRange);
 
 		public static readonly Parser<Sequence> Sequence =
 			from firstItem in SinglePredicate
 			from items in SinglePredicate.AtLeastOnce()
-			select new Sequence() { Items=new List<Predicates.BasePredicate<char>>(firstItem.AsEnumerable().Concat(items)) } ;
+			select new Sequence() { Items=new List<LexicalPredicate>(firstItem.AsEnumerable().Concat(items)) } ;
 
 
-		private static readonly Parser<Predicates.BasePredicate<char>> OrItem =
+		private static readonly Parser<LexicalPredicate> OrItem =
 			from _ in Pipe
 			from value in  Sequence.Or(SinglePredicate)
 			select value;
 		public static readonly Parser<Or> Or =
 			from firstPredicate in Sequence.Or(SinglePredicate)
 			from otherPredicates in OrItem.AtLeastOnce()
-			select new Or() { Items=new List<Predicates.BasePredicate<char>>(firstPredicate.AsEnumerable().Concat(otherPredicates))};
+			select new Or() { Items=new List<LexicalPredicate>(firstPredicate.AsEnumerable().Concat(otherPredicates))};
 
 
 
@@ -99,7 +100,7 @@ namespace FSMLib.Helpers
 		public static readonly Parser<LexicalRule> NonAxiomRule =
 			from name in Parse.Letter.Many().Text().Token()
 			from _ in Parse.Char('=')
-			from predicate in RuleGrammar.Or.Or<Predicates.BasePredicate<char>>(Sequence).Or(SinglePredicate)
+			from predicate in RuleGrammar.Or.Or<LexicalPredicate>(Sequence).Or(SinglePredicate)
 			select new LexicalRule() { Name = name, Predicate = predicate, IsAxiom =false };
 
 		public static readonly Parser<LexicalRule> AxiomRule =
@@ -107,7 +108,7 @@ namespace FSMLib.Helpers
 			from _ in Parse.Char('*')
 			from __ in Parse.WhiteSpace.Many()
 			from ___ in Parse.Char('=')
-			from predicate in RuleGrammar.Or.Or<Predicates.BasePredicate<char>>(Sequence).Or(SinglePredicate)
+			from predicate in RuleGrammar.Or.Or<LexicalPredicate>(Sequence).Or(SinglePredicate)
 			select new LexicalRule() { Name = name, Predicate = predicate,IsAxiom=true };
 
 		public static readonly Parser<LexicalRule> Rule =

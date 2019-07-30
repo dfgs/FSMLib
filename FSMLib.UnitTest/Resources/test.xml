@@ -1,34 +1,34 @@
 <?xml version="1.0"?>
-<ArrayOfRuleOfChar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <RuleOfChar Name="A" IsAxiom="true">
-    <Predicate xsi:type="SequenceOfChar">
-      <Items>
-        <BasePredicateOfChar xsi:type="ZeroOrMoreOfChar">
-          <Item xsi:type="TerminalOfChar" Value="97" />
-        </BasePredicateOfChar>
-        <BasePredicateOfChar xsi:type="OneOrMoreOfChar">
-          <Item xsi:type="NonTerminalOfChar" Name="B" />
-        </BasePredicateOfChar>
-        <BasePredicateOfChar xsi:type="OptionalOfChar">
-          <Item xsi:type="TerminalOfChar" Value="99" />
-        </BasePredicateOfChar>
-        <BasePredicateOfChar xsi:type="AnyTerminalOfChar" />
-      </Items>
-    </Predicate>
-  </RuleOfChar>
-  <RuleOfChar Name="B" IsAxiom="false">
-    <Predicate xsi:type="OrOfChar">
-      <Items>
-        <BasePredicateOfChar xsi:type="NonTerminalOfChar" Name="B" />
-        <BasePredicateOfChar xsi:type="ZeroOrMoreOfChar">
-          <Item xsi:type="TerminalOfChar" Value="99" />
-        </BasePredicateOfChar>
-        <BasePredicateOfChar xsi:type="OneOrMoreOfChar">
-          <Item xsi:type="TerminalOfChar" Value="100" />
-        </BasePredicateOfChar>
-        <BasePredicateOfChar xsi:type="TerminalOfChar" Value="101" />
-        <BasePredicateOfChar xsi:type="TerminalOfChar" Value="102" />
-      </Items>
-    </Predicate>
-  </RuleOfChar>
-</ArrayOfRuleOfChar>
+<ArrayOfLexicalRule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<LexicalRule Name="A" IsAxiom="true">
+		<Predicate xsi:type="Sequence">
+			<Items>
+				<LexicalPredicate xsi:type="ZeroOrMore">
+					<Item xsi:type="Letter" Value="97" />
+				</LexicalPredicate>
+				<LexicalPredicate xsi:type="OneOrMore">
+					<Item xsi:type="NonTerminal" Name="B" />
+				</LexicalPredicate>
+				<LexicalPredicate xsi:type="Optional">
+					<Item xsi:type="Letter" Value="99" />
+				</LexicalPredicate>
+				<LexicalPredicate xsi:type="AnyLetter" />
+			</Items>
+		</Predicate>
+	</LexicalRule>
+	<LexicalRule Name="B" IsAxiom="false">
+		<Predicate xsi:type="Or">
+			<Items>
+				<LexicalPredicate xsi:type="NonTerminal" Name="B" />
+				<LexicalPredicate xsi:type="ZeroOrMore">
+					<Item xsi:type="Letter" Value="99" />
+				</LexicalPredicate>
+				<LexicalPredicate xsi:type="OneOrMore">
+					<Item xsi:type="Letter" Value="100" />
+				</LexicalPredicate>
+				<LexicalPredicate xsi:type="Letter" Value="101" />
+				<LexicalPredicate xsi:type="Letter" Value="102" />
+			</Items>
+		</Predicate>
+	</LexicalRule>
+</ArrayOfLexicalRule>

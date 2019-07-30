@@ -1,6 +1,7 @@
 ﻿using System;
 using FSMLib.Actions;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest.AutomatonTables.Actions
@@ -34,9 +35,9 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		public void ShouldGetHashCode()
 		{
 			Reduce<char> a;
-			TerminalInput<char> input;
+			LetterInput input;
 
-			input = new TerminalInput<char>() { Value = 'a' };
+			input = new LetterInput( 'a' );
 			a = new Reduce<char>() { Name = "A",Input=input };
 			Assert.AreEqual(input.GetHashCode(),a.GetHashCode());
 

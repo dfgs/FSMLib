@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 using Sprache;
 using FSMLib.Situations;
 using FSMLib.Predicates;
+using FSMLib.LexicalAnalysis.Situations;
 
 namespace FSMLib.Helpers
 {
 	public static class SituationGraphHelper
 	{
-		public static SituationGraph<char> BuildSituationGraph(IEnumerable<Rule<char>> Rules)
+		public static SituationGraph<char> BuildSituationGraph(IEnumerable<IRule<char>> Rules)
 		{
-			SituationGraphFactory<char> situationGraphFactory;
-			Rule<char>[] rules;
+			ISituationGraphFactory<char> situationGraphFactory;
+			IRule<char>[] rules;
 
 			rules = Rules.ToArray();
 			
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
 			return situationGraphFactory.BuildSituationGraph( rules );
 		}
 

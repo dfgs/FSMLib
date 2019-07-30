@@ -3,23 +3,24 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.UnitTest.Inputs
 {
 	/// <summary>
-	/// Description résumée pour TerminalInputUnitTest
+	/// Description résumée pour LetterInputUnitTest
 	/// </summary>
 	[TestClass]
-	public class TerminalRangeInputUnitTest
+	public class LettersRangeInputUnitTest
 	{
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			TerminalRangeInput<char> a, b;
+			LettersRangeInput a, b;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a',LastValue='z' };
-			b = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
+			a = new LettersRangeInput('a','z');
+			b = new LettersRangeInput('a', 'z');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -28,26 +29,26 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			TerminalRangeInput<char> a,b;
+			LettersRangeInput a,b;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
-			b = new TerminalRangeInput<char>() { FirstValue = 'b', LastValue = 'z' };
+			a = new LettersRangeInput('a', 'z');
+			b = new LettersRangeInput('b', 'z');
 
 			Assert.IsFalse(a.Equals(b));
-			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
-			Assert.IsFalse(a.Equals(new EOSInput<char>()));
+			Assert.IsFalse(a.Equals(new NonTerminalInput("A")));
+			Assert.IsFalse(a.Equals(new EOSInput()));
 		}
 
 
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			TerminalRangeInput<char> a, b;
-			TerminalInput<char> c;
+			LettersRangeInput a, b;
+			LetterInput c;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
-			b = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
-			c = new TerminalInput<char>() { Value = 'e' };
+			a = new LettersRangeInput('a', 'z');
+			b = new LettersRangeInput('a', 'z');
+			c = new LetterInput('e');
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
 			Assert.IsTrue(a.Match(c));
@@ -56,14 +57,14 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			TerminalRangeInput<char> a, b;
-			EOSInput<char> c;
-			TerminalInput<char> d;
+			LettersRangeInput a, b;
+			EOSInput c;
+			LetterInput d;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
-			b = new TerminalRangeInput<char>() { FirstValue = 'b', LastValue = 'z' };
-			c = new EOSInput<char>();
-			d = new TerminalInput<char>() { Value = 'Z' };
+			a = new LettersRangeInput('a', 'z');
+			b = new LettersRangeInput('b', 'z');
+			c = new EOSInput();
+			d = new LetterInput( 'Z' );
 
 			Assert.IsFalse(a.Match(b));
 			Assert.IsFalse(b.Match(a));
@@ -75,18 +76,18 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudMatchT()
 		{
-			TerminalRangeInput<char> a;
+			LettersRangeInput a;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
+			a = new LettersRangeInput('a', 'z');
 			Assert.IsTrue(a.Match('a'));
 
 		}
 		[TestMethod]
 		public void ShoudNotMatchT()
 		{
-			TerminalRangeInput<char> a;
+			LettersRangeInput a;
 	
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
+			a = new LettersRangeInput('a', 'z');
 
 			Assert.IsFalse(a.Match('Z'));
 
@@ -94,10 +95,10 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			TerminalRangeInput<char> a,b;
+			LettersRangeInput a,b;
 
-			a = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
-			b = new TerminalRangeInput<char>() { FirstValue = 'a', LastValue = 'z' };
+			a = new LettersRangeInput('a', 'z');
+			b = new LettersRangeInput('a', 'z');
 
 			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
 

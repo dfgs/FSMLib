@@ -24,7 +24,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>(  ) ;
 
@@ -33,7 +33,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory( rule.AsEnumerable()),(char)0,(char)255);
 			Assert.IsNotNull(automatonTable);
 
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
@@ -49,7 +49,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule1,rule2;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>(  );
 
@@ -59,7 +59,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1,rule2 }), (char)0, (char)255);
 			Assert.IsNotNull(automatonTable);
 
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 			
 			Assert.AreEqual(1, parser.ActionCount);
@@ -76,7 +76,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule1, rule2;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>();
 
@@ -86,7 +86,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }), (char)0, (char)255);
 			Assert.IsNotNull(automatonTable);
 
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 
 			Assert.AreEqual(1, parser.ActionCount);
@@ -113,7 +113,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>( );
 
@@ -122,7 +122,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255);
 			Assert.IsNotNull(automatonTable);
 	
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(3, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
@@ -141,14 +141,14 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule;
 			Sequence predicate;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>( );
 
 			predicate = new Sequence();
-			predicate.Items.Add(new Letter() { Value = 'a' });
-			predicate.Items.Add(new Letter() { Value = 'b' });
-			predicate.Items.Add(new Letter() { Value = 'c' });
+			predicate.Items.Add(new Letter('a'));
+			predicate.Items.Add(new Letter('b'));
+			predicate.Items.Add(new Letter('c'));
 
 			rule = new LexicalRule() { Name="rule",IsAxiom=true };
 			rule.Predicate = new ZeroOrMore() { Item = predicate };
@@ -156,7 +156,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255);
 			Assert.IsNotNull(automatonTable);
 	
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(1, parser.ActionCount);
 			Assert.IsTrue(parser.Parse('a'));
@@ -176,7 +176,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			AutomatonTableFactory<char> factory;
 			AutomatonTable<char> automatonTable;
 			LexicalRule rule1, rule2;
-			AutomatonTableParser<char> parser;
+			AutomatonTableParser parser;
 
 			factory = new AutomatonTableFactory<char>();
 
@@ -186,7 +186,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }), (char)0, (char)255);
 			Assert.IsNotNull(automatonTable);
 
-			parser = new AutomatonTableParser<char>(automatonTable);
+			parser = new AutomatonTableParser(automatonTable);
 
 
 			Assert.AreEqual(1, parser.ActionCount);

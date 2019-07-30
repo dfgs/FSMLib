@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -13,18 +14,18 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			EOSPredicate<char> predicate;
+			EOS predicate;
 
-			predicate = new EOSPredicate<char>();
+			predicate = new EOS();
 
 			Assert.AreEqual("¤", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			EOSPredicate<char> predicate;
+			EOS predicate;
 
-			predicate = new EOSPredicate<char>();
+			predicate = new EOS();
 
 			Assert.AreEqual("•¤", predicate.ToString(predicate));
 		}
@@ -32,37 +33,37 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldMatch()
 		{
-			EOSPredicate<char> predicate;
+			EOS predicate;
 
 
-			predicate = new EOSPredicate<char>();
+			predicate = new EOS();
 
-			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
+			Assert.IsTrue(predicate.Match(new EOSInput()));
 
 		}
 		[TestMethod]
 		public void ShouldNotMatch()
 		{
-			EOSPredicate<char> predicate;
+			EOS predicate;
 
 
-			predicate = new EOSPredicate<char>();
+			predicate = new EOS();
 
 			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
+			Assert.IsFalse(predicate.Match(new LetterInput('b')));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput("a")));
 
 		}
 		[TestMethod]
 		public void ShouldGetInput()
 		{
-			EOSPredicate<char> predicate;
+			EOS predicate;
 			IInput<char> input;
 
-			predicate = new EOSPredicate<char>();
+			predicate = new EOS();
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.IsInstanceOfType(input, typeof(EOSInput<char>));
+			Assert.IsInstanceOfType(input, typeof(EOSInput));
 		}
 
 
@@ -70,11 +71,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			EOSPredicate<char> a, b;
+			EOS a, b;
 
 
-			a = new EOSPredicate<char>();
-			b = new EOSPredicate<char>();
+			a = new EOS();
+			b = new EOS();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -84,13 +85,13 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			EOSPredicate<char> a;
+			EOS a;
 
 
-			a = new EOSPredicate<char>();
+			a = new EOS();
 
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new Letter()));
+			Assert.IsFalse(a.Equals(new Letter('a')));
 			Assert.IsFalse(a.Equals(new AnyLetter()));
 
 

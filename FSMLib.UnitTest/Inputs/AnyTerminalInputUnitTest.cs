@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.UnitTest.Inputs
 {
@@ -17,10 +18,10 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			AnyTerminalInput<char> a, b;
+			AnyLetterInput a, b;
 
-			a = new AnyTerminalInput<char>();
-			b = new AnyTerminalInput<char>();
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -29,23 +30,23 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			AnyTerminalInput<char> a;
+			AnyLetterInput a;
 
-			a = new AnyTerminalInput<char>();
+			a = new AnyLetterInput();
 
-			Assert.IsFalse(a.Equals(new NonTerminalInput<char>()));
-			Assert.IsFalse(a.Equals(new TerminalInput<char>()));
+			Assert.IsFalse(a.Equals(new NonTerminalInput()));
+			Assert.IsFalse(a.Equals(new LetterInput('a')));
 		}
 
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			AnyTerminalInput<char> a,b;
-			TerminalInput<char> c;
+			AnyLetterInput a,b;
+			LetterInput c;
 
-			a = new AnyTerminalInput<char>();
-			b = new AnyTerminalInput<char>();
-			c = new TerminalInput<char>() { Value='c' };
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
+			c = new LetterInput('c' );
 
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
@@ -55,11 +56,11 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			AnyTerminalInput<char> a;
-			NonTerminalInput<char> b;
+			AnyLetterInput a;
+			NonTerminalInput b;
 
-			a = new AnyTerminalInput<char>();
-			b = new NonTerminalInput<char>() { Name= "A" };
+			a = new AnyLetterInput();
+			b = new NonTerminalInput() { Name= "A" };
 
 
 			Assert.IsFalse(a.Match(null));
@@ -71,10 +72,10 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			AnyTerminalInput<char> a,b;
+			AnyLetterInput a,b;
 
-			a = new AnyTerminalInput<char>();
-			b = new AnyTerminalInput<char>();
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
 
 			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
 

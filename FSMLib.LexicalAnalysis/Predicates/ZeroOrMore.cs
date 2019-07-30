@@ -4,13 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class ZeroOrMore: IZeroOrMorePredicate<char>
+	public class ZeroOrMore: LexicalPredicate,IZeroOrMorePredicate<char>
 	{
 
-		public IPredicate<char> Item
+		[XmlIgnore]
+		IPredicate<char> IZeroOrMorePredicate<char>.Item => Item;
+
+
+		public LexicalPredicate Item
 		{
 			get;
 			set;
@@ -29,12 +34,12 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public  string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override  string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			return $"{Item.ToString(CurrentPredicate)}*";
 		}
 
-		public  bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
 			if (!(other is ZeroOrMore o)) return false;
 			if (Item == null) return o.Item == null;

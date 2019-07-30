@@ -9,6 +9,6 @@ namespace FSMLib.Situations
 {
 	public interface ISituationGraphFactory<T>
 	{
-		SituationGraph<T> BuildSituationGraph(IEnumerable<Rule<T>> Rules);
+		SituationGraph<T> BuildSituationGraph(IEnumerable<IRule<T>> Rules);
 	}
 }

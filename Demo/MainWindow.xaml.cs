@@ -24,6 +24,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.LexicalAnalysis.Predicates;
 
 namespace Demo
 {
@@ -48,7 +49,7 @@ namespace Demo
 			tabControl.ItemsSource = views;
 
 			CreateView("A*=abc", "B*=a.c");
-
+			
 			CreateView(
 				@"A*=[a-c]e",
 				@"B*=[b-d]e");
@@ -78,7 +79,7 @@ namespace Demo
 
 
 		}
-		private void CreateView(BasePredicate<char> Predicate)
+		private void CreateView(LexicalPredicate Predicate)
 		{
 			LexicalRule rule;
 

@@ -17,16 +17,16 @@ namespace FSMLib.UnitTest.Predicates
 			Sequence sequence;
 			Letter terminal;
 
-			terminal = new Letter() { Value = 'a' };
+			terminal = new Letter('a');
 			predicate = new OneOrMore();
 			predicate.Item = terminal;
 
 			Assert.AreEqual("a+", predicate.ToString());
 
 			sequence = new Sequence();
-			sequence.Items.Add(new Letter() { Value = 'a' });
+			sequence.Items.Add(new Letter('a'));
 			sequence.Items.Add(terminal);
-			sequence.Items.Add(new Letter() { Value = 'a' });
+			sequence.Items.Add(new Letter('a'));
 			predicate = new OneOrMore();
 			predicate.Item = sequence;
 			Assert.AreEqual("(aaa)+", predicate.ToString());
@@ -39,16 +39,16 @@ namespace FSMLib.UnitTest.Predicates
 			Sequence sequence;
 			Letter terminal;
 
-			terminal = new Letter() { Value = 'a' };
+			terminal = new Letter('a');
 			predicate = new OneOrMore();
 			predicate.Item = terminal;
 
 			Assert.AreEqual("•a+", predicate.ToString(terminal));
 
 			sequence = new Sequence();
-			sequence.Items.Add(new Letter() { Value = 'a' });
+			sequence.Items.Add(new Letter('a'));
 			sequence.Items.Add(terminal);
-			sequence.Items.Add(new Letter() { Value = 'a' });
+			sequence.Items.Add(new Letter('a'));
 			predicate = new OneOrMore();
 			predicate.Item = sequence;
 			Assert.AreEqual("(a•aa)+", predicate.ToString(terminal));
@@ -62,9 +62,9 @@ namespace FSMLib.UnitTest.Predicates
 
 
 			a = new OneOrMore();
-			a.Item= new Letter() { Value = 'a' };
+			a.Item= new Letter('a');
 			b = new OneOrMore();
-			b.Item = new Letter() { Value = 'a' };
+			b.Item = new Letter('a');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -78,14 +78,14 @@ namespace FSMLib.UnitTest.Predicates
 
 
 			a = new OneOrMore();
-			a.Item = new Letter() { Value = 'a' };
+			a.Item = new Letter('a');
 			b = new OneOrMore();
-			b.Item = new Letter() { Value = 'b' };
+			b.Item = new Letter('b');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(a.Equals(null));
 			Assert.IsFalse(a.Equals(new AnyLetter()));
-			Assert.IsFalse(a.Equals(new EOSPredicate<char>()));
+			Assert.IsFalse(a.Equals(new EOS()));
 
 
 		}

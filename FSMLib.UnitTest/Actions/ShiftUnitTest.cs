@@ -1,6 +1,7 @@
 ﻿using System;
 using FSMLib.Actions;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.UnitTest.AutomatonTables.Actions
@@ -15,10 +16,10 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } };
-			c = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput<char>() { Name = "a" } };
-			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput<char>() { Name = "a" } };
+			a = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput('a' ) };
+			b = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput('a' ) };
+			c = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
+			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
 			Assert.IsTrue(c.Equals(d));
@@ -30,10 +31,10 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'a' } };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput<char>() { Value = 'b' } };
-			c = new Shift<char>() { TargetStateIndex = 2, Input = new TerminalInput<char>() { Value = 'a' } };
-			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput<char>() { Name = "a" } };
+			a = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput( 'a' ) };
+			b = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput( 'b' ) };
+			c = new Shift<char>() { TargetStateIndex = 2, Input = new LetterInput( 'a' ) };
+			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput( "a" )};
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(a));
@@ -48,9 +49,9 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		public void ShouldGetHashCode()
 		{
 			Shift<char> a;
-			TerminalInput<char> input;
+			LetterInput input;
 
-			input = new TerminalInput<char>() { Value = 'a' };
+			input = new LetterInput( 'a' );
 			a = new Shift<char>() { Input = input };
 			Assert.AreEqual(input.GetHashCode(), a.GetHashCode());
 

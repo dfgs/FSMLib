@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using FSMLib.Tables;
 using FSMLib.Table;
 
 using FSMLib.Helpers;
@@ -9,6 +8,8 @@ using FSMLib.Predicates;
 using FSMLib.UnitTest.Mocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
+using FSMLib.Automatons;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.UnitTest
 {
@@ -21,16 +22,16 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> parent, child;
 
 			child = new NonTerminalNode<char>();
-			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'b' } });
-			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'c' } });
-			child.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'd' } });
+			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'b' ) ));
+			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'c' ) ));
+			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'd' ) ));
 
 			parent = new NonTerminalNode<char>();
-			parent.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value='a' } });
+			parent.Nodes.Add(new TerminalNode<char>( new LetterInput('a' ) ));
 			parent.Nodes.Add(child);
-			parent.Nodes.Add(new TerminalNode<char>() { Input = new TerminalInput<char>() { Value = 'e' } });
+			parent.Nodes.Add(new TerminalNode<char>(new LetterInput('e' ) ));
 
-			Assert.AreEqual("abcde", new string( parent.EnumerateInputs().OfType<TerminalInput<char>>().Select(item => item.Value).ToArray() ));
+			Assert.AreEqual("abcde", new string( parent.EnumerateInputs().OfType<LetterInput>().Select(item => item.Value).ToArray() ));
 		}
 
 

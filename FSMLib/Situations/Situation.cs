@@ -11,7 +11,7 @@ namespace FSMLib.Situations
 {
 	public class Situation<T>:IEquatable<Situation<T>>
 	{
-		public Rule<T> Rule
+		public IRule<T> Rule
 		{
 			get;
 			set;
@@ -24,10 +24,10 @@ namespace FSMLib.Situations
 
 		public bool CanReduce
 		{
-			get { return Predicate is ReducePredicate<T>; }
+			get { return Predicate is IReducePredicate<T>; }
 		}
 
-		public BaseTerminalInput<T> Input
+		public ITerminalInput<T> Input
 		{
 			get;
 			set;

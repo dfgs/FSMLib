@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Tables
+namespace FSMLib.Automatons
 {
 	public class NonTerminalNode<T> : BaseNode<T>
 	{
-		public NonTerminalInput<T> Input
+		public INonTerminalInput<T> Input
 		{
 			get;
 			set;
@@ -25,10 +25,14 @@ namespace FSMLib.Tables
 		{
 			this.Nodes = new List<BaseNode<T>>();
 		}
-
-		public override IEnumerable<TerminalInput<T>> EnumerateInputs()
+		public NonTerminalNode(INonTerminalInput<T> Input)
 		{
-			if (Nodes == null) return Enumerable.Empty<TerminalInput<T>>();
+			this.Nodes = new List<BaseNode<T>>();
+			this.Input = Input;
+		}
+		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
+		{
+			if (Nodes == null) return Enumerable.Empty<ITerminalInput<T>>();
 			return Nodes.SelectMany((item) => item.EnumerateInputs());
 		}
 

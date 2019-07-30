@@ -1,21 +1,32 @@
-﻿using FSMLib.Inputs;
+﻿
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Tables
+namespace FSMLib.Automatons
 {
 	public class TerminalNode<T>:BaseNode<T>
 	{
 
-		public TerminalInput<T> Input
+		public ITerminalInput<T> Input
 		{
 			get;
 			set;
 		}
-		public override IEnumerable<TerminalInput<T>> EnumerateInputs()
+
+		public TerminalNode()
+		{
+
+		}
+		public TerminalNode(ITerminalInput<T> Input)
+		{
+			this.Input = Input;
+		}
+
+		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
 		{
 			yield return Input;
 		}

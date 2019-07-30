@@ -50,7 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mocks\AutomatonTableParser.cs" />
-    <Compile Include="Predicates\AnyTerminalUnitTest.cs" />
+    <Compile Include="Predicates\AnyLetterUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Predicates\NonTerminalUnitTest.cs" />
     <Compile Include="Predicates\OneOrMoreUnitTest.cs" />

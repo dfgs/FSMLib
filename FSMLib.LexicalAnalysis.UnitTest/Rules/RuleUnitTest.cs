@@ -19,13 +19,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			Letter item;
 
 			predicate = new Sequence();
-			item = new Letter() { Value = 'a' };
+			item = new Letter('a' );
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'b' };
+			item = new Letter('b' );
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'c' };
+			item = new Letter('c' );
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'd' };
+			item = new Letter('d' );
 			predicate.Items.Add(item);
 
 			rule = new LexicalRule() { Name = "A" };
@@ -42,13 +42,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			Letter item;
 
 			predicate = new Sequence();
-			item = new Letter() { Value = 'a' };
+			item = new Letter('a' );
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'b' };
+			item = new Letter('b' );
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'c' };
+			item = new Letter('c');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'd' };
+			item = new Letter('d');
 			predicate.Items.Add(item);
 
 			rule = new LexicalRule() { Name = "A" };
@@ -66,13 +66,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			Letter item;
 
 			predicate = new Sequence();
-			item = new Letter() { Value = 'a' };
+			item = new Letter('a');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'b' };
+			item = new Letter('b');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'c' };
+			item = new Letter('c');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'd' };
+			item = new Letter('d');
 			predicate.Items.Add(item);
 
 			rule = new LexicalRule() { Name = "A",IsAxiom=true };
@@ -88,13 +88,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			Letter item;
 
 			predicate = new Sequence();
-			item = new Letter() { Value = 'a' };
+			item = new Letter('a');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'b' };
+			item = new Letter('b');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'c' };
+			item = new Letter('c');
 			predicate.Items.Add(item);
-			item = new Letter() { Value = 'd' };
+			item = new Letter('d');
 			predicate.Items.Add(item);
 
 			rule = new LexicalRule() { Name = "A",IsAxiom=true };

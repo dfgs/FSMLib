@@ -6,15 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
+using FSMLib.Automatons;
+using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.Tables
+namespace FSMLib.LexicalAnalysis.Automatons
 {
-	public class Automaton<T>:IAutomaton<T>
+	public class Automaton:IAutomaton<char>
 	{
-		private AutomatonTable<T> automatonTable;
+		private AutomatonTable<char> automatonTable;
 		private int stateIndex;
 
-		private AutomatonStack<BaseNode<T>> nodeStack;
+		private AutomatonStack<BaseNode<char>> nodeStack;
 		private AutomatonStack<int> stateIndexStack;
 
 
@@ -23,11 +25,11 @@ namespace FSMLib.Tables
 			get => nodeStack.Count;
 		}
 
-		public Automaton(AutomatonTable<T> AutomatonTable)
+		public Automaton(AutomatonTable<char> AutomatonTable)
 		{
 			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
 			this.automatonTable = AutomatonTable;
-			nodeStack = new AutomatonStack<BaseNode<T>>();
+			nodeStack = new AutomatonStack<BaseNode<char>>();
 			stateIndexStack = new AutomatonStack<int>();
 			stateIndex = 0;
 		}
@@ -41,10 +43,10 @@ namespace FSMLib.Tables
 
 		
 
-		private bool Shift(NonTerminalNode<T> Node)
+		private bool Shift(NonTerminalNode<char> Node)
 		{
-			State<T> state;
-			Shift<T> action;
+			State<char> state;
+			Shift<char> action;
 
 			state = automatonTable.States[stateIndex];
 			action = state.GetShift(Node.Input);
@@ -56,10 +58,10 @@ namespace FSMLib.Tables
 			return true;
 		}
 
-		private bool Shift(TerminalNode<T> Node)
+		private bool Shift(TerminalNode<char> Node)
 		{
-			State<T> state;
-			Shift<T> action;
+			State<char> state;
+			Shift<char> action;
 
 			state = automatonTable.States[stateIndex];
 			action = state.GetShift(Node.Input);
@@ -71,12 +73,12 @@ namespace FSMLib.Tables
 			return true;
 		}
 
-		private NonTerminalNode<T> Reduce(string Name)
+		private NonTerminalNode<char> Reduce(string Name)
 		{
-			BaseNode<T> baseNode;
-			NonTerminalNode<T> reducedNode;
+			BaseNode<char> baseNode;
+			NonTerminalNode<char> reducedNode;
 
-			reducedNode = new NonTerminalNode<T>() { Input=new NonTerminalInput<T>() { Name=Name } };
+			reducedNode = new NonTerminalNode<char>(new NonTerminalInput(Name ) );
 
 			while (nodeStack.Count > 0)
 			{
@@ -92,10 +94,10 @@ namespace FSMLib.Tables
 
 
 		
-		private NonTerminalNode<T> Reduce(TerminalNode<T> Node)
+		private NonTerminalNode<char> Reduce(TerminalNode<char> Node)
 		{
-			State<T> state;
-			Reduce<T> action;
+			State<char> state;
+			Reduce<char> action;
 
 			state = automatonTable.States[stateIndex];
 			action = state.GetReduce(Node.Input);
@@ -104,9 +106,9 @@ namespace FSMLib.Tables
 			return Reduce(action.Name);
 		}
 
-		private bool CanFeed(IActionInput<T> Input)
+		private bool CanFeed(IActionInput<char> Input)
 		{
-			State<T> state;
+			State<char> state;
 
 			state = automatonTable.States[stateIndex];
 			// check if we can shift
@@ -117,39 +119,39 @@ namespace FSMLib.Tables
 			return false;
 		}
 
-		public bool CanFeed(T Input)
+		public bool CanFeed(char Input)
 		{
-			return CanFeed(new TerminalInput<T>() { Value = Input });
+			return CanFeed(new LetterInput(Input));
 		}
 		private bool CanFeed(string Name)
 		{
-			return CanFeed(new NonTerminalInput<T>() { Name= Name});
+			return CanFeed(new NonTerminalInput(Name));
 		}
 
 
 
-		private void Feed(TerminalInput<T> Input)
+		private void Feed(ITerminalInput<char> Input)
 		{
-			TerminalNode<T> inputNode;
-			NonTerminalNode<T> nonTerminalNode;
+			TerminalNode<char> inputNode;
+			NonTerminalNode<char> nonTerminalNode;
 
-			inputNode = new TerminalNode<T>() { Input = Input };
+			inputNode = new TerminalNode<char>() { Input = Input };
 
 			while (true)
 			{
 				if (Shift(inputNode)) return;
 
 				nonTerminalNode = Reduce(inputNode);
-				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(Input, nodeStack);
+				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<char>(Input, nodeStack);
 			}
 
 		}
 
-		public void Feed(T Value)
+		public void Feed(char Value)
 		{
-			TerminalInput<T> input;
+			ITerminalInput<char> input;
 
-			input = new TerminalInput<T>() { Value = Value };
+			input = new LetterInput(Value);
 			Feed(input);
 		}
 		
@@ -158,39 +160,39 @@ namespace FSMLib.Tables
 
 		public bool CanAccept()
 		{
-			State<T> state;
-			Reduce<T> action;
+			State<char> state;
+			Reduce<char> action;
 
 			state = automatonTable.States[stateIndex];
 			//axiom = state.AcceptActions.FirstOrDefault();
 
-			action = state.GetReduce(new EOSInput<T>()); 
+			action = state.GetReduce(new EOSInput()); 
 
 			return action!=null;
 		}
 
-		public NonTerminalNode<T> Accept()
+		public NonTerminalNode<char> Accept()
 		{
-			NonTerminalNode<T> nonTerminalNode;
-			EOSInput<T> eosInput;
-			State<T> state;
-			Reduce<T> action;
+			NonTerminalNode<char> nonTerminalNode;
+			EOSInput eosInput;
+			State<char> state;
+			Reduce<char> action;
 
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
-			eosInput= new EOSInput<T>(); 
+			eosInput= new EOSInput(); 
 
 			while (true)
 			{
 
 				state = automatonTable.States[stateIndex];
 				action = state.GetReduce(eosInput);
-				if (action == null) throw new AutomatonException<T>(eosInput, nodeStack);
+				if (action == null) throw new AutomatonException<char>(eosInput, nodeStack);
 
 				nonTerminalNode=Reduce(action.Name);
 				if (action.IsAxiom) return nonTerminalNode;
 
-				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
+				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<char>(eosInput, nodeStack);
 			}
 
 		}

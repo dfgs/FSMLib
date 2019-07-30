@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Predicates;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,18 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class Letter:ISituationPredicate<char>
+	public class Letter: LexicalPredicate, ISituationPredicate<char>
 	{
 		[XmlAttribute]
 		public char Value
 		{
 			get;
 			set;
+		}
+
+		public Letter()
+		{
+			this.Value = (char)0;
 		}
 
 		public Letter(char Value)
@@ -25,7 +31,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public  IInput<char> GetInput()
 		{
-			return new TerminalInput<char>() { Value = Value };
+			return new LetterInput(Value );
 		}
 
 		public override string ToString()
@@ -33,14 +39,14 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return ToString(null);
 		}
 
-		public string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return $"•{Value}";
 			else return Value.ToString();
 		}
 
 
-		public  bool Equals(IPredicate<char> other)
+		public override  bool Equals(IPredicate<char> other)
 		{
 			if (!(other is Letter letter)) return false;
 			return Value==letter.Value;
@@ -52,7 +58,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 		public bool Match(IInput<char> Input)
 		{
-			if (!(Input is TerminalInput<char> o)) return false;
+			if (!(Input is LetterInput o)) return false;
 			return (o.Value == Value);
 		}
 

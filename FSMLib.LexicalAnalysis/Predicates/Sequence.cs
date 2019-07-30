@@ -9,25 +9,25 @@ using System.Xml.Serialization;
 namespace FSMLib.LexicalAnalysis.Predicates
 {
 	[Serializable]
-	public class Sequence:ISequencePredicate<char>
+	public class Sequence: LexicalPredicate, ISequencePredicate<char>
 	{
 
 
+		[XmlIgnore]
+		IEnumerable<IPredicate<char>> ISequencePredicate<char>.Items => Items;
+
 
 		[XmlArray]
-		public List<IPredicate<char>> Items
+		public List<LexicalPredicate> Items
 		{
 			get;
 			set;
 		}
 
 
-		IEnumerable<IPredicate<char>> ISequencePredicate<char>.Items => Items;
-
-
 		public Sequence()
 		{
-			Items = new List<IPredicate<char>>();
+			Items = new List<LexicalPredicate>();
 		}
 
 
@@ -38,18 +38,18 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
 			return $"({string.Join("", Items.Select(item => item.ToString(CurrentPredicate)))})";
 
 		}
 
-		public  bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
 			if (!(other is Sequence o)) return false;
 			if (Items == null) return o.Items == null;
-			return Items.IsStrictelyIndenticalToEx(o.Items);
+			return ((ISequencePredicate<char>)this).Items.IsStrictelyIndenticalToEx(o.Items);
 		}
 
 

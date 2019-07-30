@@ -10,7 +10,7 @@ namespace FSMLib.Situations
 {
 	public class SituationNode<T>
 	{
-		public Rule<T> Rule
+		public IRule<T> Rule
 		{
 			get;
 			set;

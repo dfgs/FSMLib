@@ -1,28 +1,29 @@
-﻿using System;
+﻿using FSMLib.Inputs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Inputs
+namespace FSMLib.LexicalAnalysis.Inputs
 {
-	public class EOSInput<T>: BaseTerminalInput<T>, IActionInput<T>
+	public class EOSInput: ITerminalInput<char>, IActionInput<char>
 	{
 		private static int hashCode = "EOSInput".GetHashCode();
 
 		
 		
-		public override bool Equals(IInput<T> other)
+		public  bool Equals(IInput<char> other)
 		{
-			return other is EOSInput<T>;
+			return other is EOSInput;
 		}
-		public override bool Match(IInput<T> Other)
+		public  bool Match(IInput<char> Other)
 		{
 			if (Other == null) return false;
-			return Other is EOSInput<T>;
+			return Other is EOSInput;
 		}
 
-		public override bool Match(T Value)
+		public  bool Match(char Value)
 		{
 			return false;
 		}

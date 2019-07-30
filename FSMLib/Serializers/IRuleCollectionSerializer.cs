@@ -10,8 +10,8 @@ namespace FSMLib.Serializers
 {
 	public interface IRuleCollectionSerializer<T>
 	{
-		void SaveToStream(Stream Stream, IEnumerable<Rule<T>> Rules);
-		IEnumerable<Rule<T>> LoadStream(Stream Stream);
+		void SaveToStream(Stream Stream, IEnumerable<IRule<T>> Rules);
+		IEnumerable<IRule<T>> LoadStream(Stream Stream);
 
 	}
 }

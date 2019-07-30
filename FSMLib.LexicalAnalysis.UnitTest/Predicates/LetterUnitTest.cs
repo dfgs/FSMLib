@@ -1,4 +1,5 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
@@ -15,7 +16,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Letter predicate;
 
-			predicate = new Letter() { Value = 'a' };
+			predicate = new Letter('a');
 
 			Assert.AreEqual("a", predicate.ToString());
 		}
@@ -24,7 +25,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			Letter predicate;
 
-			predicate = new Letter() { Value = 'a' };
+			predicate = new Letter('a');
 
 			Assert.AreEqual("•a", predicate.ToString(predicate));
 		}
@@ -36,10 +37,10 @@ namespace FSMLib.UnitTest.Predicates
 			Letter predicate;
 			IInput<char> input;
 
-			predicate = new Letter() { Value = 'a' };
+			predicate = new Letter('a');
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.AreEqual('a', ((TerminalInput<char>)input).Value);
+			Assert.AreEqual('a', ((LetterInput)input).Value);
 		}
 		[TestMethod]
 		public void ShouldMatch()
@@ -47,10 +48,10 @@ namespace FSMLib.UnitTest.Predicates
 			Letter predicate;
 			
 
-			predicate = new Letter() { Value = 'a' };
+			predicate = new Letter('a');
 
 			Assert.IsTrue(predicate.Match('a'));
-			Assert.IsTrue(predicate.Match(new TerminalInput<char>() {Value='a' }));
+			Assert.IsTrue(predicate.Match(new LetterInput('a')));
 
 		}
 		[TestMethod]
@@ -59,12 +60,12 @@ namespace FSMLib.UnitTest.Predicates
 			Letter predicate;
 
 
-			predicate = new Letter() { Value = 'a' };
+			predicate = new Letter('a');
 
 			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
-			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
+			Assert.IsFalse(predicate.Match(new LetterInput('b')));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput("a")));
+			Assert.IsFalse(predicate.Match(new EOSInput() ));
 
 		}
 		[TestMethod]
@@ -73,8 +74,8 @@ namespace FSMLib.UnitTest.Predicates
 			Letter a,b;
 
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'a' };
+			a = new Letter('a');
+			b = new Letter('a');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -87,13 +88,13 @@ namespace FSMLib.UnitTest.Predicates
 			Letter a, b;
 
 
-			a = new Letter() { Value = 'a' };
-			b = new Letter() { Value = 'b' };
+			a = new Letter('a');
+			b = new Letter('b');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
 			Assert.IsFalse(b.Equals(new AnyLetter()));
-			Assert.IsFalse(b.Equals(new EOSPredicate<char>()));
+			Assert.IsFalse(b.Equals(new EOS()));
 
 
 		}

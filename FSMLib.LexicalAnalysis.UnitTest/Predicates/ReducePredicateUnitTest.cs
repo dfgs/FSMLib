@@ -1,11 +1,12 @@
 ﻿using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace FSMLib.UnitTest.Predicates
+namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 {
 	[TestClass]
 	public class ReducePredicateUnitTest
@@ -13,18 +14,18 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			ReducePredicate<char> predicate;
+			Reduce predicate;
 
-			predicate = new ReducePredicate<char>();
+			predicate = new Reduce();
 
 			Assert.AreEqual("←", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			ReducePredicate<char> predicate;
+			Reduce predicate;
 
-			predicate = new ReducePredicate<char>();
+			predicate = new Reduce();
 
 			Assert.AreEqual("•←", predicate.ToString(predicate));
 		}
@@ -34,24 +35,24 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotMatch()
 		{
-			ReducePredicate<char> predicate;
+			Reduce predicate;
 
 
-			predicate = new ReducePredicate<char>();
+			predicate = new Reduce();
 
 			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new TerminalInput<char>() { Value = 'b' }));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput<char>() { Name = "a" }));
-			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
+			Assert.IsFalse(predicate.Match(new LetterInput( 'b') ));
+			Assert.IsFalse(predicate.Match(new NonTerminalInput("a" )));
+			Assert.IsFalse(predicate.Match(new EOSInput() ));
 
 		}
 		[TestMethod]
 		public void ShouldNotGetInput()
 		{
-			ReducePredicate<char> predicate;
+			Reduce predicate;
 			IInput<char> input;
 
-			predicate = new ReducePredicate<char>();
+			predicate = new Reduce();
 			input = predicate.GetInput();
 			Assert.IsNull(input);
 		}
@@ -59,11 +60,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			ReducePredicate<char> a, b;
+			Reduce a, b;
 
 
-			a = new ReducePredicate<char>();
-			b = new ReducePredicate<char>();
+			a = new Reduce();
+			b = new Reduce();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -73,13 +74,13 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			ReducePredicate<char> a;
+			Reduce a;
 
 
-			a = new ReducePredicate<char>();
+			a = new Reduce();
 
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new Letter()));
+			Assert.IsFalse(a.Equals(new Letter('a')));
 			Assert.IsFalse(a.Equals(new AnyLetter()));
 
 

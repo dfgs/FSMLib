@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.UnitTest.Mocks
 {
@@ -22,7 +23,7 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].Add(new Shift<char>() { Input = new TerminalInput<char>() { Value = Values[t] }, TargetStateIndex = t+1 });
+				States[t].Add(new Shift<char>() { Input = new LetterInput(Values[t] ), TargetStateIndex = t+1 });
 			}
 
 		}
@@ -33,7 +34,7 @@ namespace FSMLib.UnitTest.Mocks
 			for (int t = 0; t < Values.Length; t++)
 			{
 				States.Add(new State<char>());
-				States[t].Add(new Shift<char>() { Input = new NonTerminalInput<char>() { Name= Values[t] } , TargetStateIndex = t + 1 });
+				States[t].Add(new Shift<char>() { Input = new NonTerminalInput( Values[t]) , TargetStateIndex = t + 1 });
 			}
 		}
 

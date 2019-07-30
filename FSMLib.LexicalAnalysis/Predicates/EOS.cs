@@ -4,37 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
+using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Predicates;
 using FSMLib.Rules;
 
-namespace FSMLib.Predicates
+namespace FSMLib.LexicalAnalysis.Predicates
 {
 	[Serializable]
-	public class EOS: IEOSPredicate<char>
+	public class EOS: LexicalPredicate, IEOSPredicate<char>
 	{
 		public  IInput<char> GetInput()
 		{
-			return new EOSInput<char>();
+			return new EOSInput();
 		}
 
 		public override string ToString()
 		{
 			return ToString(null);
 		}
-		public  string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (CurrentPredicate == this) return "•¤";
 			else return "¤";
 		}
 
-		public  bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
 			return other is EOS;
 		}
 
+		public  bool Match(char Input)
+		{
+			return false;
+		}
 
-		
-
-
-
+		public  bool Match(IInput<char> Input)
+		{
+			return Input is EOSInput; 
+		}
 	}
 }

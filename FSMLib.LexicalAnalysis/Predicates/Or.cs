@@ -9,21 +9,24 @@ using System.Xml.Serialization;
 namespace FSMLib.LexicalAnalysis.Predicates
 {
 	[Serializable]
-	public class Or:IOrPredicate<char>
+	public class Or: LexicalPredicate, IOrPredicate<char>
 	{
 
+		[XmlIgnore]
+		IEnumerable<IPredicate<char>> IOrPredicate<char>.Items => Items;
+
+
 		[XmlArray]
-		public List<IPredicate<char>> Items
+		public List<LexicalPredicate> Items
 		{
 			get;
 			set;
 		}
 
-		IEnumerable<IPredicate<char>> IOrPredicate<char>.Items => Items;
 
 		public Or()
 		{
-			Items = new List<IPredicate<char>>();
+			Items = new List<LexicalPredicate>();
 		}
 
 
@@ -34,18 +37,18 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public string ToString(ISituationPredicate<char> CurrentPredicate)
+		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
 			if (Items.Count == 1) return Items[0].ToString(CurrentPredicate);
 			return $"({string.Join("|", Items.Select(item => item.ToString(CurrentPredicate)))})";
 
 		}
 
-		public bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
 			if (!(other is Or o)) return false;
 			if (Items == null) return o.Items == null;
-			return Items.IsStrictelyIndenticalToEx(o.Items);
+			return ((IOrPredicate<char>)this).Items.IsStrictelyIndenticalToEx(o.Items);
 		}
 
 	}
