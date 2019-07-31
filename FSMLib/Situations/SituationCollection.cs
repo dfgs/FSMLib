@@ -11,7 +11,7 @@ namespace FSMLib.Situations
 {
 	public class SituationCollection<T> :  ISituationCollection<T>
 	{
-		private List<Situation<T>> items;
+		private readonly List<Situation<T>> items;
 
 		public Situation<T> this[int Index]
 		{
@@ -56,10 +56,10 @@ namespace FSMLib.Situations
 
 		public IEnumerable<Situation<T>> GetReductionSituations()
 		{
-			return items.Where(item => item.CanReduce && (item.Input!=null)).DistinctEx();
+			return items.Where(item => item.CanReduce ).DistinctEx();
 		}
 
-		public IEnumerable<IActionInput<T>> GetNextInputs(T AlphabetFirstValue, T AlphabetLastValue)
+		public IEnumerable<IActionInput<T>> GetNextInputs()
 		{
 			return items.Select(item => item.Predicate.GetInput()).DistinctEx().OfType<IActionInput<T>>();
 		}

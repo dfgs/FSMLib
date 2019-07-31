@@ -60,7 +60,7 @@ namespace FSMLib.Situations
 			switch (Predicate)
 			{
 				case IEOSPredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
-				case IReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
+				//case IReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
 				//case INonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				//case IAnyTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				//case ITerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);

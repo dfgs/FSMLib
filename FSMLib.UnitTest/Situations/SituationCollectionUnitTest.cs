@@ -217,7 +217,7 @@ namespace FSMLib.UnitTest.Situations
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs( (char)0, (char)255).ToArray();
+			inputs = situations.GetNextInputs( ).ToArray();
 			Assert.AreEqual(1, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 		}
@@ -241,7 +241,7 @@ namespace FSMLib.UnitTest.Situations
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs((char)0, (char)255).ToArray();
+			inputs = situations.GetNextInputs().ToArray();
 			Assert.AreEqual(2, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 			Assert.IsTrue(inputs[1].Match('b'));
@@ -265,7 +265,7 @@ namespace FSMLib.UnitTest.Situations
 			situations.Add(b);
 			situations.Add(c);
 
-			inputs = situations.GetNextInputs((char)0, (char)255).ToArray();
+			inputs = situations.GetNextInputs().ToArray();
 			Assert.AreEqual(3, inputs.Length);
 			Assert.IsTrue(inputs[0].Match('a'));
 			Assert.IsTrue(inputs[1].Match('b'));

@@ -21,7 +21,7 @@ namespace FSMLib.Helpers
 
 			automatonTableFactory = new AutomatonTableFactory<char>( );
 			situationCollectionFactory = new SituationCollectionFactory(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray()));
-			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory,(char)0,(char)255);
+			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory);
 		
 			return automatonTable;
 

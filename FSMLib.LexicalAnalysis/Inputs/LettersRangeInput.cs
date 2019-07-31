@@ -36,9 +36,6 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			return false;
 		}
 
-
-
-
 		public  bool Match(char Input)
 		{
 			return (Input >= FirstValue) && (Input <= LastValue);
@@ -46,9 +43,8 @@ namespace FSMLib.LexicalAnalysis.Inputs
 		public  bool Match(IInput<char> Input)
 		{
 			if ((Input is LetterInput terminal)) return Match(terminal.Value);
-			else if (Input is LettersRangeInput terminalRange) return (terminalRange.FirstValue.Equals(this.FirstValue) && terminalRange.LastValue.Equals(this.LastValue));
+			else if (Input is LettersRangeInput terminalRange) return (terminalRange.FirstValue==this.FirstValue) && (terminalRange.LastValue==this.LastValue);
 			else return false;
-
 		}
 
 		public override string ToString()

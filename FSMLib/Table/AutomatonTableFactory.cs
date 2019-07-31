@@ -56,7 +56,7 @@ namespace FSMLib.Table
 		}
 		
 
-		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory, T AlphabetFirstValue, T AlphabetLastValue)
+		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory)
 		{
 
 			SituationDictionary<T> situationDictionary;
@@ -83,7 +83,7 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				nextInputs = currentTuple.Situations.GetNextInputs(AlphabetFirstValue,AlphabetLastValue);
+				nextInputs = currentTuple.Situations.GetNextInputs();
 
 
 				foreach (IActionInput<T> input in nextInputs)

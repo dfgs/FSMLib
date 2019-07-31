@@ -30,7 +30,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			rule = RuleHelper.BuildRule("A*=abc");
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory( rule.AsEnumerable()),(char)0,(char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory( rule.AsEnumerable()));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser(automatonTable);
@@ -56,7 +56,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			rule1 = RuleHelper.BuildRule("A*=abc");
 			rule2 = RuleHelper.BuildRule("B*=abc");
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1,rule2 }), (char)0, (char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1,rule2 }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser(automatonTable);
@@ -83,7 +83,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			rule1 = RuleHelper.BuildRule("A*=a.c");
 			rule2 = RuleHelper.BuildRule("B*=abc");
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }), (char)0, (char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser(automatonTable);
@@ -119,7 +119,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			rule = RuleHelper.BuildRule("A*=a|b|c");
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()));
 			Assert.IsNotNull(automatonTable);
 	
 			parser = new AutomatonTableParser(automatonTable);
@@ -153,7 +153,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			rule = new LexicalRule() { Name="rule",IsAxiom=true };
 			rule.Predicate = new ZeroOrMore() { Item = predicate };
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()));
 			Assert.IsNotNull(automatonTable);
 	
 			parser = new AutomatonTableParser(automatonTable);
@@ -183,7 +183,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 			rule1 = RuleHelper.BuildRule("A*=abc");
 			rule2 = RuleHelper.BuildRule("A*=abc");
 
-			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }), (char)0, (char)255);
+			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }));
 			Assert.IsNotNull(automatonTable);
 
 			parser = new AutomatonTableParser(automatonTable);

@@ -33,8 +33,8 @@ namespace Demo
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private ObservableCollection<GraphView> views;
-		private AutomatonTableFactory<char> automatonTableFactory;
+		private readonly ObservableCollection<GraphView> views;
+		private readonly AutomatonTableFactory<char> automatonTableFactory;
 
 		//private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't', '*' };
 
@@ -79,16 +79,16 @@ namespace Demo
 
 
 		}
-		private void CreateView(LexicalPredicate Predicate)
+		/*private void CreateView(LexicalPredicate Predicate)
 		{
 			LexicalRule rule;
 
 			rule = new LexicalRule() { Predicate = Predicate };
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()), (char)0, (char)255));
-		}
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable())));
+		}*/
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), (char)0, (char)255));
+			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) )));
 		}
 		private void CreateView(AutomatonTable<char> Model)
 		{

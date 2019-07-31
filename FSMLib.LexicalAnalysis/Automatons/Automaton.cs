@@ -13,11 +13,11 @@ namespace FSMLib.LexicalAnalysis.Automatons
 {
 	public class Automaton:IAutomaton<char>
 	{
-		private AutomatonTable<char> automatonTable;
+		private readonly AutomatonTable<char> automatonTable;
 		private int stateIndex;
 
-		private AutomatonStack<BaseNode<char>> nodeStack;
-		private AutomatonStack<int> stateIndexStack;
+		private readonly AutomatonStack<BaseNode<char>> nodeStack;
+		private readonly AutomatonStack<int> stateIndexStack;
 
 
 		public int StackCount

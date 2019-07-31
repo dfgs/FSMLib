@@ -9,7 +9,6 @@ namespace FSMLib.LexicalAnalysis.Inputs
 {
 	public class EOSInput: ITerminalInput<char>, IActionInput<char>
 	{
-		private static int hashCode = "EOSInput".GetHashCode();
 
 		
 		
@@ -34,7 +33,7 @@ namespace FSMLib.LexicalAnalysis.Inputs
 		}
 		public override int GetHashCode()
 		{
-			return hashCode;
+			return HashCodes.EOS ;
 		}
 
 	}
