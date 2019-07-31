@@ -166,7 +166,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			state = automatonTable.States[stateIndex];
 			//axiom = state.AcceptActions.FirstOrDefault();
 
-			action = state.GetReduce(new EOSInput()); 
+			action = state.GetReduce(new EOSInput<char>()); 
 
 			return action!=null;
 		}
@@ -174,13 +174,13 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		public NonTerminalNode<char> Accept()
 		{
 			NonTerminalNode<char> nonTerminalNode;
-			EOSInput eosInput;
+			EOSInput<char> eosInput;
 			State<char> state;
 			Reduce<char> action;
 
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
-			eosInput= new EOSInput(); 
+			eosInput= new EOSInput<char>(); 
 
 			while (true)
 			{

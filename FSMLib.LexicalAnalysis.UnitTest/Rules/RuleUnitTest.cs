@@ -110,8 +110,8 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			LexicalRule rule1;
 			LexicalRule rule2;
 
-			rule1 = RuleHelper.BuildRule("A*=a");
-			rule2 = RuleHelper.BuildRule("A*=a");
+			rule1 = RuleHelper.BuildRule("A*=a;");
+			rule2 = RuleHelper.BuildRule("A*=a;");
 			Assert.IsTrue(rule1.Equals(rule2));
 		}
 		[TestMethod]
@@ -122,10 +122,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Rules
 			LexicalRule rule3;
 			LexicalRule rule4;
 
-			rule1 = RuleHelper.BuildRule("A*=a");
-			rule2 = RuleHelper.BuildRule("A*=b");
-			rule3 = RuleHelper.BuildRule("A=a");
-			rule4 = RuleHelper.BuildRule("B*=a");
+			rule1 = RuleHelper.BuildRule("A*=a;");
+			rule2 = RuleHelper.BuildRule("A*=b;");
+			rule3 = RuleHelper.BuildRule("A=a;");
+			rule4 = RuleHelper.BuildRule("B*=a;");
 
 			Assert.IsFalse(rule1.Equals(null));
 			Assert.IsFalse(rule1.Equals(rule2));

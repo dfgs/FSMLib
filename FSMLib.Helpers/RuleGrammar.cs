@@ -22,8 +22,9 @@ namespace FSMLib.Helpers
 		private static readonly Parser<char> Star = Parse.Char('*');
 		private static readonly Parser<char> QuestionMark = Parse.Char('?');
 		private static readonly Parser<char> Pipe = Parse.Char('|');
+		private static readonly Parser<char> SemiColon = Parse.Char(';');
 
-		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(OpenBrace).Or(CloseBrace).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe);
+		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(OpenBrace).Or(CloseBrace).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe).Or(SemiColon);
 		private static Parser<char> NormalChar = Parse.AnyChar.Except(SpecialChar);
 
 		private static readonly Parser<char> EscapedChar =
@@ -32,9 +33,13 @@ namespace FSMLib.Helpers
 			select c;
 
 
+		public static readonly Parser<Reduce> Reduce =
+			from value in SemiColon
+			select new Reduce();
+
 		public static readonly Parser<Letter> Terminal =
 			from value in NormalChar.Or(EscapedChar)
-			select new Letter(value );
+			select new Letter(value);
 
 		public static readonly Parser<NonTerminal> NonTerminal =
 			from open in OpenBrace
@@ -101,7 +106,8 @@ namespace FSMLib.Helpers
 			from name in Parse.Letter.Many().Text().Token()
 			from _ in Parse.Char('=')
 			from predicate in RuleGrammar.Or.Or<LexicalPredicate>(Sequence).Or(SinglePredicate)
-			select new LexicalRule() { Name = name, Predicate = predicate, IsAxiom =false };
+			from reducePredicate in Reduce
+			select new LexicalRule() { Name = name, Predicate = new Sequence( predicate,reducePredicate), IsAxiom =false };
 
 		public static readonly Parser<LexicalRule> AxiomRule =
 			from name in Parse.Letter.Many().Text().Token()
@@ -109,7 +115,8 @@ namespace FSMLib.Helpers
 			from __ in Parse.WhiteSpace.Many()
 			from ___ in Parse.Char('=')
 			from predicate in RuleGrammar.Or.Or<LexicalPredicate>(Sequence).Or(SinglePredicate)
-			select new LexicalRule() { Name = name, Predicate = predicate,IsAxiom=true };
+			from reducePredicate in Reduce
+			select new LexicalRule() { Name = name, Predicate = new Sequence(predicate, reducePredicate), IsAxiom=true };
 
 		public static readonly Parser<LexicalRule> Rule =
 			AxiomRule.Or(NonAxiomRule);

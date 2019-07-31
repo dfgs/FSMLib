@@ -29,6 +29,11 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		{
 			Items = new List<LexicalPredicate>();
 		}
+		public Sequence(params LexicalPredicate[] Predicates)
+		{
+			Items = new List<LexicalPredicate>();
+			Items.AddRange(Predicates);
+		}
 
 
 

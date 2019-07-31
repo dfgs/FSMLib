@@ -24,8 +24,8 @@ namespace FSMLib.UnitTest.Serializers
 			MemoryStream stream;
 
 			rules = new List<IRule<char>>();
-			rules.Add(RuleHelper.BuildRule("A*=a"));
-			rules.Add(RuleHelper.BuildRule("B=b"));
+			rules.Add(RuleHelper.BuildRule("A*=a;"));
+			rules.Add(RuleHelper.BuildRule("B=b;"));
 
 			stream = new MemoryStream();
 
@@ -48,8 +48,8 @@ namespace FSMLib.UnitTest.Serializers
 			MemoryStream stream;
 
 			rules = new List<IRule<char>>();
-			rules.Add(RuleHelper.BuildRule("A*=abc"));
-			rules.Add(RuleHelper.BuildRule("B=bcdef"));
+			rules.Add(RuleHelper.BuildRule("A*=abc;"));
+			rules.Add(RuleHelper.BuildRule("B=bcdef;"));
 
 			stream = new MemoryStream();
 
@@ -72,8 +72,8 @@ namespace FSMLib.UnitTest.Serializers
 			MemoryStream stream;
 
 			rules = new List<IRule<char>>();
-			rules.Add(RuleHelper.BuildRule("A*=a*{B}+c?."));
-			rules.Add(RuleHelper.BuildRule("B={B}|c*|d+|e|f"));
+			rules.Add(RuleHelper.BuildRule("A*=a*{B}+c?.;"));
+			rules.Add(RuleHelper.BuildRule("B={B}|c*|d+|e|f;"));
 
 			stream = new MemoryStream();
 
@@ -99,8 +99,8 @@ namespace FSMLib.UnitTest.Serializers
 			RuleCollectionSerializer serializer;
 
 			rules = new List<IRule<char>>();
-			rules.Add(RuleHelper.BuildRule("A*=a*{B}+c?."));
-			rules.Add(RuleHelper.BuildRule("B={B}|c*|d+|e|f"));
+			rules.Add(RuleHelper.BuildRule("A*=a*{B}+c?.;"));
+			rules.Add(RuleHelper.BuildRule("B={B}|c*|d+|e|f;"));
 
 			serializer = new RuleCollectionSerializer();
 			//serializer.SaveToStream(new FileStream(@"d:\test.xml", FileMode.Create), rules);

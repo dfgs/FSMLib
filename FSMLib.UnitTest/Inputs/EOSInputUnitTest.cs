@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
+namespace FSMLib.UnitTest.Inputs
 {
 	/// <summary>
 	/// Description résumée pour TerminalInputUnitTest
@@ -18,10 +18,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			EOSInput a, b;
+			EOSInput<char> a, b;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new EOSInput<char>();
+			b = new EOSInput<char>();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -30,9 +30,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			EOSInput a;
+			EOSInput<char> a;
 
-			a = new EOSInput();
+			a = new EOSInput<char>();
 
 			Assert.IsFalse(a.Equals(new NonTerminalInput()));
 			Assert.IsFalse(a.Equals(new LetterInput('a')));
@@ -41,10 +41,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			EOSInput a,b;
+			EOSInput<char> a,b;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new EOSInput<char>();
+			b = new EOSInput<char>();
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
 
@@ -52,10 +52,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			EOSInput a;
+			EOSInput<char> a;
 			LetterInput b;
 
-			a = new EOSInput();
+			a = new EOSInput<char>();
 			b = new LetterInput('a' );
 
 
@@ -66,9 +66,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatchT()
 		{
-			EOSInput a;
+			EOSInput<char> a;
 
-			a = new EOSInput();
+			a = new EOSInput<char>();
 
 			Assert.IsFalse(a.Match('a'));
 
@@ -77,10 +77,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			EOSInput a,b;
+			EOSInput<char> a,b;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new EOSInput<char>();
+			b = new EOSInput<char>();
 
 			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
 

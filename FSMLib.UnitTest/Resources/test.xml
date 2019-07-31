@@ -3,31 +3,41 @@
 	<LexicalRule Name="A" IsAxiom="true">
 		<Predicate xsi:type="Sequence">
 			<Items>
-				<LexicalPredicate xsi:type="ZeroOrMore">
-					<Item xsi:type="Letter" Value="97" />
+				<LexicalPredicate xsi:type="Sequence">
+					<Items>
+						<LexicalPredicate xsi:type="ZeroOrMore">
+							<Item xsi:type="Letter" Value="97" />
+						</LexicalPredicate>
+						<LexicalPredicate xsi:type="OneOrMore">
+							<Item xsi:type="NonTerminal" Name="B" />
+						</LexicalPredicate>
+						<LexicalPredicate xsi:type="Optional">
+							<Item xsi:type="Letter" Value="99" />
+						</LexicalPredicate>
+						<LexicalPredicate xsi:type="AnyLetter" />
+					</Items>
 				</LexicalPredicate>
-				<LexicalPredicate xsi:type="OneOrMore">
-					<Item xsi:type="NonTerminal" Name="B" />
-				</LexicalPredicate>
-				<LexicalPredicate xsi:type="Optional">
-					<Item xsi:type="Letter" Value="99" />
-				</LexicalPredicate>
-				<LexicalPredicate xsi:type="AnyLetter" />
+				<LexicalPredicate xsi:type="Reduce" />
 			</Items>
 		</Predicate>
 	</LexicalRule>
 	<LexicalRule Name="B" IsAxiom="false">
-		<Predicate xsi:type="Or">
+		<Predicate xsi:type="Sequence">
 			<Items>
-				<LexicalPredicate xsi:type="NonTerminal" Name="B" />
-				<LexicalPredicate xsi:type="ZeroOrMore">
-					<Item xsi:type="Letter" Value="99" />
+				<LexicalPredicate xsi:type="Or">
+					<Items>
+						<LexicalPredicate xsi:type="NonTerminal" Name="B" />
+						<LexicalPredicate xsi:type="ZeroOrMore">
+							<Item xsi:type="Letter" Value="99" />
+						</LexicalPredicate>
+						<LexicalPredicate xsi:type="OneOrMore">
+							<Item xsi:type="Letter" Value="100" />
+						</LexicalPredicate>
+						<LexicalPredicate xsi:type="Letter" Value="101" />
+						<LexicalPredicate xsi:type="Letter" Value="102" />
+					</Items>
 				</LexicalPredicate>
-				<LexicalPredicate xsi:type="OneOrMore">
-					<Item xsi:type="Letter" Value="100" />
-				</LexicalPredicate>
-				<LexicalPredicate xsi:type="Letter" Value="101" />
-				<LexicalPredicate xsi:type="Letter" Value="102" />
+				<LexicalPredicate xsi:type="Reduce" />
 			</Items>
 		</Predicate>
 	</LexicalRule>

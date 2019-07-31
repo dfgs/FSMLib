@@ -48,33 +48,33 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
-			CreateView("A*=a.c", "B*=abc");
+			CreateView("A*=a.c;", "B*=abc;");
 			
 			CreateView(
-				@"A*=[a-c]e",
-				@"B*=[b-d]e");
+				@"A*=[a-c]e;",
+				@"B*=[b-d]e;");
 
 			CreateView(
-			@"L=[a-b]|[c-d]",
-				@"N={L}+",
-				@"A={L}+\*",
-				@"R*={N}|{A}");
+			@"L=[a-b]|[c-d];",
+				@"N={L}+;",
+				@"A={L}+\*;",
+				@"R*={N}|{A};");
 
-			CreateView("A*=ab{B}", "B={C}", "C={D}", "D=c");
-			CreateView("A*=a{S}a", "S={S}b", "S=c");
+			CreateView("A*=ab{B};", "B={C};", "C={D};", "D=c;");
+			CreateView("A*=a{S}a;", "S={S}b;", "S=c;");
 
-			CreateView("A=abc", "B=def","E*={A}|{B}");
-			CreateView("A*=ab{C}*", "C=c");
-			CreateView("A*=a{B}{C}", "B={C}", "C=b");
-			CreateView("A*=a{BCD}e", "BCD=b{C}d", "C=c");
+			CreateView("A=abc;", "B=def;","E*={A}|{B};");
+			CreateView("A*=ab{C}*;", "C=c;");
+			CreateView("A*=a{B}{C};", "B={C};", "C=b;");
+			CreateView("A*=a{BCD}e;", "BCD=b{C}d;", "C=c;");
 
-			CreateView("A*=a{B}c", "B={C}", "C=b");
-			CreateView("A*=a{B}d", "B=bc?");
-			CreateView("A*=a{S}a", "S={S}b", "S=c");
+			CreateView("A*=a{B}c;", "B={C};", "C=b;");
+			CreateView("A*=a{B}d;", "B=bc?;");
+			CreateView("A*=a{S}a;", "S={S}b;", "S=c;");
 
-			CreateView("A*=abcde");
-			CreateView("A*=a{S}a", "S=st");
-			CreateView("A*=a{B}a", "B=b{A}b");//*/
+			CreateView("A*=abcde;");
+			CreateView("A*=a{S}a;", "S=st;");
+			CreateView("A*=a{B}a;", "B=b{A}b;");//*/
 
 
 

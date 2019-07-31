@@ -15,7 +15,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 	{
 		public  IInput<char> GetInput()
 		{
-			return new EOSInput();
+			return new EOSInput<char>();
 		}
 
 		public override string ToString()
@@ -40,7 +40,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public  bool Match(IInput<char> Input)
 		{
-			return Input is EOSInput; 
+			return Input is EOSInput<char>; 
 		}
 	}
 }

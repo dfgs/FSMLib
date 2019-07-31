@@ -34,7 +34,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(a.Equals(new NonTerminalInput()));
-			Assert.IsFalse(a.Equals(new EOSInput()));
+			Assert.IsFalse(a.Equals(new EOSInput<char>()));
 		}
 
 
@@ -53,11 +53,11 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		public void ShoudNotMatch()
 		{
 			LetterInput a, b;
-			EOSInput c;
+			EOSInput<char> c;
 
 			a = new LetterInput('a');
 			b = new LetterInput('b');
-			c = new EOSInput();
+			c = new EOSInput<char>();
 
 			Assert.IsFalse(a.Match(b));
 			Assert.IsFalse(b.Match(a));

@@ -10,7 +10,7 @@ using System.Linq;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Rules;
 
-namespace FSMLib.LexicalAnalysys.UnitTest.Situations
+namespace FSMLib.UnitTest.Situations
 {
 	[TestClass]
 	public class SituationGraphSegmentFactoryUnitTest
@@ -29,8 +29,9 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=a");
-			segment=factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
+			rule = new LexicalRule();
+			rule.Predicate = new Letter('a');
+			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
@@ -52,7 +53,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=.");
+			rule = new LexicalRule();
+			rule.Predicate = new AnyLetter();
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -76,7 +78,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=[a-c]");
+			rule = new LexicalRule();
+			rule.Predicate = new LettersRange('a',  'c');
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -100,7 +103,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=abc");
+			rule = new LexicalRule();
+			rule.Predicate = new Sequence(new Letter('a'), new Letter('b'), new Letter('c'));
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -128,7 +132,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=a|b|c");
+			rule = new LexicalRule();
+			rule.Predicate = new Or(new Letter('a'), new Letter('b'), new Letter('c'));
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(3, segment.InputEdges.Count());
@@ -161,7 +166,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=a?");
+			rule = new LexicalRule();
+			rule.Predicate = new Optional() { Item = new Letter('a') };
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
@@ -184,7 +190,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=a*");
+			rule = new LexicalRule();
+			rule.Predicate = new ZeroOrMore() { Item = new Letter('a') };
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
@@ -207,7 +214,8 @@ namespace FSMLib.LexicalAnalysys.UnitTest.Situations
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			rule = RuleHelper.BuildRule("A=a+");
+			rule = new LexicalRule();
+			rule.Predicate = new OneOrMore() { Item=new Letter('a') };
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());

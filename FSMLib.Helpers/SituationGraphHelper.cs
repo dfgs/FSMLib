@@ -22,7 +22,7 @@ namespace FSMLib.Helpers
 
 			rules = Rules.ToArray();
 			
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			return situationGraphFactory.BuildSituationGraph( rules );
 		}
 

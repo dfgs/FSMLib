@@ -29,7 +29,11 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			Items = new List<LexicalPredicate>();
 		}
 
-
+		public Or(params LexicalPredicate[] Predicates)
+		{
+			Items = new List<LexicalPredicate>();
+			Items.AddRange(Predicates);
+		}
 
 		public override string ToString()
 		{

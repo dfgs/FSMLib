@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Inputs\AnyLetterInput.cs" />
-    <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\LetterInput.cs" />
     <Compile Include="Inputs\LettersRangeInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
@@ -63,8 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\LexicalRule.cs" />
     <Compile Include="Serializers\RuleCollectionSerializer.cs" />
-    <Compile Include="Situations\SituationCollectionFactory.cs" />
-    <Compile Include="Situations\SituationGraphFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">

@@ -12,7 +12,7 @@ using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Situations;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.LexicalAnalysis.UnitTest.Situations
+namespace FSMLib.UnitTest.Situations
 {
 	
 	[TestClass]
@@ -21,7 +21,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new SituationCollectionFactory(null));
+			Assert.ThrowsException<ArgumentNullException>(() => new SituationCollectionFactory<char>(null));
 		}
 
 
@@ -31,11 +31,11 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		{
 			Letter a, b, c;
 			Sequence predicate;
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			LexicalRule rule1,rule2;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			a = new Letter('a');
 			b = new Letter('b');
@@ -48,10 +48,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 
 			rule1 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = true };
 			rule2 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = false };
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1,rule2});
 
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			items = factory.CreateAxiomSituations().ToArray();
 			Assert.AreEqual(1,items.Length);
@@ -65,12 +65,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		{
 			Letter a, b, c;
 			Sequence predicate;
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			LexicalRule rule;
 			Situation<char> situation;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			a = new Letter('a');
 			b = new Letter('b');
@@ -80,11 +80,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			predicate.Items.Add(a);
 			predicate.Items.Add(b);
 			predicate.Items.Add(c);
+			predicate.Items.Add(new Reduce());
 
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput( 'b')).ToArray();
@@ -112,12 +113,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Letter a, c;
 			AnyLetter b;
 			Sequence predicate;
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			Situation<char>[] items;
 			LexicalRule rule;
 			Situation<char> situation;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			a = new Letter('a');
 			b = new AnyLetter();
@@ -127,11 +128,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			predicate.Items.Add(a);
 			predicate.Items.Add(b);
 			predicate.Items.Add(c);
+			predicate.Items.Add(new Reduce());
 
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('b')).ToArray();
@@ -162,7 +164,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldDevelopSituations()
 		{
-			SituationGraphFactory situationGraphFactory; 
+			SituationGraphFactory<char> situationGraphFactory; 
 			SituationGraph<char> graph;
 			LexicalRule rule1, rule2, rule3,rule4;
 			Situation<char> situation;
@@ -170,7 +172,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			NonTerminal p1, p2;
 			Letter p3, p4;
 			Sequence sequence;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			p1 = new NonTerminal() { Name = "B" };
 			p2 = new NonTerminal() { Name = "C" };
@@ -186,9 +188,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			rule3 = new LexicalRule() { Name = "B", Predicate = p3 };
 			rule4 = new LexicalRule() { Name = "C", Predicate = p4 };
 
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2, rule3, rule4 });
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p1 };
 
@@ -209,7 +211,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldDevelopSituationEndingWithReductionOnNonTerminal()
 		{
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			LexicalRule rule1, rule2;
 			Situation<char> situation;
@@ -218,7 +220,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			NonTerminal p2;
 			Letter  p3;
 			Sequence sequence;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			p1 = new Letter('a');
 			p2 = new NonTerminal() { Name = "B" };
@@ -227,13 +229,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			sequence = new Sequence();
 			sequence.Items.Add(p1);
 			sequence.Items.Add(p2);
+			sequence.Items.Add(new Reduce());
 
 			rule1 = new LexicalRule() { Name = "A", Predicate = sequence };
 			rule2 = new LexicalRule() { Name = "B", Predicate = p3 };
 
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2 });
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
 			situations = factory.Develop(situation.AsEnumerable());
@@ -247,7 +250,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldDevelopSituationWithLeftRecursiveReduction()
 		{
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			LexicalRule rule1, rule2,rule3;
 			Situation<char> situation;
@@ -257,7 +260,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Letter p3;
 			Letter p4;
 			Sequence sequence;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 
 			//A*=•{S}a
 			//S=•{S}b 
@@ -280,9 +283,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 
 			rule3 = new LexicalRule() { Name = "S", Predicate = p4 };
 
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2,rule3 });
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
 			situations = factory.Develop(situation.AsEnumerable());
@@ -300,7 +303,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 		[TestMethod]
 		public void ShouldDevelopSituationWithLoopReduction()
 		{
-			SituationGraphFactory situationGraphFactory;
+			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
 			LexicalRule rule1, rule2, rule3;
 			Situation<char> situation;
@@ -308,7 +311,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Letter p1;
 			NonTerminal p2;
 			NonTerminal p3;
-			SituationCollectionFactory factory;
+			SituationCollectionFactory<char> factory;
 			OneOrMore oneOrMore;
 
 			//"L=a"
@@ -319,17 +322,17 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			p2 = new NonTerminal() { Name = "L" };
 			p3 = new NonTerminal() { Name = "N" };
 
-			rule1 = new LexicalRule() { Name = "L", Predicate = p1 };
+			rule1 = new LexicalRule() { Name = "L", Predicate =new Sequence( p1,new Reduce()) };
 
 			oneOrMore = new OneOrMore();
 			oneOrMore.Item = p2;
-			rule2 = new LexicalRule() { Name = "N", Predicate = oneOrMore};
+			rule2 = new LexicalRule() { Name = "N", Predicate = new Sequence(oneOrMore, new Reduce()) };
 
-			rule3 = new LexicalRule() { Name = "A", Predicate = p3 };
+			rule3 = new LexicalRule() { Name = "A", Predicate = new Sequence(p3, new Reduce()) };
 
-			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2, rule3 });
-			factory = new SituationCollectionFactory(graph);
+			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule3, Predicate = p3 };
 			situations = factory.Develop(situation.AsEnumerable());

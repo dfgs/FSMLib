@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\AutomatonException.cs" />
+    <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\HashCodes.cs" />
     <Compile Include="Inputs\IAnyTerminalInput.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
@@ -67,9 +68,11 @@
     <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\Situation.cs" />
     <Compile Include="Situations\SituationCollection.cs" />
+    <Compile Include="Situations\SituationCollectionFactory.cs" />
     <Compile Include="Situations\SituationDictionary.cs" />
     <Compile Include="Situations\SituationEdge.cs" />
     <Compile Include="Situations\SituationGraph.cs" />
+    <Compile Include="Situations\SituationGraphFactory.cs" />
     <Compile Include="Situations\SituationGraphSegment.cs" />
     <Compile Include="Situations\SituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\SituationNode.cs" />

@@ -38,7 +38,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			predicate = new EOS();
 
-			Assert.IsTrue(predicate.Match(new EOSInput()));
+			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
 
 		}
 		[TestMethod]
@@ -63,7 +63,7 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new EOS();
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.IsInstanceOfType(input, typeof(EOSInput));
+			Assert.IsInstanceOfType(input, typeof(EOSInput<char>));
 		}
 
 

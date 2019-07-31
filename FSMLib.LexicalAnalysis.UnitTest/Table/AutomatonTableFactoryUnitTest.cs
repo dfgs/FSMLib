@@ -10,7 +10,7 @@ using FSMLib.LexicalAnalysis.UnitTest.Mocks;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
 
-namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
+namespace FSMLib.LexicalAnalysis.UnitTest.AutomatonTables
 {
 	[TestClass]
 	public class AutomatonTableFactoryUnitTest
@@ -28,7 +28,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>(  ) ;
 
-			rule = RuleHelper.BuildRule("A*=abc");
+			rule = RuleHelper.BuildRule("A*=abc;");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory( rule.AsEnumerable()));
 			Assert.IsNotNull(automatonTable);
@@ -53,8 +53,8 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>(  );
 
-			rule1 = RuleHelper.BuildRule("A*=abc");
-			rule2 = RuleHelper.BuildRule("B*=abc");
+			rule1 = RuleHelper.BuildRule("A*=abc;");
+			rule2 = RuleHelper.BuildRule("B*=abc;");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1,rule2 }));
 			Assert.IsNotNull(automatonTable);
@@ -80,8 +80,8 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>();
 
-			rule1 = RuleHelper.BuildRule("A*=a.c");
-			rule2 = RuleHelper.BuildRule("B*=abc");
+			rule1 = RuleHelper.BuildRule("A*=a.c;");
+			rule2 = RuleHelper.BuildRule("B*=abc;");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }));
 			Assert.IsNotNull(automatonTable);
@@ -117,7 +117,7 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>( );
 
-			rule = RuleHelper.BuildRule("A*=a|b|c");
+			rule = RuleHelper.BuildRule("A*=a|b|c;");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable()));
 			Assert.IsNotNull(automatonTable);
@@ -180,8 +180,8 @@ namespace FSMLib.LexcialAnalysis.UnitTest.AutomatonTables
 
 			factory = new AutomatonTableFactory<char>();
 
-			rule1 = RuleHelper.BuildRule("A*=abc");
-			rule2 = RuleHelper.BuildRule("A*=abc");
+			rule1 = RuleHelper.BuildRule("A*=abc;");
+			rule2 = RuleHelper.BuildRule("A*=abc;");
 
 			automatonTable = factory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(new LexicalRule[] { rule1, rule2 }));
 			Assert.IsNotNull(automatonTable);

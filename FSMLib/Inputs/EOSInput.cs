@@ -5,24 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.LexicalAnalysis.Inputs
+namespace FSMLib.Inputs
 {
-	public class EOSInput: ITerminalInput<char>, IActionInput<char>
+	public class EOSInput<T>: ITerminalInput<T>, IActionInput<T>
 	{
 
 		
 		
-		public  bool Equals(IInput<char> other)
+		public  bool Equals(IInput<T> other)
 		{
-			return other is EOSInput;
+			return other is EOSInput<T>;
 		}
-		public  bool Match(IInput<char> Other)
+		public  bool Match(IInput<T> Other)
 		{
 			if (Other == null) return false;
-			return Other is EOSInput;
+			return Other is EOSInput<T>;
 		}
 
-		public  bool Match(char Value)
+		public  bool Match(T Value)
 		{
 			return false;
 		}

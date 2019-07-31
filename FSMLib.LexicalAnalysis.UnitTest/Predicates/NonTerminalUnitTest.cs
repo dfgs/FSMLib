@@ -64,7 +64,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.IsFalse(predicate.Match('b'));
 			Assert.IsFalse(predicate.Match(new LetterInput('b')));
 			Assert.IsFalse(predicate.Match(new NonTerminalInput("B")));
-			Assert.IsFalse(predicate.Match(new EOSInput()));
+			Assert.IsFalse(predicate.Match(new EOSInput<char>()));
 
 		}
 
