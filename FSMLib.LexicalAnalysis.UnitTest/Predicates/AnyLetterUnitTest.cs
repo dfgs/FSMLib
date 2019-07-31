@@ -51,6 +51,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.IsTrue(predicate.Match('a'));
 			Assert.IsTrue(predicate.Match(new LetterInput('a')));
 			Assert.IsTrue(predicate.Match(new EOSInput()));
+			Assert.IsTrue(predicate.Match(new AnyLetterInput()));
 
 		}
 		[TestMethod]

@@ -106,7 +106,57 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Situations
 			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
 		}
 
-		
+		[TestMethod]
+		public void ShouldCreateNextSituationsUsingAnyTerminal()
+		{
+			Letter a, c;
+			AnyLetter b;
+			Sequence predicate;
+			SituationGraphFactory situationGraphFactory;
+			SituationGraph<char> graph;
+			Situation<char>[] items;
+			LexicalRule rule;
+			Situation<char> situation;
+			SituationCollectionFactory factory;
+
+			a = new Letter('a');
+			b = new AnyLetter();
+			c = new Letter('c');
+
+			predicate = new Sequence();
+			predicate.Items.Add(a);
+			predicate.Items.Add(b);
+			predicate.Items.Add(c);
+
+			rule = new LexicalRule() { Name = "A", Predicate = predicate };
+			situationGraphFactory = new SituationGraphFactory(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
+			factory = new SituationCollectionFactory(graph);
+
+			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('b')).ToArray();
+			Assert.AreEqual(0, items.Length);
+
+			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('a')).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual(b, items[0].Predicate);
+
+			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('b')).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual(c, items[0].Predicate);
+
+			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new AnyLetterInput()).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.AreEqual(c, items[0].Predicate);
+
+			situation = new Situation<char>() { Rule = rule, Predicate = c };
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('c')).ToArray();
+			Assert.AreEqual(1, items.Length);
+			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
+		}
 
 
 		[TestMethod]

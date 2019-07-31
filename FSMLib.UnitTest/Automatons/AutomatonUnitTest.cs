@@ -219,7 +219,7 @@ namespace FSMLib.UnitTest
 			AutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
-			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a.c", "B*=abc" });
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "B*=abc", "A*=a.c" });
 			automaton = new Automaton(automatonTable);
 
 			automaton.Feed('a');
@@ -228,7 +228,7 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, automaton.StackCount);
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.AreEqual("A", node.Input.Name);
+			Assert.AreEqual("B", node.Input.Name);
 
 			automaton.Feed('a');
 			automaton.Feed('c');
@@ -236,7 +236,7 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, automaton.StackCount);
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
-			Assert.AreEqual("B", node.Input.Name);
+			Assert.AreEqual("A", node.Input.Name);
 
 
 		}

@@ -38,7 +38,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public bool Match(IInput<char> Input)
 		{
-			return Input is ITerminalInput<char>;
+			return (Input is ITerminalInput<char>) || (Input is AnyLetterInput);
 		}
 
 

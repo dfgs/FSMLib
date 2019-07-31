@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Inputs
 {
-	public class AnyLetterInput: IInput<char>
+	public class AnyLetterInput: IAnyTerminalInput<char>
 	{
 
 		public AnyLetterInput()
@@ -36,7 +36,7 @@ namespace FSMLib.LexicalAnalysis.Inputs
 		}
 		public override int GetHashCode()
 		{
-			return ".".GetHashCode();
+			return HashCodes.AnyTerminal;
 		}
 
 	}

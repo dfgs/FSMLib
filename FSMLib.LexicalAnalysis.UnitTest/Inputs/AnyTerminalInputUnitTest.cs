@@ -5,23 +5,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.UnitTest.Inputs
+namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 {
 	/// <summary>
 	/// Description résumée pour TerminalInputUnitTest
 	/// </summary>
 	[TestClass]
-	public class EOSInputUnitTest
+	public class AnyTerminalInputUnitTest
 	{
 
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			EOSInput a, b;
+			AnyLetterInput a, b;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -30,9 +30,9 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			EOSInput a;
+			AnyLetterInput a;
 
-			a = new EOSInput();
+			a = new AnyLetterInput();
 
 			Assert.IsFalse(a.Equals(new NonTerminalInput()));
 			Assert.IsFalse(a.Equals(new LetterInput('a')));
@@ -41,48 +41,44 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			EOSInput a,b;
+			AnyLetterInput a,b;
+			LetterInput c;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
+			c = new LetterInput('c' );
+
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
+			Assert.IsTrue(a.Match(c));
 
 		}
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			EOSInput a;
-			LetterInput b;
+			AnyLetterInput a;
+			NonTerminalInput b;
 
-			a = new EOSInput();
-			b = new LetterInput('a' );
+			a = new AnyLetterInput();
+			b = new NonTerminalInput() { Name= "A" };
 
 
 			Assert.IsFalse(a.Match(null));
 			Assert.IsFalse(a.Match(b));
 
 		}
-		[TestMethod]
-		public void ShoudNotMatchT()
-		{
-			EOSInput a;
-
-			a = new EOSInput();
-
-			Assert.IsFalse(a.Match('a'));
-
-		}
+		
 
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			EOSInput a,b;
+			AnyLetterInput a,b;
 
-			a = new EOSInput();
-			b = new EOSInput();
+			a = new AnyLetterInput();
+			b = new AnyLetterInput();
 
-			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
+			Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+			Assert.AreEqual(a.GetHashCode(), HashCodes.AnyTerminal);
 
 		}
 

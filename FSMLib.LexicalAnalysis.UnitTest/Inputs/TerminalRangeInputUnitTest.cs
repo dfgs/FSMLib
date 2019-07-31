@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.UnitTest.Inputs
+namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 {
 	/// <summary>
 	/// Description résumée pour LetterInputUnitTest

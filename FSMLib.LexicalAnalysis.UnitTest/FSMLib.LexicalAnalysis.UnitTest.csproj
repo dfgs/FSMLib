@@ -49,6 +49,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inputs\AnyTerminalInputUnitTest.cs" />
+    <Compile Include="Inputs\EOSInputUnitTest.cs" />
+    <Compile Include="Inputs\LetterInputUnitTest.cs" />
+    <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
+    <Compile Include="Inputs\TerminalRangeInputUnitTest.cs" />
     <Compile Include="Mocks\AutomatonTableParser.cs" />
     <Compile Include="Predicates\AnyLetterUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />

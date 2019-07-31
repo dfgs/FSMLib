@@ -5,22 +5,20 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.UnitTest.Inputs
+namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 {
-	/// <summary>
-	/// Description résumée pour TerminalInputUnitTest
-	/// </summary>
+	
 	[TestClass]
-	public class NonTerminalInputUnitTest
+	public class LetterInputUnitTest
 	{
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			NonTerminalInput a, b;
+			LetterInput a, b;
 
-			a = new NonTerminalInput( "A" );
-			b = new NonTerminalInput( "A" );
+			a = new LetterInput('a' );
+			b = new LetterInput('a' );
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -29,23 +27,24 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			NonTerminalInput a, b;
+			LetterInput a,b;
 
-			a = new NonTerminalInput("A" );
-			b = new NonTerminalInput( "B" );
+			a = new LetterInput('a');
+			b = new LetterInput('b');
 
 			Assert.IsFalse(a.Equals(b));
-			Assert.IsFalse(a.Equals(new LetterInput('a')));
+			Assert.IsFalse(a.Equals(new NonTerminalInput()));
 			Assert.IsFalse(a.Equals(new EOSInput()));
 		}
+
 
 		[TestMethod]
 		public void ShoudMatch()
 		{
-			NonTerminalInput a,b;
+			LetterInput a,b;
 
-			a = new NonTerminalInput( "A" );
-			b = new NonTerminalInput( "A" );
+			a = new LetterInput('a');
+			b = new LetterInput('a');
 			Assert.IsTrue(a.Match(b));
 			Assert.IsTrue(b.Match(a));
 
@@ -53,11 +52,11 @@ namespace FSMLib.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotMatch()
 		{
-			NonTerminalInput a, b;
+			LetterInput a, b;
 			EOSInput c;
 
-			a = new NonTerminalInput( "A" );
-			b = new NonTerminalInput( "B" );
+			a = new LetterInput('a');
+			b = new LetterInput('b');
 			c = new EOSInput();
 
 			Assert.IsFalse(a.Match(b));
@@ -66,26 +65,33 @@ namespace FSMLib.UnitTest.Inputs
 			Assert.IsFalse(a.Match(c));
 
 		}
+		[TestMethod]
+		public void ShoudMatchT()
+		{
+			LetterInput a;
 
+			a = new LetterInput('a');
+			Assert.IsTrue(a.Match('a'));
+
+		}
 		[TestMethod]
 		public void ShoudNotMatchT()
 		{
-			NonTerminalInput a;
+			LetterInput a;
+	
+			a = new LetterInput('a');
 
-			a = new NonTerminalInput( "A" );
-
-			Assert.IsFalse(a.Match('a'));
+			Assert.IsFalse(a.Match('b'));
 
 		}
-
 		[TestMethod]
 		public void ShoudGetHashCode()
 		{
-			NonTerminalInput a;
+			LetterInput a;
 
-			a = new NonTerminalInput( "A" );
+			a = new LetterInput('a');
 
-			Assert.AreEqual("A".GetHashCode(), a.GetHashCode());
+			Assert.AreEqual('a'.GetHashCode(),a.GetHashCode());
 
 		}
 

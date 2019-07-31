@@ -61,9 +61,9 @@ namespace FSMLib.Situations
 			{
 				case IEOSPredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
 				case IReducePredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
-				case INonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case IAnyTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
-				case ITerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				//case INonTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				//case IAnyTerminalPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
+				//case ITerminalRangePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				case ISituationPredicate<T> predicate: return BuildSegment(Nodes, Rule, predicate, Edges);
 				case ISequencePredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);
 				case IOrPredicate<T> predicate: return BuildSegment(Nodes, Rule,  predicate, Edges);

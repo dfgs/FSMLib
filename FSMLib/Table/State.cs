@@ -47,7 +47,8 @@ namespace FSMLib.Table
 		public void Add(Reduce<T> Action)
 		{
 			// check reduction conflict
-			if (reduceActions.ContainsKey(Action.GetHashCode())) return;
+			if (reduceActions.ContainsKey(Action.GetHashCode()))
+				return;
 
 			reduceActions.Add(Action.GetHashCode(), Action);
 		}
@@ -55,7 +56,12 @@ namespace FSMLib.Table
 		public Shift<T> GetShift(IActionInput<T> Input)
 		{
 			Shift<T> action;
+
+			// search for terminal action
 			shiftActions.TryGetValue(Input.GetHashCode(), out action);
+			// search for any input action
+			if ((action == null) && (Input is ITerminalInput<T>))
+				shiftActions.TryGetValue(HashCodes.AnyTerminal, out action);
 			return action;
 		}
 
