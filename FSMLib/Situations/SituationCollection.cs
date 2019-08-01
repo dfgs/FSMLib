@@ -59,10 +59,7 @@ namespace FSMLib.Situations
 			return items.Where(item => item.CanReduce ).DistinctEx();
 		}
 
-		public IEnumerable<IActionInput<T>> GetNextInputs()
-		{
-			return items.Select(item => item.Predicate.GetInput()).DistinctEx().OfType<IActionInput<T>>();
-		}
+		
 
 
 		public IEnumerator<Situation<T>> GetEnumerator()

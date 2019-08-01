@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 
-namespace FSMLib.LexicalAnalysis.UnitTest.Mocks
+namespace FSMLib.UnitTest.Mocks
 {
 	[ExcludeFromCodeCoverage]
 	public class AutomatonTableParser

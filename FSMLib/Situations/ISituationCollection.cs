@@ -23,7 +23,6 @@ namespace FSMLib.Situations
 
 		IEnumerable<Situation<T>> GetReductionSituations();
 
-		IEnumerable<IActionInput<T>> GetNextInputs();
 
 	}
 }

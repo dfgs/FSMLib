@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Situations;
+using FSMLib.LexicalAnalysis.Tables;
 
 namespace FSMLib.Helpers
 {
@@ -18,10 +19,12 @@ namespace FSMLib.Helpers
 			AutomatonTableFactory<char> automatonTableFactory;
 			AutomatonTable<char> automatonTable;
 			SituationCollectionFactory<char> situationCollectionFactory;
+			DistinctInputFactory distinctInputFactory;
 
+			distinctInputFactory = new DistinctInputFactory();
 			automatonTableFactory = new AutomatonTableFactory<char>( );
 			situationCollectionFactory = new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray()));
-			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory);
+			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory, distinctInputFactory);
 		
 			return automatonTable;
 

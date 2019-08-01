@@ -85,6 +85,7 @@
     <Compile Include="Table\AutomatonTableFactory.cs" />
     <Compile Include="Table\AutomatonTableTuple.cs" />
     <Compile Include="Table\IAutomatonTableFactory.cs" />
+    <Compile Include="Table\IDistinctInputFactory.cs" />
     <Compile Include="Table\State.cs" />
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Actions\BaseAction.cs" />

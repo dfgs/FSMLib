@@ -25,6 +25,7 @@ using System.Windows.Shapes;
 using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
+using FSMLib.LexicalAnalysis.Tables;
 
 namespace Demo
 {
@@ -88,7 +89,9 @@ namespace Demo
 		}*/
 		private void CreateView(params string[] Rules)
 		{
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) )));
+			CreateView(automatonTableFactory.BuildAutomatonTable(
+				SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), new DistinctInputFactory())
+				);
 		}
 		private void CreateView(AutomatonTable<char> Model)
 		{

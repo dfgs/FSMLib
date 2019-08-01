@@ -52,6 +52,7 @@
     <Compile Include="Actions\ShiftUnitTest.cs" />
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
+    <Compile Include="Mocks\AutomatonTableParser.cs" />
     <Compile Include="ProcessingQueues\ProcessingQueueUnitTest.cs" />
     <Compile Include="Actions\ReduceUnitTest.cs" />
     <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Situations\SituationGraphSegmentFactoryUnitTest.cs" />
     <Compile Include="Situations\SituationUnitTest.cs" />
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
+    <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
     <Compile Include="Table\AutomatonTableTupleUnitTest - Copier.cs" />
     <Compile Include="Table\StateUnitTest.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />

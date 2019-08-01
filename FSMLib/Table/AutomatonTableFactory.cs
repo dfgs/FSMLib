@@ -56,7 +56,7 @@ namespace FSMLib.Table
 		}
 		
 
-		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory)
+		public AutomatonTable<T> BuildAutomatonTable(ISituationCollectionFactory<T> SituationCollectionFactory, IDistinctInputFactory<T> DistinctInputFactory)
 		{
 
 			SituationDictionary<T> situationDictionary;
@@ -69,8 +69,9 @@ namespace FSMLib.Table
 			
 
 			if (SituationCollectionFactory == null) throw new System.ArgumentNullException("SituationCollectionFactory");
+			if (DistinctInputFactory == null) throw new ArgumentNullException("DistinctInputFactory");
 
-			
+
 			automatonTable = new AutomatonTable<T>();
 			
 
@@ -83,7 +84,7 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				nextInputs = currentTuple.Situations.GetNextInputs();
+				nextInputs = DistinctInputFactory.GetDistinctInputs(currentTuple.Situations.Select(item=>item.Predicate.GetInput()));
 
 
 				foreach (IActionInput<T> input in nextInputs)
