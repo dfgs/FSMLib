@@ -52,15 +52,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return Value==letter.Value;
 		}
 
-		public bool Match(char Input)
-		{
-			return Input==Value;
-		}
-		public bool Match(IInput<char> Input)
-		{
-			if (!(Input is LetterInput o)) return false;
-			return (o.Value == Value);
-		}
+		
 
 	}
 }

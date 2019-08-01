@@ -38,10 +38,7 @@ namespace FSMLib.Actions
 			return other.Name == Name;
 		}
 
-		public override int GetHashCode()
-		{
-			return Input.GetHashCode();
-		}
+		
 
 	}
 }

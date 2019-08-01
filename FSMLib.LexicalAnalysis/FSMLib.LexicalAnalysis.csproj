@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
-    <Compile Include="Inputs\AnyLetterInput.cs" />
     <Compile Include="Inputs\LetterInput.cs" />
     <Compile Include="Inputs\LettersRangeInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />

@@ -11,16 +11,16 @@ namespace FSMLib.Table
 	public class State<T>
 	{
 
-		private Dictionary<int,Shift<T>> shiftActions;
+		private List<Shift<T>> shiftActions;
 		public IEnumerable<Shift<T>> ShiftActions
 		{
-			get { return shiftActions.Values; }
+			get { return shiftActions; }
 		}
 
-		private Dictionary<int,Reduce<T>> reduceActions;
+		private List<Reduce<T>> reduceActions;
 		public IEnumerable<Reduce<T>> ReduceActions
 		{
-			get { return reduceActions.Values; }
+			get { return reduceActions; }
 		}
 
 		public int ShiftActionCount
@@ -35,40 +35,34 @@ namespace FSMLib.Table
 
 		public State()
 		{
-			shiftActions = new Dictionary<int, Shift<T>>();
-			reduceActions = new Dictionary<int, Reduce<T>>();
+			shiftActions = new List<Shift<T>>();
+			reduceActions = new List<Reduce<T>>();
 		}
 		
 		public void Add(Shift<T> Action)
 		{
-			shiftActions.Add(Action.GetHashCode(), Action) ;
+			shiftActions.Add(Action) ;
 		}
 
 		public void Add(Reduce<T> Action)
 		{
-			// check reduction conflict
-			if (reduceActions.ContainsKey(Action.GetHashCode()))
-				return;
-
-			reduceActions.Add(Action.GetHashCode(), Action);
+			// add reduction conflict based on priority
+			reduceActions.Add(Action);
 		}
 
 		public Shift<T> GetShift(IActionInput<T> Input)
 		{
 			Shift<T> action;
 
-			// search for terminal action
-			shiftActions.TryGetValue(Input.GetHashCode(), out action);
-			// search for any input action
-			if ((action == null) && (Input is ITerminalInput<T>))
-				shiftActions.TryGetValue(HashCodes.AnyTerminal, out action);
+			action = shiftActions.FirstOrDefault(item => item.Input.Match(Input));
 			return action;
 		}
 
 		public Reduce<T> GetReduce(IActionInput<T> Input)
 		{
 			Reduce<T> action;
-			reduceActions.TryGetValue(Input.GetHashCode(), out action);
+
+			action = reduceActions.FirstOrDefault(item => item.Input.Match(Input));
 			return action;
 		}
 

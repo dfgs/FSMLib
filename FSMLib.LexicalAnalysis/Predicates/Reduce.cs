@@ -39,15 +39,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return other is Reduce;
 		}
 
-		public bool Match(char Input)
-		{
-			return false;
-		}
-
-		public bool Match(IInput<char> Input)
-		{
-			return false;
-		}
+	
 
 	}
 

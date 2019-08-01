@@ -50,16 +50,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return Name == o.Name;
 		}
 
-		public bool Match(char Input)
-		{
-			return false;
-		}
-		public bool Match(IInput<char> Input)
-		{
-			if (!(Input is NonTerminalInput o)) return false;
-			if (Name == null) return o.Name == null;
-			return Name == o.Name;
-		}
+		
 
 	}
 }

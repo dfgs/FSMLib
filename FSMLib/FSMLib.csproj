@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="Automatons\AutomatonException.cs" />
     <Compile Include="Inputs\EOSInput.cs" />
-    <Compile Include="Inputs\HashCodes.cs" />
-    <Compile Include="Inputs\IAnyTerminalInput.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
     <Compile Include="Inputs\ITerminalInput.cs" />
     <Compile Include="Inputs\IActionInput.cs" />

@@ -33,14 +33,6 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return other is EOS;
 		}
 
-		public  bool Match(char Input)
-		{
-			return false;
-		}
-
-		public  bool Match(IInput<char> Input)
-		{
-			return Input is EOSInput<char>; 
-		}
+	
 	}
 }

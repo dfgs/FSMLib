@@ -42,32 +42,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.IsNotNull(input);
 			Assert.AreEqual('a', ((LetterInput)input).Value);
 		}
-		[TestMethod]
-		public void ShouldMatch()
-		{
-			Letter predicate;
-			
-
-			predicate = new Letter('a');
-
-			Assert.IsTrue(predicate.Match('a'));
-			Assert.IsTrue(predicate.Match(new LetterInput('a')));
-
-		}
-		[TestMethod]
-		public void ShouldNotMatch()
-		{
-			Letter predicate;
-
-
-			predicate = new Letter('a');
-
-			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new LetterInput('b')));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput("a")));
-			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
-
-		}
+		
 		[TestMethod]
 		public void ShouldEquals()
 		{

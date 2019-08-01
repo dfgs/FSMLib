@@ -38,35 +38,11 @@ namespace FSMLib.UnitTest.Predicates
 			predicate = new AnyLetter();
 			input = predicate.GetInput();
 			Assert.IsNotNull(input);
-			Assert.IsInstanceOfType(input, typeof(AnyLetterInput));
+			Assert.IsInstanceOfType(input, typeof(LettersRangeInput));
 		}
-		[TestMethod]
-		public void ShouldMatch()
-		{
-			AnyLetter predicate;
+	
 
 
-			predicate = new AnyLetter();
-
-			Assert.IsTrue(predicate.Match('a'));
-			Assert.IsTrue(predicate.Match(new LetterInput('a')));
-			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
-			Assert.IsTrue(predicate.Match(new AnyLetterInput()));
-
-		}
-		[TestMethod]
-		public void ShouldNotMatch()
-		{
-			AnyLetter predicate;
-
-
-			predicate = new AnyLetter();
-
-			Assert.IsFalse(predicate.Match(new NonTerminalInput("B")));
-
-		}
-
-		
 
 
 

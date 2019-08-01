@@ -105,13 +105,13 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Shift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new AnyLetterInput();
+			action.Input = new LettersRangeInput(char.MinValue,char.MaxValue);
 			state = new State<char>();
 			state.Add(action);
 
 			action = state.GetShift(new LetterInput('a'));
 			Assert.IsNotNull(action);
-			action = state.GetShift(new AnyLetterInput());
+			action = state.GetShift(new LettersRangeInput(char.MinValue, char.MaxValue));
 			Assert.IsNotNull(action);
 		}
 		[TestMethod]
@@ -121,7 +121,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Shift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new AnyLetterInput();
+			action.Input = new LettersRangeInput(char.MinValue, char.MaxValue);
 			state = new State<char>();
 			state.Add(action);
 

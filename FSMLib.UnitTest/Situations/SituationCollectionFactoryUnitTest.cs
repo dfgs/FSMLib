@@ -108,7 +108,7 @@ namespace FSMLib.UnitTest.Situations
 		}
 
 		[TestMethod]
-		public void ShouldCreateNextSituationsUsingAnyTerminal()
+		public void ShouldCreateNextSituationsUsingLettersRange()
 		{
 			Letter a, c;
 			AnyLetter b;
@@ -150,7 +150,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new AnyLetterInput()).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new LettersRangeInput(char.MinValue,char.MaxValue)).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
@@ -200,11 +200,11 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(4, situations.Count);
 			Assert.AreEqual(p1, situations[0].Predicate);
 			Assert.AreEqual(p2, situations[1].Predicate);
-			Assert.IsTrue(situations[1].Input.Match('d'));
+			Assert.AreEqual('d',situations[1].Input.Value);
 			Assert.AreEqual(p3, situations[2].Predicate);
-			Assert.IsTrue(situations[2].Input.Match('d'));
+			Assert.AreEqual('d', situations[2].Input.Value);
 			Assert.AreEqual(p4, situations[3].Predicate);
-			Assert.IsTrue(situations[3].Input.Match('d'));
+			Assert.AreEqual('d', situations[3].Input.Value);
 
 		}
 
@@ -291,10 +291,10 @@ namespace FSMLib.UnitTest.Situations
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
-			Assert.IsTrue(situations[1].Input.Match('a'));
-			Assert.IsTrue(situations[2].Input.Match('b'));
-			Assert.IsTrue(situations[3].Input.Match('a'));
-			Assert.IsTrue(situations[4].Input.Match('b'));
+			Assert.AreEqual('a', situations[1].Input.Value); 
+			Assert.AreEqual('b', situations[2].Input.Value); 
+			Assert.AreEqual('a', situations[3].Input.Value); 
+			Assert.AreEqual('b', situations[4].Input.Value); 
 
 
 
@@ -338,8 +338,8 @@ namespace FSMLib.UnitTest.Situations
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
-			Assert.IsTrue(situations[2].Input.Match('a'));
-			Assert.IsTrue(situations[4].Input.Match('a'));
+			Assert.AreEqual('a',situations[2].Input.Value);
+			Assert.AreEqual('a', situations[4].Input.Value);
 
 
 

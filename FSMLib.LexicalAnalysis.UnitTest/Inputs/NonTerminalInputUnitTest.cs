@@ -38,56 +38,32 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 			Assert.IsFalse(a.Equals(new LetterInput('a')));
 			Assert.IsFalse(a.Equals(new EOSInput<char>()));
 		}
-
 		[TestMethod]
-		public void ShoudMatch()
+		public void ShouldMatch()
 		{
-			NonTerminalInput a,b;
+			NonTerminalInput input;
 
-			a = new NonTerminalInput( "A" );
-			b = new NonTerminalInput( "A" );
-			Assert.IsTrue(a.Match(b));
-			Assert.IsTrue(b.Match(a));
+
+			input = new NonTerminalInput() { Name = "A" };
+
+			Assert.IsTrue(input.Match(new NonTerminalInput("A")));
 
 		}
 		[TestMethod]
-		public void ShoudNotMatch()
+		public void ShouldNotMatch()
 		{
-			NonTerminalInput a, b;
-			EOSInput<char> c;
+			NonTerminalInput input;
 
-			a = new NonTerminalInput( "A" );
-			b = new NonTerminalInput( "B" );
-			c = new EOSInput<char>();
 
-			Assert.IsFalse(a.Match(b));
-			Assert.IsFalse(b.Match(a));
-			Assert.IsFalse(a.Match(null));
-			Assert.IsFalse(a.Match(c));
+			input = new NonTerminalInput() { Name = "A" };
+
+			Assert.IsFalse(input.Match('b'));
+			Assert.IsFalse(input.Match(new LetterInput('b')));
+			Assert.IsFalse(input.Match(new NonTerminalInput("B")));
+			Assert.IsFalse(input.Match(new EOSInput<char>()));
 
 		}
 
-		[TestMethod]
-		public void ShoudNotMatchT()
-		{
-			NonTerminalInput a;
-
-			a = new NonTerminalInput( "A" );
-
-			Assert.IsFalse(a.Match('a'));
-
-		}
-
-		[TestMethod]
-		public void ShoudGetHashCode()
-		{
-			NonTerminalInput a;
-
-			a = new NonTerminalInput( "A" );
-
-			Assert.AreEqual("A".GetHashCode(), a.GetHashCode());
-
-		}
 
 	}
 }

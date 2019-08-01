@@ -7,18 +7,20 @@ using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 {
-	
+	/// <summary>
+	/// Description résumée pour LetterInputUnitTest
+	/// </summary>
 	[TestClass]
-	public class LetterInputUnitTest
+	public class LettersRangeInputUnitTest
 	{
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			LetterInput a, b;
+			LettersRangeInput a, b;
 
-			a = new LetterInput('a' );
-			b = new LetterInput('a' );
+			a = new LettersRangeInput('a','z');
+			b = new LettersRangeInput('a', 'z');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -27,42 +29,46 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			LetterInput a,b;
+			LettersRangeInput a,b;
 
-			a = new LetterInput('a');
-			b = new LetterInput('b');
+			a = new LettersRangeInput('a', 'z');
+			b = new LettersRangeInput('b', 'z');
 
 			Assert.IsFalse(a.Equals(b));
-			Assert.IsFalse(a.Equals(new NonTerminalInput()));
+			Assert.IsFalse(a.Equals(new NonTerminalInput("A")));
 			Assert.IsFalse(a.Equals(new EOSInput<char>()));
 		}
+
 
 		[TestMethod]
 		public void ShouldMatch()
 		{
-			LetterInput input;
+			LettersRangeInput input;
 
 
-			input = new LetterInput('a');
+			input = new LettersRangeInput('a', 'c');
 
 			Assert.IsTrue(input.Match('a'));
+			Assert.IsTrue(input.Match('b'));
+			Assert.IsTrue(input.Match('c'));
 			Assert.IsTrue(input.Match(new LetterInput('a')));
 
 		}
 		[TestMethod]
 		public void ShouldNotMatch()
 		{
-			LetterInput input;
+			LettersRangeInput input;
 
 
-			input = new LetterInput('a');
+			input = new LettersRangeInput('a', 'c');
 
-			Assert.IsFalse(input.Match('b'));
-			Assert.IsFalse(input.Match(new LetterInput('b')));
+			Assert.IsFalse(input.Match('d'));
+			Assert.IsFalse(input.Match(new LetterInput('d')));
 			Assert.IsFalse(input.Match(new NonTerminalInput("a")));
 			Assert.IsFalse(input.Match(new EOSInput<char>()));
 
 		}
+
 
 	}
 }

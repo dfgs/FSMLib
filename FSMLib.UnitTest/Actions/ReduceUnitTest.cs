@@ -31,17 +31,7 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 			Assert.IsFalse(b.Equals(a));
 		}
 
-		[TestMethod]
-		public void ShouldGetHashCode()
-		{
-			Reduce<char> a;
-			LetterInput input;
-
-			input = new LetterInput( 'a' );
-			a = new Reduce<char>() { Name = "A",Input=input };
-			Assert.AreEqual(input.GetHashCode(),a.GetHashCode());
-
-		}
+		
 
 	}
 }

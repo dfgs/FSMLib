@@ -9,7 +9,10 @@ namespace FSMLib.Inputs
 {
 	public class EOSInput<T>: ITerminalInput<T>, IActionInput<T>
 	{
-
+		public T Value
+		{
+			get { return default(T); }
+		}
 		
 		
 		public  bool Equals(IInput<T> other)
@@ -31,10 +34,7 @@ namespace FSMLib.Inputs
 		{
 			return "¤";
 		}
-		public override int GetHashCode()
-		{
-			return HashCodes.EOS ;
-		}
+		
 
 	}
 }

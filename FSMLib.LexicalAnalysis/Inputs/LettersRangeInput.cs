@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Inputs
 {
-	public class LettersRangeInput:ITerminalInput<char>, IActionInput<char>
+	public class LettersRangeInput:IInput<char>, IActionInput<char>
 	{
 		//private static Comparer<char> comparer = Comparer<char>.Default;
 		public char FirstValue
@@ -36,26 +36,31 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			return false;
 		}
 
-		public  bool Match(char Input)
+
+		public bool Match(char Input)
 		{
 			return (Input >= FirstValue) && (Input <= LastValue);
 		}
-		public  bool Match(IInput<char> Input)
+
+		public bool Match(IInput<char> Input)
 		{
-			if ((Input is LetterInput terminal)) return Match(terminal.Value);
-			else if (Input is LettersRangeInput terminalRange) return (terminalRange.FirstValue==this.FirstValue) && (terminalRange.LastValue==this.LastValue);
-			else return false;
+			switch (Input)
+			{
+				case LetterInput terminal:
+					return (terminal.Value >= FirstValue) && (terminal.Value <= LastValue);
+				case LettersRangeInput range:
+					return (range.FirstValue >= FirstValue) && (range.LastValue <= LastValue);
+				default: return false;
+			}
 		}
 
 		public override string ToString()
 		{
+			if ((FirstValue == char.MinValue) && (LastValue == char.MaxValue)) return ".";
 			return $"[{FirstValue}-{LastValue}]";
 		}
 
-		public override int GetHashCode()
-		{
-			return FirstValue.GetHashCode()*31+LastValue.GetHashCode();
-		}
+		
 
 	}
 }

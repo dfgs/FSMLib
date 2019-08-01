@@ -27,7 +27,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new LetterInput('a'), new LetterInput('a'), new LetterInput('a') }).ToArray();
 
 			Assert.AreEqual(1, inputs.Length);
-			Assert.IsTrue(inputs[0].Match('a'));
+			Assert.AreEqual('a', ((ITerminalInput<char>)inputs[0]).Value );
 		}
 
 		[TestMethod]
@@ -41,8 +41,8 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new LetterInput('a'), new LetterInput('a'), new LetterInput('b') }).ToArray();
 
 			Assert.AreEqual(2, inputs.Length);
-			Assert.IsTrue(inputs[0].Match('a'));
-			Assert.IsTrue(inputs[1].Match('b'));
+			Assert.AreEqual('a', ((ITerminalInput<char>)inputs[0]).Value);
+			Assert.AreEqual('b', ((ITerminalInput<char>)inputs[1]).Value);
 		}
 
 
@@ -55,9 +55,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new LetterInput('a'), new LetterInput('b'), new LetterInput('c') }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
-			Assert.IsTrue(inputs[0].Match('a'));
-			Assert.IsTrue(inputs[1].Match('b'));
-			Assert.IsTrue(inputs[2].Match('c'));
+			Assert.AreEqual('a', ((ITerminalInput<char>)inputs[0]).Value);
+			Assert.AreEqual('b', ((ITerminalInput<char>)inputs[1]).Value);
+			Assert.AreEqual('c', ((ITerminalInput<char>)inputs[2]).Value);
 		}
 
 

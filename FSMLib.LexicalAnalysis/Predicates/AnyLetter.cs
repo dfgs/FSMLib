@@ -13,7 +13,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 	{
 		public IInput<char> GetInput()
 		{
-			return new AnyLetterInput();
+			return new LettersRangeInput(char.MinValue,char.MaxValue);
 		}
 
 		public override string ToString()
@@ -31,15 +31,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return other is AnyLetter;
 		}
 
-		public bool Match(char Input)
-		{
-			return true;
-		}
-
-		public bool Match(IInput<char> Input)
-		{
-			return (Input is ITerminalInput<char>) || (Input is AnyLetterInput);
-		}
+		
 
 
 

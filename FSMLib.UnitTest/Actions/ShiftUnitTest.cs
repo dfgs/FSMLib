@@ -45,16 +45,6 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 			Assert.IsFalse(d.Equals(a));
 		}
 
-		[TestMethod]
-		public void ShouldGetHashCode()
-		{
-			Shift<char> a;
-			LetterInput input;
-
-			input = new LetterInput( 'a' );
-			a = new Shift<char>() { Input = input };
-			Assert.AreEqual(input.GetHashCode(), a.GetHashCode());
-
-		}
+		
 	}
 }

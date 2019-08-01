@@ -45,34 +45,6 @@ namespace FSMLib.UnitTest.Predicates
 		}
 
 		[TestMethod]
-		public void ShouldMatch()
-		{
-			LettersRange predicate;
-
-
-			predicate = new LettersRange('a', 'c');
-
-			Assert.IsTrue(predicate.Match('a'));
-			Assert.IsTrue(predicate.Match('b'));
-			Assert.IsTrue(predicate.Match('c'));
-			Assert.IsTrue(predicate.Match(new LetterInput('a')));
-
-		}
-		[TestMethod]
-		public void ShouldNotMatch()
-		{
-			LettersRange predicate;
-
-
-			predicate = new LettersRange('a', 'c');
-
-			Assert.IsFalse(predicate.Match('d'));
-			Assert.IsFalse(predicate.Match(new LetterInput('d')));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput("a")));
-			Assert.IsFalse(predicate.Match(new EOSInput<char>() ));
-
-		}
-		[TestMethod]
 		public void ShouldEquals()
 		{
 			LettersRange a,b;

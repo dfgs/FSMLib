@@ -147,7 +147,7 @@ namespace FSMLib.Situations
 			Situation<T> nextSituation;
 		
 
-			matchingSituations = CurrentSituations.Where(s => s.Predicate.Match(Input));
+			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInput()?.Match(Input)??false);
 
 			foreach (Situation<T> situation in matchingSituations)
 			{

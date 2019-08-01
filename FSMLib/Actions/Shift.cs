@@ -29,10 +29,7 @@ namespace FSMLib.Actions
 			return other.Input.Equals(Input);
 		}
 
-		public override int GetHashCode()
-		{
-			return Input.GetHashCode();
-		}
+		
 
 	}
 }

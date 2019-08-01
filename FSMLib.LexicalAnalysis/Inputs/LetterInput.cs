@@ -30,33 +30,25 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			return false;
 		}
 
-		
 
 
-		public bool Match(IInput<char> Other)
+		public bool Match(char Input)
 		{
-			if (Other == null) return false;
-			if (Other is LetterInput o)
-			{
-				return o.Value == this.Value;
-			}
-			return false;
+			return Input == Value;
+		}
+		public bool Match(IInput<char> Input)
+		{
+			if (!(Input is LetterInput o)) return false;
+			return (o.Value == Value);
 		}
 
-		public bool Match(char Value)
-		{
-			return Value==this.Value;
-		}
 
 		public override string ToString()
 		{
 			return Value.ToString() ;
 		}
 
-		public override int GetHashCode()
-		{
-			return Value.GetHashCode();
-		}
+		
 
 	}
 }

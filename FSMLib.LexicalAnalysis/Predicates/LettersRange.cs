@@ -58,16 +58,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			return ((FirstValue==o.FirstValue) && (LastValue==o.LastValue));
 		}
 
-		public bool Match(char Input)
-		{
-			return (Input>=FirstValue) && (Input<=LastValue);
-		}
-
-		public bool Match(IInput<char> Input)
-		{
-			if (!(Input is LetterInput o)) return false;
-			return (o.Value >= FirstValue) && (o.Value <= LastValue);
-		}
+	
 
 
 

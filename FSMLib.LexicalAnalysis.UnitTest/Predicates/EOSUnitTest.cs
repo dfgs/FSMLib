@@ -30,30 +30,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("•¤", predicate.ToString(predicate));
 		}
 
-		[TestMethod]
-		public void ShouldMatch()
-		{
-			EOS predicate;
-
-
-			predicate = new EOS();
-
-			Assert.IsTrue(predicate.Match(new EOSInput<char>()));
-
-		}
-		[TestMethod]
-		public void ShouldNotMatch()
-		{
-			EOS predicate;
-
-
-			predicate = new EOS();
-
-			Assert.IsFalse(predicate.Match('b'));
-			Assert.IsFalse(predicate.Match(new LetterInput('b')));
-			Assert.IsFalse(predicate.Match(new NonTerminalInput("a")));
-
-		}
+		
 		[TestMethod]
 		public void ShouldGetInput()
 		{

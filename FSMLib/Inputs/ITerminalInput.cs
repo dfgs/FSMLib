@@ -8,5 +8,10 @@ namespace FSMLib.Inputs
 {
 	public interface ITerminalInput<T> : IActionInput<T>
 	{
+		T Value
+		{
+			get;
+		}
+
 	}
 }

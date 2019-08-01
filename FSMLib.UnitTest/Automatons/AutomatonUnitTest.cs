@@ -128,9 +128,9 @@ namespace FSMLib.UnitTest
 			Assert.AreEqual(3, node.Nodes.Count);
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.IsTrue(((TerminalNode<char>)node.Nodes[0]).Input.Match('a'));
-			Assert.IsTrue(((TerminalNode<char>)node.Nodes[1]).Input.Match('b'));
-			Assert.IsTrue(((TerminalNode<char>)node.Nodes[2]).Input.Match('c'));
+			Assert.AreEqual('a',((TerminalNode<char>)node.Nodes[0]).Input.Value);
+			Assert.AreEqual('b', ((TerminalNode<char>)node.Nodes[1]).Input.Value);
+			Assert.AreEqual('c', ((TerminalNode<char>)node.Nodes[2]).Input.Value);
 
 		}
 		[TestMethod]

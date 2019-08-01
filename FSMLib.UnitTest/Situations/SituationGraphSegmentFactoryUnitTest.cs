@@ -36,7 +36,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
 
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
@@ -60,9 +60,9 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('b'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('c'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('b'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('c'));
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
 		[TestMethod]
@@ -85,9 +85,9 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('b'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('c'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('b'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('c'));
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
 		[TestMethod]
@@ -110,7 +110,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
 
 			Assert.AreEqual(1, nodes[0].Edges.Count);
 			Assert.AreEqual(1, nodes[1].Edges.Count);
@@ -141,9 +141,9 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(1).Edges.Count);
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(2).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(1).Predicate.Match('b'));
-			Assert.IsTrue(segment.InputEdges.ElementAt(2).Predicate.Match('c'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(1).Predicate.GetInput().Match('b'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(2).Predicate.GetInput().Match('c'));
 
 			Assert.AreEqual(1, nodes[0].Edges.Count);
 			Assert.AreEqual(1, nodes[1].Edges.Count);
@@ -173,7 +173,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(2, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(1, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
 			Assert.AreEqual(capEdge, segment.InputEdges.ElementAt(1));
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
@@ -197,7 +197,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(2, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(2, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
 			Assert.AreEqual(capEdge, segment.InputEdges.ElementAt(1));
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
@@ -221,7 +221,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(1, segment.InputEdges.Count());
 			Assert.AreEqual(1, segment.OutputNodes.Count());
 			Assert.AreEqual(2, segment.OutputNodes.ElementAt(0).Edges.Count);
-			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.Match('a'));
+			Assert.IsTrue(segment.InputEdges.ElementAt(0).Predicate.GetInput().Match('a'));
 			Assert.AreEqual(capEdge, segment.OutputNodes.ElementAt(0).Edges.ElementAt(0));
 		}
 
