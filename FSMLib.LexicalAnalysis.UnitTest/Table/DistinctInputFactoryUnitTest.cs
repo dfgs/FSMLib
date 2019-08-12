@@ -46,6 +46,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		}
 
 
+		[TestMethod]
 		public void ShouldGetDistinctThreeNextInputs()
 		{
 			DistinctInputFactory distinctInputFactory;
@@ -59,6 +60,67 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			Assert.AreEqual('b', ((ITerminalInput<char>)inputs[1]).Value);
 			Assert.AreEqual('c', ((ITerminalInput<char>)inputs[2]).Value);
 		}
+		[TestMethod]
+		public void ShouldGetDistinctOneNonTerminalInputs()
+		{
+			DistinctInputFactory distinctInputFactory;
+			IActionInput<char>[] inputs;
+
+			distinctInputFactory = new DistinctInputFactory();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new NonTerminalInput("A"), new NonTerminalInput("A"), new NonTerminalInput("A") }).ToArray();
+
+			Assert.AreEqual(1, inputs.Length);
+			Assert.AreEqual("A", ((INonTerminalInput<char>)inputs[0]).Name);
+		}
+		[TestMethod]
+		public void ShouldGetDistinctThreeNonTerminalInputs()
+		{
+			DistinctInputFactory distinctInputFactory;
+			IActionInput<char>[] inputs;
+
+			distinctInputFactory = new DistinctInputFactory();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new NonTerminalInput("A"), new NonTerminalInput("B"), new NonTerminalInput("C") }).ToArray();
+
+			Assert.AreEqual(3, inputs.Length);
+			Assert.AreEqual("A", ((INonTerminalInput<char>)inputs[0]).Name);
+			Assert.AreEqual("B", ((INonTerminalInput<char>)inputs[1]).Name);
+			Assert.AreEqual("C", ((INonTerminalInput<char>)inputs[2]).Name);
+		}
+
+		[TestMethod]
+		public void ShouldSplitLettersRanges()
+		{
+			DistinctInputFactory distinctInputFactory;
+			IActionInput<char>[] inputs;
+
+			distinctInputFactory = new DistinctInputFactory();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new LettersRangeInput('a','d'), new LettersRangeInput('c','f')}).ToArray();
+
+			Assert.AreEqual(3, inputs.Length);
+			Assert.AreEqual('a', ((LettersRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('b', ((LettersRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('c', ((LettersRangeInput)inputs[1]).FirstValue);
+			Assert.AreEqual('d', ((LettersRangeInput)inputs[1]).LastValue);
+			Assert.AreEqual('e', ((LettersRangeInput)inputs[2]).FirstValue);
+			Assert.AreEqual('f', ((LettersRangeInput)inputs[2]).LastValue);
+		}
+		[TestMethod]
+		public void ShouldSplitLettersRangesUsingOneLetter()
+		{
+			DistinctInputFactory distinctInputFactory;
+			IActionInput<char>[] inputs;
+
+			distinctInputFactory = new DistinctInputFactory();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new LettersRangeInput('a', 'g'), new LetterInput('c') }).ToArray();
+
+			Assert.AreEqual(3, inputs.Length);
+			Assert.AreEqual('a', ((LettersRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('b', ((LettersRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('c', ((LetterInput)inputs[1]).Value);
+			Assert.AreEqual('d', ((LettersRangeInput)inputs[2]).FirstValue);
+			Assert.AreEqual('g', ((LettersRangeInput)inputs[2]).LastValue);
+		}
+		
 
 
 	}

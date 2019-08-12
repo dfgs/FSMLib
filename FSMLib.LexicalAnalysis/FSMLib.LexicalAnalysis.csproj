@@ -62,6 +62,7 @@
     <Compile Include="Rules\LexicalRule.cs" />
     <Compile Include="Serializers\RuleCollectionSerializer.cs" />
     <Compile Include="Tables\DistinctInputFactory.cs" />
+    <Compile Include="Tables\LettersRangeInputCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">

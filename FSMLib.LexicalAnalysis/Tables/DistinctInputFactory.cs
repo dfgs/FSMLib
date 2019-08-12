@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib;
+using FSMLib.LexicalAnalysis.Predicates;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.LexicalAnalysis.Tables
 {
@@ -13,7 +15,38 @@ namespace FSMLib.LexicalAnalysis.Tables
 	{
 		public IEnumerable<IActionInput<char>> GetDistinctInputs(IEnumerable<IInput<char>> Inputs)
 		{
-			return Inputs.DistinctEx().OfType<IActionInput<char>>();
+			List<IActionInput<char>> results;
+			LettersRangeInputCollection items;
+
+			results = new List<IActionInput<char>>();
+			items = new LettersRangeInputCollection();
+			foreach(IInput<char> input in Inputs)
+			{
+				switch(input)
+				{
+					case LetterInput letterInput:
+						items.Add(letterInput);
+						break;
+					case LettersRangeInput lettersRange:
+						items.Add(lettersRange);
+						break;
+					case IActionInput<char> i:
+						if (results.FirstOrDefault(item=>item.Equals(i))==null) results.Add(i);
+						break;
+				}
+			}
+
+			// return results, and convert one item ranges to single terminal
+			foreach (LettersRangeInput input in items)
+			{
+				if (input.FirstValue == input.LastValue) yield return new LetterInput(input.FirstValue);
+				else yield return input;
+			}
+			foreach(IActionInput<char> input in results)
+			{
+				yield return input;
+			}
+
 		}
 	}
 }

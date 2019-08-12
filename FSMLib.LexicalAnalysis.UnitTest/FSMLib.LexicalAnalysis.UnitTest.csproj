@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\RuleUnitTest.cs" />
     <Compile Include="Table\DistinctInputFactoryUnitTest.cs" />
+    <Compile Include="Table\LettersRangeInputCollectionUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
