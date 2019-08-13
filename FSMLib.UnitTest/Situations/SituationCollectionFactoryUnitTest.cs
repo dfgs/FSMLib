@@ -200,11 +200,11 @@ namespace FSMLib.UnitTest.Situations
 			Assert.AreEqual(4, situations.Count);
 			Assert.AreEqual(p1, situations[0].Predicate);
 			Assert.AreEqual(p2, situations[1].Predicate);
-			Assert.AreEqual('d',situations[1].Input.Value);
+			Assert.AreEqual('d',((ITerminalInput<char>)situations[1].Input).Value);
 			Assert.AreEqual(p3, situations[2].Predicate);
-			Assert.AreEqual('d', situations[2].Input.Value);
+			Assert.AreEqual('d', ((ITerminalInput<char>)situations[2].Input).Value);
 			Assert.AreEqual(p4, situations[3].Predicate);
-			Assert.AreEqual('d', situations[3].Input.Value);
+			Assert.AreEqual('d', ((ITerminalInput<char>)situations[3].Input).Value);
 
 		}
 
@@ -291,10 +291,10 @@ namespace FSMLib.UnitTest.Situations
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
-			Assert.AreEqual('a', situations[1].Input.Value); 
-			Assert.AreEqual('b', situations[2].Input.Value); 
-			Assert.AreEqual('a', situations[3].Input.Value); 
-			Assert.AreEqual('b', situations[4].Input.Value); 
+			Assert.AreEqual('a', ((ITerminalInput<char>)situations[1].Input).Value); 
+			Assert.AreEqual('b', ((ITerminalInput<char>)situations[2].Input).Value); 
+			Assert.AreEqual('a', ((ITerminalInput<char>)situations[3].Input).Value); 
+			Assert.AreEqual('b', ((ITerminalInput<char>)situations[4].Input).Value); 
 
 
 
@@ -338,8 +338,8 @@ namespace FSMLib.UnitTest.Situations
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
-			Assert.AreEqual('a',situations[2].Input.Value);
-			Assert.AreEqual('a', situations[4].Input.Value);
+			Assert.AreEqual('a', ((ITerminalInput<char>)situations[2].Input).Value);
+			Assert.AreEqual('a', ((ITerminalInput<char>)situations[4].Input).Value);
 
 
 

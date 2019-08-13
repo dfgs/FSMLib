@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public interface ITerminalInput<T> : IReduceInput<T>
+	public interface IReduceInput<T> : IActionInput<T>
 	{
-		T Value
-		{
-			get;
-		}
+		
 
 	}
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Inputs
 {
-	public class LettersRangeInput:IInput<char>, IActionInput<char>
+	public class LettersRangeInput:IInput<char>, IReduceInput<char>
 	{
 		//private static Comparer<char> comparer = Comparer<char>.Default;
 		public char FirstValue

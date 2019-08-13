@@ -49,6 +49,12 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
+			CreateView(@"Letter=[a-z]|[A-Z];",
+				@"NonAxiomRuleName={Letter}+;",
+				@"AxiomRuleName={Letter}+\*;",
+				@"RuleName*={NonAxiomRuleName}|{AxiomRuleName};");
+
+
 			CreateView("A*=ab{C}*;", "C=c;");
 			CreateView("A*=ab{B};", "B={C};", "C={D};", "D=c;");
 			CreateView("A*=a.c;", "B*=abc;");

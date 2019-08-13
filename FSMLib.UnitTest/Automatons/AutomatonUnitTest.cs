@@ -333,7 +333,26 @@ namespace FSMLib.UnitTest
 
 
 		}
+		[TestMethod]
+		public void ShouldFeedAndReduceUsingTerminalRange()
+		{
+			Automaton automaton;
+			AutomatonTable<char> automatonTable;
 
+			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{B}[c-z];", "B=b;"});
+			automaton = new Automaton(automatonTable);
+
+			automaton.Feed('a');
+			automaton.Feed('b');
+			automaton.Feed('c');
+			Assert.AreEqual(3, automaton.StackCount);
+
+			Assert.IsTrue(automaton.CanAccept());
+			automaton.Accept();
+			Assert.IsFalse(automaton.CanAccept());
+
+
+		}
 		[TestMethod]
 		public void ShouldFeedGreedy()
 		{

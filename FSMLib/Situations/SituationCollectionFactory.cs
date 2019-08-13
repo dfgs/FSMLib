@@ -83,13 +83,13 @@ namespace FSMLib.Situations
 				if (edge.TargetNode == Node) yield return edge;
 			}
 		}
-		private IEnumerable<IInput<T>> GetTerminalInputsAfterPredicate(INonTerminalPredicate<T> NonTerminal)
+		private IEnumerable<IReduceInput<T>> GetTerminalInputsAfterPredicate(INonTerminalPredicate<T> NonTerminal)
 		{
 			SituationEdge<T> edge;
-			ProcessingQueue<SituationEdge<T>,ITerminalInput<T>> queue;
+			ProcessingQueue<SituationEdge<T>, IReduceInput<T>> queue;
 			IInput<T> input;
 
-			queue = new ProcessingQueue<SituationEdge<T>, ITerminalInput<T>>();
+			queue = new ProcessingQueue<SituationEdge<T>, IReduceInput<T>>();
 
 			// add edges next to current non terminal
 			edge = GetEdge(NonTerminal);
@@ -114,7 +114,7 @@ namespace FSMLib.Situations
 			queue.Process((q, item) =>
 			{
 				input = item.Predicate.GetInput();
-				if (input is ITerminalInput<T> terminalInput) q.AddResult(terminalInput);
+				if (input is IReduceInput<T> terminalInput) q.AddResult(terminalInput);
 				else if (item.Predicate is IReducePredicate<T>) q.AddResult(new EOSInput<T>());
 				else if (input is INonTerminalInput<T> nonTerminalInput)
 				{
@@ -166,7 +166,7 @@ namespace FSMLib.Situations
 		{
 			SituationCollection<T> developpedSituations;
 			Situation<T> newSituation;
-			IInput<T>[] inputs;
+			IReduceInput<T>[] inputs;
 			ProcessingQueue<Situation<T>, Situation<T>> processingQueue;
 			//bool isReductionSituationAfterPredicate;
 
@@ -186,7 +186,7 @@ namespace FSMLib.Situations
 				foreach (SituationEdge<T> developpedEdge in DevelopRuleInputEdges(nonTerminal.Name))
 				{
 					// basic case
-					foreach (ITerminalInput<T> input in inputs)
+					foreach (IReduceInput<T> input in inputs)
 					{
 						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
 						q.AddResult(newSituation);

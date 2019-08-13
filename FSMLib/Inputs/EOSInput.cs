@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Inputs
 {
-	public class EOSInput<T>: ITerminalInput<T>, IActionInput<T>
+	public class EOSInput<T>: ITerminalInput<T>
 	{
 		public T Value
 		{

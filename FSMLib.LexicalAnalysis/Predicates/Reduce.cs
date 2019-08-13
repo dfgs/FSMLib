@@ -30,8 +30,8 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public override string ToString(ISituationPredicate<char> CurrentPredicate)
 		{
-			if (CurrentPredicate == this) return "•←";
-			else return "←";
+			if (CurrentPredicate == this) return "•;";
+			else return ";";
 		}
 
 		public override bool Equals(IPredicate<char> other)

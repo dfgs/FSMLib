@@ -63,7 +63,7 @@
     <Compile Include="Situations\SituationUnitTest.cs" />
     <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
     <Compile Include="Table\AutomatonTableFactoryUnitTest.cs" />
-    <Compile Include="Table\AutomatonTableTupleUnitTest - Copier.cs" />
+    <Compile Include="Table\AutomatonTableTupleUnitTest.cs" />
     <Compile Include="Table\StateUnitTest.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />

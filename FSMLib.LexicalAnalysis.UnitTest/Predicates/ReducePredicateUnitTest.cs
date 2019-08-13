@@ -18,7 +18,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 
 			predicate = new Reduce();
 
-			Assert.AreEqual("←", predicate.ToString());
+			Assert.AreEqual(";", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
@@ -27,7 +27,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 
 			predicate = new Reduce();
 
-			Assert.AreEqual("•←", predicate.ToString(predicate));
+			Assert.AreEqual("•;", predicate.ToString(predicate));
 		}
 
 		

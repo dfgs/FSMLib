@@ -27,7 +27,7 @@ namespace FSMLib.Situations
 			get { return Predicate is IReducePredicate<T>; }
 		}
 
-		public ITerminalInput<T> Input
+		public IReduceInput<T> Input
 		{
 			get;
 			set;

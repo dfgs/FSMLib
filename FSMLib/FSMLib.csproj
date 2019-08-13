@@ -44,6 +44,7 @@
     <Compile Include="Automatons\AutomatonException.cs" />
     <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
+    <Compile Include="Inputs\IReduceInput.cs" />
     <Compile Include="Inputs\ITerminalInput.cs" />
     <Compile Include="Inputs\IActionInput.cs" />
     <Compile Include="Inputs\IInput.cs" />
