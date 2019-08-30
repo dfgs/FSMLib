@@ -50,6 +50,7 @@
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\ExceptLetter.cs" />
     <Compile Include="Predicates\Letter.cs" />
+    <Compile Include="Predicates\ExceptLettersRange.cs" />
     <Compile Include="Predicates\LettersRange.cs" />
     <Compile Include="Predicates\LexicalPredicate.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />

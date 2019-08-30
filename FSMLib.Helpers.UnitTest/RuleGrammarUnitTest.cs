@@ -23,51 +23,66 @@ namespace FSMLib.Helpers.UnitTest
 		}
 
 		[TestMethod]
-		public void ShouldParseTerminal()
+		public void ShouldParseLetter()
 		{
 			Letter result;
-			result = RuleGrammar.Terminal.Parse("a");
+			result = RuleGrammar.Letter.Parse("a");
 			Assert.AreEqual('a', result.Value);
-			result = RuleGrammar.Terminal.Parse("1");
+			result = RuleGrammar.Letter.Parse("1");
 			Assert.AreEqual('1', result.Value);
-			result = RuleGrammar.Terminal.Parse("-");
+			result = RuleGrammar.Letter.Parse("-");
 			Assert.AreEqual('-', result.Value);
 		}
+		[TestMethod]
+		public void ShouldParseExceptLetter()
+		{
+			ExceptLetter result;
+			result = RuleGrammar.ExceptLetter.Parse("!a");
+			Assert.AreEqual('a', result.Value);
+			result = RuleGrammar.ExceptLetter.Parse("!1");
+			Assert.AreEqual('1', result.Value);
+			result = RuleGrammar.ExceptLetter.Parse("!-");
+			Assert.AreEqual('-', result.Value);
+		}
+
 		[TestMethod]
 		public void ShouldParseTerminalFromEscapedChar()
 		{
 			Letter result;
-			result = RuleGrammar.Terminal.Parse(@"\a");
+			result = RuleGrammar.Letter.Parse(@"\a");
 			Assert.AreEqual('a', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\{");
+			result = RuleGrammar.Letter.Parse(@"\{");
 			Assert.AreEqual('{', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\}");
+			result = RuleGrammar.Letter.Parse(@"\}");
 			Assert.AreEqual('}', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\[");
+			result = RuleGrammar.Letter.Parse(@"\[");
 			Assert.AreEqual('[', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\]");
+			result = RuleGrammar.Letter.Parse(@"\]");
 			Assert.AreEqual(']', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\.");
+			result = RuleGrammar.Letter.Parse(@"\.");
 			Assert.AreEqual('.', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\*");
+			result = RuleGrammar.Letter.Parse(@"\*");
 			Assert.AreEqual('*', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\?");
+			result = RuleGrammar.Letter.Parse(@"\?");
 			Assert.AreEqual('?', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\;");
+			result = RuleGrammar.Letter.Parse(@"\!");
+			Assert.AreEqual('!', result.Value);
+			result = RuleGrammar.Letter.Parse(@"\;");
 			Assert.AreEqual(';', result.Value);
 		}
 		[TestMethod]
 		public void ShouldNotParseSpecialCharactersAsTerminal()
 		{
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("["));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("]"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("{"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("}"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(@"\"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("."));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("*"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("?"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(";"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("["));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("]"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("{"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("}"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse(@"\"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("."));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("*"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("?"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse("!"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Letter.Parse(";"));
 		}
 		[TestMethod]
 		public void ShouldParseReduce()
@@ -80,18 +95,29 @@ namespace FSMLib.Helpers.UnitTest
 		public void ShouldParseAnyTerminal()
 		{
 			AnyLetter result;
-			result = RuleGrammar.AnyTerminal.Parse(".");
+			result = RuleGrammar.AnyLetter.Parse(".");
 			Assert.IsNotNull(result);
 		}
 
 		[TestMethod]
-		public void ShouldParseTerminalRange()
+		public void ShouldParseLetterRange()
 		{
 			LettersRange result;
-			result = RuleGrammar.TerminalRange.Parse("[a-z]");
+			result = RuleGrammar.LettersRange.Parse("[a-z]");
 			Assert.AreEqual('a', result.FirstValue);
 			Assert.AreEqual('z', result.LastValue);
-			result = RuleGrammar.TerminalRange.Parse("[{-}]");
+			result = RuleGrammar.LettersRange.Parse("[{-}]");
+			Assert.AreEqual('{', result.FirstValue);
+			Assert.AreEqual('}', result.LastValue);
+		}
+		[TestMethod]
+		public void ShouldParseExceptLettersRange()
+		{
+			ExceptLettersRange result;
+			result = RuleGrammar.ExceptLettersRange.Parse("![a-z]");
+			Assert.AreEqual('a', result.FirstValue);
+			Assert.AreEqual('z', result.LastValue);
+			result = RuleGrammar.ExceptLettersRange.Parse("![{-}]");
 			Assert.AreEqual('{', result.FirstValue);
 			Assert.AreEqual('}', result.LastValue);
 		}
@@ -147,6 +173,18 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[0], typeof(ZeroOrMore));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Optional));
 			Assert.IsInstanceOfType(result.Items[2], typeof(OneOrMore));
+
+			result = RuleGrammar.Sequence.Parse(@"a!bc");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Letter));
+			Assert.IsInstanceOfType(result.Items[1], typeof(ExceptLetter));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Letter));
+
+			result = RuleGrammar.Sequence.Parse(@"a![b-d]c");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Letter));
+			Assert.IsInstanceOfType(result.Items[1], typeof(ExceptLettersRange));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Letter));
 		}
 
 
@@ -160,6 +198,10 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(AnyLetter));
 			result = RuleGrammar.OneOrMore.Parse("{A}+");
 			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal));
+			result = RuleGrammar.OneOrMore.Parse("!a+");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLetter));
+			result = RuleGrammar.OneOrMore.Parse("![a-b]+");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLettersRange));
 		}
 		[TestMethod]
 		public void ShouldParseZeroOrMore()
@@ -171,6 +213,10 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(AnyLetter));
 			result = RuleGrammar.ZeroOrMore.Parse("{A}*");
 			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal));
+			result = RuleGrammar.ZeroOrMore.Parse("!a*");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLetter));
+			result = RuleGrammar.ZeroOrMore.Parse("![a-b]*");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLettersRange));
 		}
 		[TestMethod]
 		public void ShouldParseOptional()
@@ -182,6 +228,10 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Item, typeof(AnyLetter));
 			result = RuleGrammar.Optional.Parse("{A}?");
 			Assert.IsInstanceOfType(result.Item, typeof(NonTerminal));
+			result = RuleGrammar.Optional.Parse("!a?");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLetter));
+			result = RuleGrammar.Optional.Parse("![a-b]?");
+			Assert.IsInstanceOfType(result.Item, typeof(ExceptLettersRange));
 		}
 
 
@@ -270,6 +320,14 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("A*=a!bc;");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("A*=a![b-d]c;");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
+			Assert.AreEqual("A", result.Name);
+			Assert.IsTrue(result.IsAxiom);
 
 
 		}
@@ -319,6 +377,17 @@ namespace FSMLib.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[2], typeof(LettersRange));
 			Assert.IsInstanceOfType(result.Items[3], typeof(NonTerminal));
 
+			result = RuleGrammar.Or.Parse("a|!b|d");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Letter));
+			Assert.IsInstanceOfType(result.Items[1], typeof(ExceptLetter));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Letter));
+
+			result = RuleGrammar.Or.Parse("a|![b-d]|d");
+			Assert.AreEqual(3, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Letter));
+			Assert.IsInstanceOfType(result.Items[1], typeof(ExceptLettersRange));
+			Assert.IsInstanceOfType(result.Items[2], typeof(Letter));
 
 		}
 

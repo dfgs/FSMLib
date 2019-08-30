@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest.Predicates
 
 		
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldGetInputs()
 		{
 			Letter predicate;
 			IInput<char>[] inputs;

@@ -30,7 +30,7 @@ namespace FSMLib.UnitTest.Predicates
 			Assert.AreEqual("•.", predicate.ToString(predicate));
 		}
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldGetInputs()
 		{
 			AnyLetter predicate;
 			IInput<char>[] inputs;

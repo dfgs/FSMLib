@@ -21,10 +21,11 @@ namespace FSMLib.Helpers
 		private static readonly Parser<char> Plus = Parse.Char('+');
 		private static readonly Parser<char> Star = Parse.Char('*');
 		private static readonly Parser<char> QuestionMark = Parse.Char('?');
+		private static readonly Parser<char> ExclamationMark = Parse.Char('!');
 		private static readonly Parser<char> Pipe = Parse.Char('|');
 		private static readonly Parser<char> SemiColon = Parse.Char(';');
 
-		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(OpenBrace).Or(CloseBrace).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(Pipe).Or(SemiColon);
+		private static Parser<char> SpecialChar = OpenBracket.Or(CloseBracket).Or(OpenBrace).Or(CloseBrace).Or(BackSlash).Or(Dot).Or(Plus).Or(Star).Or(QuestionMark).Or(ExclamationMark).Or(Pipe).Or(SemiColon);
 		private static Parser<char> NormalChar = Parse.AnyChar.Except(SpecialChar);
 
 		private static readonly Parser<char> EscapedChar =
@@ -37,9 +38,14 @@ namespace FSMLib.Helpers
 			from value in SemiColon
 			select new Reduce();
 
-		public static readonly Parser<Letter> Terminal =
+		public static readonly Parser<Letter> Letter =
 			from value in NormalChar.Or(EscapedChar)
 			select new Letter(value);
+
+		public static readonly Parser<ExceptLetter> ExceptLetter =
+			from _ in ExclamationMark
+			from value in NormalChar.Or(EscapedChar)
+			select new ExceptLetter(value);
 
 		public static readonly Parser<NonTerminal> NonTerminal =
 			from open in OpenBrace
@@ -47,24 +53,35 @@ namespace FSMLib.Helpers
 			from close in CloseBrace
 			select new NonTerminal(name);
 
-		public static readonly Parser<LettersRange> TerminalRange =
+		public static readonly Parser<LettersRange> LettersRange =
 			from open in OpenBracket
 			from FirstItem in Parse.AnyChar
 			from _ in Parse.Char('-')
 			from LastItem in Parse.AnyChar
 			from close in CloseBracket
-			select new LettersRange(FirstItem,LastItem);
+			select new LettersRange(FirstItem, LastItem);
 
-		public static readonly Parser<AnyLetter> AnyTerminal =
+		public static readonly Parser<ExceptLettersRange> ExceptLettersRange =
+			from _ in ExclamationMark
+			from open in OpenBracket
+			from FirstItem in Parse.AnyChar
+			from __ in Parse.Char('-')
+			from LastItem in Parse.AnyChar
+			from close in CloseBracket
+			select new ExceptLettersRange(FirstItem, LastItem);
+
+		public static readonly Parser<AnyLetter> AnyLetter =
 			from _ in Dot
 			select new AnyLetter();
 
 		private static readonly Parser<LexicalPredicate> SmallestPredicate =
-			Terminal.Or<LexicalPredicate>(Terminal)
-			.Or<LexicalPredicate>(AnyTerminal)
+			Letter.Or<LexicalPredicate>(Letter)
+			.Or<LexicalPredicate>(ExceptLetter)
+			.Or<LexicalPredicate>(AnyLetter)
 			.Or<LexicalPredicate>(NonTerminal)
-			.Or<LexicalPredicate>(TerminalRange);
-			   
+			.Or<LexicalPredicate>(ExceptLettersRange)
+			.Or<LexicalPredicate>(LettersRange);
+
 
 		public static readonly Parser<OneOrMore> OneOrMore =
 			from value in SmallestPredicate
@@ -82,7 +99,7 @@ namespace FSMLib.Helpers
 			select new Optional() { Item = value };
 
 		public static readonly Parser<LexicalPredicate> SinglePredicate =
-			Optional.Or<LexicalPredicate>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal).Or(TerminalRange);
+			Optional.Or<LexicalPredicate>(ZeroOrMore).Or(OneOrMore).Or(Letter).Or(ExceptLetter).Or(AnyLetter).Or(NonTerminal).Or(ExceptLettersRange).Or(LettersRange);
 
 		public static readonly Parser<Sequence> Sequence =
 			from firstItem in SinglePredicate

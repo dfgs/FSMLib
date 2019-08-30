@@ -31,7 +31,7 @@ namespace FSMLib.UnitTest.Predicates
 		}
 
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldGetInputs()
 		{
 			NonTerminal predicate;
 			IInput<char>[] inputs;

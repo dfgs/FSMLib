@@ -9,7 +9,7 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class TerminalRangeUnitTest
+	public class LettersRangeUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
@@ -32,7 +32,7 @@ namespace FSMLib.UnitTest.Predicates
 
 
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldGetInputs()
 		{
 			LettersRange predicate;
 			IInput<char>[] inputs;

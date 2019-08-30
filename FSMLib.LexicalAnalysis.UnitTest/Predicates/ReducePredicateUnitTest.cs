@@ -34,7 +34,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 
 
 		[TestMethod]
-		public void ShouldGetInput()
+		public void ShouldGetInputs()
 		{
 			Reduce predicate;
 			IInput<char>[] inputs;
