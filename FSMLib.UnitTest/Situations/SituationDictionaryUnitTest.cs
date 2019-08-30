@@ -9,6 +9,8 @@ using FSMLib.Rules;
 using FSMLib.Table;
 using FSMLib.Helpers;
 using FSMLib.LexicalAnalysis.Predicates;
+using FSMLib.Common.Situations;
+using FSMLib.Common.Table;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -24,7 +26,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldNotGetTuple()
 		{
 			SituationDictionary<char> dictionary;
-			AutomatonTableTuple<char> result;
+			IAutomatonTableTuple<char> result;
 			IRule<char> rule;
 			Situation<char> a,b;
 			SituationCollection<char> situations;
@@ -46,7 +48,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldCreateAndGetTuple()
 		{
 			SituationDictionary<char> dictionary;
-			AutomatonTableTuple<char> result;
+			IAutomatonTableTuple<char> result;
 			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
@@ -73,7 +75,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldEnumerateTuples()
 		{
 			SituationDictionary<char> dictionary;
-			AutomatonTableTuple<char>[] result;
+			IAutomatonTableTuple<char>[] result;
 			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;

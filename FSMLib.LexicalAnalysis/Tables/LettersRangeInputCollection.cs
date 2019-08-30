@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Tables
 {
-	public class LettersRangeInputCollection : IEnumerable<LettersRangeInput>
+	public class LettersRangeInputCollection : IEnumerable<TerminalsRangeInput>
 	{
-		private List<LettersRangeInput> items;
+		private List<TerminalsRangeInput> items;
 
 		public int Count
 		{
@@ -20,23 +20,23 @@ namespace FSMLib.LexicalAnalysis.Tables
 
 		public LettersRangeInputCollection()
 		{
-			items = new List<LettersRangeInput>();
+			items = new List<TerminalsRangeInput>();
 		}
 
 
 		
-		public void Add(LetterInput Letter)
+		public void Add(TerminalInput Letter)
 		{
-			Add(new LettersRangeInput(Letter.Value, Letter.Value));
+			Add(new TerminalsRangeInput(Letter.Value, Letter.Value));
 		}
 
-		public void Add(LettersRangeInput Range)
+		public void Add(TerminalsRangeInput Range)
 		{
-			ProcessingQueue<LettersRangeInput, bool> queue;
-			LettersRangeInput existingRange;
+			ProcessingQueue<TerminalsRangeInput, bool> queue;
+			TerminalsRangeInput existingRange;
 
 
-			queue = new ProcessingQueue<LettersRangeInput, bool>();
+			queue = new ProcessingQueue<TerminalsRangeInput, bool>();
 
 			queue.Add(Range);
 			queue.Process((q,range) =>
@@ -53,12 +53,12 @@ namespace FSMLib.LexicalAnalysis.Tables
 						items.RemoveAt(t);
 						if (range.FirstValue > existingRange.FirstValue)
 						{
-							items.Insert(t, new LettersRangeInput(existingRange.FirstValue, (char)(range.FirstValue - 1))); t++;
+							items.Insert(t, new TerminalsRangeInput(existingRange.FirstValue, (char)(range.FirstValue - 1))); t++;
 						}
 						items.Insert(t, range); t++;
 						if (range.LastValue < existingRange.LastValue)
 						{
-							items.Insert(t, new LettersRangeInput((char)(range.LastValue + 1), existingRange.LastValue)); t++;
+							items.Insert(t, new TerminalsRangeInput((char)(range.LastValue + 1), existingRange.LastValue)); t++;
 						}
 						return;
 					}
@@ -68,12 +68,12 @@ namespace FSMLib.LexicalAnalysis.Tables
 					{
 						if (range.FirstValue < existingRange.FirstValue)
 						{
-							items.Insert(t, new LettersRangeInput(range.FirstValue, (char)(existingRange.FirstValue - 1))); 
+							items.Insert(t, new TerminalsRangeInput(range.FirstValue, (char)(existingRange.FirstValue - 1))); 
 						}
 						t++;
 						if (range.LastValue > existingRange.LastValue)
 						{
-							q.Add(new LettersRangeInput((char)(existingRange.LastValue + 1), range.LastValue)); 
+							q.Add(new TerminalsRangeInput((char)(existingRange.LastValue + 1), range.LastValue)); 
 						}
 						return;
 					}
@@ -82,9 +82,9 @@ namespace FSMLib.LexicalAnalysis.Tables
 					if (range.FirstValue < existingRange.FirstValue)
 					{
 						items.RemoveAt(t);
-						items.Insert(t, new LettersRangeInput(range.FirstValue, (char)(existingRange.FirstValue - 1))); t++;
-						items.Insert(t, new LettersRangeInput(existingRange.FirstValue, range.LastValue)); t++;
-						items.Insert(t, new LettersRangeInput((char)(range.LastValue+1), existingRange.LastValue)); t++;
+						items.Insert(t, new TerminalsRangeInput(range.FirstValue, (char)(existingRange.FirstValue - 1))); t++;
+						items.Insert(t, new TerminalsRangeInput(existingRange.FirstValue, range.LastValue)); t++;
+						items.Insert(t, new TerminalsRangeInput((char)(range.LastValue+1), existingRange.LastValue)); t++;
 						return;
 					}
 
@@ -92,9 +92,9 @@ namespace FSMLib.LexicalAnalysis.Tables
 					if (range.FirstValue > existingRange.FirstValue)
 					{
 						items.RemoveAt(t);
-						items.Insert(t, new LettersRangeInput(existingRange.FirstValue, (char)(range.FirstValue - 1))); t++;
-						items.Insert(t, new LettersRangeInput(range.FirstValue, existingRange.LastValue)); t++;
-						q.Add(new LettersRangeInput((char)(existingRange.LastValue + 1), range.LastValue)); t++;
+						items.Insert(t, new TerminalsRangeInput(existingRange.FirstValue, (char)(range.FirstValue - 1))); t++;
+						items.Insert(t, new TerminalsRangeInput(range.FirstValue, existingRange.LastValue)); t++;
+						q.Add(new TerminalsRangeInput((char)(existingRange.LastValue + 1), range.LastValue)); t++;
 						return;
 					}
 				}
@@ -105,7 +105,7 @@ namespace FSMLib.LexicalAnalysis.Tables
 		}
 
 
-		public IEnumerator<LettersRangeInput> GetEnumerator()
+		public IEnumerator<TerminalsRangeInput> GetEnumerator()
 		{
 			return items.GetEnumerator();
 		}

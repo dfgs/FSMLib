@@ -21,9 +21,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LetterInput('a'));
+			items.Add(new TerminalInput('a'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LetterInput('b'));
+			items.Add(new TerminalInput('b'));
 			Assert.AreEqual(2, items.Count);
 		}
 		[TestMethod]
@@ -35,9 +35,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a','b'));
+			items.Add(new TerminalsRangeInput('a','b'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('c','d'));
+			items.Add(new TerminalsRangeInput('c','d'));
 			Assert.AreEqual(2, items.Count);
 		}
 		[TestMethod]
@@ -45,14 +45,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsLeftCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('d', 'h'));
+			items.Add(new TerminalsRangeInput('d', 'h'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('a', 'f'));
+			items.Add(new TerminalsRangeInput('a', 'f'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -67,14 +67,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsRightCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a', 'f'));
+			items.Add(new TerminalsRangeInput('a', 'f'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('d', 'h'));
+			items.Add(new TerminalsRangeInput('d', 'h'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -90,14 +90,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsEnglobedCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a', 'f'));
+			items.Add(new TerminalsRangeInput('a', 'f'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('c', 'd'));
+			items.Add(new TerminalsRangeInput('c', 'd'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -112,14 +112,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsEnglobingCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('c', 'd'));
+			items.Add(new TerminalsRangeInput('c', 'd'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('a', 'f'));
+			items.Add(new TerminalsRangeInput('a', 'f'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -135,16 +135,16 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsIntersectsSeveralSegmentsCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a', 'c'));
+			items.Add(new TerminalsRangeInput('a', 'c'));
 			Assert.AreEqual(1, items.Count);
-			items.Add(new LettersRangeInput('e', 'g'));
+			items.Add(new TerminalsRangeInput('e', 'g'));
 			Assert.AreEqual(2, items.Count);
-			items.Add(new LettersRangeInput('c', 'e'));
+			items.Add(new TerminalsRangeInput('c', 'e'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(5, inputs.Length);
@@ -163,13 +163,13 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldSplitLettersRangeInputsUsingSingleTerminalCase()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a', 'g'));
-			items.Add(new LetterInput('c'));
+			items.Add(new TerminalsRangeInput('a', 'g'));
+			items.Add(new TerminalInput('c'));
 	
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -185,16 +185,16 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldNotSplitLettersRangeInputsWhenAddingExistingRange()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] inputs;
+			TerminalsRangeInput[] inputs;
 
 			items = new LettersRangeInputCollection();
 
 			Assert.AreEqual(0, items.Count);
-			items.Add(new LettersRangeInput('a', 'g'));
-			items.Add(new LetterInput('c'));
-			items.Add(new LetterInput('c'));
-			items.Add(new LettersRangeInput('a', 'b'));
-			items.Add(new LettersRangeInput('d', 'g'));
+			items.Add(new TerminalsRangeInput('a', 'g'));
+			items.Add(new TerminalInput('c'));
+			items.Add(new TerminalInput('c'));
+			items.Add(new TerminalsRangeInput('a', 'b'));
+			items.Add(new TerminalsRangeInput('d', 'g'));
 
 			inputs = items.ToArray();
 			Assert.AreEqual(3, inputs.Length);
@@ -211,12 +211,12 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Table
 		public void ShouldEnumerate()
 		{
 			LettersRangeInputCollection items;
-			LettersRangeInput[] ranges;
+			TerminalsRangeInput[] ranges;
 
 			items = new LettersRangeInputCollection();
 
-			items.Add(new LetterInput('a'));
-			items.Add(new LetterInput('b'));
+			items.Add(new TerminalInput('a'));
+			items.Add(new TerminalInput('b'));
 
 			ranges = items.ToArray();
 			Assert.AreEqual(2, ranges.Length);

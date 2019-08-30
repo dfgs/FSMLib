@@ -1,4 +1,5 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Common.Inputs;
+using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;

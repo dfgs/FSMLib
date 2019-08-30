@@ -11,13 +11,13 @@ namespace FSMLib.Situations
 	public interface ISituationGraphSegmentFactory<T>
 	{
 
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule,  IPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule, ISituationPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule, ISequencePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule, IOrPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule, IOptionalPredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule,  IZeroOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
-		SituationGraphSegment<T> BuildSegment(List<SituationNode<T>> Nodes, IRule<T> Rule, IOneOrMorePredicate<T> Predicate, IEnumerable<SituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule,  IPredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule, ISituationPredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule, ISequencePredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule, IOrPredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule, IOptionalPredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule,  IZeroOrMorePredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
+		ISituationGraphSegment<T> BuildSegment(ISituationGraph<T> Graph, IRule<T> Rule, IOneOrMorePredicate<T> Predicate, IEnumerable<ISituationEdge<T>> Edges);
 		
 
 	}

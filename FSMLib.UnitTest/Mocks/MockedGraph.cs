@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common.Table;
+using FSMLib.Common.Actions;
 
 namespace FSMLib.UnitTest.Mocks
 {
@@ -18,23 +20,23 @@ namespace FSMLib.UnitTest.Mocks
 		public MockedAutomatonTable(params char[] Values)
 		{
 
-			States.Add(new State<char>());
+			Add(new State<char>());
 
 			for (int t = 0; t < Values.Length; t++)
 			{
-				States.Add(new State<char>());
-				States[t].Add(new Shift<char>() { Input = new LetterInput(Values[t] ), TargetStateIndex = t+1 });
+				Add(new State<char>());
+				GetState(t).Add(new Shift<char>() { Input = new TerminalInput(Values[t] ), TargetStateIndex = t+1 });
 			}
 
 		}
 		public MockedAutomatonTable(params string[] Values)
 		{
-			States.Add(new State<char>());
+			Add(new State<char>());
 
 			for (int t = 0; t < Values.Length; t++)
 			{
-				States.Add(new State<char>());
-				States[t].Add(new Shift<char>() { Input = new NonTerminalInput( Values[t]) , TargetStateIndex = t + 1 });
+				Add(new State<char>());
+				GetState(t).Add(new Shift<char>() { Input = new NonTerminalInput( Values[t]) , TargetStateIndex = t + 1 });
 			}
 		}
 

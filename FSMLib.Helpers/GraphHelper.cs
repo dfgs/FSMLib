@@ -7,17 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Situations;
-using FSMLib.LexicalAnalysis.Situations;
 using FSMLib.LexicalAnalysis.Tables;
+using FSMLib.Common.Table;
+using FSMLib.Common.Situations;
 
 namespace FSMLib.Helpers
 {
 	public static class AutomatonTableHelper
 	{
-		public static AutomatonTable<char> BuildAutomatonTable(IEnumerable<string> Rules)
+		public static IAutomatonTable<char> BuildAutomatonTable(IEnumerable<string> Rules)
 		{
-			AutomatonTableFactory<char> automatonTableFactory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTableFactory<char> automatonTableFactory;
+			IAutomatonTable<char> automatonTable;
 			SituationCollectionFactory<char> situationCollectionFactory;
 			DistinctInputFactory distinctInputFactory;
 

@@ -52,6 +52,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
+      <Project>{7E207AEB-52C7-4F97-93D3-6218F4F7C30E}</Project>
+      <Name>FSMLib.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj">
       <Project>{9a2620c4-212b-4550-9461-bc60b0e5d7e4}</Project>
       <Name>FSMLib.LexicalAnalysis</Name>

@@ -43,8 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
-    <Compile Include="Inputs\LetterInput.cs" />
-    <Compile Include="Inputs\LettersRangeInput.cs" />
+    <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="Inputs\TerminalsRangeInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\EOS.cs" />
@@ -67,6 +67,10 @@
     <Compile Include="Tables\LettersRangeInputCollection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
+      <Project>{7e207aeb-52c7-4f97-93d3-6218f4f7c30e}</Project>
+      <Name>FSMLib.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
       <Name>FSMLib</Name>

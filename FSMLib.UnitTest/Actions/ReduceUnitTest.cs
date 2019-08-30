@@ -1,5 +1,6 @@
 ﻿using System;
 using FSMLib.Actions;
+using FSMLib.Common.Actions;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

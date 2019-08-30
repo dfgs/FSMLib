@@ -24,10 +24,10 @@ namespace FSMLib.LexicalAnalysis.Tables
 			{
 				switch(input)
 				{
-					case LetterInput letterInput:
+					case TerminalInput letterInput:
 						items.Add(letterInput);
 						break;
-					case LettersRangeInput lettersRange:
+					case TerminalsRangeInput lettersRange:
 						items.Add(lettersRange);
 						break;
 					case IActionInput<char> i:
@@ -37,9 +37,9 @@ namespace FSMLib.LexicalAnalysis.Tables
 			}
 
 			// return results, and convert one item ranges to single terminal
-			foreach (LettersRangeInput input in items)
+			foreach (TerminalsRangeInput input in items)
 			{
-				if (input.FirstValue == input.LastValue) yield return new LetterInput(input.FirstValue);
+				if (input.FirstValue == input.LastValue) yield return new TerminalInput(input.FirstValue);
 				else yield return input;
 			}
 			foreach(IActionInput<char> input in results)

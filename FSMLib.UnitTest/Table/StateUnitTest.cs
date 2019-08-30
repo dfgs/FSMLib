@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Situations;
 using FSMLib.Actions;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common.Table;
+using FSMLib.Common.Actions;
 
 namespace FSMLib.UnitTest.AutomatonTables
 {
@@ -19,7 +21,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Shift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 			Assert.AreEqual(1, state.ShiftActionCount);
@@ -33,7 +35,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 			Reduce<char> action;
 
 			action = new Reduce<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 			Assert.AreEqual(1, state.ReduceActionCount);
@@ -44,28 +46,28 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShoudGetShiftUsingTerminalInput()
 		{
 			State<char> state;
-			Shift<char> action;
+			IShift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 
-			action=state.GetShift(new LetterInput('a'));
+			action=state.GetShift(new TerminalInput('a'));
 			Assert.IsNotNull(action);
 		}
 		[TestMethod]
 		public void ShoudNotGetShiftUsingTerminalInput()
 		{
 			State<char> state;
-			Shift<char> action;
+			IShift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 
-			action = state.GetShift(new LetterInput('b'));
+			action = state.GetShift(new TerminalInput('b'));
 			Assert.IsNull(action);
 		}
 
@@ -73,28 +75,28 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShoudGetReduceUsingTerminalInput()
 		{
 			State<char> state;
-			Reduce<char> action;
+			IReduce<char> action;
 
 			action = new Reduce<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 
-			action = state.GetReduce(new LetterInput('a'));
+			action = state.GetReduce(new TerminalInput('a'));
 			Assert.IsNotNull(action);
 		}
 		[TestMethod]
 		public void ShoudNotGetReduceUsingTerminalInput()
 		{
 			State<char> state;
-			Reduce<char> action;
+			IReduce<char> action;
 
 			action = new Reduce<char>();
-			action.Input = new LetterInput('a');
+			action.Input = new TerminalInput('a');
 			state = new State<char>();
 			state.Add(action);
 
-			action = state.GetReduce(new LetterInput('b'));
+			action = state.GetReduce(new TerminalInput('b'));
 			Assert.IsNull(action);
 		}
 
@@ -102,26 +104,26 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShoudGetShiftUsingAnyTerminalInput()
 		{
 			State<char> state;
-			Shift<char> action;
+			IShift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new LettersRangeInput(char.MinValue,char.MaxValue);
+			action.Input = new TerminalsRangeInput(char.MinValue,char.MaxValue);
 			state = new State<char>();
 			state.Add(action);
 
-			action = state.GetShift(new LetterInput('a'));
+			action = state.GetShift(new TerminalInput('a'));
 			Assert.IsNotNull(action);
-			action = state.GetShift(new LettersRangeInput(char.MinValue, char.MaxValue));
+			action = state.GetShift(new TerminalsRangeInput(char.MinValue, char.MaxValue));
 			Assert.IsNotNull(action);
 		}
 		[TestMethod]
 		public void ShoudNotGetShiftUsingAnyTerminalInput()
 		{
 			State<char> state;
-			Shift<char> action;
+			IShift<char> action;
 
 			action = new Shift<char>();
-			action.Input = new LettersRangeInput(char.MinValue, char.MaxValue);
+			action.Input = new TerminalsRangeInput(char.MinValue, char.MaxValue);
 			state = new State<char>();
 			state.Add(action);
 

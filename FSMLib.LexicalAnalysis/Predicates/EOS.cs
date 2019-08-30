@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FSMLib.Common.Inputs;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Predicates;

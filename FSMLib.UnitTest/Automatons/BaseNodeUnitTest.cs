@@ -22,16 +22,16 @@ namespace FSMLib.UnitTest
 			NonTerminalNode<char> parent, child;
 
 			child = new NonTerminalNode<char>();
-			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'b' ) ));
-			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'c' ) ));
-			child.Nodes.Add(new TerminalNode<char>(new LetterInput( 'd' ) ));
+			child.Nodes.Add(new TerminalNode<char>(new TerminalInput( 'b' ) ));
+			child.Nodes.Add(new TerminalNode<char>(new TerminalInput( 'c' ) ));
+			child.Nodes.Add(new TerminalNode<char>(new TerminalInput( 'd' ) ));
 
 			parent = new NonTerminalNode<char>();
-			parent.Nodes.Add(new TerminalNode<char>( new LetterInput('a' ) ));
+			parent.Nodes.Add(new TerminalNode<char>( new TerminalInput('a' ) ));
 			parent.Nodes.Add(child);
-			parent.Nodes.Add(new TerminalNode<char>(new LetterInput('e' ) ));
+			parent.Nodes.Add(new TerminalNode<char>(new TerminalInput('e' ) ));
 
-			Assert.AreEqual("abcde", new string( parent.EnumerateInputs().OfType<LetterInput>().Select(item => item.Value).ToArray() ));
+			Assert.AreEqual("abcde", new string( parent.EnumerateInputs().OfType<TerminalInput>().Select(item => item.Value).ToArray() ));
 		}
 
 

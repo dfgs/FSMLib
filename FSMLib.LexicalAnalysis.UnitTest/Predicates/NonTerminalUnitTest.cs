@@ -25,7 +25,7 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			NonTerminal predicate;
 
-			predicate = new NonTerminal() { Name = "A" };
+			predicate = new NonTerminal( "A" );
 
 			Assert.AreEqual("•{A}", predicate.ToString(predicate));
 		}
@@ -36,7 +36,7 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new NonTerminal() { Name="A" } ;
+			predicate = new NonTerminal("A" ) ;
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -51,8 +51,8 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal a, b;
 
 
-			a = new NonTerminal() { Name="A" };
-			b = new NonTerminal() { Name = "A" };
+			a = new NonTerminal("A" );
+			b = new NonTerminal( "A" );
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -65,8 +65,8 @@ namespace FSMLib.UnitTest.Predicates
 			NonTerminal a, b;
 
 
-			a = new NonTerminal() { Name = "A" };
-			b = new NonTerminal() { Name = "B" };
+			a = new NonTerminal( "A" );
+			b = new NonTerminal( "B" );
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));

@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Automatons;
 using FSMLib.Automatons;
+using FSMLib.Common.Table;
 
 namespace FSMLib.UnitTest
 {
@@ -25,7 +26,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeed()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -42,7 +43,7 @@ namespace FSMLib.UnitTest
 		public void ShouldReset()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -61,7 +62,7 @@ namespace FSMLib.UnitTest
 		public void MayNotFeed()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -90,7 +91,7 @@ namespace FSMLib.UnitTest
 		public void ShouldReturnCanAccept()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -110,7 +111,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			NonTerminalNode<char> node;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -138,7 +139,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			NonTerminalNode<char> node;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
 
@@ -165,7 +166,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			NonTerminalNode<char> node;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc;", "B=def;", "E*={A}|{B};" });
 
@@ -193,7 +194,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduce()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable( new String[] { "A*=a{BCD}e;", "BCD=b{C}d;", "C=c;" });
 			automaton = new Automaton(automatonTable);
@@ -216,7 +217,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceUsingAnyTerminalPredicate()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "B*=abc;", "A*=a.c;" });
@@ -244,7 +245,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndRecursiveReduce()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=ab{B}d;", "B={C};", "C={D};","D=c;" });
 			automaton = new Automaton(automatonTable);
@@ -266,7 +267,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceLeftRecursiveRules()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{S}a;", "S={S}b;", "S=c;" });
@@ -317,7 +318,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceNestedNonTerminal()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{B}c;", "B={C};", "C=b;" });
 			automaton = new Automaton(automatonTable);
@@ -337,7 +338,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceUsingTerminalRange()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=a{B}[c-z];", "B=b;"});
 			automaton = new Automaton(automatonTable);
@@ -357,7 +358,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedGreedy()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc*;" });
@@ -384,7 +385,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceGreedy()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*;" ,"C=c;"});
@@ -413,7 +414,7 @@ namespace FSMLib.UnitTest
 		public void ShouldFeedAndReduceWithOptionalPredicate()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			NonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*;", "C=c;" });
@@ -433,7 +434,7 @@ namespace FSMLib.UnitTest
 		public void ShouldReturnCanFeed()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*;", "C=c;" });
 
@@ -459,7 +460,7 @@ namespace FSMLib.UnitTest
 		public void ShouldRecursiveAccept()
 		{
 			Automaton automaton;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "A*=ab{B};", "B={C};", "C={D};", "D=c;" });
 			automaton = new Automaton(automatonTable);

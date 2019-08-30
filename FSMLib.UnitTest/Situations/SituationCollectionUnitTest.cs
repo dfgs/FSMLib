@@ -11,6 +11,7 @@ using FSMLib.Helpers;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common.Situations;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -145,10 +146,10 @@ namespace FSMLib.UnitTest.Situations
 			IRule<char> rule1,rule2;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
-			Situation<char>[] reductions;
+			ISituation<char>[] reductions;
 			ITerminalInput<char> input;
 
-			input = new LetterInput('a');
+			input = new TerminalInput('a');
 
 			rule1 = RuleHelper.BuildRule("A=abc;");
 			rule2 = RuleHelper.BuildRule("B=abc;");

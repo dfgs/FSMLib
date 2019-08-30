@@ -4,6 +4,8 @@ using FSMLib.Table;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Situations;
+using FSMLib.Common.Table;
+using FSMLib.Common.Situations;
 
 namespace FSMLib.UnitTest.AutomatonTables
 {

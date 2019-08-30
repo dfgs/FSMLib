@@ -41,13 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\IReduce.cs" />
+    <Compile Include="Actions\IShift.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
-    <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
     <Compile Include="Inputs\IReduceInput.cs" />
     <Compile Include="Inputs\ITerminalInput.cs" />
     <Compile Include="Inputs\IActionInput.cs" />
     <Compile Include="Inputs\IInput.cs" />
+    <Compile Include="Predicates\ITerminalPredicate.cs" />
     <Compile Include="Predicates\INonTerminalPredicate.cs" />
     <Compile Include="Predicates\IZeroOrMorePredicate.cs" />
     <Compile Include="Predicates\ISequencePredicate.cs" />
@@ -60,38 +63,27 @@
     <Compile Include="Predicates\ISituationPredicate.cs" />
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Serializers\IRuleCollectionSerializer.cs" />
+    <Compile Include="Situations\ISituation.cs" />
     <Compile Include="Situations\ISituationCollection.cs" />
     <Compile Include="Situations\ISituationCollectionFactory.cs" />
     <Compile Include="Situations\ISituationDictionary.cs" />
+    <Compile Include="Situations\ISituationEdge.cs" />
+    <Compile Include="Situations\ISituationGraph.cs" />
     <Compile Include="Situations\ISituationGraphFactory.cs" />
+    <Compile Include="Situations\ISituationGraphSegment.cs" />
     <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />
-    <Compile Include="Situations\Situation.cs" />
-    <Compile Include="Situations\SituationCollection.cs" />
-    <Compile Include="Situations\SituationCollectionFactory.cs" />
-    <Compile Include="Situations\SituationDictionary.cs" />
-    <Compile Include="Situations\SituationEdge.cs" />
-    <Compile Include="Situations\SituationGraph.cs" />
-    <Compile Include="Situations\SituationGraphFactory.cs" />
-    <Compile Include="Situations\SituationGraphSegment.cs" />
-    <Compile Include="Situations\SituationGraphSegmentFactory.cs" />
-    <Compile Include="Situations\SituationNode.cs" />
-    <Compile Include="Table\AutomatonStack.cs" />
+    <Compile Include="Situations\ISituationNode.cs" />
     <Compile Include="Automatons\NonTerminalNode.cs" />
     <Compile Include="Automatons\TerminalNode.cs" />
     <Compile Include="Automatons\BaseNode.cs" />
-    <Compile Include="CollectionProcessor.cs" />
-    <Compile Include="Table\AutomatonTable.cs" />
-    <Compile Include="Table\AutomatonTableFactory.cs" />
-    <Compile Include="Table\AutomatonTableTuple.cs" />
+    <Compile Include="Table\IAutomatonTable.cs" />
+    <Compile Include="Table\IAutomatonTableTuple.cs" />
     <Compile Include="Table\IAutomatonTableFactory.cs" />
     <Compile Include="Table\IDistinctInputFactory.cs" />
-    <Compile Include="Table\State.cs" />
-    <Compile Include="Actions\Reduce.cs" />
-    <Compile Include="Actions\BaseAction.cs" />
-    <Compile Include="Actions\Shift.cs" />
     <Compile Include="Automatons\IAutomaton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProcessingQueues\ProcessingQueue.cs" />
+    <Compile Include="Table\IState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,6 +19,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			set;
 		}
 
+		// for serialisation
 		public NonTerminal()
 		{
 
@@ -32,6 +33,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		{
 			yield return new NonTerminalInput(Name);
 		}
+
 		public override string ToString()
 		{
 			return ToString(null);
@@ -45,12 +47,11 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public override bool Equals(IPredicate<char> other)
 		{
-			if (!(other is NonTerminal o)) return false;
+			if (!(other is INonTerminalPredicate<char> o)) return false;
 			if (Name == null) return o.Name == null;
 			return Name == o.Name;
 		}
 
-		
 
 	}
 }

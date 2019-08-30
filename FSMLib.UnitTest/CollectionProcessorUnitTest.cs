@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FSMLib.Common;
 using FSMLib.Table;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

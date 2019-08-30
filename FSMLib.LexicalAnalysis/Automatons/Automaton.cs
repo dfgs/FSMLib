@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 using FSMLib.Inputs;
 using FSMLib.Automatons;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common.Table;
+using FSMLib.Common.Actions;
+using FSMLib.Common.Inputs;
 
 namespace FSMLib.LexicalAnalysis.Automatons
 {
 	public class Automaton:IAutomaton<char>
 	{
-		private readonly AutomatonTable<char> automatonTable;
+		private readonly IAutomatonTable<char> automatonTable;
 		private int stateIndex;
 
 		private readonly AutomatonStack<BaseNode<char>> nodeStack;
@@ -25,7 +28,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			get => nodeStack.Count;
 		}
 
-		public Automaton(AutomatonTable<char> AutomatonTable)
+		public Automaton(IAutomatonTable<char> AutomatonTable)
 		{
 			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
 			this.automatonTable = AutomatonTable;
@@ -45,10 +48,10 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		private bool Shift(NonTerminalNode<char> Node)
 		{
-			State<char> state;
-			Shift<char> action;
+			IState<char> state;
+			IShift<char> action;
 
-			state = automatonTable.States[stateIndex];
+			state = automatonTable.GetState(stateIndex);
 			action = state.GetShift(Node.Input);
 			if (action == null) return false;
 
@@ -60,10 +63,10 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		private bool Shift(TerminalNode<char> Node)
 		{
-			State<char> state;
-			Shift<char> action;
+			IState<char> state;
+			IShift<char> action;
 
-			state = automatonTable.States[stateIndex];
+			state = automatonTable.GetState(stateIndex);
 			action = state.GetShift(Node.Input);
 			if (action == null) return false;
 
@@ -96,10 +99,10 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		
 		private NonTerminalNode<char> Reduce(TerminalNode<char> Node)
 		{
-			State<char> state;
-			Reduce<char> action;
+			IState<char> state;
+			IReduce<char> action;
 
-			state = automatonTable.States[stateIndex];
+			state = automatonTable.GetState(stateIndex);
 			action = state.GetReduce(Node.Input);
 			if (action == null) return null;
 
@@ -108,9 +111,9 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		private bool CanFeed(IActionInput<char> Input)
 		{
-			State<char> state;
+			IState<char> state;
 
-			state = automatonTable.States[stateIndex];
+			state = automatonTable.GetState(stateIndex);
 			// check if we can shift
 			if (state.GetShift(Input) != null) return true;
 			// check if we can reduce and shift
@@ -121,7 +124,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		public bool CanFeed(char Input)
 		{
-			return CanFeed(new LetterInput(Input));
+			return CanFeed(new TerminalInput(Input));
 		}
 		private bool CanFeed(string Name)
 		{
@@ -151,7 +154,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		{
 			ITerminalInput<char> input;
 
-			input = new LetterInput(Value);
+			input = new TerminalInput(Value);
 			Feed(input);
 		}
 		
@@ -160,10 +163,10 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		public bool CanAccept()
 		{
-			State<char> state;
-			Reduce<char> action;
+			IState<char> state;
+			IReduce<char> action;
 
-			state = automatonTable.States[stateIndex];
+			state = automatonTable.GetState(stateIndex);
 			//axiom = state.AcceptActions.FirstOrDefault();
 
 			action = state.GetReduce(new EOSInput<char>()); 
@@ -175,8 +178,8 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		{
 			NonTerminalNode<char> nonTerminalNode;
 			EOSInput<char> eosInput;
-			State<char> state;
-			Reduce<char> action;
+			IState<char> state;
+			IReduce<char> action;
 
 			if (!CanAccept()) throw new InvalidOperationException("Automaton cannot accept in current state");
 
@@ -185,7 +188,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			while (true)
 			{
 
-				state = automatonTable.States[stateIndex];
+				state = automatonTable.GetState(stateIndex);
 				action = state.GetReduce(eosInput);
 				if (action == null) throw new AutomatonException<char>(eosInput, nodeStack);
 

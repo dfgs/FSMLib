@@ -1,4 +1,5 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Common.Inputs;
+using FSMLib.Inputs;
 using FSMLib.Predicates;
 using System;
 using System.Collections.Generic;

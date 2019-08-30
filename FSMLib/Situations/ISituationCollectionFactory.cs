@@ -10,11 +10,11 @@ namespace FSMLib.Situations
 {
 	public interface ISituationCollectionFactory<T>
 	{
-		IEnumerable<Situation<T>> CreateAxiomSituations();
+		IEnumerable<ISituation<T>> CreateAxiomSituations();
 
-		ISituationCollection<T> Develop(IEnumerable<Situation<T>> Situations);
+		ISituationCollection<T> Develop(IEnumerable<ISituation<T>> Situations);
 
-		IEnumerable<Situation<T>> CreateNextSituations(IEnumerable<Situation<T>> CurrentSituations, IActionInput<T> Input);
+		IEnumerable<ISituation<T>> CreateNextSituations(IEnumerable<ISituation<T>> CurrentSituations, IActionInput<T> Input);
 
 
 	}

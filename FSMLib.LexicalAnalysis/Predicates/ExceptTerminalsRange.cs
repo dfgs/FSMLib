@@ -40,15 +40,15 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			if (FirstValue==char.MinValue)
 			{
 				if (LastValue == char.MaxValue) yield break;
-				yield return new LettersRangeInput((char)(LastValue + 1), char.MaxValue);
+				yield return new TerminalsRangeInput((char)(LastValue + 1), char.MaxValue);
 			}
 			else
 			{
-				if (LastValue == char.MaxValue) yield return new LettersRangeInput(char.MinValue, (char)(FirstValue - 1));
+				if (LastValue == char.MaxValue) yield return new TerminalsRangeInput(char.MinValue, (char)(FirstValue - 1));
 				else
 				{
-					yield return new LettersRangeInput(char.MinValue, (char)(FirstValue - 1));
-					yield return new LettersRangeInput((char)(LastValue + 1), char.MaxValue);
+					yield return new TerminalsRangeInput(char.MinValue, (char)(FirstValue - 1));
+					yield return new TerminalsRangeInput((char)(LastValue + 1), char.MaxValue);
 				}
 			}
 		}

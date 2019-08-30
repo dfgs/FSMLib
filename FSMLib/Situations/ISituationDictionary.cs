@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Situations
 {
-	public interface ISituationDictionary<T>
+	public interface ISituationDictionary<T>:IEnumerable<IAutomatonTableTuple<T>>
 	{
-		AutomatonTableTuple<T> GetTuple(ISituationCollection<T> Situations);
-		AutomatonTableTuple<T> CreateTuple(State<T> State, ISituationCollection<T> Situations);
+		IAutomatonTableTuple<T> GetTuple(ISituationCollection<T> Situations);
+		IAutomatonTableTuple<T> CreateTuple(IState<T> State, ISituationCollection<T> Situations);
 
 
 	}

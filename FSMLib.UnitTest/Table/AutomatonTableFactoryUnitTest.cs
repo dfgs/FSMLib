@@ -10,6 +10,8 @@ using FSMLib.UnitTest.Mocks;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Tables;
+using FSMLib.Common.Table;
+using FSMLib.Common;
 
 namespace FSMLib.UnitTest.AutomatonTables
 {
@@ -23,7 +25,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldBuildAutomatonTableFromBasicSequence()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule;
 			AutomatonTableParser parser;
 
@@ -48,7 +50,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldBuildAutomatonTableFromTwoSequences()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule1,rule2;
 			AutomatonTableParser parser;
 
@@ -75,7 +77,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldBuildAutomatonTableFromTwoSequencesUsingAnyTerminal()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule1, rule2;
 			AutomatonTableParser parser;
 
@@ -112,7 +114,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldBuildAutomatonTableFromBasicOr()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule;
 			AutomatonTableParser parser;
 
@@ -139,7 +141,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldBuildAutomatonTableFromExtendedSequence()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule;
 			Sequence predicate;
 			AutomatonTableParser parser;
@@ -175,7 +177,7 @@ namespace FSMLib.UnitTest.AutomatonTables
 		public void ShouldManageReductionConflict()
 		{
 			AutomatonTableFactory<char> factory;
-			AutomatonTable<char> automatonTable;
+			IAutomatonTable<char> automatonTable;
 			LexicalRule rule1, rule2;
 			AutomatonTableParser parser;
 

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class Terminal: LexicalPredicate, ISituationPredicate<char>
+	public class Terminal: LexicalPredicate, ITerminalPredicate<char>
 	{
 		[XmlAttribute]
 		public char Value
@@ -19,20 +19,21 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			set;
 		}
 
+		// for serialisation
 		public Terminal()
 		{
-			this.Value = (char)0;
-		}
 
+		}
 		public Terminal(char Value)
 		{
 			this.Value = Value;
 		}
 
-		public  IEnumerable<IInput<char>> GetInputs()
+		public IEnumerable<IInput<char>> GetInputs()
 		{
-			yield return new LetterInput(Value);
+			yield return new TerminalInput(Value);
 		}
+
 
 		public override string ToString()
 		{
@@ -46,13 +47,14 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public override  bool Equals(IPredicate<char> other)
+		public override bool Equals(IPredicate<char> other)
 		{
-			if (!(other is Terminal letter)) return false;
-			return Value==letter.Value;
+			if (!(other is ITerminalPredicate<char> terminal)) return false;
+			return Value.Equals(terminal.Value);
 		}
 
-		
+
+
 
 	}
 }

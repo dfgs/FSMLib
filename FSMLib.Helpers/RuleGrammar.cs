@@ -1,4 +1,5 @@
-﻿using FSMLib.LexicalAnalysis.Predicates;
+﻿using FSMLib.Common;
+using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.Predicates;
 using Sprache;

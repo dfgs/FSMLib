@@ -9,8 +9,9 @@ using FSMLib.Rules;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Situations;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common.Situations;
+using FSMLib.Common;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -32,8 +33,8 @@ namespace FSMLib.UnitTest.Situations
 			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
+			ISituationGraph<char> graph;
+			ISituation<char>[] items;
 			LexicalRule rule1,rule2;
 			SituationCollectionFactory<char> factory;
 
@@ -66,10 +67,10 @@ namespace FSMLib.UnitTest.Situations
 			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
+			ISituationGraph<char> graph;
+			ISituation<char>[] items;
 			LexicalRule rule;
-			Situation<char> situation;
+			ISituation<char> situation;
 			SituationCollectionFactory<char> factory;
 
 			a = new Terminal('a');
@@ -88,21 +89,21 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput( 'b')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'b')).ToArray();
 			Assert.AreEqual(0, items.Length);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = factory.CreateNextSituations(situation.AsEnumerable(),new LetterInput('a')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(),new TerminalInput('a')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput( 'b')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'b')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = c };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput( 'c')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'c')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
 		}
@@ -114,8 +115,8 @@ namespace FSMLib.UnitTest.Situations
 			AnyTerminal b;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
-			Situation<char>[] items;
+			ISituationGraph<char> graph;
+			ISituation<char>[] items;
 			LexicalRule rule;
 			Situation<char> situation;
 			SituationCollectionFactory<char> factory;
@@ -136,26 +137,26 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationCollectionFactory<char>(graph);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('b')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('b')).ToArray();
 			Assert.AreEqual(0, items.Length);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = a };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('a')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('a')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('b')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('b')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = b };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LettersRangeInput(char.MinValue,char.MaxValue)).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalsRangeInput(char.MinValue,char.MaxValue)).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>() { Rule = rule, Predicate = c };
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new LetterInput('c')).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('c')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
 		}
@@ -165,7 +166,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldDevelopSituations()
 		{
 			SituationGraphFactory<char> situationGraphFactory; 
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule1, rule2, rule3,rule4;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
@@ -174,8 +175,8 @@ namespace FSMLib.UnitTest.Situations
 			Sequence sequence;
 			SituationCollectionFactory<char> factory;
 
-			p1 = new NonTerminal() { Name = "B" };
-			p2 = new NonTerminal() { Name = "C" };
+			p1 = new NonTerminal( "B" );
+			p2 = new NonTerminal( "C" );
 			p3 = new Terminal('b');
 			p4 = new Terminal('c');
 
@@ -212,7 +213,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldDevelopSituationEndingWithReductionOnNonTerminal()
 		{
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule1, rule2;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
@@ -223,7 +224,7 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollectionFactory<char> factory;
 
 			p1 = new Terminal('a');
-			p2 = new NonTerminal() { Name = "B" };
+			p2 = new NonTerminal( "B");
 			p3 = new Terminal('b');
 
 			sequence = new Sequence();
@@ -251,7 +252,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldDevelopSituationWithLeftRecursiveReduction()
 		{
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule1, rule2,rule3;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
@@ -267,7 +268,7 @@ namespace FSMLib.UnitTest.Situations
 			//S=•c
 
 			p1 = new Terminal('a');
-			p2 = new NonTerminal() { Name = "S" };
+			p2 = new NonTerminal( "S" );
 			p3 = new Terminal('b');
 			p4 = new Terminal('c');
 
@@ -304,7 +305,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldDevelopSituationWithLoopReduction()
 		{
 			SituationGraphFactory<char> situationGraphFactory;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule1, rule2, rule3;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
@@ -319,8 +320,8 @@ namespace FSMLib.UnitTest.Situations
 			//"A*={N}"
 
 			p1 = new Terminal('a');
-			p2 = new NonTerminal() { Name = "L" };
-			p3 = new NonTerminal() { Name = "N" };
+			p2 = new NonTerminal( "L" );
+			p3 = new NonTerminal( "N" );
 
 			rule1 = new LexicalRule() { Name = "L", Predicate =new Sequence( p1,new Reduce()) };
 

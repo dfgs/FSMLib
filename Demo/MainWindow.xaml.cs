@@ -26,6 +26,8 @@ using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Tables;
+using FSMLib.Common.Table;
+using FSMLib.Common.Actions;
 
 namespace Demo
 {
@@ -101,7 +103,7 @@ namespace Demo
 				SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), new DistinctInputFactory())
 				);
 		}
-		private void CreateView(AutomatonTable<char> Model)
+		private void CreateView(IAutomatonTable<char> Model)
 		{
 			GraphView view;
 
@@ -109,16 +111,16 @@ namespace Demo
 			views.Add(view);
 			view.SetAutomatonTables(CreateGraph(Model) );
 		}
-		private static Graph CreateGraph<T>(AutomatonTable<T> Model)
+		private static Graph CreateGraph<T>(IAutomatonTable<T> Automaton)
 		{
 			Node n;
 
 			Graph graph = new Graph("graph");
 			graph.GraphAttr.Orientation = Microsoft.Glee.Drawing.Orientation.Landscape;
 			
-			foreach (State<T> state in Model.States)
+			foreach (State<T> state in Automaton.States)
 			{
-				n=graph.AddNode(Model.States.IndexOf(state).ToString());
+				n=graph.AddNode(Automaton.IndexOf(state).ToString());
 
 				n.UserData = string.Join(" ", state.ReduceActions.Select(item=>$"{item.Name}:{item.Input}")); //:{item.TargetStateIndex}:{item.Value}
 
@@ -127,11 +129,11 @@ namespace Demo
 
 				//if (state.AcceptActions.Count > 0) n.Attr.Color = Microsoft.Glee.Drawing.Color.Blue;
 			}
-			foreach (State<T> state in Model.States)
+			foreach (State<T> state in Automaton.States)
 			{
 				foreach (Shift<T> action in state.ShiftActions)
 				{
-					graph.AddEdge(Model.States.IndexOf(state).ToString(), action.Input.ToString(), action.TargetStateIndex.ToString());
+					graph.AddEdge(Automaton.IndexOf(state).ToString(), action.Input.ToString(), action.TargetStateIndex.ToString());
 				}
 				
 			}

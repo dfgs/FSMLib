@@ -49,9 +49,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Inputs\LetterInputUnitTest.cs" />
+    <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
-    <Compile Include="Inputs\LettersRangeInputUnitTest.cs" />
+    <Compile Include="Inputs\TerminalsRangeInputUnitTest.cs" />
     <Compile Include="Predicates\AnyTerminalUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Predicates\ExceptTerminalUnitTest.cs" />
@@ -74,6 +74,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
+      <Project>{7e207aeb-52c7-4f97-93d3-6218f4f7c30e}</Project>
+      <Name>FSMLib.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
       <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
       <Name>FSMLib.Helpers</Name>

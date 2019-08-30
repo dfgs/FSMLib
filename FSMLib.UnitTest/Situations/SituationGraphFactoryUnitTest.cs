@@ -8,7 +8,8 @@ using FSMLib.Situations;
 using System.Linq;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Rules;
-using FSMLib.LexicalAnalysis.Situations;
+using FSMLib.Common.Situations;
+using FSMLib.Common;
 
 namespace FSMLib.UnitTest.Situations
 {
@@ -36,7 +37,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldBuildInputPredicate()
 		{
 			ISituationPredicate<char> predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -47,7 +48,7 @@ namespace FSMLib.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
 
-			predicate = new NonTerminal() { Name = "A" };
+			predicate = new NonTerminal( "A" );
 			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
@@ -63,7 +64,7 @@ namespace FSMLib.UnitTest.Situations
 		public void ShouldBuildAnyLetterPredicate()
 		{
 			LexicalPredicate predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -73,7 +74,7 @@ namespace FSMLib.UnitTest.Situations
 			predicate = new AnyTerminal();
 			rule = new LexicalRule() { Name = "A", Predicate =new Sequence( predicate ,new Reduce()) };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
-			Assert.AreEqual(3,graph.Nodes.Count);
+			Assert.AreEqual(3,graph.Nodes.Count());
 
 		}
 		[TestMethod]
@@ -81,7 +82,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal a, b, c;
 			Sequence predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -112,7 +113,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal a, b, c;
 			Or predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -142,7 +143,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal a, b, c;
 			Sequence predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -173,7 +174,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal a, b, c;
 			Sequence predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 
@@ -203,7 +204,7 @@ namespace FSMLib.UnitTest.Situations
 		{
 			Terminal a, b, c;
 			Sequence predicate;
-			SituationGraph<char> graph;
+			ISituationGraph<char> graph;
 			LexicalRule rule;
 			SituationGraphFactory<char> situationGraphFactory;
 

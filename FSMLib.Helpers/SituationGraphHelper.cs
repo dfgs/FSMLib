@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using Sprache;
 using FSMLib.Situations;
 using FSMLib.Predicates;
-using FSMLib.LexicalAnalysis.Situations;
+using FSMLib.Common.Situations;
 
 namespace FSMLib.Helpers
 {
 	public static class SituationGraphHelper
 	{
-		public static SituationGraph<char> BuildSituationGraph(IEnumerable<IRule<char>> Rules)
+		public static ISituationGraph<char> BuildSituationGraph(IEnumerable<IRule<char>> Rules)
 		{
 			ISituationGraphFactory<char> situationGraphFactory;
 			IRule<char>[] rules;

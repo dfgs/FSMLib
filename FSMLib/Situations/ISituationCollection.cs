@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Situations
 {
-	public interface ISituationCollection<T>:IEnumerable<Situation<T>>,IEquatable<ISituationCollection<T>>
+	public interface ISituationCollection<T>:IEnumerable<ISituation<T>>,IEquatable<ISituationCollection<T>>
 	{
-		Situation<T> this[int Index]
+		ISituation<T> this[int Index]
 		{
 			get;
 		}
@@ -17,11 +17,11 @@ namespace FSMLib.Situations
 		{
 			get;
 		}
-		void Add(Situation<T> Situation);
-		void AddRange(IEnumerable<Situation<T>> Situations);
-		bool Contains(Situation<T> Situation);
+		void Add(ISituation<T> Situation);
+		void AddRange(IEnumerable<ISituation<T>> Situations);
+		bool Contains(ISituation<T> Situation);
 
-		IEnumerable<Situation<T>> GetReductionSituations();
+		IEnumerable<ISituation<T>> GetReductionSituations();
 
 
 	}

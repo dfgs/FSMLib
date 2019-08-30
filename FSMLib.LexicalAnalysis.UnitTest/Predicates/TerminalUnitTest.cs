@@ -41,7 +41,7 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			Assert.AreEqual('a', ((LetterInput)inputs[0]).Value);
+			Assert.AreEqual('a', ((TerminalInput)inputs[0]).Value);
 		}
 		
 		[TestMethod]

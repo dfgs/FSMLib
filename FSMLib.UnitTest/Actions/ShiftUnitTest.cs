@@ -1,5 +1,6 @@
 ﻿using System;
 using FSMLib.Actions;
+using FSMLib.Common.Actions;
 using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,8 +17,8 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput('a' ) };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput('a' ) };
+			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput('a' ) };
+			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput('a' ) };
 			c = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
 			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
 			Assert.IsTrue(a.Equals(b));
@@ -31,9 +32,9 @@ namespace FSMLib.UnitTest.AutomatonTables.Actions
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput( 'a' ) };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new LetterInput( 'b' ) };
-			c = new Shift<char>() { TargetStateIndex = 2, Input = new LetterInput( 'a' ) };
+			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput( 'a' ) };
+			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput( 'b' ) };
+			c = new Shift<char>() { TargetStateIndex = 2, Input = new TerminalInput( 'a' ) };
 			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput( "a" )};
 
 			Assert.IsFalse(a.Equals(b));
