@@ -48,6 +48,7 @@
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Predicates\AnyLetter.cs" />
     <Compile Include="Predicates\EOS.cs" />
+    <Compile Include="Predicates\ExceptLetter.cs" />
     <Compile Include="Predicates\Letter.cs" />
     <Compile Include="Predicates\LettersRange.cs" />
     <Compile Include="Predicates\LexicalPredicate.cs" />

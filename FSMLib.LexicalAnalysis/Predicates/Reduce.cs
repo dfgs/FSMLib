@@ -17,9 +17,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public IInput<char> GetInput()
+		public IEnumerable<IInput<char>> GetInputs()
 		{
-			return null;
+			yield return new EOSInput<char>();// break;
 		}
 
 		public override string ToString()

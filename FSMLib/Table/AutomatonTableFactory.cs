@@ -84,7 +84,7 @@ namespace FSMLib.Table
 			while (openList.Count>0)
 			{
 				currentTuple = openList.Pop();
-				nextInputs = DistinctInputFactory.GetDistinctInputs(currentTuple.Situations.Select(item=>item.Predicate.GetInput()));
+				nextInputs = DistinctInputFactory.GetDistinctInputs(currentTuple.Situations.SelectMany(item=>item.Predicate.GetInputs()));
 
 
 				foreach (IActionInput<T> input in nextInputs)

@@ -35,13 +35,14 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			LettersRange predicate;
-			IInput<char> input;
+			IInput<char>[] inputs;
 
 			predicate = new LettersRange('a', 'z');
-			input = predicate.GetInput();
-			Assert.IsNotNull(input);
-			Assert.AreEqual('a', ((LettersRangeInput)input).FirstValue);
-			Assert.AreEqual('z', ((LettersRangeInput)input).LastValue);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.IsNotNull(inputs);
+			Assert.AreEqual(1, inputs.Length);
+			Assert.AreEqual('a', ((LettersRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('z', ((LettersRangeInput)inputs[0]).LastValue);
 		}
 
 		[TestMethod]

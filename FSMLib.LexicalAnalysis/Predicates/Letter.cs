@@ -29,9 +29,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			this.Value = Value;
 		}
 
-		public  IInput<char> GetInput()
+		public  IEnumerable<IInput<char>> GetInputs()
 		{
-			return new LetterInput(Value );
+			yield return new LetterInput(Value);
 		}
 
 		public override string ToString()

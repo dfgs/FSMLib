@@ -87,7 +87,7 @@ namespace FSMLib.Situations
 		{
 			SituationEdge<T> edge;
 			ProcessingQueue<SituationEdge<T>, IReduceInput<T>> queue;
-			IInput<T> input;
+			//IInput<T> input;
 
 			queue = new ProcessingQueue<SituationEdge<T>, IReduceInput<T>>();
 
@@ -113,12 +113,14 @@ namespace FSMLib.Situations
 
 			queue.Process((q, item) =>
 			{
-				input = item.Predicate.GetInput();
-				if (input is IReduceInput<T> terminalInput) q.AddResult(terminalInput);
-				else if (item.Predicate is IReducePredicate<T>) q.AddResult(new EOSInput<T>());
-				else if (input is INonTerminalInput<T> nonTerminalInput)
+				foreach (IInput<T> input in item.Predicate.GetInputs())
 				{
-					q.AddRange(DevelopRuleInputEdges(nonTerminalInput.Name));
+					if (input is IReduceInput<T> terminalInput) q.AddResult(terminalInput);
+					//else if (item.Predicate is IReducePredicate<T>) q.AddResult(new EOSInput<T>());
+					else if (input is INonTerminalInput<T> nonTerminalInput)
+					{
+						q.AddRange(DevelopRuleInputEdges(nonTerminalInput.Name));
+					}
 				}
 			});
 
@@ -147,7 +149,7 @@ namespace FSMLib.Situations
 			Situation<T> nextSituation;
 		
 
-			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInput()?.Match(Input)??false);
+			matchingSituations = CurrentSituations.Where(s => s.Predicate.GetInputs().Where(i=>i.Match(Input)).Any() );
 
 			foreach (Situation<T> situation in matchingSituations)
 			{

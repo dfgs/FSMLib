@@ -9,7 +9,7 @@ namespace FSMLib.Predicates
 {
 	public interface ISituationPredicate<T>:IPredicate<T>
 	{
-		IInput<T> GetInput();
+		IEnumerable<IInput<T>> GetInputs();
 	
 
 	}

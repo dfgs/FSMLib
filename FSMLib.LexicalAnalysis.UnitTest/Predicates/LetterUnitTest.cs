@@ -35,12 +35,13 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			Letter predicate;
-			IInput<char> input;
+			IInput<char>[] inputs;
 
 			predicate = new Letter('a');
-			input = predicate.GetInput();
-			Assert.IsNotNull(input);
-			Assert.AreEqual('a', ((LetterInput)input).Value);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.IsNotNull(inputs);
+			Assert.AreEqual(1, inputs.Length);
+			Assert.AreEqual('a', ((LetterInput)inputs[0]).Value);
 		}
 		
 		[TestMethod]

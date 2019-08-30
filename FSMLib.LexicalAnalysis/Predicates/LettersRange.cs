@@ -35,9 +35,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			this.FirstValue = FirstValue; this.LastValue = LastValue;
 		}
 
-		public IInput<char> GetInput()
+		public IEnumerable<IInput<char>> GetInputs()
 		{
-			return new LettersRangeInput(this.FirstValue, this.LastValue );
+			yield return new LettersRangeInput(this.FirstValue, this.LastValue );
 		}
 
 		public override string ToString()

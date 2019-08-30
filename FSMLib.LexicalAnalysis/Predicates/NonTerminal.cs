@@ -28,9 +28,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			this.Name = Name;
 		}
 
-		public IInput<char> GetInput()
+		public IEnumerable<IInput<char>> GetInputs()
 		{
-			return new NonTerminalInput(Name);
+			yield return new NonTerminalInput(Name);
 		}
 		public override string ToString()
 		{

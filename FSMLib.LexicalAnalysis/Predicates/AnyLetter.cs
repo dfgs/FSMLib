@@ -11,9 +11,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 {
 	public class AnyLetter : LexicalPredicate, ISituationPredicate<char>
 	{
-		public IInput<char> GetInput()
+		public IEnumerable<IInput<char>> GetInputs()
 		{
-			return new LettersRangeInput(char.MinValue,char.MaxValue);
+			yield return new LettersRangeInput(char.MinValue,char.MaxValue);
 		}
 
 		public override string ToString()

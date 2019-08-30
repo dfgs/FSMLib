@@ -13,9 +13,9 @@ namespace FSMLib.LexicalAnalysis.Predicates
 	[Serializable]
 	public class EOS: LexicalPredicate, IEOSPredicate<char>
 	{
-		public  IInput<char> GetInput()
+		public  IEnumerable< IInput<char>> GetInputs()
 		{
-			return new EOSInput<char>();
+			yield return new EOSInput<char>();
 		}
 
 		public override string ToString()

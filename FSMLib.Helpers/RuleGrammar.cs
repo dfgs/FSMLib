@@ -99,9 +99,6 @@ namespace FSMLib.Helpers
 			from otherPredicates in OrItem.AtLeastOnce()
 			select new Or() { Items=new List<LexicalPredicate>(firstPredicate.AsEnumerable().Concat(otherPredicates))};
 
-
-
-
 		public static readonly Parser<LexicalRule> NonAxiomRule =
 			from name in Parse.Letter.Many().Text().Token()
 			from _ in Parse.Char('=')

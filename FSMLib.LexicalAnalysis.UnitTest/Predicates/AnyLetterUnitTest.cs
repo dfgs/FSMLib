@@ -33,12 +33,13 @@ namespace FSMLib.UnitTest.Predicates
 		public void ShouldGetInput()
 		{
 			AnyLetter predicate;
-			IInput<char> input;
+			IInput<char>[] inputs;
 
 			predicate = new AnyLetter();
-			input = predicate.GetInput();
-			Assert.IsNotNull(input);
-			Assert.IsInstanceOfType(input, typeof(LettersRangeInput));
+			inputs = predicate.GetInputs().ToArray();
+			Assert.IsNotNull(inputs);
+			Assert.AreEqual(1, inputs.Length);
+			Assert.IsInstanceOfType(inputs[0], typeof(LettersRangeInput));
 		}
 	
 

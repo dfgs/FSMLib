@@ -34,14 +34,16 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 
 
 		[TestMethod]
-		public void ShouldNotGetInput()
+		public void ShouldGetInput()
 		{
 			Reduce predicate;
-			IInput<char> input;
+			IInput<char>[] inputs;
 
 			predicate = new Reduce();
-			input = predicate.GetInput();
-			Assert.IsNull(input);
+			inputs = predicate.GetInputs().ToArray();
+			Assert.IsNotNull(inputs);
+			Assert.AreEqual(1, inputs.Length);
+			Assert.IsInstanceOfType(inputs[0], typeof(EOSInput<char>));
 		}
 
 		[TestMethod]

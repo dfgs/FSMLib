@@ -54,6 +54,7 @@
     <Compile Include="Inputs\LettersRangeInputUnitTest.cs" />
     <Compile Include="Predicates\AnyLetterUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
+    <Compile Include="Predicates\ExceptLetterUnitTest.cs" />
     <Compile Include="Predicates\NonTerminalUnitTest.cs" />
     <Compile Include="Predicates\OneOrMoreUnitTest.cs" />
     <Compile Include="Predicates\OptionalUnitTest.cs" />
