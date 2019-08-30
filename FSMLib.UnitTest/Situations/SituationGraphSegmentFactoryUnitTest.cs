@@ -30,7 +30,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new Letter('a');
+			rule.Predicate = new Terminal('a');
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -54,7 +54,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new AnyLetter();
+			rule.Predicate = new AnyTerminal();
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -79,7 +79,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new LettersRange('a',  'c');
+			rule.Predicate = new TerminalsRange('a',  'c');
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -104,7 +104,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new Sequence(new Letter('a'), new Letter('b'), new Letter('c'));
+			rule.Predicate = new Sequence(new Terminal('a'), new Terminal('b'), new Terminal('c'));
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -133,7 +133,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new Or(new Letter('a'), new Letter('b'), new Letter('c'));
+			rule.Predicate = new Or(new Terminal('a'), new Terminal('b'), new Terminal('c'));
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate , capEdge.AsEnumerable());
 			Assert.AreEqual(3, nodes.Count);
 			Assert.AreEqual(3, segment.InputEdges.Count());
@@ -167,7 +167,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new Optional() { Item = new Letter('a') };
+			rule.Predicate = new Optional() { Item = new Terminal('a') };
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
@@ -191,7 +191,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new ZeroOrMore() { Item = new Letter('a') };
+			rule.Predicate = new ZeroOrMore() { Item = new Terminal('a') };
 			segment = factory.BuildSegment(nodes, rule, rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(2, segment.InputEdges.Count());
@@ -215,7 +215,7 @@ namespace FSMLib.UnitTest.Situations
 			factory = new SituationGraphSegmentFactory<char>();
 
 			rule = new LexicalRule();
-			rule.Predicate = new OneOrMore() { Item=new Letter('a') };
+			rule.Predicate = new OneOrMore() { Item=new Terminal('a') };
 			segment = factory.BuildSegment(nodes, rule,  rule.Predicate, capEdge.AsEnumerable());
 			Assert.AreEqual(1, nodes.Count);
 			Assert.AreEqual(1, segment.InputEdges.Count());
@@ -236,17 +236,17 @@ namespace FSMLib.UnitTest.Situations
 			List<SituationNode<char>> nodes;
 			LexicalRule rule;
 			SituationEdge<char> capEdge;
-			Letter predicate;
+			Terminal predicate;
 
 			capEdge = new SituationEdge<char>();
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			predicate = new Letter('a');
+			predicate = new Terminal('a');
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule,  predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as Letter, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as Terminal, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  predicate, null));
 		}
 
@@ -338,17 +338,17 @@ namespace FSMLib.UnitTest.Situations
 			List<SituationNode<char>> nodes;
 			LexicalRule rule;
 			SituationEdge<char> capEdge;
-			AnyLetter predicate;
+			AnyTerminal predicate;
 
 			capEdge = new SituationEdge<char>();
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule, predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes,  null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as AnyLetter, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as AnyTerminal, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  predicate, null));
 		}
 		[TestMethod]
@@ -358,17 +358,17 @@ namespace FSMLib.UnitTest.Situations
 			List<SituationNode<char>> nodes;
 			LexicalRule rule;
 			SituationEdge<char> capEdge;
-			LettersRange predicate;
+			TerminalsRange predicate;
 
 			capEdge = new SituationEdge<char>();
 			nodes = new List<SituationNode<char>>();
 			factory = new SituationGraphSegmentFactory<char>();
 
-			predicate = new LettersRange('a','b');
+			predicate = new TerminalsRange('a','b');
 			rule = new LexicalRule() { Name = "A", Predicate = predicate };
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(null, rule,  predicate, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, null, predicate, capEdge.AsEnumerable()));
-			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as LettersRange, capEdge.AsEnumerable()));
+			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  null as TerminalsRange, capEdge.AsEnumerable()));
 			Assert.ThrowsException<ArgumentNullException>(() => factory.BuildSegment(nodes, rule,  predicate, null));
 		}
 		[TestMethod]

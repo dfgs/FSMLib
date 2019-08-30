@@ -29,7 +29,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldCreateAxiomSituations()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
@@ -37,9 +37,9 @@ namespace FSMLib.UnitTest.Situations
 			LexicalRule rule1,rule2;
 			SituationCollectionFactory<char> factory;
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -63,7 +63,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldCreateNextSituations()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
@@ -72,9 +72,9 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationCollectionFactory<char> factory;
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -110,8 +110,8 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldCreateNextSituationsUsingLettersRange()
 		{
-			Letter a, c;
-			AnyLetter b;
+			Terminal a, c;
+			AnyTerminal b;
 			Sequence predicate;
 			SituationGraphFactory<char> situationGraphFactory;
 			SituationGraph<char> graph;
@@ -120,9 +120,9 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			SituationCollectionFactory<char> factory;
 
-			a = new Letter('a');
-			b = new AnyLetter();
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new AnyTerminal();
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -170,18 +170,18 @@ namespace FSMLib.UnitTest.Situations
 			Situation<char> situation;
 			ISituationCollection<char> situations;
 			NonTerminal p1, p2;
-			Letter p3, p4;
+			Terminal p3, p4;
 			Sequence sequence;
 			SituationCollectionFactory<char> factory;
 
 			p1 = new NonTerminal() { Name = "B" };
 			p2 = new NonTerminal() { Name = "C" };
-			p3 = new Letter('b');
-			p4 = new Letter('c');
+			p3 = new Terminal('b');
+			p4 = new Terminal('c');
 
 			sequence = new Sequence();
 			sequence.Items.Add(p1);
-			sequence.Items.Add(new Letter('d'));
+			sequence.Items.Add(new Terminal('d'));
 
 			rule1 = new LexicalRule() { Name = "A", Predicate = sequence };
 			rule2 = new LexicalRule() { Name = "B", Predicate = p2 };
@@ -216,15 +216,15 @@ namespace FSMLib.UnitTest.Situations
 			LexicalRule rule1, rule2;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
-			Letter p1;
+			Terminal p1;
 			NonTerminal p2;
-			Letter  p3;
+			Terminal  p3;
 			Sequence sequence;
 			SituationCollectionFactory<char> factory;
 
-			p1 = new Letter('a');
+			p1 = new Terminal('a');
 			p2 = new NonTerminal() { Name = "B" };
-			p3 = new Letter('b');
+			p3 = new Terminal('b');
 
 			sequence = new Sequence();
 			sequence.Items.Add(p1);
@@ -255,10 +255,10 @@ namespace FSMLib.UnitTest.Situations
 			LexicalRule rule1, rule2,rule3;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
-			Letter p1;
+			Terminal p1;
 			NonTerminal p2;
-			Letter p3;
-			Letter p4;
+			Terminal p3;
+			Terminal p4;
 			Sequence sequence;
 			SituationCollectionFactory<char> factory;
 
@@ -266,10 +266,10 @@ namespace FSMLib.UnitTest.Situations
 			//S=•{S}b 
 			//S=•c
 
-			p1 = new Letter('a');
+			p1 = new Terminal('a');
 			p2 = new NonTerminal() { Name = "S" };
-			p3 = new Letter('b');
-			p4 = new Letter('c');
+			p3 = new Terminal('b');
+			p4 = new Terminal('c');
 
 			sequence = new Sequence();
 			sequence.Items.Add(p2);
@@ -308,7 +308,7 @@ namespace FSMLib.UnitTest.Situations
 			LexicalRule rule1, rule2, rule3;
 			Situation<char> situation;
 			ISituationCollection<char> situations;
-			Letter p1;
+			Terminal p1;
 			NonTerminal p2;
 			NonTerminal p3;
 			SituationCollectionFactory<char> factory;
@@ -318,7 +318,7 @@ namespace FSMLib.UnitTest.Situations
 			//"N={L}+"
 			//"A*={N}"
 
-			p1 = new Letter('a');
+			p1 = new Terminal('a');
 			p2 = new NonTerminal() { Name = "L" };
 			p3 = new NonTerminal() { Name = "N" };
 

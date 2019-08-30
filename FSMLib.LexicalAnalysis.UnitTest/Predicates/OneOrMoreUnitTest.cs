@@ -15,18 +15,18 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			OneOrMore predicate;
 			Sequence sequence;
-			Letter terminal;
+			Terminal terminal;
 
-			terminal = new Letter('a');
+			terminal = new Terminal('a');
 			predicate = new OneOrMore();
 			predicate.Item = terminal;
 
 			Assert.AreEqual("a+", predicate.ToString());
 
 			sequence = new Sequence();
-			sequence.Items.Add(new Letter('a'));
+			sequence.Items.Add(new Terminal('a'));
 			sequence.Items.Add(terminal);
-			sequence.Items.Add(new Letter('a'));
+			sequence.Items.Add(new Terminal('a'));
 			predicate = new OneOrMore();
 			predicate.Item = sequence;
 			Assert.AreEqual("(aaa)+", predicate.ToString());
@@ -37,18 +37,18 @@ namespace FSMLib.UnitTest.Predicates
 		{
 			OneOrMore predicate;
 			Sequence sequence;
-			Letter terminal;
+			Terminal terminal;
 
-			terminal = new Letter('a');
+			terminal = new Terminal('a');
 			predicate = new OneOrMore();
 			predicate.Item = terminal;
 
 			Assert.AreEqual("•a+", predicate.ToString(terminal));
 
 			sequence = new Sequence();
-			sequence.Items.Add(new Letter('a'));
+			sequence.Items.Add(new Terminal('a'));
 			sequence.Items.Add(terminal);
-			sequence.Items.Add(new Letter('a'));
+			sequence.Items.Add(new Terminal('a'));
 			predicate = new OneOrMore();
 			predicate.Item = sequence;
 			Assert.AreEqual("(a•aa)+", predicate.ToString(terminal));
@@ -62,9 +62,9 @@ namespace FSMLib.UnitTest.Predicates
 
 
 			a = new OneOrMore();
-			a.Item= new Letter('a');
+			a.Item= new Terminal('a');
 			b = new OneOrMore();
-			b.Item = new Letter('a');
+			b.Item = new Terminal('a');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -78,13 +78,13 @@ namespace FSMLib.UnitTest.Predicates
 
 
 			a = new OneOrMore();
-			a.Item = new Letter('a');
+			a.Item = new Terminal('a');
 			b = new OneOrMore();
-			b.Item = new Letter('b');
+			b.Item = new Terminal('b');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new AnyLetter()));
+			Assert.IsFalse(a.Equals(new AnyTerminal()));
 			Assert.IsFalse(a.Equals(new EOS()));
 
 

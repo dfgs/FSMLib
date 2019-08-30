@@ -15,13 +15,13 @@ namespace FFSMLib.LexicalAnalysis.UnitTest.Predicates
 		public void ShouldConvertToStringWithoutBullet()
 		{
 			Or predicate;
-			Letter terminal;
+			Terminal terminal;
 
-			terminal = new Letter('a');
+			terminal = new Terminal('a');
 			predicate = new Or();
-			predicate.Items.Add(new Letter('a'));
+			predicate.Items.Add(new Terminal('a'));
 			predicate.Items.Add(terminal);
-			predicate.Items.Add(new Letter('a'));
+			predicate.Items.Add(new Terminal('a'));
 			Assert.AreEqual("(a|a|a)", predicate.ToString());
 
 			predicate = new Or();
@@ -32,13 +32,13 @@ namespace FFSMLib.LexicalAnalysis.UnitTest.Predicates
 		public void ShouldConvertToStringWithBullet()
 		{
 			Or predicate;
-			Letter terminal;
+			Terminal terminal;
 
-			terminal = new Letter('a');
+			terminal = new Terminal('a');
 			predicate = new Or();
-			predicate.Items.Add(new Letter('a'));
+			predicate.Items.Add(new Terminal('a'));
 			predicate.Items.Add(terminal);
-			predicate.Items.Add(new Letter('a'));
+			predicate.Items.Add(new Terminal('a'));
 			Assert.AreEqual("(a|•a|a)", predicate.ToString(terminal));
 
 			predicate = new Or();
@@ -59,13 +59,13 @@ namespace FFSMLib.LexicalAnalysis.UnitTest.Predicates
 
 
 			a = new Or();
-			a.Items.Add(new Letter('a'));
-			a.Items.Add(new Letter('b'));
-			a.Items.Add(new Letter('c'));
+			a.Items.Add(new Terminal('a'));
+			a.Items.Add(new Terminal('b'));
+			a.Items.Add(new Terminal('c'));
 			b = new Or();
-			b.Items.Add(new Letter('a'));
-			b.Items.Add(new Letter('b'));
-			b.Items.Add(new Letter('c'));
+			b.Items.Add(new Terminal('a'));
+			b.Items.Add(new Terminal('b'));
+			b.Items.Add(new Terminal('c'));
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -79,17 +79,17 @@ namespace FFSMLib.LexicalAnalysis.UnitTest.Predicates
 
 
 			a = new Or();
-			a.Items.Add(new Letter('a'));
-			a.Items.Add(new Letter('b'));
-			a.Items.Add(new Letter('c'));
+			a.Items.Add(new Terminal('a'));
+			a.Items.Add(new Terminal('b'));
+			a.Items.Add(new Terminal('c'));
 			b = new Or();
-			b.Items.Add(new Letter('a'));
-			b.Items.Add(new Letter('c'));
-			b.Items.Add(new Letter('b'));
+			b.Items.Add(new Terminal('a'));
+			b.Items.Add(new Terminal('c'));
+			b.Items.Add(new Terminal('b'));
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new AnyLetter()));
+			Assert.IsFalse(a.Equals(new AnyTerminal()));
 			Assert.IsFalse(a.Equals(new EOS()));
 
 

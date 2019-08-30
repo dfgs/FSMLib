@@ -6,15 +6,15 @@
 				<LexicalPredicate xsi:type="Sequence">
 					<Items>
 						<LexicalPredicate xsi:type="ZeroOrMore">
-							<Item xsi:type="Letter" Value="97" />
+							<Item xsi:type="Terminal" Value="97" />
 						</LexicalPredicate>
 						<LexicalPredicate xsi:type="OneOrMore">
 							<Item xsi:type="NonTerminal" Name="B" />
 						</LexicalPredicate>
 						<LexicalPredicate xsi:type="Optional">
-							<Item xsi:type="Letter" Value="99" />
+							<Item xsi:type="Terminal" Value="99" />
 						</LexicalPredicate>
-						<LexicalPredicate xsi:type="AnyLetter" />
+						<LexicalPredicate xsi:type="AnyTerminal" />
 					</Items>
 				</LexicalPredicate>
 				<LexicalPredicate xsi:type="Reduce" />
@@ -28,13 +28,13 @@
 					<Items>
 						<LexicalPredicate xsi:type="NonTerminal" Name="B" />
 						<LexicalPredicate xsi:type="ZeroOrMore">
-							<Item xsi:type="Letter" Value="99" />
+							<Item xsi:type="Terminal" Value="99" />
 						</LexicalPredicate>
 						<LexicalPredicate xsi:type="OneOrMore">
-							<Item xsi:type="Letter" Value="100" />
+							<Item xsi:type="Terminal" Value="100" />
 						</LexicalPredicate>
-						<LexicalPredicate xsi:type="Letter" Value="101" />
-						<LexicalPredicate xsi:type="Letter" Value="102" />
+						<LexicalPredicate xsi:type="Terminal" Value="101" />
+						<LexicalPredicate xsi:type="Terminal" Value="102" />
 					</Items>
 				</LexicalPredicate>
 				<LexicalPredicate xsi:type="Reduce" />

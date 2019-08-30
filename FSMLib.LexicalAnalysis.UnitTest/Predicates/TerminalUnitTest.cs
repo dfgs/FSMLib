@@ -9,23 +9,23 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class LetterUnitTest
+	public class TerminalUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			Letter predicate;
+			Terminal predicate;
 
-			predicate = new Letter('a');
+			predicate = new Terminal('a');
 
 			Assert.AreEqual("a", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			Letter predicate;
+			Terminal predicate;
 
-			predicate = new Letter('a');
+			predicate = new Terminal('a');
 
 			Assert.AreEqual("•a", predicate.ToString(predicate));
 		}
@@ -34,10 +34,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputs()
 		{
-			Letter predicate;
+			Terminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new Letter('a');
+			predicate = new Terminal('a');
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -47,11 +47,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			Letter a,b;
+			Terminal a,b;
 
 
-			a = new Letter('a');
-			b = new Letter('a');
+			a = new Terminal('a');
+			b = new Terminal('a');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -61,15 +61,15 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			Letter a, b;
+			Terminal a, b;
 
 
-			a = new Letter('a');
-			b = new Letter('b');
+			a = new Terminal('a');
+			b = new Terminal('b');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
-			Assert.IsFalse(b.Equals(new AnyLetter()));
+			Assert.IsFalse(b.Equals(new AnyTerminal()));
 			Assert.IsFalse(b.Equals(new EOS()));
 
 

@@ -9,23 +9,23 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class LettersRangeUnitTest
+	public class TerminalsRangeUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			LettersRange predicate;
+			TerminalsRange predicate;
 
-			predicate = new LettersRange( 'a','c');
+			predicate = new TerminalsRange( 'a','c');
 
 			Assert.AreEqual("[a-c]", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			LettersRange predicate;
+			TerminalsRange predicate;
 
-			predicate = new LettersRange('a', 'c');
+			predicate = new TerminalsRange('a', 'c');
 
 			Assert.AreEqual("•[a-c]", predicate.ToString(predicate));
 		}
@@ -34,10 +34,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputs()
 		{
-			LettersRange predicate;
+			TerminalsRange predicate;
 			IInput<char>[] inputs;
 
-			predicate = new LettersRange('a', 'z');
+			predicate = new TerminalsRange('a', 'z');
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -48,11 +48,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			LettersRange a,b;
+			TerminalsRange a,b;
 
 
-			a = new LettersRange('a', 'c');
-			b = new LettersRange('a', 'c');
+			a = new TerminalsRange('a', 'c');
+			b = new TerminalsRange('a', 'c');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -62,15 +62,15 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			LettersRange a, b;
+			TerminalsRange a, b;
 
 
-			a = new LettersRange('a', 'c');
-			b = new LettersRange('b', 'c');
+			a = new TerminalsRange('a', 'c');
+			b = new TerminalsRange('b', 'c');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
-			Assert.IsFalse(b.Equals(new AnyLetter()));
+			Assert.IsFalse(b.Equals(new AnyTerminal()));
 			Assert.IsFalse(b.Equals(new EOS()));
 
 

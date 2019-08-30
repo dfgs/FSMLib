@@ -70,7 +70,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
-			Assert.IsFalse(b.Equals(new AnyLetter()));
+			Assert.IsFalse(b.Equals(new AnyTerminal()));
 			Assert.IsFalse(b.Equals(new EOS()));
 
 

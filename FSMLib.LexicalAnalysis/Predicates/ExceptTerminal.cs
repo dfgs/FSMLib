@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class ExceptLetter: LexicalPredicate, ISituationPredicate<char>
+	public class ExceptTerminal: LexicalPredicate, ISituationPredicate<char>
 	{
 		[XmlAttribute]
 		public char Value
@@ -19,12 +19,12 @@ namespace FSMLib.LexicalAnalysis.Predicates
 			set;
 		}
 
-		public ExceptLetter()
+		public ExceptTerminal()
 		{
 			this.Value = (char)0;
 		}
 
-		public ExceptLetter(char Value)
+		public ExceptTerminal(char Value)
 		{
 			this.Value = Value;
 		}
@@ -55,7 +55,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public override  bool Equals(IPredicate<char> other)
 		{
-			if (!(other is ExceptLetter letter)) return false;
+			if (!(other is ExceptTerminal letter)) return false;
 			return Value==letter.Value;
 		}
 

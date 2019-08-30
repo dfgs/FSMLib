@@ -30,8 +30,8 @@ namespace FSMLib.UnitTest.Situations
 			SituationCollection<char> situations;
 
 			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);situations.Add(b);
@@ -53,8 +53,8 @@ namespace FSMLib.UnitTest.Situations
 
 
 			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -80,8 +80,8 @@ namespace FSMLib.UnitTest.Situations
 
 
 			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Letter };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Letter };
+			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
+			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
 
 			dictionary = new SituationDictionary<char>();
 

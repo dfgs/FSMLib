@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class AnyLetter : LexicalPredicate, ISituationPredicate<char>
+	public class AnyTerminal : LexicalPredicate, ISituationPredicate<char>
 	{
 		public IEnumerable<IInput<char>> GetInputs()
 		{
@@ -28,7 +28,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public override bool Equals(IPredicate<char> other)
 		{
-			return other is AnyLetter;
+			return other is AnyTerminal;
 		}
 
 		

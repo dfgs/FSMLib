@@ -69,8 +69,8 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Predicates
 			a = new Reduce();
 
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new Letter('a')));
-			Assert.IsFalse(a.Equals(new AnyLetter()));
+			Assert.IsFalse(a.Equals(new Terminal('a')));
+			Assert.IsFalse(a.Equals(new AnyTerminal()));
 
 
 		}

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.LexicalAnalysis.Predicates
 {
-	public class ExceptLettersRange: LexicalPredicate, ISituationPredicate<char>
+	public class ExceptTerminalsRange: LexicalPredicate, ISituationPredicate<char>
 	{
 		[XmlAttribute]
 		public char FirstValue
@@ -26,11 +26,11 @@ namespace FSMLib.LexicalAnalysis.Predicates
 		}
 
 
-		public ExceptLettersRange()
+		public ExceptTerminalsRange()
 		{
 			this.FirstValue = (char)0; this.LastValue = (char)0;
 		}
-		public ExceptLettersRange(char FirstValue, char LastValue)
+		public ExceptTerminalsRange(char FirstValue, char LastValue)
 		{
 			this.FirstValue = FirstValue; this.LastValue = LastValue;
 		}
@@ -67,7 +67,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public override  bool Equals(IPredicate<char> other)
 		{
-			if (!(other is ExceptLettersRange o)) return false;
+			if (!(other is ExceptTerminalsRange o)) return false;
 			return ((FirstValue==o.FirstValue) && (LastValue==o.LastValue));
 		}
 

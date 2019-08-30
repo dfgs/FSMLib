@@ -42,7 +42,7 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			predicate = new Letter('a');
+			predicate = new Terminal('a');
 			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
@@ -53,7 +53,7 @@ namespace FSMLib.UnitTest.Situations
 			Assert.IsTrue(graph.Contains(predicate));
 
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 			rule = new LexicalRule() { Name = "A", Predicate = (LexicalPredicate)predicate };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.IsTrue(graph.Contains(predicate));
@@ -70,7 +70,7 @@ namespace FSMLib.UnitTest.Situations
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 			rule = new LexicalRule() { Name = "A", Predicate =new Sequence( predicate ,new Reduce()) };
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			Assert.AreEqual(3,graph.Nodes.Count);
@@ -79,7 +79,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildSequencePredicate()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
@@ -87,9 +87,9 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -110,7 +110,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildOrPredicate()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Or predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
@@ -118,9 +118,9 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Or();
 			predicate.Items.Add(a);
@@ -140,7 +140,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildOptionalPredicate()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
@@ -148,9 +148,9 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -171,7 +171,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildZeroOrMorePredicate()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
@@ -179,9 +179,9 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);
@@ -201,7 +201,7 @@ namespace FSMLib.UnitTest.Situations
 		[TestMethod]
 		public void ShouldBuildOneOrMorePredicate()
 		{
-			Letter a, b, c;
+			Terminal a, b, c;
 			Sequence predicate;
 			SituationGraph<char> graph;
 			LexicalRule rule;
@@ -209,9 +209,9 @@ namespace FSMLib.UnitTest.Situations
 
 			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
 
-			a = new Letter('a');
-			b = new Letter('b');
-			c = new Letter('c');
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
 
 			predicate = new Sequence();
 			predicate.Items.Add(a);

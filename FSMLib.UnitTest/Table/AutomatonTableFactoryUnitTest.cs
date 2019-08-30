@@ -147,9 +147,9 @@ namespace FSMLib.UnitTest.AutomatonTables
 			factory = new AutomatonTableFactory<char>( );
 
 			predicate = new Sequence();
-			predicate.Items.Add(new Letter('a'));
-			predicate.Items.Add(new Letter('b'));
-			predicate.Items.Add(new Letter('c'));
+			predicate.Items.Add(new Terminal('a'));
+			predicate.Items.Add(new Terminal('b'));
+			predicate.Items.Add(new Terminal('c'));
 
 			rule = new LexicalRule() { Name="rule",IsAxiom=true };
 			rule.Predicate = new ZeroOrMore() { Item = predicate };

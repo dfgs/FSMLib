@@ -9,23 +9,23 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class ExceptLettersRangeUnitTest
+	public class ExceptTerminalsRangeUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 
-			predicate = new ExceptLettersRange( 'a','c');
+			predicate = new ExceptTerminalsRange( 'a','c');
 
 			Assert.AreEqual("![a-c]", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 
-			predicate = new ExceptLettersRange('a', 'c');
+			predicate = new ExceptTerminalsRange('a', 'c');
 
 			Assert.AreEqual("•![a-c]", predicate.ToString(predicate));
 		}
@@ -34,10 +34,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputs()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLettersRange('b', 'y');
+			predicate = new ExceptTerminalsRange('b', 'y');
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(2, inputs.Length);
@@ -50,10 +50,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputsUsingFirstCharValue()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLettersRange(char.MinValue,'b');
+			predicate = new ExceptTerminalsRange(char.MinValue,'b');
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -64,10 +64,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputsUsingLastCharValue()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLettersRange('b',char.MaxValue);
+			predicate = new ExceptTerminalsRange('b',char.MaxValue);
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -78,10 +78,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputsUsingFirstAndLastCharValue()
 		{
-			ExceptLettersRange predicate;
+			ExceptTerminalsRange predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLettersRange(char.MinValue,char.MaxValue);
+			predicate = new ExceptTerminalsRange(char.MinValue,char.MaxValue);
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(0, inputs.Length);
@@ -90,11 +90,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			ExceptLettersRange a,b;
+			ExceptTerminalsRange a,b;
 
 
-			a = new ExceptLettersRange('a', 'c');
-			b = new ExceptLettersRange('a', 'c');
+			a = new ExceptTerminalsRange('a', 'c');
+			b = new ExceptTerminalsRange('a', 'c');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -104,15 +104,15 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			ExceptLettersRange a, b;
+			ExceptTerminalsRange a, b;
 
 
-			a = new ExceptLettersRange('a', 'c');
-			b = new ExceptLettersRange('b', 'c');
+			a = new ExceptTerminalsRange('a', 'c');
+			b = new ExceptTerminalsRange('b', 'c');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
-			Assert.IsFalse(b.Equals(new AnyLetter()));
+			Assert.IsFalse(b.Equals(new AnyTerminal()));
 			Assert.IsFalse(b.Equals(new EOS()));
 
 

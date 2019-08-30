@@ -9,23 +9,23 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class ExceptLetterUnitTest
+	public class ExceptTerminalUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			ExceptLetter predicate;
+			ExceptTerminal predicate;
 
-			predicate = new ExceptLetter('a');
+			predicate = new ExceptTerminal('a');
 
 			Assert.AreEqual("!a", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			ExceptLetter predicate;
+			ExceptTerminal predicate;
 
-			predicate = new ExceptLetter('a');
+			predicate = new ExceptTerminal('a');
 
 			Assert.AreEqual("•!a", predicate.ToString(predicate));
 		}
@@ -34,10 +34,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputs()
 		{
-			ExceptLetter predicate;
+			ExceptTerminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLetter('b');
+			predicate = new ExceptTerminal('b');
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(2, inputs.Length);
@@ -51,10 +51,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputsUsingFirstCharValue()
 		{
-			ExceptLetter predicate;
+			ExceptTerminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLetter(char.MinValue);
+			predicate = new ExceptTerminal(char.MinValue);
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -65,10 +65,10 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldGetInputsUsingLastCharValue()
 		{
-			ExceptLetter predicate;
+			ExceptTerminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new ExceptLetter(char.MaxValue);
+			predicate = new ExceptTerminal(char.MaxValue);
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -80,11 +80,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			ExceptLetter a,b;
+			ExceptTerminal a,b;
 
 
-			a = new ExceptLetter('a');
-			b = new ExceptLetter('a');
+			a = new ExceptTerminal('a');
+			b = new ExceptTerminal('a');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -94,15 +94,15 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			ExceptLetter a, b;
+			ExceptTerminal a, b;
 
 
-			a = new ExceptLetter('a');
-			b = new ExceptLetter('b');
+			a = new ExceptTerminal('a');
+			b = new ExceptTerminal('b');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(null));
-			Assert.IsFalse(b.Equals(new AnyLetter()));
+			Assert.IsFalse(b.Equals(new AnyTerminal()));
 			Assert.IsFalse(b.Equals(new EOS()));
 
 

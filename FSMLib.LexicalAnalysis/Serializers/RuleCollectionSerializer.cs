@@ -15,7 +15,7 @@ namespace FSMLib.LexicalAnalysis.Serializers
 {
 	public class RuleCollectionSerializer : IRuleCollectionSerializer<char>
 	{
-		private static Type[] extraTypes=new Type[] { typeof(Letter),typeof(AnyLetter), typeof(NonTerminal), typeof(EOS), typeof(OneOrMore), typeof(ZeroOrMore), typeof(Optional), typeof(Or), typeof(Sequence),typeof(LettersRange),typeof(Reduce) } ;
+		private static Type[] extraTypes=new Type[] { typeof(Terminal),typeof(AnyTerminal), typeof(NonTerminal), typeof(EOS), typeof(OneOrMore), typeof(ZeroOrMore), typeof(Optional), typeof(Or), typeof(Sequence),typeof(TerminalsRange),typeof(Reduce) } ;
 		public IEnumerable<IRule<char>> LoadStream(Stream Stream)
 		{
 			XmlSerializer serializer;

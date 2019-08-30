@@ -9,33 +9,33 @@ using System.Linq;
 namespace FSMLib.UnitTest.Predicates
 {
 	[TestClass]
-	public class AnyLetterUnitTest
+	public class AnyTerminalUnitTest
 	{
 		[TestMethod]
 		public void ShouldConvertToStringWithoutBullet()
 		{
-			AnyLetter predicate;
+			AnyTerminal predicate;
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 
 			Assert.AreEqual(".", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
 		{
-			AnyLetter predicate;
+			AnyTerminal predicate;
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 
 			Assert.AreEqual("•.", predicate.ToString(predicate));
 		}
 		[TestMethod]
 		public void ShouldGetInputs()
 		{
-			AnyLetter predicate;
+			AnyTerminal predicate;
 			IInput<char>[] inputs;
 
-			predicate = new AnyLetter();
+			predicate = new AnyTerminal();
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
@@ -50,11 +50,11 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldEquals()
 		{
-			AnyLetter a, b;
+			AnyTerminal a, b;
 
 
-			a = new AnyLetter();
-			b = new AnyLetter();
+			a = new AnyTerminal();
+			b = new AnyTerminal();
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -64,13 +64,13 @@ namespace FSMLib.UnitTest.Predicates
 		[TestMethod]
 		public void ShouldNotEquals()
 		{
-			AnyLetter a;
+			AnyTerminal a;
 
 
-			a = new AnyLetter();
+			a = new AnyTerminal();
 
 			Assert.IsFalse(a.Equals(null));
-			Assert.IsFalse(a.Equals(new Letter('a')));
+			Assert.IsFalse(a.Equals(new Terminal('a')));
 			Assert.IsFalse(a.Equals(new EOS()));
 
 
