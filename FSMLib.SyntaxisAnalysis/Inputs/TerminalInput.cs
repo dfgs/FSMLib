@@ -11,14 +11,12 @@ namespace FSMLib.SyntaxicAnalysis.Inputs
 {
 	public class TerminalInput:TerminalInput<Token>
 	{
-	
+
 
 		public TerminalInput(Token Value):base(Value)
 		{
 		}
 
-
-		
 
 	}
 }

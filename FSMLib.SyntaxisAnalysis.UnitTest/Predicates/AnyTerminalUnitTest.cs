@@ -6,6 +6,7 @@ using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxisAnalysis.Inputs;
 
 namespace FSMLib.UnitTest.Predicates
 {
@@ -40,8 +41,7 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			//Assert.IsInstanceOfType(inputs[0], typeof(TerminalsRangeInput));
-			Assert.Fail();
+			Assert.IsInstanceOfType(inputs[0], typeof(AnyTerminalInput));
 		}
 	
 
