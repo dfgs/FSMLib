@@ -5,7 +5,6 @@ using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 
-using FSMLib.UnitTest.Mocks;
 using Microsoft.Glee.Drawing;
 using System;
 using System.Collections.Generic;

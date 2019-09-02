@@ -10,7 +10,7 @@ using FSMLib.Rules;
 using FSMLib.Serializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FSMLib.UnitTest.Serializers
+namespace FSMLib.LexicalAnalysis.UnitTest.Serializers
 {
 	[TestClass]
 	public class RuleCollectionSerializerUnitTest
@@ -107,7 +107,7 @@ namespace FSMLib.UnitTest.Serializers
 			//serializer.SaveToStream(new FileStream(@"d:\test.xml", FileMode.Create), rules);
 
 			var assembly = Assembly.GetExecutingAssembly();
-			var resourceName = "FSMLib.UnitTest.Resources.test.xml";
+			var resourceName = "FSMLib.LexicalAnalysis.UnitTest.Resources.test.xml";
 
 			using (Stream stream = assembly.GetManifestResourceStream(resourceName))
 			{

@@ -56,6 +56,7 @@
     <Compile Include="CollectionProcessorUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
     <Compile Include="Mocks\AutomatonTableParser.cs" />
+    <Compile Include="ProcessingQueues\ProcessingQueueUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Situations\SituationCollectionFactoryUnitTest.cs" />
     <Compile Include="Situations\SituationCollectionUnitTest.cs" />

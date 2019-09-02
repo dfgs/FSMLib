@@ -52,6 +52,7 @@
     <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="ProcessingQueues\ProcessingQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Situations\Situation.cs" />
     <Compile Include="Situations\SituationCollection.cs" />

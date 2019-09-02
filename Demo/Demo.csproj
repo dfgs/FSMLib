@@ -124,10 +124,6 @@
       <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>
       <Name>FSMLib.LexicalAnalysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FSMLib.UnitTest\FSMLib.UnitTest.csproj">
-      <Project>{e5083f66-697c-4203-9938-cb45bd18d3ae}</Project>
-      <Name>FSMLib.UnitTest</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
       <Name>FSMLib</Name>

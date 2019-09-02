@@ -1,7 +1,7 @@
 ﻿using FSMLib.Common.Inputs;
 using FSMLib.Inputs;
 using FSMLib.Predicates;
-using FSMLib.ProcessingQueues;
+using FSMLib.Common.ProcessingQueues;
 using FSMLib.Rules;
 using FSMLib.Situations;
 using System;

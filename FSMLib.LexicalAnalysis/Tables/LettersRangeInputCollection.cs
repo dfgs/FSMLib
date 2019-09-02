@@ -1,5 +1,5 @@
 ﻿using FSMLib.LexicalAnalysis.Inputs;
-using FSMLib.ProcessingQueues;
+using FSMLib.Common.ProcessingQueues;
 using System;
 using System.Collections;
 using System.Collections.Generic;

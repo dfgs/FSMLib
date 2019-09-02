@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.ProcessingQueues
+namespace FSMLib.Common.ProcessingQueues
 {
 	public  class ProcessingQueue<T, TResult>
 	{

@@ -81,7 +81,6 @@
     <Compile Include="Table\IDistinctInputFactory.cs" />
     <Compile Include="Automatons\IAutomaton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProcessingQueues\ProcessingQueue.cs" />
     <Compile Include="Table\IState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
