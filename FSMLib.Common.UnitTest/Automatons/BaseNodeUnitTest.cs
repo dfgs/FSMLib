@@ -1,17 +1,9 @@
-﻿using System;
-using System.Linq;
-using FSMLib.Table;
-
-using FSMLib.Helpers;
-using FSMLib.Predicates;
-
-using FSMLib.UnitTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FSMLib.Inputs;
-using FSMLib.Automatons;
+﻿using FSMLib.Common.Automatons;
 using FSMLib.LexicalAnalysis.Inputs;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
-namespace FSMLib.UnitTest
+namespace FSMLib.Common.UnitTest
 {
 	[TestClass]
 	public class BaseStateUnitTest

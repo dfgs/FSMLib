@@ -14,7 +14,8 @@ namespace FSMLib.SyntaxicAnalysis.Predicates
 	{
 		public IEnumerable<IInput<Token>> GetInputs()
 		{
-			yield return new TerminalsRangeInput(Token.MinValue,Token.MaxValue);
+			//yield return new TerminalsRangeInput(Token.MinValue,Token.MaxValue);
+			yield break;
 		}
 
 		public override string ToString()

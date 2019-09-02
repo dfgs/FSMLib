@@ -49,13 +49,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="ProcessingQueues\ProcessingQueueUnitTest.cs" />
     <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
     <Compile Include="Mocks\MockedGraph.cs" />
     <Compile Include="Mocks\MockedPredicate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Automatons\AutomatonUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -7,6 +7,13 @@ namespace FSMLib.SyntaxisAnalysis.UnitTest
 	public class TokenUnitTest
 	{
 		[TestMethod]
+		public void ShouldHaveValidConstructor()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new Token(null, "A"));
+			Assert.ThrowsException<ArgumentNullException>(() => new Token("A",null));
+		}
+
+		[TestMethod]
 		public void ShouldEquals()
 		{
 			Token a,b;
@@ -54,7 +61,16 @@ namespace FSMLib.SyntaxisAnalysis.UnitTest
 			a = new Token("C", "V");
 			b = new Token("C", "V");
 
-			Assert.AreEqual(a.GetHashCode(),b.GetHashCode());
+			Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+		}
+		[TestMethod]
+		public void ShouldConvertToString()
+		{
+			Token a;
+
+			a = new Token("C", "V");
+
+			Assert.AreEqual("<C,V>",a.ToString());
 		}
 
 

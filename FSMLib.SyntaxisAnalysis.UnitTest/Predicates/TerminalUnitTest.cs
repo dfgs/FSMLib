@@ -19,7 +19,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			predicate = new Terminal(new Token("C","V"));
 
-			Assert.AreEqual("a", predicate.ToString());
+			Assert.AreEqual("<C,V>", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
@@ -28,7 +28,7 @@ namespace FSMLib.UnitTest.Predicates
 
 			predicate = new Terminal(new Token("C", "V"));
 
-			Assert.AreEqual("•a", predicate.ToString(predicate));
+			Assert.AreEqual("•<C,V>", predicate.ToString(predicate));
 		}
 
 		
@@ -42,7 +42,7 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			Assert.AreEqual('a', ((TerminalInput)inputs[0]).Value);
+			Assert.AreEqual(new Token("C", "V"), ((TerminalInput)inputs[0]).Value);
 		}
 		
 		[TestMethod]

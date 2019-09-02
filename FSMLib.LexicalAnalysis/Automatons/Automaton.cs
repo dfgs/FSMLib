@@ -11,6 +11,7 @@ using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Table;
 using FSMLib.Common.Actions;
 using FSMLib.Common.Inputs;
+using FSMLib.Common.Automatons;
 
 namespace FSMLib.LexicalAnalysis.Automatons
 {
@@ -19,7 +20,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		private readonly IAutomatonTable<char> automatonTable;
 		private int stateIndex;
 
-		private readonly AutomatonStack<BaseNode<char>> nodeStack;
+		private readonly AutomatonStack<IBaseNode<char>> nodeStack;
 		private readonly AutomatonStack<int> stateIndexStack;
 
 
@@ -32,7 +33,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		{
 			if (AutomatonTable == null) throw new ArgumentNullException("AutomatonTable");
 			this.automatonTable = AutomatonTable;
-			nodeStack = new AutomatonStack<BaseNode<char>>();
+			nodeStack = new AutomatonStack<IBaseNode<char>>();
 			stateIndexStack = new AutomatonStack<int>();
 			stateIndex = 0;
 		}
@@ -46,7 +47,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 		
 
-		private bool Shift(NonTerminalNode<char> Node)
+		private bool Shift(INonTerminalNode<char> Node)
 		{
 			IState<char> state;
 			IShift<char> action;
@@ -61,7 +62,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			return true;
 		}
 
-		private bool Shift(TerminalNode<char> Node)
+		private bool Shift(ITerminalNode<char> Node)
 		{
 			IState<char> state;
 			IShift<char> action;
@@ -76,9 +77,9 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			return true;
 		}
 
-		private NonTerminalNode<char> Reduce(string Name)
+		private INonTerminalNode<char> Reduce(string Name)
 		{
-			BaseNode<char> baseNode;
+			IBaseNode<char> baseNode;
 			NonTerminalNode<char> reducedNode;
 
 			reducedNode = new NonTerminalNode<char>(new NonTerminalInput(Name ) );
@@ -97,7 +98,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 
 
 		
-		private NonTerminalNode<char> Reduce(TerminalNode<char> Node)
+		private INonTerminalNode<char> Reduce(TerminalNode<char> Node)
 		{
 			IState<char> state;
 			IReduce<char> action;
@@ -136,7 +137,7 @@ namespace FSMLib.LexicalAnalysis.Automatons
 		private void Feed(ITerminalInput<char> Input)
 		{
 			TerminalNode<char> inputNode;
-			NonTerminalNode<char> nonTerminalNode;
+			INonTerminalNode<char> nonTerminalNode;
 
 			inputNode = new TerminalNode<char>() { Input = Input };
 
@@ -174,9 +175,9 @@ namespace FSMLib.LexicalAnalysis.Automatons
 			return action!=null;
 		}
 
-		public NonTerminalNode<char> Accept()
+		public INonTerminalNode<char> Accept()
 		{
-			NonTerminalNode<char> nonTerminalNode;
+			INonTerminalNode<char> nonTerminalNode;
 			EOSInput<char> eosInput;
 			IState<char> state;
 			IReduce<char> action;

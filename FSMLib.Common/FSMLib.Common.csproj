@@ -44,6 +44,10 @@
   <ItemGroup>
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Actions\Shift.cs" />
+    <Compile Include="Automatons\AutomatonException.cs" />
+    <Compile Include="Automatons\BaseNode.cs" />
+    <Compile Include="Automatons\NonTerminalNode.cs" />
+    <Compile Include="Automatons\TerminalNode.cs" />
     <Compile Include="CollectionProcessor.cs" />
     <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />

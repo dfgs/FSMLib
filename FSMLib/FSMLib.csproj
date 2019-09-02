@@ -44,7 +44,7 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IReduce.cs" />
     <Compile Include="Actions\IShift.cs" />
-    <Compile Include="Automatons\AutomatonException.cs" />
+    <Compile Include="Automatons\IBaseNode.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
     <Compile Include="Inputs\IReduceInput.cs" />
     <Compile Include="Inputs\ITerminalInput.cs" />
@@ -73,9 +73,8 @@
     <Compile Include="Situations\ISituationGraphSegment.cs" />
     <Compile Include="Situations\ISituationGraphSegmentFactory.cs" />
     <Compile Include="Situations\ISituationNode.cs" />
-    <Compile Include="Automatons\NonTerminalNode.cs" />
-    <Compile Include="Automatons\TerminalNode.cs" />
-    <Compile Include="Automatons\BaseNode.cs" />
+    <Compile Include="Automatons\INonTerminalNode.cs" />
+    <Compile Include="Automatons\ITerminalNode.cs" />
     <Compile Include="Table\IAutomatonTable.cs" />
     <Compile Include="Table\IAutomatonTableTuple.cs" />
     <Compile Include="Table\IAutomatonTableFactory.cs" />

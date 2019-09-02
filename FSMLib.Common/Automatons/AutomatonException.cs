@@ -1,4 +1,5 @@
 ﻿
+using FSMLib.Automatons;
 using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Common.Automatons
 {
 	public class AutomatonException<T>:Exception
 	{
@@ -16,12 +17,12 @@ namespace FSMLib.Automatons
 			private set;
 		}
 
-		public IEnumerable<BaseNode<T>> Stack
+		public IEnumerable<IBaseNode<T>> Stack
 		{
 			get;
 			private set;
 		}
-		public AutomatonException(ITerminalInput<T> Input, IEnumerable<BaseNode<T>> Stack)
+		public AutomatonException(ITerminalInput<T> Input, IEnumerable<IBaseNode<T>> Stack)
 		{
 			this.Input = Input;
 			this.Stack = Stack;

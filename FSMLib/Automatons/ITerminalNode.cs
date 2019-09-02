@@ -8,21 +8,15 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Automatons
 {
-	public interface IAutomaton<T>
+	public interface ITerminalNode<T>:IBaseNode<T>
 	{
-		int StackCount
+
+		ITerminalInput<T> Input
 		{
 			get;
 		}
 
-		void Reset();
-
-		bool CanFeed(T Value);
-		void Feed(T Value);
-
-		bool CanAccept();
-
-		INonTerminalNode<T> Accept();
+	
 
 	}
 }

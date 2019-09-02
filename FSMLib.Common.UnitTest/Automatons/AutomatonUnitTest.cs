@@ -1,17 +1,13 @@
-﻿using System;
-using FSMLib.Table;
-
+﻿using FSMLib.Automatons;
+using FSMLib.Common.Automatons;
 using FSMLib.Helpers;
-using FSMLib.Predicates;
-
-using FSMLib.UnitTest.Mocks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Automatons;
-using FSMLib.Automatons;
-using FSMLib.Common.Table;
+using FSMLib.Table;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
-namespace FSMLib.UnitTest
+namespace FSMLib.Common.UnitTest
 {
 	[TestClass]
 	public class AutomatonUnitTest
@@ -110,7 +106,7 @@ namespace FSMLib.UnitTest
 		public void ShouldAccept()
 		{
 			Automaton automaton;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
@@ -126,19 +122,19 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 
-			Assert.AreEqual(3, node.Nodes.Count);
+			Assert.AreEqual(3, node.Nodes.Count());
 			Assert.AreEqual(0, automaton.StackCount);
 			// ensure that child order is correct
-			Assert.AreEqual('a',((TerminalNode<char>)node.Nodes[0]).Input.Value);
-			Assert.AreEqual('b', ((TerminalNode<char>)node.Nodes[1]).Input.Value);
-			Assert.AreEqual('c', ((TerminalNode<char>)node.Nodes[2]).Input.Value);
+			Assert.AreEqual('a',((TerminalNode<char>)node.Nodes.ElementAt(0)).Input.Value);
+			Assert.AreEqual('b', ((TerminalNode<char>)node.Nodes.ElementAt(1)).Input.Value);
+			Assert.AreEqual('c', ((TerminalNode<char>)node.Nodes.ElementAt(2)).Input.Value);
 
 		}
 		[TestMethod]
 		public void MayNotAccept()
 		{
 			Automaton automaton;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc;" });
@@ -159,13 +155,13 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 			
 			Assert.AreEqual("A", node.Input.Name);
-			Assert.AreEqual(3, node.Nodes.Count);
+			Assert.AreEqual(3, node.Nodes.Count());
 		}
 		[TestMethod]
 		public void MayNotAcceptUsingReduction()
 		{
 			Automaton automaton;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 			IAutomatonTable<char> automatonTable;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A=abc;", "B=def;", "E*={A}|{B};" });
@@ -186,7 +182,7 @@ namespace FSMLib.UnitTest
 			Assert.IsFalse(automaton.CanAccept());
 
 			Assert.AreEqual("E", node.Input.Name);
-			Assert.AreEqual(1, node.Nodes.Count);
+			Assert.AreEqual(1, node.Nodes.Count());
 		}
 
 
@@ -218,7 +214,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			IAutomatonTable<char> automatonTable;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new String[] { "B*=abc;", "A*=a.c;" });
 			automaton = new Automaton(automatonTable);
@@ -359,7 +355,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			IAutomatonTable<char> automatonTable;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=abc*;" });
 
@@ -378,7 +374,7 @@ namespace FSMLib.UnitTest
 			Assert.IsTrue(automaton.CanAccept());
 			node = automaton.Accept();
 			Assert.IsFalse(automaton.CanAccept());
-			Assert.AreEqual(6, node.Nodes.Count);
+			Assert.AreEqual(6, node.Nodes.Count());
 		}
 
 		[TestMethod]
@@ -386,7 +382,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			IAutomatonTable<char> automatonTable;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*;" ,"C=c;"});
 
@@ -415,7 +411,7 @@ namespace FSMLib.UnitTest
 		{
 			Automaton automaton;
 			IAutomatonTable<char> automatonTable;
-			NonTerminalNode<char> node;
+			INonTerminalNode<char> node;
 
 			automatonTable = AutomatonTableHelper.BuildAutomatonTable(new string[] { "A*=ab{C}*;", "C=c;" });
 

@@ -1,13 +1,14 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Automatons;
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Common.Automatons
 {
-	public abstract class BaseNode<T>
+	public abstract class BaseNode<T>:IBaseNode<T>
 	{
 		
 

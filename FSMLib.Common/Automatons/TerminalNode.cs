@@ -1,4 +1,5 @@
 ﻿
+using FSMLib.Automatons;
 using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Common.Automatons
 {
-	public class TerminalNode<T>:BaseNode<T>
+	public class TerminalNode<T>:BaseNode<T>,ITerminalNode<T>
 	{
 
 		public ITerminalInput<T> Input

@@ -1,13 +1,14 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Automatons;
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.Automatons
+namespace FSMLib.Common.Automatons
 {
-	public class NonTerminalNode<T> : BaseNode<T>
+	public class NonTerminalNode<T> : BaseNode<T>,INonTerminalNode<T>
 	{
 		public INonTerminalInput<T> Input
 		{
@@ -15,7 +16,12 @@ namespace FSMLib.Automatons
 			set;
 		}
 
-		public List<BaseNode<T>> Nodes
+		IEnumerable<IBaseNode<T>> INonTerminalNode<T>.Nodes
+		{
+			get { return Nodes; }
+		}
+
+		public List<IBaseNode<T>> Nodes
 		{
 			get;
 			set;
@@ -23,11 +29,11 @@ namespace FSMLib.Automatons
 
 		public NonTerminalNode()
 		{
-			this.Nodes = new List<BaseNode<T>>();
+			this.Nodes = new List<IBaseNode<T>>();
 		}
 		public NonTerminalNode(INonTerminalInput<T> Input)
 		{
-			this.Nodes = new List<BaseNode<T>>();
+			this.Nodes = new List<IBaseNode<T>>();
 			this.Input = Input;
 		}
 		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()

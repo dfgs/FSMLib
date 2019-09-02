@@ -19,6 +19,8 @@ namespace FSMLib.SyntaxisAnalysis
 
 		public Token(string Class,string Value)
 		{
+			if (Class == null) throw new ArgumentNullException("Class");
+			if (Value == null) throw new ArgumentNullException("Value");
 			this.Class = Class;this.Value = Value;
 		}
 
@@ -50,6 +52,11 @@ namespace FSMLib.SyntaxisAnalysis
 				hash = hash * 31 + Class.GetHashCode();
 				return hash;
 			}
+		}
+
+		public override string ToString()
+		{
+			return $"<{Class},{Value}>";
 		}
 
 	}
