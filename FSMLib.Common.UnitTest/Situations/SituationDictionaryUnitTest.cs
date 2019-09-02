@@ -11,6 +11,7 @@ using FSMLib.Helpers;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Common.Situations;
 using FSMLib.Common.Table;
+using FSMLib.Common.UnitTest.Mocks;
 
 namespace FSMLib.Common.UnitTest.Situations
 {
@@ -27,13 +28,11 @@ namespace FSMLib.Common.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			IAutomatonTableTuple<char> result;
-			IRule<char> rule;
 			Situation<char> a,b;
 			SituationCollection<char> situations;
 
-			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
 
 			situations = new SituationCollection<char>();
 			situations.Add(a);situations.Add(b);
@@ -49,14 +48,11 @@ namespace FSMLib.Common.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			IAutomatonTableTuple<char> result;
-			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
 
-
-			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
 
 			situations = new SituationCollection<char>();
 			situations.Add(a); situations.Add(b);
@@ -67,7 +63,6 @@ namespace FSMLib.Common.UnitTest.Situations
 			dictionary.CreateTuple(new State<char>(),situations);
 			result = dictionary.GetTuple(situations);
 			Assert.IsNotNull(result);
-
 		}
 
 		[TestMethod]
@@ -76,14 +71,12 @@ namespace FSMLib.Common.UnitTest.Situations
 		{
 			SituationDictionary<char> dictionary;
 			IAutomatonTableTuple<char>[] result;
-			IRule<char> rule;
 			Situation<char> a, b;
 			SituationCollection<char> situations;
 
 
-			rule = RuleHelper.BuildRule("A=abc;");
-			a = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[0] as Terminal };
-			b = new Situation<char>() { Rule = rule, Predicate = (rule.Predicate as Sequence).Items[1] as Terminal };
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
 
 			dictionary = new SituationDictionary<char>();
 

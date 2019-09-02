@@ -15,12 +15,10 @@ namespace FSMLib.Common.Situations
 		public IRule<T> Rule
 		{
 			get;
-			set;
 		}
 		public ISituationPredicate<T> Predicate
 		{
 			get;
-			set;
 		}
 
 		public bool CanReduce
@@ -31,17 +29,22 @@ namespace FSMLib.Common.Situations
 		public IReduceInput<T> Input
 		{
 			get;
-			set;
 		}
 
+		public Situation(IRule<T> Rule,ISituationPredicate<T> Predicate, IReduceInput<T> Input)
+		{
+			if (Rule == null) throw (new ArgumentNullException("Rule"));
+			if (Predicate == null) throw (new ArgumentNullException("Predicate"));
+			if (Input == null) throw (new ArgumentNullException("Input"));
+			this.Rule = Rule;this.Predicate = Predicate;
+			this.Input = Input;
+		}
 
 
 		public bool Equals(ISituation<T> other)
 		{
 			if (this == other) return true;
-			if ((Rule != other.Rule) || (Predicate != other.Predicate)) return false;
-			if (Input == null) return (other.Input == null);
-			return Input.Equals(other.Input);
+			return (Rule.Equals( other.Rule)) && (Predicate.Equals(other.Predicate) && (Input.Equals(other.Input)));
 		}
 
 		public override string ToString()

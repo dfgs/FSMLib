@@ -7,23 +7,28 @@ using FSMLib.Predicates;
 using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Common.Situations;
+using FSMLib.Common.UnitTest.Mocks;
 
 namespace FSMLib.Common.UnitTest.Situations
 {
+
 	[TestClass]
 	public class SituationUnitTest
 	{
 		[TestMethod]
+		public void ShouldHaveValidConstructor()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new Situation<char>(null, new MockedPredicate(), new MockedReduceInput()));
+			Assert.ThrowsException<ArgumentNullException>(() => new Situation<char>(new MockedRule(), null, new MockedReduceInput()));
+			Assert.ThrowsException<ArgumentNullException>(() => new Situation<char>(new MockedRule(), new MockedPredicate(), null));
+		}
+		[TestMethod]
 		public void ShouldBeEquals()
 		{
 			Situation<char> a, b;
-			IRule<char> rule;
-			ISituationPredicate<char> predicate;
 
-			rule = RuleHelper.BuildRule("A=abc;");
-			predicate=(rule.Predicate as Sequence).Items[0] as Terminal;
-			a = new Situation<char>() { Rule = rule, Predicate = predicate };
-			b = new Situation<char>() { Rule = rule, Predicate = predicate };
+			a = new Situation<char>(new MockedRule(),new MockedPredicate(),new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -32,17 +37,22 @@ namespace FSMLib.Common.UnitTest.Situations
 		public void ShouldNotBeEquals()
 		{
 			Situation<char> a, b;
-			IRule<char> rule;
-			ISituationPredicate<char> predicate1,predicate2;
 
-			rule = RuleHelper.BuildRule("A=abc;");
-			predicate1 = ((rule.Predicate as Sequence).Items[0] as Sequence).Items[0] as Terminal;
-			predicate2 = ((rule.Predicate as Sequence).Items[0] as Sequence).Items[1] as Terminal;
-			a = new Situation<char>() { Rule = rule, Predicate = predicate1 };
-			b = new Situation<char>() { Rule = rule, Predicate = predicate2 };
-
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule2(), new MockedPredicate(), new MockedReduceInput());
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(a));
+
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate2(), new MockedReduceInput());
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(b.Equals(a));
+
+			a = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput());
+			b = new Situation<char>(new MockedRule(), new MockedPredicate(), new MockedReduceInput2());
+			Assert.IsFalse(a.Equals(b));
+			Assert.IsFalse(b.Equals(a));
+
 		}
 
 

@@ -137,7 +137,7 @@ namespace FSMLib.Common.Situations
 				if ((node.Rule == null) || (!node.Rule.IsAxiom)) continue;
 				foreach (SituationEdge<T> edge in node.Edges)
 				{
-					yield return new Situation<T>() { Rule = edge.Rule, Predicate = edge.Predicate, Input = new EOSInput<T>() };
+					yield return new Situation<T>( edge.Rule, edge.Predicate, new EOSInput<T>()) ;
 				}
 
 			}
@@ -158,7 +158,7 @@ namespace FSMLib.Common.Situations
 
 				foreach (SituationEdge<T> nextEdge in edge.TargetNode.Edges)
 				{
-					nextSituation = new Situation<T>() { Predicate = nextEdge.Predicate, Rule = nextEdge.Rule, Input = situation.Input };
+					nextSituation = new Situation<T>(  nextEdge.Rule, nextEdge.Predicate, situation.Input );
 					yield return nextSituation;
 				}
 			}
@@ -191,7 +191,7 @@ namespace FSMLib.Common.Situations
 					// basic case
 					foreach (IReduceInput<T> input in inputs)
 					{
-						newSituation = new Situation<T>() { Rule = developpedEdge.Rule, Input = input, Predicate = developpedEdge.Predicate };
+						newSituation = new Situation<T>( developpedEdge.Rule, developpedEdge.Predicate,input) ;
 						q.AddResult(newSituation);
 					}
 					

@@ -19,15 +19,15 @@ namespace FSMLib.Situations
 		{
 			get;
 		}
-
+		IReduceInput<T> Input
+		{
+			get;
+		}
 		bool CanReduce
 		{
 			get;
 		}
 
-		IReduceInput<T> Input
-		{
-			get;
-		}
+		
 	}
 }

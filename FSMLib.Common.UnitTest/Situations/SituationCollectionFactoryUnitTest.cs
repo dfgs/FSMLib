@@ -12,6 +12,7 @@ using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Situations;
 using FSMLib.Common;
+using FSMLib.Common.UnitTest.Mocks;
 
 namespace FSMLib.Common.UnitTest.Situations
 {
@@ -88,21 +89,21 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			situation = new Situation<char>(rule,a, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'b')).ToArray();
 			Assert.AreEqual(0, items.Length);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			situation = new Situation<char>(rule,a, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(),new TerminalInput('a')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			situation = new Situation<char>(rule,b, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'b')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = c };
+			situation = new Situation<char>(rule,c, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput( 'c')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
@@ -136,26 +137,26 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(rule.AsEnumerable());
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			situation = new Situation<char>(rule,a, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('b')).ToArray();
 			Assert.AreEqual(0, items.Length);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = a };
+			situation = new Situation<char>(rule,a, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('a')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(b, items[0].Predicate);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			situation = new Situation<char>(rule,b, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('b')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = b };
+			situation = new Situation<char>(rule,b, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalsRangeInput(char.MinValue,char.MaxValue)).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 
-			situation = new Situation<char>() { Rule = rule, Predicate = c };
+			situation = new Situation<char>(rule,c, new MockedReduceInput());
 			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalInput('c')).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.IsTrue(items[0].Predicate.Equals(new Reduce()));
@@ -193,7 +194,7 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2, rule3, rule4 });
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule1, Predicate = p1 };
+			situation = new Situation<char>( rule1, p1, new MockedReduceInput());
 
 			situations = factory.Develop(situation.AsEnumerable());
 
@@ -239,7 +240,7 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2 });
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
+			situation = new Situation<char>( rule1,  p2, new MockedReduceInput());
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(2, situations.Count);
@@ -288,7 +289,7 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2,rule3 });
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule1, Predicate = p2 };
+			situation = new Situation<char>( rule1,  p2, new MockedReduceInput());
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
@@ -335,7 +336,7 @@ namespace FSMLib.Common.UnitTest.Situations
 			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2, rule3 });
 			factory = new SituationCollectionFactory<char>(graph);
 
-			situation = new Situation<char>() { Rule = rule3, Predicate = p3 };
+			situation = new Situation<char>( rule3,  p3, new MockedReduceInput());
 			situations = factory.Develop(situation.AsEnumerable());
 
 			Assert.AreEqual(5, situations.Count);
