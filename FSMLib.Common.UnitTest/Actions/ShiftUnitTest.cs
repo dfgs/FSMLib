@@ -1,8 +1,8 @@
 ﻿using System;
 using FSMLib.Actions;
 using FSMLib.Common.Actions;
+using FSMLib.Common.UnitTest.Mocks;
 using FSMLib.Inputs;
-using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
@@ -10,17 +10,21 @@ namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 	[TestClass]
 	public class ShiftUnitTest
 	{
-			
 
+		[TestMethod]
+		public void ShouldHaveValidConstructor()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new Shift<char>(null, 1));
+		}
 		[TestMethod]
 		public void ShouldEquals()
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput('a' ) };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput('a' ) };
-			c = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
-			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput("a" ) };
+			a = new Shift<char>(new MockedReduceInput(),1 );
+			b = new Shift<char>(new MockedReduceInput(), 1);
+			c = new Shift<char>(new MockedReduceInput(), 2);
+			d = new Shift<char>(new MockedReduceInput(),2);
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
 			Assert.IsTrue(c.Equals(d));
@@ -32,10 +36,13 @@ namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 		{
 			Shift<char> a, b,c,d;
 
-			a = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput( 'a' ) };
-			b = new Shift<char>() { TargetStateIndex = 1, Input = new TerminalInput( 'b' ) };
-			c = new Shift<char>() { TargetStateIndex = 2, Input = new TerminalInput( 'a' ) };
-			d = new Shift<char>() { TargetStateIndex = 2, Input = new NonTerminalInput( "a" )};
+
+
+			a = new Shift<char>(new MockedReduceInput(),1 );
+			b = new Shift<char>(new MockedReduceInput2(), 1);
+			c = new Shift<char>(new MockedReduceInput(), 2);
+			d = new Shift<char>(new MockedReduceInput2(),2);
+
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(a));

@@ -23,7 +23,6 @@ namespace FSMLib.Actions
 		IReduceInput<T> Input
 		{
 			get;
-			set;
 		}
 
 		

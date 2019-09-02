@@ -13,21 +13,25 @@ namespace FSMLib.Common.Actions
 		public IActionInput<T> Input
 		{
 			get;
-			set;
 		}
 
 		public int TargetStateIndex
 		{
 			get;
-			set;
+		}
+
+		public Shift(IActionInput<T> Input,int TargetStateIndex)
+		{
+			if (Input == null) throw new ArgumentNullException("Input");
+
+			this.Input = Input;
+			this.TargetStateIndex = TargetStateIndex;
 		}
 
 		public bool Equals(IShift<T> other)
 		{
 			if (other == null) return false;
-			if (other.TargetStateIndex != TargetStateIndex) return false;
-			if (other.Input == null) return Input == null;
-			return other.Input.Equals(Input);
+			return (TargetStateIndex==other.TargetStateIndex) && (Input.Equals(other.Input));
 		}
 
 		

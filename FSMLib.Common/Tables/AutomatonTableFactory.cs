@@ -30,10 +30,8 @@ namespace FSMLib.Common.Table
 
 			foreach (Situation<T> situation in Situations.GetReductionSituations())
 			{
-				reduce = new Reduce<T>();
-				reduce.Name = situation.Rule.Name;
-				reduce.Input = situation.Input;
-				reduce.IsAxiom = situation.Rule.IsAxiom;
+				reduce = new Reduce<T>(situation.Rule.Name, situation.Rule.IsAxiom, situation.Input);
+
 				State.Add(reduce);
 			}
 		}
@@ -96,7 +94,7 @@ namespace FSMLib.Common.Table
 
 					nextTuple=DevelopSituationsAndCreateTupleIfNotExists(automatonTable, SituationCollectionFactory, openList, situationDictionary, nextSituations);
 
-					action = new Shift<T>() { Input = input, TargetStateIndex = automatonTable.IndexOf(nextTuple.State) };
+					action = new Shift<T>(input,automatonTable.IndexOf(nextTuple.State) );
 					currentTuple.State.Add(action);
 				}
 

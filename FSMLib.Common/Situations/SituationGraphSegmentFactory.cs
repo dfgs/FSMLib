@@ -30,10 +30,7 @@ namespace FSMLib.Common.Situations
 		{
 			SituationEdge<T> edge;
 
-			edge = new SituationEdge<T>();
-			edge.Rule = Rule;
-			edge.Predicate = Predicate;
-			edge.TargetNode = Node;
+			edge = new SituationEdge<T>(Rule,Predicate,Node);
 
 			return edge;
 		}

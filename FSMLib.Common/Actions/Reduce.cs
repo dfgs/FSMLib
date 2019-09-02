@@ -14,23 +14,25 @@ namespace FSMLib.Common.Actions
 		public string Name
 		{
 			get;
-			set;
 		}
 
 		public bool IsAxiom
 		{
 			get;
-			set;
 		}
 
 		public IReduceInput<T> Input
 		{
 			get;
-			set;
 		}
 
-		public Reduce()
+		public Reduce(string Name,bool IsAxiom, IReduceInput<T> Input)
 		{
+			if (Name == null) throw new ArgumentNullException("Name");
+			if (Input == null) throw new ArgumentNullException("Input");
+			this.Name = Name;
+			this.IsAxiom = IsAxiom;
+			this.Input = Input;
 		}
 
 		public bool Equals(IReduce<T> other)

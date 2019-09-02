@@ -7,10 +7,7 @@ using FSMLib.Predicates;
 using System.Linq;
 using FSMLib.Rules;
 using FSMLib.Table;
-using FSMLib.Helpers;
 using FSMLib.Inputs;
-using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Situations;
 using FSMLib.Common.UnitTest.Mocks;
 

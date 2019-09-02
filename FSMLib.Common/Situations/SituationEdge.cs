@@ -14,21 +14,26 @@ namespace FSMLib.Common.Situations
 		public IRule<T> Rule
 		{
 			get;
-			set;
 		}
 
 		public ISituationPredicate<T> Predicate
 		{
 			get;
-			set;
 		}
 
 		public ISituationNode<T> TargetNode
 		{
 			get;
-			set;
 		}
 
-		
+		public SituationEdge(IRule<T> Rule, ISituationPredicate<T> Predicate, ISituationNode<T> TargetNode)
+		{
+			if (Rule == null) throw new ArgumentNullException("Rule");
+			if (Predicate == null) throw new ArgumentNullException("Predicate");
+			if (TargetNode == null) throw new ArgumentNullException("TargetNode");
+
+			this.Rule = Rule;this.Predicate = Predicate;this.TargetNode = TargetNode;
+		}
+
 	}
 }

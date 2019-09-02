@@ -2,14 +2,13 @@
 using FSMLib.Table;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
 using System.Linq;
-using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.Common.Situations;
 using FSMLib.Common;
+using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.LexicalAnalysis.Predicates;
 
 namespace FSMLib.Common.UnitTest.Situations
 {

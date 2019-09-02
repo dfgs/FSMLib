@@ -2,15 +2,15 @@
 using FSMLib.Table;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
 using System.Collections.Generic;
 using System.Linq;
-using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.Common.Situations;
 using FSMLib.Common;
+using FSMLib.LexicalAnalysis.Predicates;
+using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.Common.UnitTest.Mocks;
 
 namespace FSMLib.Common.UnitTest.Situations
 {
@@ -24,10 +24,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -48,10 +48,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -73,10 +73,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -98,10 +98,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -127,10 +127,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -161,10 +161,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -185,10 +185,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -209,10 +209,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ISituationGraphSegment<char> segment;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -237,10 +237,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			Terminal predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -258,10 +258,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			Sequence predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -278,10 +278,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			Or predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -298,10 +298,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			Optional predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -318,10 +318,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			ZeroOrMore predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -339,10 +339,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			AnyTerminal predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -359,10 +359,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			TerminalsRange predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 
@@ -379,10 +379,10 @@ namespace FSMLib.Common.UnitTest.Situations
 			SituationGraphSegmentFactory<char> factory;
 			ISituationGraph<char> graph;
 			LexicalRule rule;
-			SituationEdge<char> capEdge;
+			MockedSituationEdge capEdge;
 			OneOrMore predicate;
 
-			capEdge = new SituationEdge<char>();
+			capEdge = new MockedSituationEdge();
 			graph = new SituationGraph<char>();
 			factory = new SituationGraphSegmentFactory<char>();
 

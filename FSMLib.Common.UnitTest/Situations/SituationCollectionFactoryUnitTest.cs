@@ -7,12 +7,13 @@ using FSMLib.Predicates;
 using System.Linq;
 using FSMLib.Rules;
 using FSMLib.Inputs;
-using FSMLib.LexicalAnalysis.Rules;
-using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Situations;
 using FSMLib.Common;
 using FSMLib.Common.UnitTest.Mocks;
+using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.Common.Actions;
+using FSMLib.LexicalAnalysis.Predicates;
+using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.Common.UnitTest.Situations
 {
@@ -31,34 +32,18 @@ namespace FSMLib.Common.UnitTest.Situations
 		[TestMethod]
 		public void ShouldCreateAxiomSituations()
 		{
-			Terminal a, b, c;
-			Sequence predicate;
-			SituationGraphFactory<char> situationGraphFactory;
-			ISituationGraph<char> graph;
 			ISituation<char>[] items;
-			LexicalRule rule1,rule2;
 			SituationCollectionFactory<char> factory;
 
-			a = new Terminal('a');
-			b = new Terminal('b');
-			c = new Terminal('c');
-
-			predicate = new Sequence();
-			predicate.Items.Add(a);
-			predicate.Items.Add(b);
-			predicate.Items.Add(c);
-
-			rule1 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = true };
-			rule2 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = false };
-			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
-			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1,rule2});
-
-			factory = new SituationCollectionFactory<char>(graph);
+		
+			factory = new SituationCollectionFactory<char>(new MockedSituationGraph());
 
 			items = factory.CreateAxiomSituations().ToArray();
+			Assert.Fail();
+			/*
 			Assert.AreEqual(1,items.Length);
 			Assert.AreEqual(rule1, items[0].Rule);
-			Assert.AreEqual(a, items[0].Predicate);
+			Assert.AreEqual(a, items[0].Predicate);//*/
 		}
 
 

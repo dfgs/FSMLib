@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FSMLib.Inputs;
-using FSMLib.LexicalAnalysis.Inputs;
 
 namespace FSMLib.Common.UnitTest.Mocks
 {
@@ -32,13 +31,11 @@ namespace FSMLib.Common.UnitTest.Mocks
 
 		
 
-		public bool Parse(char Input)
+		public bool Parse(IActionInput<char> Input)
 		{
 			IShift<char> action;
-			IActionInput<char> terminalInput;
 
-			terminalInput = new TerminalInput( Input );
-			action = automatonTable.GetState(stateIndex).GetShift(terminalInput);
+			action = automatonTable.GetState(stateIndex).GetShift(Input);
 			if (action == null) return false;
 
 			stateIndex = action.TargetStateIndex;

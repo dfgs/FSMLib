@@ -3,8 +3,8 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
-using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Inputs;
+using FSMLib.Common.UnitTest.Mocks;
 
 namespace FSMLib.Common.UnitTest.Inputs
 {
@@ -35,8 +35,8 @@ namespace FSMLib.Common.UnitTest.Inputs
 
 			a = new EOSInput<char>();
 
-			Assert.IsFalse(a.Equals(new NonTerminalInput("A")));
-			Assert.IsFalse(a.Equals(new TerminalInput('a')));
+			Assert.IsFalse(a.Equals(new MockedReduceInput()));
+			Assert.IsFalse(a.Equals(new MockedTerminalInput('a')));
 		}
 
 		[TestMethod]
@@ -54,10 +54,10 @@ namespace FSMLib.Common.UnitTest.Inputs
 		public void ShoudNotMatch()
 		{
 			EOSInput<char> a;
-			TerminalInput b;
+			MockedTerminalInput b;
 
 			a = new EOSInput<char>();
-			b = new TerminalInput('a' );
+			b = new MockedTerminalInput('a' );
 
 
 			Assert.IsFalse(a.Match(null));

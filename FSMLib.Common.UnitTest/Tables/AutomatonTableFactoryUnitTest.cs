@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
 using FSMLib.Table;
-using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Situations;
 using FSMLib.Common.UnitTest.Mocks;
-using FSMLib.LexicalAnalysis.Rules;
-using FSMLib.LexicalAnalysis.Predicates;
-using FSMLib.LexicalAnalysis.Tables;
 using FSMLib.Common.Table;
 using FSMLib.Common;
+using FSMLib.LexicalAnalysis.Rules;
+using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Tables;
+using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.LexicalAnalysis.Predicates;
 
 namespace FSMLib.Common.UnitTest.AutomatonTables
 {
@@ -39,11 +40,11 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 			
 		}
 		[TestMethod]
@@ -66,11 +67,11 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 
 			
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 		}
 
 		[TestMethod]
@@ -93,20 +94,20 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 
 
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(3, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 
 			parser.Reset();
 
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(3, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 
 		}
 
@@ -128,11 +129,11 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(3, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			parser.Reset();
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			parser.Reset();
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 
 
 		}
@@ -162,13 +163,13 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			parser = new AutomatonTableParser(automatonTable);
 
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 		}
 
 
@@ -193,11 +194,11 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 
 
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('a'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('a')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('b'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('b')));
 			Assert.AreEqual(1, parser.ActionCount);
-			Assert.IsTrue(parser.Parse('c'));
+			Assert.IsTrue(parser.Parse(new TerminalInput('c')));
 		}
 
 

@@ -12,13 +12,11 @@ namespace FSMLib.Actions
 		IActionInput<T> Input
 		{
 			get;
-			set;
 		}
 
 		int TargetStateIndex
 		{
 			get;
-			set;
 		}
 
 		

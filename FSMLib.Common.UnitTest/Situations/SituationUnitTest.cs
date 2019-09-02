@@ -2,10 +2,8 @@
 using FSMLib.Table;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FSMLib.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Situations;
-using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Common.Situations;
 using FSMLib.Common.UnitTest.Mocks;
 
