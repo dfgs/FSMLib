@@ -34,6 +34,8 @@ namespace FSMLib.Common.Situations
 			set;
 		}
 
+
+
 		public bool Equals(ISituation<T> other)
 		{
 			if (this == other) return true;

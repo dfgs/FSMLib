@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
-namespace FSMLib.Common.UnitTest
+namespace FSMLib.LexicalAnalysis.UnitTest
 {
 	[TestClass]
 	public class AutomatonUnitTest

@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Actions\ReduceUnitTest.cs" />
     <Compile Include="Actions\ShiftUnitTest.cs" />
-    <Compile Include="Automatons\AutomatonUnitTest.cs" />
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="CollectionProcessorUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
@@ -77,11 +76,11 @@
       <Name>FSMLib.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
-      <Project>{b04991a3-f18d-44ae-9f1b-e136a8891e5b}</Project>
+      <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
       <Name>FSMLib.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj">
-      <Project>{9a2620c4-212b-4550-9461-bc60b0e5d7e4}</Project>
+      <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>
       <Name>FSMLib.LexicalAnalysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">

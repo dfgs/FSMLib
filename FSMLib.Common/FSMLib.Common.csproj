@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Actions\Shift.cs" />
+    <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
     <Compile Include="Automatons\BaseNode.cs" />
     <Compile Include="Automatons\NonTerminalNode.cs" />

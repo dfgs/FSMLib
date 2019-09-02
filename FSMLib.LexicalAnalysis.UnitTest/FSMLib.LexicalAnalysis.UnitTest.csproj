@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automatons\AutomatonUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalsRangeInputUnitTest.cs" />
