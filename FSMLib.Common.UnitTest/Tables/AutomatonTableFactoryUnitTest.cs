@@ -6,14 +6,14 @@ using FSMLib.Predicates;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Situations;
-using FSMLib.UnitTest.Mocks;
+using FSMLib.Common.UnitTest.Mocks;
 using FSMLib.LexicalAnalysis.Rules;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Tables;
 using FSMLib.Common.Table;
 using FSMLib.Common;
 
-namespace FSMLib.UnitTest.AutomatonTables
+namespace FSMLib.Common.UnitTest.AutomatonTables
 {
 	[TestClass]
 	public class AutomatonTableFactoryUnitTest

@@ -5,12 +5,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E5083F66-697C-4203-9938-CB45BD18D3AE}</ProjectGuid>
+    <ProjectGuid>{A2312F73-3251-4641-94FA-7EA28D835893}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FSMLib.UnitTest</RootNamespace>
-    <AssemblyName>FSMLib.UnitTest</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>FSMLib.Common.UnitTest</RootNamespace>
+    <AssemblyName>FSMLib.Common.UnitTest</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -49,37 +49,42 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automatons\BaseNodeUnitTest.cs" />
-    <Compile Include="ProcessingQueues\ProcessingQueueUnitTest.cs" />
-    <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
-    <Compile Include="Mocks\MockedGraph.cs" />
-    <Compile Include="Mocks\MockedPredicate.cs" />
+    <Compile Include="Actions\ReduceUnitTest.cs" />
+    <Compile Include="Actions\ShiftUnitTest.cs" />
+    <Compile Include="CollectionProcessorUnitTest.cs" />
+    <Compile Include="Inputs\EOSInputUnitTest.cs" />
+    <Compile Include="Mocks\AutomatonTableParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Automatons\AutomatonUnitTest.cs" />
+    <Compile Include="Situations\SituationCollectionFactoryUnitTest.cs" />
+    <Compile Include="Situations\SituationCollectionUnitTest.cs" />
+    <Compile Include="Situations\SituationDictionaryUnitTest.cs" />
+    <Compile Include="Situations\SituationGraphFactoryUnitTest.cs" />
+    <Compile Include="Situations\SituationGraphSegmentFactoryUnitTest.cs" />
+    <Compile Include="Situations\SituationUnitTest.cs" />
+    <Compile Include="Tables\AutomatonTableFactoryUnitTest.cs" />
+    <Compile Include="Tables\AutomatonTableTupleUnitTest.cs" />
+    <Compile Include="Tables\StateUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
-      <Project>{7E207AEB-52C7-4F97-93D3-6218F4F7C30E}</Project>
+      <Project>{7e207aeb-52c7-4f97-93d3-6218f4f7c30e}</Project>
       <Name>FSMLib.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
-      <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
+      <Project>{b04991a3-f18d-44ae-9f1b-e136a8891e5b}</Project>
       <Name>FSMLib.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj">
-      <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>
+      <Project>{9a2620c4-212b-4550-9461-bc60b0e5d7e4}</Project>
       <Name>FSMLib.LexicalAnalysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
-      <Project>{08761872-DD75-4351-B6C1-8B30CB694EEE}</Project>
+      <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
       <Name>FSMLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\test.xml" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

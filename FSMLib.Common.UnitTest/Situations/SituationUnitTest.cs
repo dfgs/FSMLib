@@ -8,7 +8,7 @@ using FSMLib.Situations;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Common.Situations;
 
-namespace FSMLib.UnitTest.Situations
+namespace FSMLib.Common.UnitTest.Situations
 {
 	[TestClass]
 	public class SituationUnitTest

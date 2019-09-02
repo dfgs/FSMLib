@@ -5,7 +5,7 @@ using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FSMLib.UnitTest.AutomatonTables.Actions
+namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 {
 	[TestClass]
 	public class ReduceUnitTest

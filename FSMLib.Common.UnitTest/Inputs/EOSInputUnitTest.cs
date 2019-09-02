@@ -6,7 +6,7 @@ using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Inputs;
 
-namespace FSMLib.UnitTest.Inputs
+namespace FSMLib.Common.UnitTest.Inputs
 {
 	/// <summary>
 	/// Description résumée pour TerminalInputUnitTest

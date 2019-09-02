@@ -7,7 +7,7 @@ using FSMLib.Situations;
 using FSMLib.Common.Table;
 using FSMLib.Common.Situations;
 
-namespace FSMLib.UnitTest.AutomatonTables
+namespace FSMLib.Common.UnitTest.AutomatonTables
 {
 	[TestClass]
 	public class AutomatonTableTupleUnitTest

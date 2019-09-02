@@ -12,7 +12,7 @@ using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Common.Situations;
 using FSMLib.Common.Table;
 
-namespace FSMLib.UnitTest.Situations
+namespace FSMLib.Common.UnitTest.Situations
 {
 	
 	[TestClass]

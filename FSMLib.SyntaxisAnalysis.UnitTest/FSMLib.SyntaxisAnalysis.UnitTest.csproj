@@ -49,7 +49,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
+    <Compile Include="Predicates\AnyTerminalUnitTest.cs" />
+    <Compile Include="Predicates\EOSUnitTest.cs" />
+    <Compile Include="Predicates\NonTerminalUnitTest.cs" />
+    <Compile Include="Predicates\TerminalUnitTest.cs" />
     <Compile Include="TokenUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

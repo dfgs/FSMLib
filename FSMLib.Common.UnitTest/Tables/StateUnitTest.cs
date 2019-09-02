@@ -9,7 +9,7 @@ using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Table;
 using FSMLib.Common.Actions;
 
-namespace FSMLib.UnitTest.AutomatonTables
+namespace FSMLib.Common.UnitTest.AutomatonTables
 {
 	[TestClass]
 	public class StateUnitTest

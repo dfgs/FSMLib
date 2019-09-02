@@ -5,7 +5,7 @@ using FSMLib.Common;
 using FSMLib.Table;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FSMLib.UnitTest
+namespace FSMLib.Common.UnitTest
 {
 	[TestClass]
 	public class CollectionProcessorUnitTest

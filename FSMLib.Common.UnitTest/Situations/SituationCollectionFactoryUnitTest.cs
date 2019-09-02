@@ -13,7 +13,7 @@ using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.Common.Situations;
 using FSMLib.Common;
 
-namespace FSMLib.UnitTest.Situations
+namespace FSMLib.Common.UnitTest.Situations
 {
 	
 	[TestClass]
