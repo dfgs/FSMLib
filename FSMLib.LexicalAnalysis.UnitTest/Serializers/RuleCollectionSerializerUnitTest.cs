@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using FSMLib.Common;
-using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Helpers;
 using FSMLib.LexicalAnalysis.Serializers;
 using FSMLib.Rules;
 using FSMLib.Serializers;

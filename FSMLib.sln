@@ -7,21 +7,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib", "FSMLib\FSMLib.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{63EF32B9-611A-421A-8D75-CDEFB8AF1FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.Helpers", "FSMLib.Helpers\FSMLib.Helpers.csproj", "{B04991A3-F18D-44AE-9F1B-E136A8891E5B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.Helpers.UnitTest", "FSMLib.Helpers.UnitTest\FSMLib.Helpers.UnitTest.csproj", "{4BBF340D-0A36-4DFD-93DE-47FE209AB54A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.LexicalAnalysis", "FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj", "{9A2620C4-212B-4550-9461-BC60B0E5D7E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.LexicalAnalysis.UnitTest", "FSMLib.LexicalAnalysis.UnitTest\FSMLib.LexicalAnalysis.UnitTest.csproj", "{118A2F7B-7AC2-463D-845F-40CFE9FEF9F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxisAnalysis", "FSMLib.SyntaxisAnalysis\FSMLib.SyntaxisAnalysis.csproj", "{CE4F6AB3-3C53-4419-86F6-E89F23813DA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxicAnalysis", "FSMLib.SyntaxisAnalysis\FSMLib.SyntaxicAnalysis.csproj", "{CE4F6AB3-3C53-4419-86F6-E89F23813DA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxisAnalysis.UnitTest", "FSMLib.SyntaxisAnalysis.UnitTest\FSMLib.SyntaxisAnalysis.UnitTest.csproj", "{71BE68B0-E7BA-4F24-AE62-AA1B4D40BA2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxicAnalysis.UnitTest", "FSMLib.SyntaxisAnalysis.UnitTest\FSMLib.SyntaxicAnalysis.UnitTest.csproj", "{71BE68B0-E7BA-4F24-AE62-AA1B4D40BA2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.Common", "FSMLib.Common\FSMLib.Common.csproj", "{7E207AEB-52C7-4F97-93D3-6218F4F7C30E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.Common.UnitTest", "FSMLib.Common.UnitTest\FSMLib.Common.UnitTest.csproj", "{A2312F73-3251-4641-94FA-7EA28D835893}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.LexicalAnalysis.Helpers", "FSMLib.LexicalAnalysis.Helpers\FSMLib.LexicalAnalysis.Helpers.csproj", "{486EDC1D-65EB-4F13-8B34-D9C7B1D48557}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.LexicalAnalysis.Helpers.UnitTest", "FSMLib.LexicalAnalysis.Helpers.UnitTest\FSMLib.LexicalAnalysis.Helpers.UnitTest.csproj", "{3A505EBD-AB04-438D-92A7-B182E4653894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxicAnalysis.Helpers", "FSMLib.SyntaxicAnalysis.Helpers\FSMLib.SyntaxicAnalysis.Helpers.csproj", "{11EDA39D-3E8D-449C-917D-4D4B902559E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMLib.SyntaxicAnalysis.Helpers.UnitTest", "FSMLib.SyntaxicAnalysis.Helpers.UnitTest\FSMLib.SyntaxicAnalysis.Helpers.UnitTest.csproj", "{F2E8617B-1CFE-431C-A3F8-65FC726A1536}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +41,6 @@ Global
 		{63EF32B9-611A-421A-8D75-CDEFB8AF1FA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63EF32B9-611A-421A-8D75-CDEFB8AF1FA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63EF32B9-611A-421A-8D75-CDEFB8AF1FA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B04991A3-F18D-44AE-9F1B-E136A8891E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B04991A3-F18D-44AE-9F1B-E136A8891E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B04991A3-F18D-44AE-9F1B-E136A8891E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B04991A3-F18D-44AE-9F1B-E136A8891E5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BBF340D-0A36-4DFD-93DE-47FE209AB54A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BBF340D-0A36-4DFD-93DE-47FE209AB54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BBF340D-0A36-4DFD-93DE-47FE209AB54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BBF340D-0A36-4DFD-93DE-47FE209AB54A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A2620C4-212B-4550-9461-BC60B0E5D7E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A2620C4-212B-4550-9461-BC60B0E5D7E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A2620C4-212B-4550-9461-BC60B0E5D7E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,22 @@ Global
 		{A2312F73-3251-4641-94FA-7EA28D835893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2312F73-3251-4641-94FA-7EA28D835893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2312F73-3251-4641-94FA-7EA28D835893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{486EDC1D-65EB-4F13-8B34-D9C7B1D48557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{486EDC1D-65EB-4F13-8B34-D9C7B1D48557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{486EDC1D-65EB-4F13-8B34-D9C7B1D48557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{486EDC1D-65EB-4F13-8B34-D9C7B1D48557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A505EBD-AB04-438D-92A7-B182E4653894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A505EBD-AB04-438D-92A7-B182E4653894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A505EBD-AB04-438D-92A7-B182E4653894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A505EBD-AB04-438D-92A7-B182E4653894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11EDA39D-3E8D-449C-917D-4D4B902559E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11EDA39D-3E8D-449C-917D-4D4B902559E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11EDA39D-3E8D-449C-917D-4D4B902559E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11EDA39D-3E8D-449C-917D-4D4B902559E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E8617B-1CFE-431C-A3F8-65FC726A1536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2E8617B-1CFE-431C-A3F8-65FC726A1536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2E8617B-1CFE-431C-A3F8-65FC726A1536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2E8617B-1CFE-431C-A3F8-65FC726A1536}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

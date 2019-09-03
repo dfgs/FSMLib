@@ -1,7 +1,7 @@
 ﻿using FSMLib;
 using FSMLib.Table;
 using FSMLib.Actions;
-using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 

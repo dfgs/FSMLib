@@ -85,9 +85,9 @@
       <Project>{7e207aeb-52c7-4f97-93d3-6218f4f7c30e}</Project>
       <Name>FSMLib.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FSMLib.Helpers\FSMLib.Helpers.csproj">
-      <Project>{B04991A3-F18D-44AE-9F1B-E136A8891E5B}</Project>
-      <Name>FSMLib.Helpers</Name>
+    <ProjectReference Include="..\FSMLib.LexicalAnalysis.Helpers\FSMLib.LexicalAnalysis.Helpers.csproj">
+      <Project>{486edc1d-65eb-4f13-8b34-d9c7b1d48557}</Project>
+      <Name>FSMLib.LexicalAnalysis.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib.LexicalAnalysis\FSMLib.LexicalAnalysis.csproj">
       <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>

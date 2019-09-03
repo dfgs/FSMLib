@@ -1,6 +1,6 @@
 ﻿using FSMLib.Automatons;
 using FSMLib.Common.Automatons;
-using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Helpers;
 using FSMLib.LexicalAnalysis.Automatons;
 using FSMLib.Table;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

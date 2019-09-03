@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CE4F6AB3-3C53-4419-86F6-E89F23813DA6}</ProjectGuid>
+    <ProjectGuid>{11EDA39D-3E8D-449C-917D-4D4B902559E6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FSMLib.SyntaxisAnalysis</RootNamespace>
-    <AssemblyName>FSMLib.SyntaxisAnalysis</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>FSMLib.SyntaxicAnalysis.Helpers</RootNamespace>
+    <AssemblyName>FSMLib.SyntaxicAnalysis.Helpers</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sprache, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.2.0\lib\net45\Sprache.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,22 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automatons\Automaton.cs" />
-    <Compile Include="Inputs\AnyTerminalInput.cs" />
-    <Compile Include="Inputs\NonTerminalInput.cs" />
-    <Compile Include="Inputs\TerminalInput.cs" />
-    <Compile Include="Predicates\AnyTerminal.cs" />
-    <Compile Include="Predicates\EOS.cs" />
-    <Compile Include="Predicates\NonTerminal.cs" />
-    <Compile Include="Predicates\SyntaxicPredicate.cs" />
-    <Compile Include="Predicates\Terminal.cs" />
-    <Compile Include="Token.cs" />
+    <Compile Include="GraphHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleGrammar.cs" />
+    <Compile Include="RuleHelper.cs" />
+    <Compile Include="SituationCollectionFactoryHelper.cs" />
+    <Compile Include="SituationGraphHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
-      <Project>{7E207AEB-52C7-4F97-93D3-6218F4F7C30E}</Project>
+      <Project>{7e207aeb-52c7-4f97-93d3-6218f4f7c30e}</Project>
       <Name>FSMLib.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FSMLib.SyntaxisAnalysis\FSMLib.SyntaxicAnalysis.csproj">
+      <Project>{ce4f6ab3-3c53-4419-86f6-e89f23813da6}</Project>
+      <Name>FSMLib.SyntaxicAnalysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>

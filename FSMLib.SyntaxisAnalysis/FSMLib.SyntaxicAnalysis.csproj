@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE4F6AB3-3C53-4419-86F6-E89F23813DA6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FSMLib.SyntaxisAnalysis</RootNamespace>
+    <AssemblyName>FSMLib.SyntaxisAnalysis</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Automatons\Automaton.cs" />
+    <Compile Include="Inputs\AnyTerminalInput.cs" />
+    <Compile Include="Inputs\NonTerminalInput.cs" />
+    <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="Predicates\AnyTerminal.cs" />
+    <Compile Include="Predicates\EOS.cs" />
+    <Compile Include="Predicates\NonTerminal.cs" />
+    <Compile Include="Predicates\OneOrMore.cs" />
+    <Compile Include="Predicates\Optional.cs" />
+    <Compile Include="Predicates\Or.cs" />
+    <Compile Include="Predicates\Reduce.cs" />
+    <Compile Include="Predicates\Sequence.cs" />
+    <Compile Include="Predicates\SyntaxicPredicate.cs" />
+    <Compile Include="Predicates\Terminal.cs" />
+    <Compile Include="Predicates\ZeroOrMore.cs" />
+    <Compile Include="Rules\SyntaxicRule.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">
+      <Project>{7E207AEB-52C7-4F97-93D3-6218F4F7C30E}</Project>
+      <Name>FSMLib.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FSMLib\FSMLib.csproj">
+      <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
+      <Name>FSMLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

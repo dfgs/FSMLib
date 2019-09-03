@@ -9,7 +9,7 @@ using FSMLib.Common.UnitTest.Mocks;
 using FSMLib.Common.Table;
 using FSMLib.Common;
 using FSMLib.LexicalAnalysis.Rules;
-using FSMLib.Helpers;
+using FSMLib.LexicalAnalysis.Helpers;
 using FSMLib.LexicalAnalysis.Tables;
 using FSMLib.LexicalAnalysis.Inputs;
 using FSMLib.LexicalAnalysis.Predicates;
