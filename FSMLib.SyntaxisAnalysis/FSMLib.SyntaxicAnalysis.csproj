@@ -58,6 +58,7 @@
     <Compile Include="Predicates\Terminal.cs" />
     <Compile Include="Predicates\ZeroOrMore.cs" />
     <Compile Include="Rules\SyntaxicRule.cs" />
+    <Compile Include="Tables\DistinctInputFactory.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

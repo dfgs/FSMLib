@@ -22,11 +22,11 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			predicate.Items.Add(new Terminal(new Token("C","a")));
 			predicate.Items.Add(terminal);
 			predicate.Items.Add(new Terminal(new Token("C","a")));
-			Assert.AreEqual("(aaa)", predicate.ToString());
+			Assert.AreEqual("(<C,a><C,a><C,a>)", predicate.ToString());
 
 			predicate = new Sequence();
 			predicate.Items.Add(terminal);
-			Assert.AreEqual("a", predicate.ToString());
+			Assert.AreEqual("<C,a>", predicate.ToString());
 		}
 		[TestMethod]
 		public void ShouldConvertToStringWithBullet()
@@ -39,11 +39,11 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			predicate.Items.Add(new Terminal(new Token("C","a")));
 			predicate.Items.Add(terminal);
 			predicate.Items.Add(new Terminal(new Token("C","a")));
-			Assert.AreEqual("(a•aa)", predicate.ToString(terminal));
+			Assert.AreEqual("(<C,a>•<C,a><C,a>)", predicate.ToString(terminal));
 
 			predicate = new Sequence();
 			predicate.Items.Add(terminal);
-			Assert.AreEqual("•a", predicate.ToString(terminal));
+			Assert.AreEqual("•<C,a>", predicate.ToString(terminal));
 		}
 
 

@@ -42,6 +42,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers
 			from Class in (NormalChar.Or(EscapedChar)).AtLeastOnce().Text().Token()
 			from __ in Colon
 			from Value in (NormalChar.Or(EscapedChar)).AtLeastOnce().Text().Token()
+			from ___ in GreaterThan
 			select new Token(Class, Value);
 
 

@@ -22,7 +22,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			predicate = new Optional();
 			predicate.Item = terminal;
 
-			Assert.AreEqual("a?", predicate.ToString());
+			Assert.AreEqual("<C,a>?", predicate.ToString());
 
 			sequence = new Sequence();
 			sequence.Items.Add(new Terminal(new Token("C","a")));
@@ -30,7 +30,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			sequence.Items.Add(new Terminal(new Token("C","a")));
 			predicate = new Optional();
 			predicate.Item = sequence;
-			Assert.AreEqual("(aaa)?", predicate.ToString());
+			Assert.AreEqual("(<C,a><C,a><C,a>)?", predicate.ToString());
 
 		}
 		[TestMethod]
@@ -44,7 +44,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			predicate = new Optional();
 			predicate.Item = terminal;
 
-			Assert.AreEqual("•a?", predicate.ToString(terminal));
+			Assert.AreEqual("•<C,a>?", predicate.ToString(terminal));
 
 			sequence = new Sequence();
 			sequence.Items.Add(new Terminal(new Token("C","a")));
@@ -52,7 +52,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 			sequence.Items.Add(new Terminal(new Token("C","a")));
 			predicate = new Optional();
 			predicate.Item = sequence;
-			Assert.AreEqual("(a•aa)?", predicate.ToString(terminal));
+			Assert.AreEqual("(<C,a>•<C,a><C,a>)?", predicate.ToString(terminal));
 		}
 
 

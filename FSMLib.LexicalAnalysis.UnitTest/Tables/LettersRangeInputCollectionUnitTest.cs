@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.LexicalAnalysis.UnitTest.Table
+namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 {
 	[TestClass]
 	public class LettersRangeInputCollectionUnitTest

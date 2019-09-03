@@ -62,6 +62,7 @@
     <Compile Include="Predicates\TerminalUnitTest.cs" />
     <Compile Include="Predicates\ZeroOrMoreUnitTest.cs" />
     <Compile Include="Rules\RuleUnitTest.cs" />
+    <Compile Include="Tables\DistinctInputFactoryUnitTest.cs" />
     <Compile Include="TokenUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

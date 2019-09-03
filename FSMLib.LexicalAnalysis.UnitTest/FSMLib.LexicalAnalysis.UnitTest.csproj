@@ -69,8 +69,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\RuleUnitTest.cs" />
     <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
-    <Compile Include="Table\DistinctInputFactoryUnitTest.cs" />
-    <Compile Include="Table\LettersRangeInputCollectionUnitTest.cs" />
+    <Compile Include="Tables\DistinctInputFactoryUnitTest.cs" />
+    <Compile Include="Tables\LettersRangeInputCollectionUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -27,12 +27,14 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		public void ShouldParseTerminal()
 		{
 			Terminal result;
-			result = RuleGrammar.Terminal.Parse("a");
-			Assert.AreEqual('a', result.Value);
-			result = RuleGrammar.Terminal.Parse("1");
-			Assert.AreEqual('1', result.Value);
-			result = RuleGrammar.Terminal.Parse("-");
-			Assert.AreEqual('-', result.Value);
+			result = RuleGrammar.Terminal.Parse("<C,a>");
+			Assert.AreEqual(new Token("C", "a"), result.Value);
+			result = RuleGrammar.Terminal.Parse("<C,Abc>");
+			Assert.AreEqual(new Token("C", "Abc"), result.Value);
+			result = RuleGrammar.Terminal.Parse("<C,1>");
+			Assert.AreEqual(new Token("C", "1"), result.Value);
+			result = RuleGrammar.Terminal.Parse("<C,->");
+			Assert.AreEqual(new Token("C", "-"), result.Value);
 		}
 		
 
@@ -40,49 +42,49 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		public void ShouldParseTerminalFromEscapedChar()
 		{
 			Terminal result;
-			result = RuleGrammar.Terminal.Parse(@"\a");
-			Assert.AreEqual('a', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\{");
-			Assert.AreEqual('{', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\}");
-			Assert.AreEqual('}', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\<");
-			Assert.AreEqual('<', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\>");
-			Assert.AreEqual('>', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\[");
-			Assert.AreEqual('[', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\]");
-			Assert.AreEqual(']', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\.");
-			Assert.AreEqual('.', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\*");
-			Assert.AreEqual('*', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\?");
-			Assert.AreEqual('?', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\!");
-			Assert.AreEqual('!', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\;");
-			Assert.AreEqual(';', result.Value);
-			result = RuleGrammar.Terminal.Parse(@"\,");
-			Assert.AreEqual(',', result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<\C,\a>");
+			Assert.AreEqual(new Token("C", "a"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\{>");
+			Assert.AreEqual(new Token("C", "{"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\}>");
+			Assert.AreEqual(new Token("C", "}"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\<>");
+			Assert.AreEqual(new Token("C", "<"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\>>");
+			Assert.AreEqual(new Token("C", ">"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\[>");
+			Assert.AreEqual(new Token("C", "["), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\]>");
+			Assert.AreEqual(new Token("C", "]"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\.>");
+			Assert.AreEqual(new Token("C", "."), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\*>");
+			Assert.AreEqual(new Token("C", "*"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\?>");
+			Assert.AreEqual(new Token("C", "?"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\!>");
+			Assert.AreEqual(new Token("C", "!"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\;>");
+			Assert.AreEqual(new Token("C", ";"), result.Value);
+			result = RuleGrammar.Terminal.Parse(@"<C,\,>");
+			Assert.AreEqual(new Token("C", ","), result.Value);
 		}
 		[TestMethod]
 		public void ShouldNotParseSpecialCharactersAsLetter()
 		{
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("["));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("]"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(">"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("{"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("}"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(@"\"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("."));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("*"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("?"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("!"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(";"));
-			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(","));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,[>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,]>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,<>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,>>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,{>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,}>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse(@"<C,\>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,.>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,*>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,?>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,!>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,;>"));
+			Assert.ThrowsException<ParseException>(() => RuleGrammar.Terminal.Parse("<C,,>"));
 		}
 		[TestMethod]
 		public void ShouldParseReduce()
@@ -107,7 +109,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		{
 			Sequence result;
 
-			result = RuleGrammar.Sequence.Parse("abcd");
+			result = RuleGrammar.Sequence.Parse("<C,a><C,b><C,c><C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
@@ -115,34 +117,34 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
 
-			result = RuleGrammar.Sequence.Parse(@"ab\.d");
+			result = RuleGrammar.Sequence.Parse(@"<C,a><C,b><C,\.><C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Sequence.Parse(@"ab.d");
+			result = RuleGrammar.Sequence.Parse(@"<C,a><C,b>.<C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Sequence.Parse(@" b. "); // a space at begin and end
+			result = RuleGrammar.Sequence.Parse(@"<C,\ ><C,b>.<C,\ >"); // a space at begin and end
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Sequence.Parse(@"ab?d");
+			result = RuleGrammar.Sequence.Parse(@"<C,a><C,b>?<C,d>");
 			Assert.AreEqual(3, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Optional));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal));
 
-			result = RuleGrammar.Sequence.Parse(@"a*b?d+");
+			result = RuleGrammar.Sequence.Parse(@"<C,a>*<C,b>?<C,d>+");
 			Assert.AreEqual(3, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(ZeroOrMore));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Optional));
@@ -155,7 +157,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		public void ShouldParseOneOrMore()
 		{
 			OneOrMore result;
-			result = RuleGrammar.OneOrMore.Parse("a+");
+			result = RuleGrammar.OneOrMore.Parse("<C,a>+");
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal));
 			result = RuleGrammar.OneOrMore.Parse(".+");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal));
@@ -166,7 +168,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		public void ShouldParseZeroOrMore()
 		{
 			ZeroOrMore result;
-			result = RuleGrammar.ZeroOrMore.Parse("a*");
+			result = RuleGrammar.ZeroOrMore.Parse("<C,a>*");
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal));
 			result = RuleGrammar.ZeroOrMore.Parse(".*");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal));
@@ -177,7 +179,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		public void ShouldParseOptional()
 		{
 			Optional result;
-			result = RuleGrammar.Optional.Parse("a?");
+			result = RuleGrammar.Optional.Parse("<C,a>?");
 			Assert.IsInstanceOfType(result.Item, typeof(Terminal));
 			result = RuleGrammar.Optional.Parse(".?");
 			Assert.IsInstanceOfType(result.Item, typeof(AnyTerminal));
@@ -191,23 +193,23 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		{
 			IRule<Token> result;
 
-			result = RuleGrammar.NonAxiomRule.Parse("A=a;");
+			result = RuleGrammar.NonAxiomRule.Parse("A=<C,a>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.NonAxiomRule.Parse("A=a?;");
+			result = RuleGrammar.NonAxiomRule.Parse("A=<C,a>?;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.NonAxiomRule.Parse("A=abcd;");
+			result = RuleGrammar.NonAxiomRule.Parse("A=<C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.NonAxiomRule.Parse("A = abcd;");
+			result = RuleGrammar.NonAxiomRule.Parse(@"A =<C,\ ><C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.NonAxiomRule.Parse("ABC = abcd;");
+			result = RuleGrammar.NonAxiomRule.Parse("ABC =<C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.IsFalse(result.IsAxiom);
 			Assert.AreEqual("ABC", result.Name);
@@ -219,23 +221,23 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		{
 			IRule<Token> result;
 
-			result = RuleGrammar.AxiomRule.Parse("A*=a;");
+			result = RuleGrammar.AxiomRule.Parse("A*=<C,a>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.AxiomRule.Parse("A*=a?;");
+			result = RuleGrammar.AxiomRule.Parse("A*=<C,a>?;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.AxiomRule.Parse("A*=abcd;");
+			result = RuleGrammar.AxiomRule.Parse("A*=<C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.AxiomRule.Parse("A* = abcd;");
+			result = RuleGrammar.AxiomRule.Parse(@"A* =<C,\ ><C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.AxiomRule.Parse("ABC* = abcd;");
+			result = RuleGrammar.AxiomRule.Parse("ABC* =<C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
@@ -247,38 +249,27 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		{
 			IRule<Token> result;
 
-			result = RuleGrammar.Rule.Parse("A*=a;");
+			result = RuleGrammar.Rule.Parse("A*=<C,a>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A=a?;");
-			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
-			Assert.AreEqual("A", result.Name);
-			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A*=ab[c-d]d;");
-			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
-			Assert.AreEqual("A", result.Name);
-			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A = abcd;");
+			result = RuleGrammar.Rule.Parse("A=<C,a>?;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsFalse(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("ABC* = abcd;");
-			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
-			Assert.AreEqual("ABC", result.Name);
-			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("ABC* = a|b|[c-d]|d;");
-			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
-			Assert.AreEqual("ABC", result.Name);
-			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A*=a!bc;");
+			result = RuleGrammar.Rule.Parse("A*=<C,a><C,b><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
 			Assert.AreEqual("A", result.Name);
 			Assert.IsTrue(result.IsAxiom);
-			result = RuleGrammar.Rule.Parse("A*=a![b-d]c;");
+			result = RuleGrammar.Rule.Parse("ABC* =<C,a><C,b><C,c><C,d>;");
 			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
-			Assert.AreEqual("A", result.Name);
+			Assert.AreEqual("ABC", result.Name);
 			Assert.IsTrue(result.IsAxiom);
+			result = RuleGrammar.Rule.Parse("ABC* =<C,a>|<C,b>|<C,d>;");
+			Assert.IsInstanceOfType(result.Predicate, typeof(Sequence));
+			Assert.AreEqual("ABC", result.Name);
+			Assert.IsTrue(result.IsAxiom);
+	
 
 
 		}
@@ -287,35 +278,35 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 		{
 			Or result;
 
-			result = RuleGrammar.Or.Parse("a|b|c|d");
+			result = RuleGrammar.Or.Parse("<C,a>|<C,b>|<C,c>|<C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Or.Parse(@"a|b|\.|d");
+			result = RuleGrammar.Or.Parse(@"<C,a>|<C,b>|<C,\.>|<C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Or.Parse(@"a|b|.|d");
+			result = RuleGrammar.Or.Parse(@"<C,a>|<C,b>|.|<C,d>");
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Or.Parse(@" |b|.| "); // a space at begin and end
+			result = RuleGrammar.Or.Parse(@"<C,\ >|<C,b>|.|<C,\ >"); // a space at begin and end
 			Assert.AreEqual(4, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
-			result = RuleGrammar.Or.Parse("a|bcd|d");
+			result = RuleGrammar.Or.Parse("<C,a>|<C,b><C,c><C,d>|<C,d>");
 			Assert.AreEqual(3, result.Items.Count);
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Sequence));

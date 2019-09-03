@@ -109,8 +109,8 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Rules
 			SyntaxicRule rule1;
 			SyntaxicRule rule2;
 
-			rule1 = RuleHelper.BuildRule("A*=a;");
-			rule2 = RuleHelper.BuildRule("A*=a;");
+			rule1 = RuleHelper.BuildRule("A*=<C,a>;");
+			rule2 = RuleHelper.BuildRule("A*=<C,a>;");
 			Assert.IsTrue(rule1.Equals(rule2));
 		}
 		[TestMethod]
@@ -121,10 +121,10 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Rules
 			SyntaxicRule rule3;
 			SyntaxicRule rule4;
 
-			rule1 = RuleHelper.BuildRule("A*=a;");
-			rule2 = RuleHelper.BuildRule("A*=b;");
-			rule3 = RuleHelper.BuildRule("A=a;");
-			rule4 = RuleHelper.BuildRule("B*=a;");
+			rule1 = RuleHelper.BuildRule("A*=<C,a>;");
+			rule2 = RuleHelper.BuildRule("A*=<C,b>;");
+			rule3 = RuleHelper.BuildRule("A=<C,a>;");
+			rule4 = RuleHelper.BuildRule("B*=<C,a>;");
 
 			Assert.IsFalse(rule1.Equals(null));
 			Assert.IsFalse(rule1.Equals(rule2));
