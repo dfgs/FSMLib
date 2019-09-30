@@ -99,7 +99,7 @@ namespace Demo
 		private void CreateView(params string[] Rules)
 		{
 			CreateView(automatonTableFactory.BuildAutomatonTable(
-				SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), new DistinctInputFactory())
+				SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), new DistinctInputFactory(new FSMLib.LexicalAnalysis.RangeValueProvider()))
 				);
 		}
 		private void CreateView(IAutomatonTable<char> Model)

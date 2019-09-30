@@ -22,7 +22,7 @@ namespace FSMLib.LexicalAnalysis.Helpers
 			SituationCollectionFactory<char> situationCollectionFactory;
 			DistinctInputFactory distinctInputFactory;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			automatonTableFactory = new AutomatonTableFactory<char>( );
 			situationCollectionFactory = new SituationCollectionFactory<char>(SituationGraphHelper.BuildSituationGraph(Rules.Select(item => RuleHelper.BuildRule(item)).ToArray()));
 			automatonTable = automatonTableFactory.BuildAutomatonTable( situationCollectionFactory, distinctInputFactory);

@@ -53,6 +53,7 @@
     <Compile Include="Inputs\EOSInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="Tables\DistinctInputFactory.cs" />
     <Compile Include="TerminalRangeInputCollection.cs" />
     <Compile Include="ProcessingQueues\ProcessingQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

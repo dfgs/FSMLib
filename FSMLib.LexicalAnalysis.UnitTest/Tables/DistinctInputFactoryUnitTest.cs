@@ -15,6 +15,11 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 	[TestClass]
 	public class DistinctInputFactoryUnitTest
 	{
+		[TestMethod]
+		public void ShouldHaveValidConstructor()
+		{
+			Assert.ThrowsException<ArgumentNullException>(() => new DistinctInputFactory(null));
+		}
 
 		[TestMethod]
 
@@ -23,7 +28,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalInput('a'), new TerminalInput('a'), new TerminalInput('a') }).ToArray();
 
 			Assert.AreEqual(1, inputs.Length);
@@ -37,7 +42,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalInput('a'), new TerminalInput('a'), new TerminalInput('b') }).ToArray();
 
 			Assert.AreEqual(2, inputs.Length);
@@ -52,7 +57,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalInput('a'), new TerminalInput('b'), new TerminalInput('c') }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
@@ -66,7 +71,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new NonTerminalInput("A"), new NonTerminalInput("A"), new NonTerminalInput("A") }).ToArray();
 
 			Assert.AreEqual(1, inputs.Length);
@@ -78,7 +83,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new NonTerminalInput("A"), new NonTerminalInput("B"), new NonTerminalInput("C") }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
@@ -93,7 +98,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalRangeInput('a','d'), new TerminalRangeInput('c','f')}).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
@@ -110,7 +115,7 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<char>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalRangeInput('a', 'g'), new TerminalInput('c') }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
