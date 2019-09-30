@@ -74,5 +74,34 @@ namespace FSMLib.SyntaxisAnalysis.UnitTest
 		}
 
 
+		[TestMethod]
+		public void ShouldCompare()
+		{
+			Token a, b;
+
+			a = new Token("C", "a");
+			b = new Token("C", "b");
+			Assert.AreEqual(-1, a.CompareTo(b));
+			Assert.AreEqual(1, b.CompareTo(a));
+
+			a = new Token("C", "a");
+			b = new Token("C", "aa");
+			Assert.AreEqual(-1, a.CompareTo(b));
+			Assert.AreEqual(1, b.CompareTo(a));
+
+			a = new Token("C", "z");
+			b = new Token("C", "aa");
+			Assert.AreEqual(-1, a.CompareTo(b));
+			Assert.AreEqual(1, b.CompareTo(a));
+
+			a = new Token("B", "a");
+			b = new Token("C", "a");
+			Assert.AreEqual(-1, a.CompareTo(b));
+			Assert.AreEqual(1, b.CompareTo(a));
+		}
+
+
+
+
 	}
 }

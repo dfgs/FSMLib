@@ -24,7 +24,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<Token>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<Token>[] { new TerminalInput(new Token("C","a")), new TerminalInput(new Token("C","a")), new TerminalInput(new Token("C","a")) }).ToArray();
 
 			Assert.AreEqual(1, inputs.Length);
@@ -38,7 +38,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<Token>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<Token>[] { new TerminalInput(new Token("C","a")), new TerminalInput(new Token("C","a")), new TerminalInput(new Token("C", "b")) }).ToArray();
 
 			Assert.AreEqual(2, inputs.Length);
@@ -53,7 +53,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<Token>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<Token>[] { new TerminalInput(new Token("C","a")), new TerminalInput(new Token("C", "b")), new TerminalInput(new Token("C", "c")) }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
@@ -67,7 +67,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<Token>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<Token>[] { new NonTerminalInput("A"), new NonTerminalInput("A"), new NonTerminalInput("A") }).ToArray();
 
 			Assert.AreEqual(1, inputs.Length);
@@ -79,7 +79,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 			DistinctInputFactory distinctInputFactory;
 			IActionInput<Token>[] inputs;
 
-			distinctInputFactory = new DistinctInputFactory();
+			distinctInputFactory = new DistinctInputFactory(new RangeValueProvider());
 			inputs = distinctInputFactory.GetDistinctInputs(new IInput<Token>[] { new NonTerminalInput("A"), new NonTerminalInput("B"), new NonTerminalInput("C") }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);

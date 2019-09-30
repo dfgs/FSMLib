@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace FSMLib.SyntaxisAnalysis
 {
-    public struct Token:IEquatable<Token>
+    public struct Token:IEquatable<Token>,IComparable<Token>
     {
+		public static int MaxValueLength = 255;
+		public static string MaxStringValue = new string(char.MaxValue, MaxValueLength);
+		public static string MinStringValue = string.Empty;
+		public static Token MinValue = new Token(MinStringValue, MinStringValue);
+		public static Token MaxValue = new Token(MaxStringValue, MaxStringValue);
+
 		public string Class
 		{
 			get;
@@ -58,6 +64,33 @@ namespace FSMLib.SyntaxisAnalysis
 		{
 			return $"<{Class},{Value}>";
 		}
+
+		private int CompareString(string A,string B)
+		{
+			if (A.Length==B.Length)
+			{
+				for(int t=0;t<A.Length;t++)
+				{
+					if (A[t] == B[t]) continue;
+					if (A[t] > B[t]) return 1;
+					else return -1;
+				}
+				return 0;
+			}
+			if (A.Length > B.Length) return 1;
+			else return -1;
+		}
+
+		public int CompareTo(Token other)
+		{
+			if (other.Class==this.Class)
+			{
+				return CompareString(this.Value, other.Value);
+			}
+			return CompareString(this.Class, other.Class);
+		}
+
+
 
 	}
 }

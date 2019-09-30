@@ -43,9 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
-    <Compile Include="Inputs\AnyTerminalInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
+    <Compile Include="Inputs\TerminalRangeInput.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />
@@ -57,7 +57,9 @@
     <Compile Include="Predicates\SyntaxicPredicate.cs" />
     <Compile Include="Predicates\Terminal.cs" />
     <Compile Include="Predicates\ZeroOrMore.cs" />
+    <Compile Include="RangeValueProvider.cs" />
     <Compile Include="Rules\SyntaxicRule.cs" />
+    <Compile Include="StringIncrementer.cs" />
     <Compile Include="Tables\DistinctInputFactory.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
