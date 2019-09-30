@@ -32,18 +32,34 @@ namespace FSMLib.Common.UnitTest.Situations
 		[TestMethod]
 		public void ShouldCreateAxiomSituations()
 		{
+			Terminal a, b, c;
+			Sequence predicate;
+			SituationGraphFactory<char> situationGraphFactory;
+			ISituationGraph<char> graph;
 			ISituation<char>[] items;
+			LexicalRule rule1, rule2;
 			SituationCollectionFactory<char> factory;
 
-		
-			factory = new SituationCollectionFactory<char>(new MockedSituationGraph());
+			a = new Terminal('a');
+			b = new Terminal('b');
+			c = new Terminal('c');
+
+			predicate = new Sequence();
+			predicate.Items.Add(a);
+			predicate.Items.Add(b);
+			predicate.Items.Add(c);
+
+			rule1 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = true };
+			rule2 = new LexicalRule() { Name = "A", Predicate = predicate, IsAxiom = false };
+			situationGraphFactory = new SituationGraphFactory<char>(new SituationGraphSegmentFactory<char>());
+			graph = situationGraphFactory.BuildSituationGraph(new LexicalRule[] { rule1, rule2 });
+
+			factory = new SituationCollectionFactory<char>(graph);
 
 			items = factory.CreateAxiomSituations().ToArray();
-			Assert.Fail();
-			/*
-			Assert.AreEqual(1,items.Length);
+			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(rule1, items[0].Rule);
-			Assert.AreEqual(a, items[0].Predicate);//*/
+			Assert.AreEqual(a, items[0].Predicate);
 		}
 
 
@@ -137,7 +153,7 @@ namespace FSMLib.Common.UnitTest.Situations
 			Assert.AreEqual(c, items[0].Predicate);
 
 			situation = new Situation<char>(rule,b, new MockedReduceInput());
-			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalsRangeInput(char.MinValue,char.MaxValue)).ToArray();
+			items = factory.CreateNextSituations(situation.AsEnumerable(), new TerminalRangeInput(char.MinValue,char.MaxValue)).ToArray();
 			Assert.AreEqual(1, items.Length);
 			Assert.AreEqual(c, items[0].Predicate);
 

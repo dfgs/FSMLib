@@ -13,7 +13,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 	{
 		public IEnumerable<IInput<char>> GetInputs()
 		{
-			yield return new TerminalsRangeInput(char.MinValue,char.MaxValue);
+			yield return new TerminalRangeInput(char.MinValue,char.MaxValue);
 		}
 
 		public override string ToString()

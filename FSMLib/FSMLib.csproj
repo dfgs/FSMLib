@@ -46,6 +46,8 @@
     <Compile Include="Actions\IShift.cs" />
     <Compile Include="Automatons\IBaseNode.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
+    <Compile Include="Inputs\ITerminalRangeInput.cs" />
+    <Compile Include="IRangeValueProvider.cs" />
     <Compile Include="Inputs\IReduceInput.cs" />
     <Compile Include="Inputs\ITerminalInput.cs" />
     <Compile Include="Inputs\IActionInput.cs" />

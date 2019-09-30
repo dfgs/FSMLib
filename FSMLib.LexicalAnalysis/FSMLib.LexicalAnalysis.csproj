@@ -43,8 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
+    <Compile Include="RangeValueProvider.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
-    <Compile Include="Inputs\TerminalsRangeInput.cs" />
+    <Compile Include="Inputs\TerminalRangeInput.cs" />
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\EOS.cs" />
@@ -64,7 +65,6 @@
     <Compile Include="Rules\LexicalRule.cs" />
     <Compile Include="Serializers\RuleCollectionSerializer.cs" />
     <Compile Include="Tables\DistinctInputFactory.cs" />
-    <Compile Include="Tables\LettersRangeInputCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FSMLib.Common\FSMLib.Common.csproj">

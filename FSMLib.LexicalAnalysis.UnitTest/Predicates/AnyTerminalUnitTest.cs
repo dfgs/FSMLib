@@ -39,7 +39,7 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			Assert.IsInstanceOfType(inputs[0], typeof(TerminalsRangeInput));
+			Assert.IsInstanceOfType(inputs[0], typeof(TerminalRangeInput));
 		}
 	
 

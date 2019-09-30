@@ -94,15 +94,15 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			IActionInput<char>[] inputs;
 
 			distinctInputFactory = new DistinctInputFactory();
-			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalsRangeInput('a','d'), new TerminalsRangeInput('c','f')}).ToArray();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalRangeInput('a','d'), new TerminalRangeInput('c','f')}).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
-			Assert.AreEqual('a', ((TerminalsRangeInput)inputs[0]).FirstValue);
-			Assert.AreEqual('b', ((TerminalsRangeInput)inputs[0]).LastValue);
-			Assert.AreEqual('c', ((TerminalsRangeInput)inputs[1]).FirstValue);
-			Assert.AreEqual('d', ((TerminalsRangeInput)inputs[1]).LastValue);
-			Assert.AreEqual('e', ((TerminalsRangeInput)inputs[2]).FirstValue);
-			Assert.AreEqual('f', ((TerminalsRangeInput)inputs[2]).LastValue);
+			Assert.AreEqual('a', ((TerminalRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('b', ((TerminalRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('c', ((TerminalRangeInput)inputs[1]).FirstValue);
+			Assert.AreEqual('d', ((TerminalRangeInput)inputs[1]).LastValue);
+			Assert.AreEqual('e', ((TerminalRangeInput)inputs[2]).FirstValue);
+			Assert.AreEqual('f', ((TerminalRangeInput)inputs[2]).LastValue);
 		}
 		[TestMethod]
 		public void ShouldSplitLettersRangesUsingOneLetter()
@@ -111,14 +111,14 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			IActionInput<char>[] inputs;
 
 			distinctInputFactory = new DistinctInputFactory();
-			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalsRangeInput('a', 'g'), new TerminalInput('c') }).ToArray();
+			inputs = distinctInputFactory.GetDistinctInputs(new IInput<char>[] { new TerminalRangeInput('a', 'g'), new TerminalInput('c') }).ToArray();
 
 			Assert.AreEqual(3, inputs.Length);
-			Assert.AreEqual('a', ((TerminalsRangeInput)inputs[0]).FirstValue);
-			Assert.AreEqual('b', ((TerminalsRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('a', ((TerminalRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('b', ((TerminalRangeInput)inputs[0]).LastValue);
 			Assert.AreEqual('c', ((TerminalInput)inputs[1]).Value);
-			Assert.AreEqual('d', ((TerminalsRangeInput)inputs[2]).FirstValue);
-			Assert.AreEqual('g', ((TerminalsRangeInput)inputs[2]).LastValue);
+			Assert.AreEqual('d', ((TerminalRangeInput)inputs[2]).FirstValue);
+			Assert.AreEqual('g', ((TerminalRangeInput)inputs[2]).LastValue);
 		}
 		
 

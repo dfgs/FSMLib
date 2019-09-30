@@ -43,7 +43,7 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 
 			Assert.AreEqual(2, inputs.Length);
 			Assert.AreEqual(new Token("C","a"), ((ITerminalInput<Token>)inputs[0]).Value);
-			Assert.AreEqual('b', ((ITerminalInput<Token>)inputs[1]).Value);
+			Assert.AreEqual(new Token("C", "b"), ((ITerminalInput<Token>)inputs[1]).Value);
 		}
 
 
@@ -58,8 +58,8 @@ namespace FSMLib.SyntaxicAnalysis.UnitTest.Tables
 
 			Assert.AreEqual(3, inputs.Length);
 			Assert.AreEqual(new Token("C","a"), ((ITerminalInput<Token>)inputs[0]).Value);
-			Assert.AreEqual('b', ((ITerminalInput<Token>)inputs[1]).Value);
-			Assert.AreEqual('c', ((ITerminalInput<Token>)inputs[2]).Value);
+			Assert.AreEqual(new Token("C", "b"), ((ITerminalInput<Token>)inputs[1]).Value);
+			Assert.AreEqual(new Token("C", "c"), ((ITerminalInput<Token>)inputs[2]).Value);
 		}
 		[TestMethod]
 		public void ShouldGetDistinctOneNonTerminalInputs()

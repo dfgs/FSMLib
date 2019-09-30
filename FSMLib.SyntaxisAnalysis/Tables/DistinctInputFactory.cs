@@ -16,8 +16,20 @@ namespace FSMLib.SyntaxicAnalysis.Tables
 	{
 		public IEnumerable<IActionInput<Token>> GetDistinctInputs(IEnumerable<IInput<Token>> Inputs)
 		{
-			throw new NotImplementedException();
+			List<IActionInput<Token>> items;
+			IActionInput<Token> existing;
 
+			items = new List<IActionInput<Token>>();
+
+			foreach(IActionInput<Token> item in Inputs.OfType<IActionInput<Token>>())
+			{
+				existing = items.FirstOrDefault(i => i.Equals(item));
+				if (existing != null) continue;
+				items.Add(item);
+			}
+
+			return items;
 		}
+
 	}
 }

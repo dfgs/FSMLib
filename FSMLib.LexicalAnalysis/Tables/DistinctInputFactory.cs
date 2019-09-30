@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FSMLib;
 using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.Common;
 
 namespace FSMLib.LexicalAnalysis.Tables
 {
@@ -16,18 +17,18 @@ namespace FSMLib.LexicalAnalysis.Tables
 		public IEnumerable<IActionInput<char>> GetDistinctInputs(IEnumerable<IInput<char>> Inputs)
 		{
 			List<IActionInput<char>> results;
-			LettersRangeInputCollection items;
+			TerminalRangeInputCollection<char> items;
 
 			results = new List<IActionInput<char>>();
-			items = new LettersRangeInputCollection();
+			items = new TerminalRangeInputCollection<char>(new RangeValueProvider());
 			foreach(IInput<char> input in Inputs)
 			{
 				switch(input)
 				{
 					case TerminalInput letterInput:
-						items.Add(letterInput);
+						items.Add(letterInput.Value);
 						break;
-					case TerminalsRangeInput lettersRange:
+					case TerminalRangeInput lettersRange:
 						items.Add(lettersRange);
 						break;
 					case IActionInput<char> i:
@@ -37,7 +38,7 @@ namespace FSMLib.LexicalAnalysis.Tables
 			}
 
 			// return results, and convert one item ranges to single terminal
-			foreach (TerminalsRangeInput input in items)
+			foreach (TerminalRangeInput input in items)
 			{
 				if (input.FirstValue == input.LastValue) yield return new TerminalInput(input.FirstValue);
 				else yield return input;

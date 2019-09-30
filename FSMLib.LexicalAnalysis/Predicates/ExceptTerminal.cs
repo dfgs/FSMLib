@@ -31,12 +31,12 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public IEnumerable<IInput<char>> GetInputs()
 		{
-			if (Value == char.MinValue) yield return new TerminalsRangeInput((char)(char.MinValue + 1), char.MaxValue);
-			else if (Value == char.MaxValue) yield return new TerminalsRangeInput(char.MinValue, (char)(char.MaxValue - 1));
+			if (Value == char.MinValue) yield return new TerminalRangeInput((char)(char.MinValue + 1), char.MaxValue);
+			else if (Value == char.MaxValue) yield return new TerminalRangeInput(char.MinValue, (char)(char.MaxValue - 1));
 			else
 			{
-				yield return new TerminalsRangeInput(char.MinValue, (char)(Value - 1));
-				yield return new TerminalsRangeInput((char)(Value + 1),char.MaxValue);
+				yield return new TerminalRangeInput(char.MinValue, (char)(Value - 1));
+				yield return new TerminalRangeInput((char)(Value + 1),char.MaxValue);
 
 			}
 		}

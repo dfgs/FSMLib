@@ -41,10 +41,10 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(2, inputs.Length);
-			Assert.AreEqual(char.MinValue, ((TerminalsRangeInput)inputs[0]).FirstValue);
-			Assert.AreEqual('a', ((TerminalsRangeInput)inputs[0]).LastValue);
-			Assert.AreEqual('z', ((TerminalsRangeInput)inputs[1]).FirstValue);
-			Assert.AreEqual(char.MaxValue, ((TerminalsRangeInput)inputs[1]).LastValue);
+			Assert.AreEqual(char.MinValue, ((TerminalRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('a', ((TerminalRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('z', ((TerminalRangeInput)inputs[1]).FirstValue);
+			Assert.AreEqual(char.MaxValue, ((TerminalRangeInput)inputs[1]).LastValue);
 		}
 
 		[TestMethod]
@@ -57,8 +57,8 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			Assert.AreEqual('c', ((TerminalsRangeInput)inputs[0]).FirstValue);
-			Assert.AreEqual(char.MaxValue, ((TerminalsRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual('c', ((TerminalRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual(char.MaxValue, ((TerminalRangeInput)inputs[0]).LastValue);
 
 		}
 		[TestMethod]
@@ -71,8 +71,8 @@ namespace FSMLib.UnitTest.Predicates
 			inputs = predicate.GetInputs().ToArray();
 			Assert.IsNotNull(inputs);
 			Assert.AreEqual(1, inputs.Length);
-			Assert.AreEqual(char.MinValue, ((TerminalsRangeInput)inputs[0]).FirstValue);
-			Assert.AreEqual('a', ((TerminalsRangeInput)inputs[0]).LastValue);
+			Assert.AreEqual(char.MinValue, ((TerminalRangeInput)inputs[0]).FirstValue);
+			Assert.AreEqual('a', ((TerminalRangeInput)inputs[0]).LastValue);
 
 		}
 		[TestMethod]

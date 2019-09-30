@@ -50,9 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\AutomatonUnitTest.cs" />
+    <Compile Include="Inputs\RangeValueProvider.cs" />
     <Compile Include="Inputs\TerminalInputUnitTest.cs" />
     <Compile Include="Inputs\NonTerminalInputUnitTest.cs" />
-    <Compile Include="Inputs\TerminalsRangeInputUnitTest.cs" />
+    <Compile Include="Inputs\TerminalRangeInputUnitTest.cs" />
     <Compile Include="Predicates\AnyTerminalUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
     <Compile Include="Predicates\ExceptTerminalUnitTest.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="Rules\RuleUnitTest.cs" />
     <Compile Include="Serializers\RuleCollectionSerializerUnitTest.cs" />
     <Compile Include="Tables\DistinctInputFactoryUnitTest.cs" />
-    <Compile Include="Tables\LettersRangeInputCollectionUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

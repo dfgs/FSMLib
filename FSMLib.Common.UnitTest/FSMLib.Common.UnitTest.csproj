@@ -54,6 +54,7 @@
     <Compile Include="Automatons\BaseNodeUnitTest.cs" />
     <Compile Include="CollectionProcessorUnitTest.cs" />
     <Compile Include="Inputs\EOSInputUnitTest.cs" />
+    <Compile Include="TerminalRangeInputCollectionUnitTest.cs" />
     <Compile Include="Mocks\AutomatonTableParser.cs" />
     <Compile Include="Mocks\MockedSituationEdge.cs" />
     <Compile Include="Mocks\MockedPredicate2.cs" />

@@ -12,16 +12,16 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 	/// Description résumée pour LetterInputUnitTest
 	/// </summary>
 	[TestClass]
-	public class TerminalsRangeInputUnitTest
+	public class TerminalRangeInputUnitTest
 	{
 
 		[TestMethod]
 		public void ShoudEquals()
 		{
-			TerminalsRangeInput a, b;
+			TerminalRangeInput a, b;
 
-			a = new TerminalsRangeInput('a','z');
-			b = new TerminalsRangeInput('a', 'z');
+			a = new TerminalRangeInput('a','z');
+			b = new TerminalRangeInput('a', 'z');
 
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
@@ -30,10 +30,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShoudNotEquals()
 		{
-			TerminalsRangeInput a,b;
+			TerminalRangeInput a,b;
 
-			a = new TerminalsRangeInput('a', 'z');
-			b = new TerminalsRangeInput('b', 'z');
+			a = new TerminalRangeInput('a', 'z');
+			b = new TerminalRangeInput('b', 'z');
 
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(a.Equals(new NonTerminalInput("A")));
@@ -44,10 +44,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShouldMatch()
 		{
-			TerminalsRangeInput input;
+			TerminalRangeInput input;
 
 
-			input = new TerminalsRangeInput('a', 'c');
+			input = new TerminalRangeInput('a', 'c');
 
 			Assert.IsTrue(input.Match('a'));
 			Assert.IsTrue(input.Match('b'));
@@ -58,10 +58,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Inputs
 		[TestMethod]
 		public void ShouldNotMatch()
 		{
-			TerminalsRangeInput input;
+			TerminalRangeInput input;
 
 
-			input = new TerminalsRangeInput('a', 'c');
+			input = new TerminalRangeInput('a', 'c');
 
 			Assert.IsFalse(input.Match('d'));
 			Assert.IsFalse(input.Match(new TerminalInput('d')));

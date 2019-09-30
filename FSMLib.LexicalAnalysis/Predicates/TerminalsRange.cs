@@ -37,7 +37,7 @@ namespace FSMLib.LexicalAnalysis.Predicates
 
 		public IEnumerable<IInput<char>> GetInputs()
 		{
-			yield return new TerminalsRangeInput(this.FirstValue, this.LastValue );
+			yield return new TerminalRangeInput(this.FirstValue, this.LastValue );
 		}
 
 		public override string ToString()

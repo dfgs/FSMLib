@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.LexicalAnalysis.Inputs
 {
-	public class TerminalsRangeInput:IInput<char>, IReduceInput<char>
+	public class TerminalRangeInput:ITerminalRangeInput<char>
 	{
 		//private static Comparer<char> comparer = Comparer<char>.Default;
 		public char FirstValue
@@ -21,7 +21,7 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			set;
 		}
 
-		public TerminalsRangeInput(char FirstValue,char LastValue)
+		public TerminalRangeInput(char FirstValue,char LastValue)
 		{
 			this.FirstValue = FirstValue;this.LastValue = LastValue;
 		}
@@ -29,7 +29,7 @@ namespace FSMLib.LexicalAnalysis.Inputs
 		public  bool Equals(IInput<char> other)
 		{
 			if (other == null) return false;
-			if (other is TerminalsRangeInput o)
+			if (other is TerminalRangeInput o)
 			{
 				return o.FirstValue.Equals(this.FirstValue) && o.LastValue.Equals(this.LastValue);
 			}
@@ -48,7 +48,7 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			{
 				case TerminalInput terminal:
 					return (terminal.Value >= FirstValue) && (terminal.Value <= LastValue);
-				case TerminalsRangeInput range:
+				case TerminalRangeInput range:
 					return (range.FirstValue >= FirstValue) && (range.LastValue <= LastValue);
 				default: return false;
 			}
