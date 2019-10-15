@@ -193,12 +193,12 @@ namespace FSMLib.Common.Automatons
 
 				state = automatonTable.GetState(stateIndex);
 				action = state.GetReduce(eosInput);
-				if (action == null) throw new AutomatonException<T>(eosInput, nodeStack);
+				if (action == null) throw new AutomatonException<T>(null, nodeStack);
 
 				nonTerminalNode=Reduce(action.Name);
 				if (action.IsAxiom) return nonTerminalNode;
 
-				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(eosInput, nodeStack);
+				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(null, nodeStack);
 			}
 
 		}

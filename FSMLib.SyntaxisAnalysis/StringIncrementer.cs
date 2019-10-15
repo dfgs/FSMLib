@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.SyntaxisAnalysis
+namespace FSMLib.SyntaxicAnalysis
 {
 	public class StringIncrementer
 	{

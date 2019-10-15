@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FSMLib.SyntaxisAnalysis.UnitTest
+namespace FSMLib.SyntaxicAnalysis.UnitTest
 {
 	[TestClass]
 	public class TokenUnitTest

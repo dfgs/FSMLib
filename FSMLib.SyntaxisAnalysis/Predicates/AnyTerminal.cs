@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FSMLib.SyntaxisAnalysis;
-using FSMLib.SyntaxisAnalysis.Inputs;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FSMLib.SyntaxicAnalysis.Predicates
 {
@@ -15,7 +14,7 @@ namespace FSMLib.SyntaxicAnalysis.Predicates
 	{
 		public IEnumerable<IInput<Token>> GetInputs()
 		{
-			yield return new AnyTerminalInput();
+			yield return new TerminalRangeInput(Token.MinValue, Token.MaxValue);
 		}
 
 		public override string ToString()

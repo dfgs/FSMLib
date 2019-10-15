@@ -1,10 +1,8 @@
 ﻿using FSMLib;
 using FSMLib.Table;
 using FSMLib.Actions;
-using FSMLib.LexicalAnalysis.Helpers;
 using FSMLib.Predicates;
 using FSMLib.Rules;
-
 using Microsoft.Glee.Drawing;
 using System;
 using System.Collections.Generic;
@@ -36,7 +34,8 @@ namespace Demo
 	public partial class MainWindow : Window
 	{
 		private readonly ObservableCollection<GraphView> views;
-		private readonly AutomatonTableFactory<char> automatonTableFactory;
+		private readonly AutomatonTableFactory<char> lexicalAutomatonTableFactory;
+		private readonly AutomatonTableFactory<FSMLib.SyntaxicAnalysis.Token> syntaxicAutomatonTableFactory;
 
 		//private static char[] alphabet = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 's', 't', '*' };
 
@@ -44,65 +43,73 @@ namespace Demo
 		{
 			InitializeComponent();
 
-			automatonTableFactory = new AutomatonTableFactory<char>(  );
-
+			lexicalAutomatonTableFactory = new AutomatonTableFactory<char>();
+			syntaxicAutomatonTableFactory = new AutomatonTableFactory<FSMLib.SyntaxicAnalysis.Token>();
 	
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
-			CreateView(@"Symbol *=\[|\]|\{|\}|\.|\+|\*|\?|\||\;|\=|\!|\\;");
+			CreateSyntaxicView(@"A*=<C,a>;");
+				//@"A*=[a-c]e;",
+				//@"B*=[b-d]e;");
 
-			CreateView(@"Terminal =[a-z]|[A-Z];",
+
+			CreateLexicalView(@"Symbol *=\[|\]|\{|\}|\.|\+|\*|\?|\||\;|\=|\!|\\;");
+
+			CreateLexicalView(@"Terminal =[a-z]|[A-Z];",
 				@"NonAxiomRuleName={Terminal}+;",
 				@"AxiomRuleName={Terminal}+\*;",
 				@"RuleName*={NonAxiomRuleName}|{AxiomRuleName};");
 
 
-			CreateView("A*=ab{C}*;", "C=c;");
-			CreateView("A*=ab{B};", "B={C};", "C={D};", "D=c;");
-			CreateView("A*=a.c;", "B*=abc;");
+			CreateLexicalView("A*=ab{C}*;", "C=c;");
+			CreateLexicalView("A*=ab{B};", "B={C};", "C={D};", "D=c;");
+			CreateLexicalView("A*=a.c;", "B*=abc;");
 			
-			CreateView(
+			CreateLexicalView(
 				@"A*=[a-c]e;",
 				@"B*=[b-d]e;");
 
-			CreateView(
+			CreateLexicalView(
 			@"L=[a-b]|[c-d];",
 				@"N={L}+;",
 				@"A={L}+\*;",
 				@"R*={N}|{A};");
 
-			CreateView("A*=a{S}a;", "S={S}b;", "S=c;");
+			CreateLexicalView("A*=a{S}a;", "S={S}b;", "S=c;");
 
-			CreateView("A=abc;", "B=def;","E*={A}|{B};");
-			CreateView("A*=a{B}{C};", "B={C};", "C=b;");
-			CreateView("A*=a{BCD}e;", "BCD=b{C}d;", "C=c;");
+			CreateLexicalView("A=abc;", "B=def;","E*={A}|{B};");
+			CreateLexicalView("A*=a{B}{C};", "B={C};", "C=b;");
+			CreateLexicalView("A*=a{BCD}e;", "BCD=b{C}d;", "C=c;");
 
-			CreateView("A*=a{B}c;", "B={C};", "C=b;");
-			CreateView("A*=a{B}d;", "B=bc?;");
-			CreateView("A*=a{S}a;", "S={S}b;", "S=c;");
+			CreateLexicalView("A*=a{B}c;", "B={C};", "C=b;");
+			CreateLexicalView("A*=a{B}d;", "B=bc?;");
+			CreateLexicalView("A*=a{S}a;", "S={S}b;", "S=c;");
 
-			CreateView("A*=abcde;");
-			CreateView("A*=a{S}a;", "S=st;");
-			CreateView("A*=a{B}a;", "B=b{A}b;");//*/
+			CreateLexicalView("A*=abcde;");
+			CreateLexicalView("A*=a{S}a;", "S=st;");
+			CreateLexicalView("A*=a{B}a;", "B=b{A}b;");//*/
 
 
 
 		}
-		/*private void CreateView(LexicalPredicate Predicate)
-		{
-			LexicalRule rule;
 
-			rule = new LexicalRule() { Predicate = Predicate };
-			CreateView(automatonTableFactory.BuildAutomatonTable(SituationCollectionFactoryHelper.BuildSituationCollectionFactory(rule.AsEnumerable())));
-		}*/
-		private void CreateView(params string[] Rules)
+
+		private void CreateLexicalView(params string[] Rules)
 		{
-			CreateView(automatonTableFactory.BuildAutomatonTable(
-				SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select( item=>RuleHelper.BuildRule(item)) ), new DistinctInputFactory(new FSMLib.LexicalAnalysis.RangeValueProvider()))
+			CreateView(lexicalAutomatonTableFactory.BuildAutomatonTable(
+				FSMLib.LexicalAnalysis.Helpers.SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select(item => FSMLib.LexicalAnalysis.Helpers.RuleHelper.BuildRule(item))), new FSMLib.LexicalAnalysis.Tables.DistinctInputFactory(new FSMLib.LexicalAnalysis.RangeValueProvider()))
 				);
 		}
-		private void CreateView(IAutomatonTable<char> Model)
+		private void CreateSyntaxicView(params string[] Rules)
+		{
+			CreateView(syntaxicAutomatonTableFactory.BuildAutomatonTable(
+				FSMLib.SyntaxicAnalysis.Helpers.SituationCollectionFactoryHelper.BuildSituationCollectionFactory(Rules.Select(item => FSMLib.SyntaxicAnalysis.Helpers.RuleHelper.BuildRule(item))), new FSMLib.SyntaxicAnalysis.Tables.DistinctInputFactory(new FSMLib.SyntaxicAnalysis.RangeValueProvider()))
+				);
+		}
+
+
+		private void CreateView<T>(IAutomatonTable<T> Model)
 		{
 			GraphView view;
 

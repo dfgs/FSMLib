@@ -3,7 +3,7 @@ using FSMLib.Predicates;
 using FSMLib.Rules;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FFSMLib.SyntaxicAnalysis.UnitTest.Predicates
 {

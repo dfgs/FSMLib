@@ -4,7 +4,7 @@ using FSMLib.SyntaxicAnalysis.Rules;
 using FSMLib.Predicates;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FSMLib.SyntaxicAnalysis.UnitTest.Predicates
 {

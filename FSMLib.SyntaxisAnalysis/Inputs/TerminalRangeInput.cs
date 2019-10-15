@@ -1,5 +1,5 @@
 ﻿using FSMLib.Inputs;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +24,7 @@ namespace FSMLib.SyntaxicAnalysis.Inputs
 
 		public TerminalRangeInput(Token FirstValue,Token LastValue)
 		{
+			
 			this.FirstValue = FirstValue;this.LastValue = LastValue;
 		}
 

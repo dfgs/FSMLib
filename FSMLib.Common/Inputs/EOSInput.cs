@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Common.Inputs
 {
-	public class EOSInput<T>: ITerminalInput<T>
+	public class EOSInput<T>: IReduceInput<T>
 	{
-		public T Value
+		/*public T Value
 		{
 			get { return default(T); }
-		}
-		
+		}*/
+		//A changer ne devrait pas être terminal input
 		
 		public  bool Equals(IInput<T> other)
 		{

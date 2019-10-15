@@ -1,7 +1,7 @@
 ﻿using FSMLib.Common.Automatons;
 using FSMLib.Inputs;
 using FSMLib.SyntaxicAnalysis.Inputs;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 using FSMLib.Table;
 using System;
 using System.Collections.Generic;

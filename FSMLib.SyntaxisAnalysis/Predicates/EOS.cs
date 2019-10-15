@@ -8,7 +8,7 @@ using FSMLib.Inputs;
 using FSMLib.SyntaxicAnalysis.Inputs;
 using FSMLib.Predicates;
 using FSMLib.Rules;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FSMLib.SyntaxicAnalysis.Predicates
 {

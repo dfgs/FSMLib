@@ -1,7 +1,7 @@
 ﻿using FSMLib.Common.Inputs;
 using FSMLib.Inputs;
 using FSMLib.Predicates;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;

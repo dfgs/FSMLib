@@ -5,7 +5,7 @@ using Sprache;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using FSMLib.SyntaxicAnalysis.Predicates;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 {

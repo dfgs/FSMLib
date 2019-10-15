@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FSMLib.SyntaxisAnalysis
+namespace FSMLib.SyntaxicAnalysis
 {
     public struct Token:IEquatable<Token>,IComparable<Token>
     {
@@ -23,6 +23,7 @@ namespace FSMLib.SyntaxisAnalysis
 			get;
 		}
 
+		
 		public Token(string Class,string Value)
 		{
 			if (Class == null) throw new ArgumentNullException("Class");

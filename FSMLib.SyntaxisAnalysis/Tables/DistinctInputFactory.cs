@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FSMLib;
 using FSMLib.SyntaxicAnalysis.Predicates;
 using FSMLib.SyntaxicAnalysis.Inputs;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 using FSMLib.Common.Tables;
 
 namespace FSMLib.SyntaxicAnalysis.Tables

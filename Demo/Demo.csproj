@@ -124,6 +124,14 @@
       <Project>{9A2620C4-212B-4550-9461-BC60B0E5D7E4}</Project>
       <Name>FSMLib.LexicalAnalysis</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FSMLib.SyntaxicAnalysis.Helpers\FSMLib.SyntaxicAnalysis.Helpers.csproj">
+      <Project>{11eda39d-3e8d-449c-917d-4d4b902559e6}</Project>
+      <Name>FSMLib.SyntaxicAnalysis.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FSMLib.SyntaxisAnalysis\FSMLib.SyntaxicAnalysis.csproj">
+      <Project>{ce4f6ab3-3c53-4419-86f6-e89f23813da6}</Project>
+      <Name>FSMLib.SyntaxicAnalysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FSMLib\FSMLib.csproj">
       <Project>{08761872-dd75-4351-b6c1-8b30cb694eee}</Project>
       <Name>FSMLib</Name>

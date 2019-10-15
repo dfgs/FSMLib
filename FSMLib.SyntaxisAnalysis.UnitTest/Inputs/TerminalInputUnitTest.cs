@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using FSMLib.Inputs;
 using FSMLib.SyntaxicAnalysis.Inputs;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 using FSMLib.Common.Inputs;
 
 namespace FSMLib.SyntaxicAnalysis.UnitTest.Inputs

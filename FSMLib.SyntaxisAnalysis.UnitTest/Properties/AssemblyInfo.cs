@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("FSMLib.SyntaxisAnalysis.UnitTest")]
+[assembly: AssemblyTitle("FSMLib.SyntaxicAnalysis.UnitTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FSMLib.SyntaxisAnalysis.UnitTest")]
+[assembly: AssemblyProduct("FSMLib.SyntaxicAnalysis.UnitTest")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

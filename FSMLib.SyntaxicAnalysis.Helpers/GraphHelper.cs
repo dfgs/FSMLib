@@ -10,7 +10,7 @@ using FSMLib.Situations;
 using FSMLib.SyntaxicAnalysis.Tables;
 using FSMLib.Common.Table;
 using FSMLib.Common.Situations;
-using FSMLib.SyntaxisAnalysis;
+using FSMLib.SyntaxicAnalysis;
 
 namespace FSMLib.SyntaxicAnalysis.Helpers
 {
