@@ -67,8 +67,14 @@ namespace FSMLib.SyntaxicAnalysis.Helpers
 			from _ in Dot
 			select new AnyTerminal();
 
+		public static readonly Parser<AnyClassTerminal> AnyClassTerminal =
+			from _ in LowerThan
+			from Class in (NormalChar.Or(EscapedChar).Except(GreaterThan)).AtLeastOnce().Text().Token()
+			from __ in GreaterThan
+			select new AnyClassTerminal(Class);
+
 		private static readonly Parser<SyntaxicPredicate> SmallestPredicate =
-			Terminal.Or<SyntaxicPredicate>(AnyTerminal)
+			Terminal.Or<SyntaxicPredicate>(AnyTerminal).Or<SyntaxicPredicate>(AnyClassTerminal)
 			.Or<SyntaxicPredicate>(NonTerminal);
 
 
@@ -88,7 +94,7 @@ namespace FSMLib.SyntaxicAnalysis.Helpers
 			select new Optional() { Item = value };
 
 		public static readonly Parser<SyntaxicPredicate> SinglePredicate =
-			Optional.Or<SyntaxicPredicate>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(NonTerminal);
+			Optional.Or<SyntaxicPredicate>(ZeroOrMore).Or(OneOrMore).Or(Terminal).Or(AnyTerminal).Or(AnyClassTerminal).Or(NonTerminal);
 
 		public static readonly Parser<Sequence> Sequence =
 			from firstItem in SinglePredicate

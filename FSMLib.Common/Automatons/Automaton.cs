@@ -196,7 +196,7 @@ namespace FSMLib.Common.Automatons
 				if (action == null) throw new AutomatonException<T>(null, nodeStack);
 
 				nonTerminalNode=Reduce(action.Name);
-				if (action.IsAxiom) return nonTerminalNode;
+				if ((action.IsAxiom) && (this.StackCount==0)) return nonTerminalNode;
 
 				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(null, nodeStack);
 			}

@@ -46,6 +46,7 @@
     <Compile Include="Inputs\NonTerminalInput.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
     <Compile Include="Inputs\TerminalRangeInput.cs" />
+    <Compile Include="Predicates\AnyClassTerminal.cs" />
     <Compile Include="Predicates\AnyTerminal.cs" />
     <Compile Include="Predicates\EOS.cs" />
     <Compile Include="Predicates\NonTerminal.cs" />

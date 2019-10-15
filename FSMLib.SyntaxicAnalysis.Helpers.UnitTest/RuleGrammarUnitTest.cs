@@ -100,9 +100,26 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 			result = RuleGrammar.AnyTerminal.Parse(".");
 			Assert.IsNotNull(result);
 		}
+		[TestMethod]
+		public void ShouldParseAnyClassTerminal()
+		{
+			AnyClassTerminal result;
+			result = RuleGrammar.AnyClassTerminal.Parse("<C>");
+			Assert.IsNotNull(result);
+			Assert.AreEqual("C", result.Class);
+			result = RuleGrammar.AnyClassTerminal.Parse("<Class>");
+			Assert.IsNotNull(result);
+			Assert.AreEqual("Class", result.Class);
+			result = RuleGrammar.AnyClassTerminal.Parse(@"<C\c>");
+			Assert.IsNotNull(result);
+			Assert.AreEqual("Cc", result.Class);
+			result = RuleGrammar.AnyClassTerminal.Parse(@"<C\>>");
+			Assert.IsNotNull(result);
+			Assert.AreEqual("C>", result.Class);
+		}
 
-	
-	
+
+
 
 		[TestMethod]
 		public void ShouldParseSequence()
@@ -297,6 +314,13 @@ namespace FSMLib.SyntaxicAnalysis.Helpers.UnitTest
 			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
 			Assert.IsInstanceOfType(result.Items[2], typeof(AnyTerminal));
+			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
+
+			result = RuleGrammar.Or.Parse(@"<C,a>|<C,b>|<C>|<C,d>");
+			Assert.AreEqual(4, result.Items.Count);
+			Assert.IsInstanceOfType(result.Items[0], typeof(Terminal));
+			Assert.IsInstanceOfType(result.Items[1], typeof(Terminal));
+			Assert.IsInstanceOfType(result.Items[2], typeof(AnyClassTerminal));
 			Assert.IsInstanceOfType(result.Items[3], typeof(Terminal));
 
 			result = RuleGrammar.Or.Parse(@"<C,\ >|<C,b>|.|<C,\ >"); // a space at begin and end
