@@ -49,12 +49,17 @@ namespace Demo
 			views = new ObservableCollection<GraphView>();
 			tabControl.ItemsSource = views;
 
-			CreateLexicalView(@"Symbol*=\.;",
+			CreateLexicalView(@"S*=\$;",
+				@"E=\\$;",
+				@"NE=a;",
+				@"L*={NE}|{E};",
+				@"S*={L}+;");
+
+			/*@"Symbol*=\[|\]|\{|\}|\.|\+|\*|\?|\||\;|\=|\!|\\;",
 				@"EscapedChar=\\.;",
-				@"NonEscapedChar=a;",
+				@"NonEscapedChar=!\[|!\]|!\{|!\}|!\.|!\+|!\*|!\?|!\||!\;|!\=|!\!|!\\;",
 				@"Letter*={NonEscapedChar}|{EscapedChar};",
-				@"String*={Letter}+;");
-	
+				@"String*={Letter}+;",*/
 
 			CreateSyntaxicView(@"A*=<C,a>;");
 				//@"A*=[a-c]e;",

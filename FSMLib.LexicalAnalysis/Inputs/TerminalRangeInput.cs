@@ -59,8 +59,12 @@ namespace FSMLib.LexicalAnalysis.Inputs
 			if ((FirstValue == char.MinValue) && (LastValue == char.MaxValue)) return ".";
 			return $"[{FirstValue}-{LastValue}]";
 		}
+		public string ToStringNumerical()
+		{
+			if ((FirstValue == char.MinValue) && (LastValue == char.MaxValue)) return ".";
+			return $"[{(int)FirstValue}-{(int)LastValue}]";
+		}
 
-		
 
 	}
 }

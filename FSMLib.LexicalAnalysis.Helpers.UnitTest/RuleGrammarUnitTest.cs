@@ -121,6 +121,24 @@ namespace FSMLib.LexicalAnalysis.Helpers.UnitTest
 			Assert.AreEqual('{', result.FirstValue);
 			Assert.AreEqual('}', result.LastValue);
 		}
+		[TestMethod]
+		public void ShouldParseExceptLettersList()
+		{
+			ExceptTerminalsList result;
+			result = RuleGrammar.ExceptLettersList.Parse("![a,z]");
+			Assert.AreEqual(2, result.Values.Count);
+			Assert.IsTrue(result.Values.Contains('a'));
+			Assert.IsTrue(result.Values.Contains('z'));
+			result = RuleGrammar.ExceptLettersList.Parse(@"![\[,\]]");
+			Assert.AreEqual(2, result.Values.Count);
+			Assert.IsTrue(result.Values.Contains('['));
+			Assert.IsTrue(result.Values.Contains(']'));
+			result = RuleGrammar.ExceptLettersList.Parse(@"![\{,\}]");
+			Assert.AreEqual(2, result.Values.Count);
+			Assert.IsTrue(result.Values.Contains('{'));
+			Assert.IsTrue(result.Values.Contains('}'));
+
+		}
 
 		[TestMethod]
 		public void ShouldParseSequence()

@@ -71,6 +71,21 @@ namespace FSMLib.LexicalAnalysis.Helpers
 			from close in CloseBracket
 			select new ExceptTerminalsRange(FirstItem, LastItem);
 
+		private static readonly Parser<Terminal> LetterListItem =
+			from _ in Parse.Char(',')
+			from value in Letter
+			select value;
+
+		public static readonly Parser<ExceptTerminalsList> ExceptLettersList =
+			from _ in ExclamationMark
+			from open in OpenBracket
+			from firstLetter in Letter
+			from otherLetters in LetterListItem.AtLeastOnce()
+			from close in CloseBracket
+			select new ExceptTerminalsList() { Values = new List<char>( firstLetter.Value.AsEnumerable().Concat(otherLetters.Select(item=>item.Value)))  };
+
+
+
 		public static readonly Parser<AnyTerminal> AnyLetter =
 			from _ in Dot
 			select new AnyTerminal();
@@ -81,6 +96,7 @@ namespace FSMLib.LexicalAnalysis.Helpers
 			.Or<LexicalPredicate>(AnyLetter)
 			.Or<LexicalPredicate>(NonTerminal)
 			.Or<LexicalPredicate>(ExceptLettersRange)
+			.Or<LexicalPredicate>(ExceptLettersList)
 			.Or<LexicalPredicate>(LettersRange);
 
 
@@ -100,7 +116,7 @@ namespace FSMLib.LexicalAnalysis.Helpers
 			select new Optional() { Item = value };
 
 		public static readonly Parser<LexicalPredicate> SinglePredicate =
-			Optional.Or<LexicalPredicate>(ZeroOrMore).Or(OneOrMore).Or(Letter).Or(ExceptLetter).Or(AnyLetter).Or(NonTerminal).Or(ExceptLettersRange).Or(LettersRange);
+			Optional.Or<LexicalPredicate>(ZeroOrMore).Or(OneOrMore).Or(Letter).Or(ExceptLetter).Or(AnyLetter).Or(NonTerminal).Or(ExceptLettersRange).Or(ExceptLettersList).Or(LettersRange);
 
 		public static readonly Parser<Sequence> Sequence =
 			from firstItem in SinglePredicate
@@ -112,6 +128,7 @@ namespace FSMLib.LexicalAnalysis.Helpers
 			from _ in Pipe
 			from value in  Sequence.Or(SinglePredicate)
 			select value;
+
 		public static readonly Parser<Or> Or =
 			from firstPredicate in Sequence.Or(SinglePredicate)
 			from otherPredicates in OrItem.AtLeastOnce()

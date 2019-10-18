@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Automatons\Automaton.cs" />
+    <Compile Include="CharExtensionMethods.cs" />
+    <Compile Include="Predicates\ExceptTerminalsList.cs" />
     <Compile Include="RangeValueProvider.cs" />
     <Compile Include="Inputs\TerminalInput.cs" />
     <Compile Include="Inputs\TerminalRangeInput.cs" />

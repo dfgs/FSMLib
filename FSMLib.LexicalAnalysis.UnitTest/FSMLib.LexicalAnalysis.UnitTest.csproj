@@ -56,6 +56,7 @@
     <Compile Include="Inputs\TerminalRangeInputUnitTest.cs" />
     <Compile Include="Predicates\AnyTerminalUnitTest.cs" />
     <Compile Include="Predicates\EOSUnitTest.cs" />
+    <Compile Include="Predicates\ExceptTerminalsListUnitTest.cs" />
     <Compile Include="Predicates\ExceptTerminalUnitTest.cs" />
     <Compile Include="Predicates\ExceptTerminalsRangeUnitTest.cs" />
     <Compile Include="Predicates\NonTerminalUnitTest.cs" />

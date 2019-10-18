@@ -1,5 +1,6 @@
 ﻿using FSMLib.Inputs;
 using FSMLib.LexicalAnalysis.Inputs;
+using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.LexicalAnalysis.Tables;
 using FSMLib.Rules;
 using FSMLib.Situations;
@@ -125,7 +126,10 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Tables
 			Assert.AreEqual('d', ((TerminalRangeInput)inputs[2]).FirstValue);
 			Assert.AreEqual('g', ((TerminalRangeInput)inputs[2]).LastValue);
 		}
+
 		
+
+
 
 
 	}
