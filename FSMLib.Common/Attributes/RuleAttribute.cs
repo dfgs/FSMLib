@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.Common.Attributes
 {
-	[Serializable,XmlInclude(typeof(IgnoreTerminalAttribute))]
+	[Serializable,XmlInclude(typeof(IgnoreNodeAttribute)), XmlInclude(typeof(DeserializerAttribute)), XmlInclude(typeof(DeserializeAsAttribute))]
 	public abstract class RuleAttribute:IRuleAttribute
 	{
 	}

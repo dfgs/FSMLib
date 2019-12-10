@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace FSMLib.Common.Attributes
 {
-	public class DeserializerAttribute:RuleAttribute
+	public class DeserializeAsAttribute:RuleAttribute
 	{
 		[XmlIgnore]
 		public Type Value

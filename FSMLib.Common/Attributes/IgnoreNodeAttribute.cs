@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FSMLib.Common.Attributes
 {
-	public class IgnoreTerminalAttribute:RuleAttribute
+	public class IgnoreNodeAttribute:RuleAttribute
 	{
 	}
 }

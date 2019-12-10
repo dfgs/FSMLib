@@ -133,9 +133,9 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Serializers
 			MemoryStream stream;
 
 			r1 = RuleHelper.BuildRule("A*=a;");
-			r1.Attributes.Add(new IgnoreTerminalAttribute());
+			r1.Attributes.Add(new IgnoreNodeAttribute());
 			r2 = RuleHelper.BuildRule("B=b;");
-			r2.Attributes.Add(new IgnoreTerminalAttribute());
+			r2.Attributes.Add(new DeserializerAttribute() {Value=typeof(LexicalRule) } );
 			rules = new List<IRule<char>>();
 			rules.Add(r1);
 			rules.Add(r2);
@@ -151,8 +151,8 @@ namespace FSMLib.LexicalAnalysis.UnitTest.Serializers
 
 			Assert.AreEqual(2, results.Length);
 			Assert.IsTrue(rules.IsIndenticalToEx(results));
-			Assert.IsTrue(results[0].Attributes.First() is IgnoreTerminalAttribute);
-			Assert.IsTrue(results[1].Attributes.First() is IgnoreTerminalAttribute);
+			Assert.IsTrue(results[0].Attributes.First() is IgnoreNodeAttribute);
+			Assert.IsTrue(results[1].Attributes.First() is DeserializerAttribute);
 		}
 
 
