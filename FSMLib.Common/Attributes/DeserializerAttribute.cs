@@ -23,6 +23,14 @@ namespace FSMLib.Common.Attributes
 			set { Value = Type.GetType(value); }
 		}
 
+		public DeserializerAttribute()
+		{
+		}
+		public DeserializerAttribute(Type Value)
+		{
+			this.Value = Value;
+		}
+
 
 	}
 }

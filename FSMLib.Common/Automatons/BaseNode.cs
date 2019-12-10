@@ -26,6 +26,6 @@ namespace FSMLib.Common.Automatons
 		{
 			Attributes = new List<IRuleAttribute>();
 		}
-		//public abstract IEnumerable<ITerminalInput<T>> EnumerateInputs();
+		public abstract IEnumerable<ITerminalInput<T>> EnumerateInputs();
 	}
 }

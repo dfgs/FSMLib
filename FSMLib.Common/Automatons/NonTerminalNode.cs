@@ -36,11 +36,11 @@ namespace FSMLib.Common.Automatons
 			this.Nodes = new List<IBaseNode<T>>();
 			this.Input = Input;
 		}
-		/*public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
+		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
 		{
 			if (Nodes == null) return Enumerable.Empty<ITerminalInput<T>>();
 			return Nodes.SelectMany((item) => item.EnumerateInputs());
-		}*/
+		}
 		public override string ToString()
 		{
 			return Input.ToString();

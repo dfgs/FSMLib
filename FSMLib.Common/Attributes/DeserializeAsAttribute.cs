@@ -22,6 +22,13 @@ namespace FSMLib.Common.Attributes
 			get { return Value?.FullName; }
 			set { Value = Type.GetType(value); }
 		}
+		public DeserializeAsAttribute()
+		{
+		}
+		public DeserializeAsAttribute(Type Value)
+		{
+			this.Value = Value;
+		}
 
 
 	}

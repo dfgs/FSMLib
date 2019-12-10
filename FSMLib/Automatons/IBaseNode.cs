@@ -14,6 +14,6 @@ namespace FSMLib.Automatons
 		{
 			get;
 		}
-		//IEnumerable<ITerminalInput<T>> EnumerateInputs();
+		IEnumerable<ITerminalInput<T>> EnumerateInputs();
 	}
 }
