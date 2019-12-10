@@ -30,7 +30,7 @@ namespace FSMLib.Common.Table
 
 			foreach (Situation<T> situation in Situations.GetReductionSituations())
 			{
-				reduce = new Reduce<T>(situation.Rule.Name, situation.Rule.IsAxiom, situation.Input);
+				reduce = new Reduce<T>(situation.Rule.Name, situation.Rule.IsAxiom, situation.Input,situation.Rule.Attributes);
 
 				State.Add(reduce);
 			}

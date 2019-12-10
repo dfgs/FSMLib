@@ -1,4 +1,6 @@
-﻿using FSMLib.LexicalAnalysis.Predicates;
+﻿using FSMLib.Attributes;
+using FSMLib.Common.Attributes;
+using FSMLib.LexicalAnalysis.Predicates;
 using FSMLib.Predicates;
 using FSMLib.Rules;
 using System;
@@ -27,6 +29,19 @@ namespace FSMLib.LexicalAnalysis.Rules
 		}
 
 		[XmlIgnore]
+		IEnumerable<IRuleAttribute> IRule<char>.Attributes
+		{
+			get => Attributes;
+		}
+
+		[XmlArray]
+		public List<RuleAttribute> Attributes
+		{
+			get;
+			set;
+		}
+
+		[XmlIgnore]
 		IPredicate<char> IRule<char>.Predicate => Predicate;
 
 		public LexicalPredicate Predicate
@@ -35,7 +50,10 @@ namespace FSMLib.LexicalAnalysis.Rules
 			set;
 		}
 
-
+		public LexicalRule()
+		{
+			Attributes = new List<RuleAttribute>();
+		}
 
 		public override string ToString()
 		{

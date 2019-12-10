@@ -1,4 +1,5 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Attributes;
+using FSMLib.Predicates;
 using FSMLib.Rules;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace FSMLib.Common.UnitTest.Mocks
 
 		private static MockedPredicate predicate = new MockedPredicate();
 		public IPredicate<char> Predicate => predicate;
+
+		public IEnumerable<IRuleAttribute> Attributes => throw new NotImplementedException();
 
 		public bool Equals(IRule<char> other)
 		{

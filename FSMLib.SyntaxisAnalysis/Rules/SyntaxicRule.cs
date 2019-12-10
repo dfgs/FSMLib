@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using FSMLib.SyntaxicAnalysis;
+using FSMLib.Attributes;
+using FSMLib.Common.Attributes;
 
 namespace FSMLib.SyntaxicAnalysis.Rules
 {
@@ -28,6 +30,19 @@ namespace FSMLib.SyntaxicAnalysis.Rules
 		}
 
 		[XmlIgnore]
+		IEnumerable<IRuleAttribute> IRule<Token>.Attributes
+		{
+			get => Attributes;
+		}
+
+		[XmlArray]
+		public List<RuleAttribute> Attributes
+		{
+			get;
+			set;
+		}
+
+		[XmlIgnore]
 		IPredicate<Token> IRule<Token>.Predicate => Predicate;
 
 		public SyntaxicPredicate Predicate
@@ -36,7 +51,10 @@ namespace FSMLib.SyntaxicAnalysis.Rules
 			set;
 		}
 
-
+		public SyntaxicRule()
+		{
+			Attributes = new List<RuleAttribute>();
+		}
 
 		public override string ToString()
 		{

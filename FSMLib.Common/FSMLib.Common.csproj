@@ -44,6 +44,9 @@
   <ItemGroup>
     <Compile Include="Actions\Reduce.cs" />
     <Compile Include="Actions\Shift.cs" />
+    <Compile Include="Attributes\DeserializerAttribute.cs" />
+    <Compile Include="Attributes\RuleAttribute.cs" />
+    <Compile Include="Attributes\IgnoreTerminalAttribute.cs" />
     <Compile Include="Automatons\Automaton.cs" />
     <Compile Include="Automatons\AutomatonException.cs" />
     <Compile Include="Automatons\BaseNode.cs" />

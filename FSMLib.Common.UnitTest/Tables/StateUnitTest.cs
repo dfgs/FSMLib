@@ -33,7 +33,7 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			State<char> state;
 			Reduce<char> action;
 
-			action = new Reduce<char>("A",true, new MockedTerminalInput('a'));
+			action = new Reduce<char>("A",true, new MockedTerminalInput('a'), null);
 			state = new State<char>();
 			state.Add(action);
 			Assert.AreEqual(1, state.ReduceActionCount);
@@ -73,7 +73,7 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			State<char> state;
 			IReduce<char> action;
 
-			action = new Reduce<char>("A", true, new MockedTerminalInput('a'));
+			action = new Reduce<char>("A", true, new MockedTerminalInput('a'), null);
 			state = new State<char>();
 			state.Add(action);
 
@@ -86,7 +86,7 @@ namespace FSMLib.Common.UnitTest.AutomatonTables
 			State<char> state;
 			IReduce<char> action;
 
-			action = new Reduce<char>("A", true, new MockedTerminalInput('a'));
+			action = new Reduce<char>("A", true, new MockedTerminalInput('a'), null);
 			state = new State<char>();
 			state.Add(action);
 

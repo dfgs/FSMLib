@@ -13,8 +13,8 @@ namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 		[TestMethod]
 		public void ShouldHaveValidConstructor()
 		{
-			Assert.ThrowsException<ArgumentNullException>(() => new Reduce<char>(null, true, new MockedReduceInput()));
-			Assert.ThrowsException<ArgumentNullException>(() => new Reduce<char>("Name", true, null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Reduce<char>(null, true, new MockedReduceInput(),null));
+			Assert.ThrowsException<ArgumentNullException>(() => new Reduce<char>("Name", true, null, null));
 		}
 
 		[TestMethod]
@@ -22,8 +22,8 @@ namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 		{
 			Reduce<char> a, b;
 
-			a = new Reduce<char>( "A" ,true,new MockedReduceInput());
-			b = new Reduce<char>("A", false, new MockedReduceInput2());
+			a = new Reduce<char>( "A" ,true,new MockedReduceInput(), null);
+			b = new Reduce<char>("A", false, new MockedReduceInput2(), null);
 			Assert.IsTrue(a.Equals(b));
 			Assert.IsTrue(b.Equals(a));
 		}
@@ -32,8 +32,8 @@ namespace FSMLib.Common.UnitTest.AutomatonTables.Actions
 		{
 			Reduce<char> a, b;
 
-			a = new Reduce<char>("A", true, new MockedReduceInput());
-			b = new Reduce<char>("B", true, new MockedReduceInput());
+			a = new Reduce<char>("A", true, new MockedReduceInput(), null);
+			b = new Reduce<char>("B", true, new MockedReduceInput(), null);
 			Assert.IsFalse(a.Equals(b));
 			Assert.IsFalse(b.Equals(a));
 		}

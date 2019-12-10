@@ -11,6 +11,7 @@ using FSMLib.Common.Inputs;
 using FSMLib.Common.Table;
 using FSMLib.Common.Actions;
 using FSMLib.Common.Automatons;
+using FSMLib.Attributes;
 
 namespace FSMLib.Common.Automatons
 {
@@ -79,13 +80,13 @@ namespace FSMLib.Common.Automatons
 			return true;
 		}
 
-		private INonTerminalNode<T> Reduce(string Name)
+		private INonTerminalNode<T> Reduce(string Name,IEnumerable<IRuleAttribute> Attributes)
 		{
 			IBaseNode<T> baseNode;
 			NonTerminalNode<T> reducedNode;
 
 			reducedNode = new NonTerminalNode<T>(OnCreateNonTerminalInput(Name ) );
-
+			reducedNode.Attributes.AddRange(Attributes);
 			while (nodeStack.Count > 0)
 			{
 				stateIndex = stateIndexStack.Pop();
@@ -109,7 +110,7 @@ namespace FSMLib.Common.Automatons
 			action = state.GetReduce(Node.Input);
 			if (action == null) return null;
 
-			return Reduce(action.Name);
+			return Reduce(action.Name,action.Attributes);
 		}
 
 		private bool CanFeed(IActionInput<T> Input)
@@ -195,7 +196,7 @@ namespace FSMLib.Common.Automatons
 				action = state.GetReduce(eosInput);
 				if (action == null) throw new AutomatonException<T>(null, nodeStack);
 
-				nonTerminalNode=Reduce(action.Name);
+				nonTerminalNode=Reduce(action.Name,action.Attributes);
 				if ((action.IsAxiom) && (this.StackCount==0)) return nonTerminalNode;
 
 				if ((nonTerminalNode == null) || (!Shift(nonTerminalNode))) throw new AutomatonException<T>(null, nodeStack);

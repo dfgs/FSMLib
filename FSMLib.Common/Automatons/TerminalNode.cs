@@ -27,11 +27,15 @@ namespace FSMLib.Common.Automatons
 			this.Input = Input;
 		}
 
-		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
+		/*public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
 		{
 			yield return Input;
-		}
+		}*/
 
+		public override string ToString()
+		{
+			return Input.ToString();
+		}
 
 	}
 }

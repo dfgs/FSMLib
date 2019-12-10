@@ -1,4 +1,5 @@
 ﻿using FSMLib.Actions;
+using FSMLib.Attributes;
 using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,20 @@ namespace FSMLib.Common.Actions
 			get;
 		}
 
-		public Reduce(string Name,bool IsAxiom, IReduceInput<T> Input)
+		public IEnumerable<IRuleAttribute> Attributes
+		{
+			get ;
+		}
+		
+
+		public Reduce(string Name,bool IsAxiom, IReduceInput<T> Input, IEnumerable<IRuleAttribute> Attributes)
 		{
 			if (Name == null) throw new ArgumentNullException("Name");
 			if (Input == null) throw new ArgumentNullException("Input");
 			this.Name = Name;
 			this.IsAxiom = IsAxiom;
 			this.Input = Input;
+			this.Attributes = Attributes;
 		}
 
 		public bool Equals(IReduce<T> other)

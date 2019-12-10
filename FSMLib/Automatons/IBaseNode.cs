@@ -1,4 +1,5 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Attributes;
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace FSMLib.Automatons
 {
 	public interface IBaseNode<T>
 	{
-		IEnumerable<ITerminalInput<T>> EnumerateInputs();
+		IEnumerable<IRuleAttribute> Attributes
+		{
+			get;
+		}
+		//IEnumerable<ITerminalInput<T>> EnumerateInputs();
 	}
 }

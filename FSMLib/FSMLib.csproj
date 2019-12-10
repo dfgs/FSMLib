@@ -44,6 +44,7 @@
     <Compile Include="Actions\IAction.cs" />
     <Compile Include="Actions\IReduce.cs" />
     <Compile Include="Actions\IShift.cs" />
+    <Compile Include="Attributes\IRuleAttribute.cs" />
     <Compile Include="Automatons\IBaseNode.cs" />
     <Compile Include="Inputs\INonTerminalInput.cs" />
     <Compile Include="Inputs\ITerminalRangeInput.cs" />

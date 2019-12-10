@@ -130,6 +130,8 @@ namespace FSMLib.LexicalAnalysis.UnitTest
 			Assert.AreEqual('c', ((TerminalNode<char>)node.Nodes.ElementAt(2)).Input.Value);
 
 		}
+
+
 		[TestMethod]
 		public void MayNotAccept()
 		{

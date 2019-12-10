@@ -1,4 +1,5 @@
-﻿using FSMLib.Predicates;
+﻿using FSMLib.Attributes;
+using FSMLib.Predicates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,10 @@ namespace FSMLib.Rules
 			get;
 		}
 
-
+		IEnumerable<IRuleAttribute> Attributes
+		{
+			get;
+		}
 
 		string ToString(ISituationPredicate<T> CurrentPredicate);
 		
