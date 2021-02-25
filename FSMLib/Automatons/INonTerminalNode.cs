@@ -1,4 +1,5 @@
-﻿using FSMLib.Inputs;
+﻿using FSMLib.Attributes;
+using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,11 @@ namespace FSMLib.Automatons
 		{
 			get;
 		}
+		IEnumerable<IRuleAttribute> Attributes
+		{
+			get;
+		}
 
-		
 
 
 	}

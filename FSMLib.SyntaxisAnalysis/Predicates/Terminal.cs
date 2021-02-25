@@ -26,6 +26,10 @@ namespace FSMLib.SyntaxicAnalysis.Predicates
 		{
 			this.Value = Value;
 		}
+		public Terminal(string Class,string Value)
+		{
+			this.Value = new Token(Class,Value);
+		}
 
 		public IEnumerable<IInput<Token>> GetInputs()
 		{

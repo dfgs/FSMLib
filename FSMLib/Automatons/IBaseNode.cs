@@ -10,10 +10,7 @@ namespace FSMLib.Automatons
 {
 	public interface IBaseNode<T>
 	{
-		IEnumerable<IRuleAttribute> Attributes
-		{
-			get;
-		}
+
 		IEnumerable<ITerminalInput<T>> EnumerateInputs();
 	}
 }

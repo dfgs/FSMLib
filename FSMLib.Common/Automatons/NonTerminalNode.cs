@@ -1,4 +1,5 @@
-﻿using FSMLib.Automatons;
+﻿using FSMLib.Attributes;
+using FSMLib.Automatons;
 using FSMLib.Inputs;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,27 @@ namespace FSMLib.Common.Automatons
 			set;
 		}
 
+		IEnumerable<IRuleAttribute> INonTerminalNode<T>.Attributes
+		{
+			get => Attributes;
+		}
+
+		public List<IRuleAttribute> Attributes
+		{
+			get;
+			set;
+		}
+
 		public NonTerminalNode()
 		{
 			this.Nodes = new List<IBaseNode<T>>();
+			Attributes = new List<IRuleAttribute>();
 		}
+	
 		public NonTerminalNode(INonTerminalInput<T> Input)
 		{
 			this.Nodes = new List<IBaseNode<T>>();
+			Attributes = new List<IRuleAttribute>();
 			this.Input = Input;
 		}
 		public override IEnumerable<ITerminalInput<T>> EnumerateInputs()
